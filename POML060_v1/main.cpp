@@ -1,0 +1,11 @@
+#include "stageonemain.h"
+#include <QApplication>
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    StageOneMain w;
+    w.show();
+
+    return a.exec();
+}
