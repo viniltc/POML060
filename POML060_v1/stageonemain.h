@@ -3,20 +3,19 @@
 
 #include <QMainWindow>
 
-namespace Ui {
-class StageOneMain;
-}
+QT_BEGIN_NAMESPACE
+namespace Ui { class StageOneMain; }
+QT_END_NAMESPACE
 
 class StageOneMain : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit StageOneMain(QWidget *parent = nullptr);
+    StageOneMain(QWidget *parent = nullptr);
     ~StageOneMain();
 
 private:
     Ui::StageOneMain *ui;
 };
-
 #endif // STAGEONEMAIN_H
