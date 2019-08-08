@@ -15,6 +15,11 @@ public:
     StageOneMain(QWidget *parent = nullptr);
     ~StageOneMain();
 
+private slots:
+
+
+    void on_pushButton_exit_clicked();
+
 private:
     Ui::StageOneMain *ui;
 };

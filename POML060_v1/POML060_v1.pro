@@ -19,13 +19,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    stageonemain.cpp
+    stageonemain.cpp \
+    stimstatus.cpp
 
 HEADERS += \
-    stageonemain.h
+    stageonemain.h \
+    stimstatus.h
 
 FORMS += \
-    stageonemain.ui
+    stageonemain.ui \
+    stimstatus.ui
+
+INCLUDEPATH += ./leds
+include($$PWD/leds/qled.pri)
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
