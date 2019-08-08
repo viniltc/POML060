@@ -20,14 +20,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     stageonemain.cpp \
+    stagetwopatients.cpp \
     stimstatus.cpp
 
 HEADERS += \
     stageonemain.h \
+    stagetwopatients.h \
     stimstatus.h
 
 FORMS += \
     stageonemain.ui \
+    stagetwopatients.ui \
     stimstatus.ui
 
 INCLUDEPATH += ./leds

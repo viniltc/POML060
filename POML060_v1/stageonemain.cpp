@@ -33,9 +33,15 @@ StageOneMain::~StageOneMain()
 }
 
 
-
-
 void StageOneMain::on_pushButton_exit_clicked()
 {
     QApplication::quit();
+}
+
+void StageOneMain::on_pushButton_patients_clicked()
+{
+
+    hide();
+    stagetwopatients = new StageTwoPatients(this);
+    stagetwopatients -> show();
 }
