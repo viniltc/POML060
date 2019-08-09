@@ -20,18 +20,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     stageonemain.cpp \
+    stagetwonew.cpp \
     stagetwopatients.cpp \
-    stimstatus.cpp
+    stimstatus.cpp \
+    twowaybutton.cpp
 
 HEADERS += \
     stageonemain.h \
+    stagetwonew.h \
     stagetwopatients.h \
-    stimstatus.h
+    stimstatus.h \
+    twowaybutton.h
 
 FORMS += \
     stageonemain.ui \
+    stagetwonew.ui \
     stagetwopatients.ui \
-    stimstatus.ui
+    stimstatus.ui \
+    twowaybutton.ui
 
 INCLUDEPATH += ./leds
 include($$PWD/leds/qled.pri)

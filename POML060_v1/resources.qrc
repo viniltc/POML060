@@ -4,5 +4,9 @@
         <file>resources/bu.jpg</file>
         <file>resources/inspire.jpg</file>
         <file>resources/oml.png</file>
+        <file>resources/icons8-chevron-down-100.png</file>
+        <file>resources/icons8-chevron-up-100.png</file>
+        <file>resources/icons8-double-down-96.png</file>
+        <file>resources/icons8-double-up-96.png</file>
     </qresource>
 </RCC>

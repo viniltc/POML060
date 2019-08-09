@@ -2,6 +2,7 @@
 #include "ui_stagetwopatients.h"
 #include "stageonemain.h"
 
+
 StageTwoPatients::StageTwoPatients(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StageTwoPatients)
@@ -23,4 +24,12 @@ void StageTwoPatients::on_pushButton_bmain_clicked()
    hide();
    StageOneMain *back =new StageOneMain(this);
    back ->show();
+}
+
+void StageTwoPatients::on_pushButton_new_clicked()
+{
+    hide();
+    stagetwonew = new StageTwoNew(this);
+    stagetwonew ->show();
+
 }
