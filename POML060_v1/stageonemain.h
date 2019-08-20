@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "stagetwopatients.h"
+#include "stageprogram.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -17,6 +18,7 @@ public:
     StageOneMain(QWidget *parent = nullptr);
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
+     stageProgram *stageprogram;
 
 
 private slots:
@@ -24,6 +26,8 @@ private slots:
 
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
+
+    void on_pushButton_programs_clicked();
 
 private:
     Ui::StageOneMain *ui;

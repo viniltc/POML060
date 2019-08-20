@@ -16,7 +16,6 @@ class StageTwoPatients : public QMainWindow
 public:
     explicit StageTwoPatients(QWidget *parent = nullptr);
     ~StageTwoPatients();
-    StageTwoNew *stagetwonew;
 
 private slots:
     void on_pushButton_bmain_clicked();

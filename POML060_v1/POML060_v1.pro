@@ -20,6 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     stageonemain.cpp \
+    stageprogram.cpp \
     stagetwonew.cpp \
     stagetwopatients.cpp \
     stimstatus.cpp \
@@ -27,6 +28,7 @@ SOURCES += \
 
 HEADERS += \
     stageonemain.h \
+    stageprogram.h \
     stagetwonew.h \
     stagetwopatients.h \
     stimstatus.h \
@@ -34,6 +36,7 @@ HEADERS += \
 
 FORMS += \
     stageonemain.ui \
+    stageprogram.ui \
     stagetwonew.ui \
     stagetwopatients.ui \
     stimstatus.ui \
@@ -49,3 +52,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES +=

@@ -1,5 +1,6 @@
 #include "stagetwonew.h"
 #include "ui_stagetwonew.h"
+#include "stageonemain.h"
 
 StageTwoNew::StageTwoNew(QWidget *parent) :
     QMainWindow(parent),
@@ -11,4 +12,11 @@ StageTwoNew::StageTwoNew(QWidget *parent) :
 StageTwoNew::~StageTwoNew()
 {
     delete ui;
+}
+
+void StageTwoNew::on_pushButton_2_clicked()
+{
+    hide();
+    StageOneMain *back =new StageOneMain(this);
+    back ->show();
 }

@@ -97,7 +97,6 @@ QPushButton {
 
 
 
-
 QPushButton:pressed {
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
         stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
@@ -125,7 +124,7 @@ QPushButton:disabled {
     </widget>
     <widget class="QPushButton" name="pushButton_programs">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton:hover{

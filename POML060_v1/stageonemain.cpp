@@ -45,3 +45,10 @@ void StageOneMain::on_pushButton_patients_clicked()
     stagetwopatients = new StageTwoPatients(this);
     stagetwopatients -> show();
 }
+
+void StageOneMain::on_pushButton_programs_clicked()
+{
+    hide();
+    stageprogram = new stageProgram(this);
+    stageprogram -> show();
+}
