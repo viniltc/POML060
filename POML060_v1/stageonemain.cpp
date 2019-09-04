@@ -1,5 +1,8 @@
 #include "stageonemain.h"
 #include "ui_stageonemain.h"
+#include <QtSerialPort/QSerialPort>
+
+QSerialPort *serial;
 
 StageOneMain::StageOneMain(QWidget *parent)
     : QMainWindow(parent)
@@ -9,6 +12,17 @@ StageOneMain::StageOneMain(QWidget *parent)
 
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
+
+    serial = new QSerialPort();
+    serial->setPortName("com5");
+    serial->setBaudRate(1000000); // baudrate 1000000 ..1M
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
+    serial->open(QIODevice::ReadWrite);
+
+    connect(serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
 
 //    QPixmap pix1("://resources/bu.jpg"); // this is the code to add image to the form
 //    int w1 = ui->label_bu->width();
