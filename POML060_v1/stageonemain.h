@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "stagetwopatients.h"
 #include "stageprogram.h"
+#include <QtSerialPort/QSerialPort>
 
 
 QT_BEGIN_NAMESPACE
@@ -19,6 +20,7 @@ public:
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
+     QSerialPort *serial;
 
 
 private slots:

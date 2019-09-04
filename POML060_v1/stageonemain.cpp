@@ -1,8 +1,9 @@
 #include "stageonemain.h"
 #include "ui_stageonemain.h"
 #include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
-QSerialPort *serial;
+
 
 StageOneMain::StageOneMain(QWidget *parent)
     : QMainWindow(parent)
