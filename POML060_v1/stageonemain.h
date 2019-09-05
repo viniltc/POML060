@@ -16,7 +16,7 @@ class StageOneMain : public QMainWindow
     Q_OBJECT
 
 public:
-    StageOneMain(QWidget *parent = nullptr);
+     StageOneMain(QWidget *parent = nullptr);
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
@@ -28,7 +28,6 @@ private slots:
 
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
-
     void on_pushButton_programs_clicked();
 
 private:

@@ -18,20 +18,41 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Stim_includes/crc32.c \
+    Stim_includes/stim_gui_protocol.c \
+    Stim_includes/stim_gui_protocol_decode.c \
+    Stim_includes/stim_gui_protocol_rx.c \
+    Stim_includes/stim_gui_protocol_tx.c \
     main.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwonew.cpp \
     stagetwopatients.cpp \
     stimstatus.cpp \
+    tetra_grip_api.cpp \
     twowaybutton.cpp
 
 HEADERS += \
+    Stim_includes/clock.h \
+    Stim_includes/crc32.h \
+    Stim_includes/debug.h \
+    Stim_includes/hardware.h \
+    Stim_includes/sensor_message_format.h \
+    Stim_includes/stim_engine.h \
+    Stim_includes/stim_gui_protocol.h \
+    Stim_includes/stim_gui_protocol_decode.h \
+    Stim_includes/stim_gui_protocol_rx.h \
+    Stim_includes/stim_gui_protocol_tx.h \
+    Stim_includes/stim_regs.h \
+    Stim_includes/system_config.h \
+    Stim_includes/system_definitions.h \
+    Stim_includes/uart.h \
     stageonemain.h \
     stageprogram.h \
     stagetwonew.h \
     stagetwopatients.h \
     stimstatus.h \
+    tetra_grip_api.h \
     twowaybutton.h
 
 FORMS += \
