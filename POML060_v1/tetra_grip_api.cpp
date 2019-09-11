@@ -121,3 +121,33 @@ void tetra_grip_api::stimulation_pause(bool paused)
     else
         printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
 }
+
+
+void tetra_grip_api::toggle_pause(void)
+
+{
+    bool remote_mode=false;
+
+    static uint8_t paused=true;
+    if(!remote_mode)
+    {
+        paused=!paused;
+        stimulation_pause(!paused);
+    }
+}
+
+void tetra_grip_api::read_stim_status_reg(void)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=READ_COMMAND;
+    block.topic=TOPIC_STIMULATOR;
+    block.index=0;
+    block.reg_address=STIM_REG_STATUS;
+    block.data_length=1;
+    block.data=NULL;
+    if(!send_short_block(&block))
+    {
+        printf("Failed to send the read command for the status register.\n");
+    }
+}

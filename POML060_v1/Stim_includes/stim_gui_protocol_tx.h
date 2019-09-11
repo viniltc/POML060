@@ -1,6 +1,10 @@
 #ifndef STIM_GUI_PROTOCOL_TX_H
 #define STIM_GUI_PROTOCOL_TX_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "stim_gui_protocol.h"
 
 /**
@@ -24,5 +28,9 @@ bool STIM_GUI_Send_message(const uint8_t destination_device, const uint8_t sourc
  * @return True if message was sent
  */
 bool STIM_GUI_Send_long_message(const uint8_t destination_device, const uint8_t source_device, STIM_GUI_MESSAGE_L_BLOCK_T *block);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // STIM_GUI_PROTOCOL_TX_H

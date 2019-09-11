@@ -2,19 +2,21 @@
 #define TETRA_GRIP_API_H
 
 #include <QObject>
-#include "stim_gui_protocol.h"
-#include "stim_gui_protocol_rx.h"
-#include "stim_gui_protocol_tx.h"
-#include "uart.h"
-#include "clock.h"
-#include "debug.h"
-#include "sensor_message_format.h"
-#include "stim_gui_protocol_rx.h"
-#include "stim_gui_protocol_decode.h"
+#include "Stim_includes/stim_gui_protocol.h"
+#include "Stim_includes/stim_gui_protocol_rx.h"
+#include "Stim_includes/stim_gui_protocol_tx.h"
+#include "Stim_includes/uart.h"
+#include "Stim_includes/clock.h"
+#include "Stim_includes/debug.h"
+#include "Stim_includes/sensor_message_format.h"
+#include "Stim_includes/stim_gui_protocol_rx.h"
+#include "Stim_includes/stim_gui_protocol_decode.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+
+
 #define _CRT_SECURE_NO_DEPRECATE
 
 class tetra_grip_api : public QObject
@@ -22,6 +24,7 @@ class tetra_grip_api : public QObject
     Q_OBJECT
 public:
     explicit tetra_grip_api(QObject *parent = nullptr);
+    //bool remote_mode=false;
 
     #define MAX_CONFIG_FILE_LENGTH (10000)
 
@@ -31,6 +34,8 @@ public:
      bool static send_short_block(STIM_GUI_MESSAGE_S_BLOCK_T *pblock);
      void static stimulation_pause(bool);
      void static stimulation_start(bool);
+     void static toggle_pause(void);
+     void static read_stim_status_reg(void);
 
 
 

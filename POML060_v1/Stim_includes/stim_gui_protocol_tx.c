@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "stim_gui_protocol_tx.h"
 #include "stim_gui_protocol_decode.h"
 #include "crc32.h"
@@ -104,11 +108,12 @@ static bool send_header(const uint8_t destination_device, const uint8_t source_d
     gui.stim_gui_message_counter++; // incrementing here means that the GUI can see that packets were dropped.
             
     size_t max_bytes_needed = 2/*NULLS*/ + 2*(HEADER_SIZE+TIME_BLOCK_SIZE+block_len+4/*CRC*/);
-    if(UART_WriteBytesAvailable(PLIB_USART_INDEX_GUI)<max_bytes_needed) // We don't try to send it if there isn't room in the output buffer
-    {
-        //PLIB_PORTS_PinToggle(ISTIM_SYNC); // indicate failure to send.
-        return false;
-    }
+
+//    if(UART_WriteBytesAvailable(PLIB_USART_INDEX_GUI)<max_bytes_needed) // We don't try to send it if there isn't room in the output buffer
+//    {
+//        //PLIB_PORTS_PinToggle(ISTIM_SYNC); // indicate failure to send.
+//        return false;
+//    } //commented
     
     stim_gui_begin_message();
 
@@ -185,7 +190,7 @@ bool STIM_GUI_Send_message(const uint8_t destination_device, const uint8_t sourc
 
     stim_gui_end_message();
 #ifndef PIC32
-    UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
+  //  UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
 #endif
     return true;
 }
@@ -231,7 +236,11 @@ bool STIM_GUI_Send_long_message(const uint8_t destination_device, const uint8_t 
 
     stim_gui_end_message();
 #ifndef PIC32
-    UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
+  //  UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
 #endif
     return true;
 }
+
+#ifdef __cplusplus
+}
+#endif
