@@ -36,7 +36,6 @@ HEADERS += \
     Stim_includes/clock.h \
     Stim_includes/crc32.h \
     Stim_includes/debug.h \
-    Stim_includes/hardware.h \
     Stim_includes/sensor_message_format.h \
     Stim_includes/stim_engine.h \
     Stim_includes/stim_gui_protocol.h \

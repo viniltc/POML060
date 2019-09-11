@@ -4,6 +4,8 @@ extern "C" {
 #endif
 
 #include <stdio.h>
+#include <stdint.h>
+
 #define DEBUG_Print printf
 
 #define DEBUG_WriteBytes(buffer, num, blocking) (void)(printf("%.*s", (num), (buffer)), (num))

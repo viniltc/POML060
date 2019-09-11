@@ -5,6 +5,12 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
+
+
 #ifdef NO_SPI
 #define NO_STIM_ENGINES
 #endif 
