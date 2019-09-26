@@ -133,13 +133,11 @@ void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsign
     block.reg_address=54;
     block.data_length=2;
     uint8_t data_array[2];
-    data_array[1]=(current_uA/10 >> 8;
+    data_array[1]=(current_uA/10) >> 8;
     data_array[0]=(current_uA/10) & 0xFF;
     block.data=&data_array[0];
     if(!send_short_block(&block))
-        printf("Failed to send %s command to stimulator.\n", paused?"pause":"unpause");
-    else
-        printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
+        printf("Failed to set current at channel %d", channel_number);
 }
 
 
