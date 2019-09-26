@@ -5,6 +5,7 @@
 #include "stagetwopatients.h"
 #include "stageprogram.h"
 #include <QtSerialPort/QSerialPort>
+#include "tetra_grip_api.h"
 
 
 QT_BEGIN_NAMESPACE

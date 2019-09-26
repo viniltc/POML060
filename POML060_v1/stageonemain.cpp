@@ -36,6 +36,7 @@ StageOneMain::~StageOneMain()
 void StageOneMain::on_pushButton_exit_clicked()
 {
     QApplication::quit();
+    tetra_grip_api::send_config_file()
 }
 
 void StageOneMain::on_pushButton_patients_clicked()

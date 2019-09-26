@@ -122,6 +122,27 @@ void tetra_grip_api::stimulation_pause(bool paused)
         printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
 }
 
+void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsigned int current_uA)
+
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={}; // previously it was {0}
+
+    block.msg_type=WRITE_COMMAND;
+    block.topic=TOPIC_CHANNEL;
+    block.index=channel_number;
+    block.reg_address=54;
+    block.data_length=2;
+    uint8_t data_array[2];
+    data_array[1]=(current_uA/10 >> 8;
+    data_array[0]=(current_uA/10) & 0xFF;
+    block.data=&data_array[0];
+    if(!send_short_block(&block))
+        printf("Failed to send %s command to stimulator.\n", paused?"pause":"unpause");
+    else
+        printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
+}
+
+
 
 void tetra_grip_api::toggle_pause(void)
 

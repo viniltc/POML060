@@ -70,6 +70,7 @@ size_t UART_PC_Buffered_Write(const USART_MODULE_ID id, void * source, size_t nB
     return nBytes;
 }
 
+//size_t UART_PC_Buffered_Write (const char USART_MODULE_ID id, void * source, size_t nBytes)
 static void stim_gui_write_bytes(uint8_t *buf, size_t len)
 {
     static uint8_t escape[2]={ESCAPE_BYTE,0};
