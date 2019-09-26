@@ -15,6 +15,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 
 #define _CRT_SECURE_NO_DEPRECATE
@@ -38,6 +40,8 @@ public:
      void static read_stim_status_reg(void);
      void static stimulation_set_current(unsigned int, unsigned int);
 
+
+     QSerialPort *serial;
 
 
 

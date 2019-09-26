@@ -13,14 +13,14 @@ StageOneMain::StageOneMain(QWidget *parent)
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
 
-    serial = new QSerialPort();
-    serial->setPortName("com5");
-    serial->setBaudRate(1000000); // baudrate 1000000 ..1M
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
-    serial->open(QIODevice::ReadWrite);
+//    serial = new QSerialPort();
+//    serial->setPortName("com5");
+//    serial->setBaudRate(1000000); // baudrate 1000000 ..1M
+//    serial->setDataBits(QSerialPort::Data8);
+//    serial->setParity(QSerialPort::NoParity);
+//    serial->setStopBits(QSerialPort::OneStop);
+//    serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
+//    serial->open(QIODevice::ReadWrite);
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
 
