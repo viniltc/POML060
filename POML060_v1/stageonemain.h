@@ -21,7 +21,9 @@ public:
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
-     QSerialPort *serial;
+    // QSerialPort *serial;
+
+    size_t  send_using_qtserial(uint8_t *data, size_t len);
 
 
 private slots:

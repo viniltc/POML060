@@ -2,7 +2,7 @@
 #include "ui_stageonemain.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
-
+#include "tetra_grip_api.h"
 
 StageOneMain::StageOneMain(QWidget *parent)
     : QMainWindow(parent)
@@ -21,8 +21,8 @@ StageOneMain::StageOneMain(QWidget *parent)
 //    serial->setStopBits(QSerialPort::OneStop);
 //    serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
 //    serial->open(QIODevice::ReadWrite);
-
-    connect(serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
+    tetra_grip_api();
+    connect(&serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
 
 
 }
@@ -32,11 +32,15 @@ StageOneMain::~StageOneMain()
     delete ui;
 }
 
+extern "C" size_t StageOneMain::send_using_qtserial(uint8_t *data, size_t len)
+{
+    return serial->write((const char *)data, (qint64)len);
+}
 
 void StageOneMain::on_pushButton_exit_clicked()
 {
     QApplication::quit();
-    tetra_grip_api::send_config_file()
+    //tetra_grip_api::send_config_file()
 }
 
 void StageOneMain::on_pushButton_patients_clicked()
