@@ -35,9 +35,9 @@ void tetra_grip_api::closeSerialPort()
 }
 
 
-void tetra_grip_api::writeData(uint8_t *data, size_t len)
+extern "C" size_t tetra_grip_api::writeData(uint8_t *data, size_t len)
 {
-    serial->write((const char *)data, (qint64)len);
+   return serial->write((const char *)data, (qint64)len);
 }
 
 

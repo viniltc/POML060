@@ -13,7 +13,7 @@ StageOneMain::StageOneMain(QWidget *parent, tetra_grip_api *api) : QMainWindow(p
     this->setFixedSize(this->width(),this->height());
 
     connect(m_api->serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
-//connect(m_api->serial
+
 
 }
 
