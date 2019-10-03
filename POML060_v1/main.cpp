@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
 
     tetra_grip_api api;
 
+    api.openSerialPort();
+
 
     StageOneMain w(nullptr, &api);
     w.show();

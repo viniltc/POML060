@@ -35,24 +35,15 @@ void tetra_grip_api::closeSerialPort()
 }
 
 
-void tetra_grip_api::writeData(const QByteArray &data)
+void tetra_grip_api::writeData(uint8_t *data, size_t len)
 {
-    serial->write(data);
+    serial->write((const char *)data, (qint64)len);
 }
 
 
 void tetra_grip_api::readData()
 {
     const QByteArray data = serial->readAll();
-}
-
-
-void tetra_grip_api::handleError(QSerialPort::SerialPortError error)
-{
-    if (error == QSerialPort::ResourceError) {
-       // QMessageBox::critical(this, tr("Critical Error"), serial->errorString());
-        closeSerialPort();
-    }
 }
 
 
