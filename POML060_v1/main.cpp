@@ -7,9 +7,10 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    tetra_grip_api();
+    tetra_grip_api api;
 
-    StageOneMain w;
+
+    StageOneMain w(nullptr, &api);
     w.show();
     return a.exec();
 }

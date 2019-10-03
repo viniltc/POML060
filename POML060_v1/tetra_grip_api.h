@@ -47,7 +47,15 @@ public:
 
 signals:
 
+
 public slots:
+
+     void openSerialPort();
+     void closeSerialPort();
+     void writeData(const QByteArray &data);
+     void readData();
+     void handleError(QSerialPort::SerialPortError error);
+
 };
 
 #endif // TETRA_GRIP_API_H
