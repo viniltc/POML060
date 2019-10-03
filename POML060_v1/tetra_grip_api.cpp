@@ -1,7 +1,5 @@
 #include "tetra_grip_api.h"
 #include <QDebug>
-#include <QFile>
-#include <QMessageBox>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -13,6 +11,12 @@ using namespace::std;
 tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 {
 
+
+
+}
+
+void tetra_grip_api::openSerialPort()
+{
     serial = new QSerialPort();
     serial->setPortName("com5");
     serial->setBaudRate(1000000); // baudrate 1000000 ..1M
@@ -21,7 +25,34 @@ tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
     serial->open(QIODevice::ReadWrite);
+}
 
+
+void tetra_grip_api::closeSerialPort()
+{
+    if (serial->isOpen())
+        serial->close();
+}
+
+
+void tetra_grip_api::writeData(const QByteArray &data)
+{
+    serial->write(data);
+}
+
+
+void tetra_grip_api::readData()
+{
+    const QByteArray data = serial->readAll();
+}
+
+
+void tetra_grip_api::handleError(QSerialPort::SerialPortError error)
+{
+    if (error == QSerialPort::ResourceError) {
+       // QMessageBox::critical(this, tr("Critical Error"), serial->errorString());
+        closeSerialPort();
+    }
 }
 
 

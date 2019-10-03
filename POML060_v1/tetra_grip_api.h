@@ -17,6 +17,8 @@
 #include <string>
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
+#include <QLabel>
+#include <QMessageBox>
 
 
 #define _CRT_SECURE_NO_DEPRECATE
@@ -24,6 +26,7 @@
 class tetra_grip_api : public QObject
 {
     Q_OBJECT
+
 public:
     explicit tetra_grip_api(QObject *parent = nullptr);
     //bool remote_mode=false;
@@ -41,7 +44,7 @@ public:
      void static stimulation_set_current(unsigned int, unsigned int);
 
 
-     QSerialPort *serial;
+     QSerialPort *serial = nullptr;
 
 
 
