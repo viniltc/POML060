@@ -11,8 +11,6 @@ using namespace::std;
 tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 {
 
-
-
 }
 
 void tetra_grip_api::openSerialPort()
@@ -32,12 +30,16 @@ void tetra_grip_api::closeSerialPort()
 {
     if (serial->isOpen())
         serial->close();
+
 }
 
 
 extern "C" size_t tetra_grip_api::writeData(uint8_t *data, size_t len)
+
 {
-   return serial->write((const char *)data, (qint64)len);
+
+    serial->write((const char *)data, (qint64)len);
+    return 0;
 }
 
 

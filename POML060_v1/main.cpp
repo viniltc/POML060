@@ -3,16 +3,20 @@
 
 #include <QApplication>
 
+tetra_grip_api api;
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    tetra_grip_api api;
-
     api.openSerialPort();
 
 
-    StageOneMain w(nullptr, &api);
+    api.serial->connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+    api.serial->connect(api.serial, &QSerialPort::readyRead, &api, &tetra_grip_api::readData);
+
+    StageOneMain w(nullptr);
     w.show();
     return a.exec();
 }
+

@@ -12,6 +12,7 @@ extern "C" {
 #include "uart.h"
 #include "hardware.h"
 #include "clock.h"
+#include "tetra_grip_writer.h"
 
 typedef struct {
     uint32_t crc;
@@ -39,12 +40,12 @@ size_t UART_WriteBytesAvailable(const USART_MODULE_ID id)
     return UART_PC_BUFFER_SIZE-uart_pc_buffer_len;
 }
 
-//extern size_t send_using_qtserial(uint8_t *data, size_t len);
+//extern size_t writeData(uint8_t *data, size_t len); -> check this VTC
 
 size_t UART_Write_Out(const USART_MODULE_ID id, void * source, size_t nBytes)
 {
     uint8_t *data= (uint8_t*)source;
-   // return send_using_qtserial(data, nBytes);
+    return tetragrip_writer(data, nBytes);
 }
 
 void UART_PC_Buffer_Flush(const USART_MODULE_ID id)
@@ -58,14 +59,14 @@ void UART_PC_Buffer_Flush(const USART_MODULE_ID id)
     }
 }
 
-size_t UART_PC_Buffered_Write(const USART_MODULE_ID id, void * source, size_t nBytes)
+size_t UART_PC_Buffered_Write(const USART_MODULE_ID id, char * source, size_t nBytes)
 {
     size_t len=nBytes;
     while(len--)
     {
         if(uart_pc_buffer_len>=UART_PC_BUFFER_SIZE) // this is in case the buffer fills up while we are writing
             UART_PC_Buffer_Flush(id);
-        //uart_pc_buffer[uart_pc_buffer_len++] = *(char*)source++;
+        uart_pc_buffer[uart_pc_buffer_len++] = *source++;
     }
     return nBytes;
 }
@@ -235,7 +236,7 @@ bool STIM_GUI_Send_message(const uint8_t destination_device, const uint8_t sourc
 
     stim_gui_end_message();
 #ifndef PIC32
- //   UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
+   UART_PC_Buffer_Flush(PLIB_USART_INDEX_GUI);
 #endif
     return true;
 }

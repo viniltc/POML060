@@ -4,16 +4,13 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include "tetra_grip_api.h"
 
-StageOneMain::StageOneMain(QWidget *parent, tetra_grip_api *api) : QMainWindow(parent),m_api(api)
+StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
 
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
-
-    connect(m_api->serial, SIGNAL(readyRead()), this, SLOT(serialRecived()));
-
 
 }
 

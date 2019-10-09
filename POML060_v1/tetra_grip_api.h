@@ -9,7 +9,6 @@
 #include "Stim_includes/clock.h"
 #include "Stim_includes/debug.h"
 #include "Stim_includes/sensor_message_format.h"
-#include "Stim_includes/stim_gui_protocol_rx.h"
 #include "Stim_includes/stim_gui_protocol_decode.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,7 +18,6 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QLabel>
 #include <QMessageBox>
-
 
 #define _CRT_SECURE_NO_DEPRECATE
 
@@ -43,12 +41,11 @@ public:
      void static read_stim_status_reg(void);
      void static stimulation_set_current(unsigned int, unsigned int);
 
-
      QSerialPort *serial = nullptr;
 
 
-
 signals:
+
 
 
 public slots:
@@ -60,5 +57,7 @@ public slots:
 
 
 };
+
+extern tetra_grip_api api;
 
 #endif // TETRA_GRIP_API_H

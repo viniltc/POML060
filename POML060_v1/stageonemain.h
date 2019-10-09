@@ -19,13 +19,10 @@ class StageOneMain : public QMainWindow
     Q_OBJECT
 
 public:
-     StageOneMain(QWidget *parent = nullptr, tetra_grip_api *api = nullptr);
+     StageOneMain(QWidget *parent = nullptr);
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
-    // QSerialPort *serial;
-     tetra_grip_api *m_api;
-
 
 size_t  send_using_qtserial(uint8_t *data, size_t len);  // global definition to access from "stim_gui_protocol_tx"
 
