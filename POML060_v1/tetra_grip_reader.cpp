@@ -3,5 +3,5 @@
 
 void readData()
 {
-    const QByteArray data = serial->readAll();
+    const QByteArray data = api.serial->readAll();
 }
