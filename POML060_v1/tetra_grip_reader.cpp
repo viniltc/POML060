@@ -10,5 +10,5 @@ void readData()
 
     const QByteArray data = api.serial->readAll();
 
-  // STIM_GUI_PROTOCOL_Process_Received_Bytes(buf, (size_t)data);
+    STIM_GUI_PROTOCOL_Process_Received_Bytes((uint8_t*)data.data(), (size_t)data.length());
 }
