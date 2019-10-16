@@ -1,5 +1,7 @@
 #include "stageonemain.h"
 #include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
+#include "tetra_grip_writer.h"
 
 #include <QApplication>
 
@@ -13,7 +15,7 @@ int main(int argc, char *argv[])
 
 
     api.serial->connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-    api.serial->connect(api.serial, &QSerialPort::readyRead, &api, &tetra_grip_api::readData);
+   // api.serial->connect(api.serial, &QSerialPort::readyRead, &api, &tetra_grip_readerreadData);
 
     StageOneMain w(nullptr);
     w.show();

@@ -34,19 +34,19 @@ void tetra_grip_api::closeSerialPort()
 }
 
 
-extern "C" size_t tetra_grip_api::writeData(uint8_t *data, size_t len)
+//extern "C" size_t tetra_grip_api::writeData(uint8_t *data, size_t len)
 
-{
+//{
 
-    serial->write((const char *)data, (qint64)len);
-    return 0;
-}
+//    serial->write((const char *)data, (qint64)len);
+//    return 0;
+//}
 
 
-void tetra_grip_api::readData()
-{
-    const QByteArray data = serial->readAll();
-}
+//void tetra_grip_api::readData()
+//{
+//    const QByteArray data = serial->readAll();
+//}
 
 
 

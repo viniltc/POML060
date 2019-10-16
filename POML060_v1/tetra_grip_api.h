@@ -52,8 +52,8 @@ public slots:
 
      void openSerialPort();
      void closeSerialPort();
-     size_t writeData(uint8_t *data, size_t len);
-     void readData();
+  //   size_t writeData(uint8_t *data, size_t len);
+  //  void readData();
 
 
 };
