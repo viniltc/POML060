@@ -32,7 +32,7 @@
     <property name="title">
      <string/>
     </property>
-    <widget class="QLed" name="qLed">
+    <widget class="QLed" name="qLed" native="true">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -47,17 +47,8 @@
      <property name="whatsThis">
       <string>Led widget</string>
      </property>
-     <property name="value">
+     <property name="value" stdset="0">
       <bool>false</bool>
-     </property>
-     <property name="onColor">
-      <enum>QLed::Red</enum>
-     </property>
-     <property name="offColor">
-      <enum>QLed::Green</enum>
-     </property>
-     <property name="shape">
-      <enum>QLed::Circle</enum>
      </property>
     </widget>
    </widget>
@@ -322,6 +313,19 @@ QPushButton:disabled {
       <string>Exit</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>420</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

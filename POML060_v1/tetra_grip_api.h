@@ -39,10 +39,10 @@ public:
      void static stimulation_start(bool);
      void static toggle_pause(void);
      void static read_stim_status_reg(void);
-     void static stimulation_set_current(unsigned int, unsigned int);
+     void  stimulation_set_current(unsigned int, unsigned int);
 
-     QSerialPort *serial = nullptr;
-
+   QSerialPort *serial = nullptr;
+    //QSerialPort *serial;
 
 signals:
 
@@ -52,8 +52,15 @@ public slots:
 
      void openSerialPort();
      void closeSerialPort();
-  //   size_t writeData(uint8_t *data, size_t len);
-  //  void readData();
+     void readData();
+
+
+private slots:
+
+    void ErrorHandler(QSerialPort::SerialPortError error);
+
+private:
+
 
 
 };

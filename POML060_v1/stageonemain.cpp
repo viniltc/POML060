@@ -3,14 +3,22 @@
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
 #include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
 
 StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
 
+    //connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+
+
+    connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
+
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
+
+
 
 }
 
@@ -43,4 +51,10 @@ void StageOneMain::on_pushButton_programs_clicked()
     hide();
     stageprogram = new stageProgram(this);
     stageprogram -> show();
+}
+
+void StageOneMain::serialReceived()
+{
+
+    ui->label->setText(api.serial->readAll());
 }

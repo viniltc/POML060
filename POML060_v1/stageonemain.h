@@ -24,7 +24,7 @@ public:
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
 
-size_t  send_using_qtserial(uint8_t *data, size_t len);  // global definition to access from "stim_gui_protocol_tx"
+//size_t  send_using_qtserial(uint8_t *data, size_t len);  // global definition to access from "stim_gui_protocol_tx"
 
 private slots:
 
@@ -32,6 +32,7 @@ private slots:
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
     void on_pushButton_programs_clicked();
+    void serialReceived();
 
 private:
     Ui::StageOneMain *ui;

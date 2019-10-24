@@ -25,6 +25,18 @@ void tetra_grip_api::openSerialPort()
     serial->open(QIODevice::ReadWrite);
 }
 
+void tetra_grip_api::readData()
+{
+//    #define UART_PC_BUFFER_SIZE (65536);
+//    #define UART_BUFFER_SIZE (4096)
+//    uint8_t buf[UART_BUFFER_SIZE];
+
+    const QByteArray data = api.serial->readAll();
+
+    STIM_GUI_PROTOCOL_Process_Received_Bytes((uint8_t*)data.data(), (size_t)data.length());
+    // STIM_GUI_PROTOCOL_Process_Received_Bytes(static_cast<uint8_t*>(data.data()), static_cast<size_t>(data.length()));
+}
+
 
 void tetra_grip_api::closeSerialPort()
 {
@@ -34,20 +46,50 @@ void tetra_grip_api::closeSerialPort()
 }
 
 
-//extern "C" size_t tetra_grip_api::writeData(uint8_t *data, size_t len)
-
-//{
-
-//    serial->write((const char *)data, (qint64)len);
-//    return 0;
-//}
-
-
-//void tetra_grip_api::readData()
-//{
-//    const QByteArray data = serial->readAll();
-//}
-
+void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
+{
+    switch(error)
+    {
+    case QSerialPort::NoError:
+        return;
+        break;
+    case QSerialPort::DeviceNotFoundError:
+        break;
+    case QSerialPort::PermissionError:
+        QMessageBox::warning(0,"title","Warning: Could not connect: Permission Error!!"
+                             "Are you sure that you have write permission and no other Program is using this port?",QMessageBox::Ok	,QMessageBox::NoButton);
+        break;
+    case QSerialPort::OpenError:
+        break;
+    case QSerialPort::ParityError:
+        break;
+    case QSerialPort::FramingError:
+        QMessageBox::warning(0,"title","Warning: Probably the baud rates doesn´t match!",QMessageBox::Ok	,QMessageBox::NoButton);
+        break;
+    case QSerialPort::BreakConditionError:
+        break;
+    case QSerialPort::WriteError:
+        qDebug()<<"Serial Port WriteError!!";
+        disconnect();
+        break;
+    case QSerialPort::ReadError:
+        qDebug()<<"Serial Port ReadError!!";
+        disconnect();
+        break;
+    case QSerialPort::ResourceError:
+        qDebug()<<"Serial Port ResourceError!!";
+        //disconnect();
+        break;
+    case QSerialPort::UnsupportedOperationError:
+        break;
+    case QSerialPort::UnknownError:
+        break;
+    default:
+        break;
+    }
+    qDebug()<<"Serial Port error: Number "<<error;
+    //serialPort.clearError();
+}
 
 
 bool tetra_grip_api::send_short_block(STIM_GUI_MESSAGE_S_BLOCK_T *pblock)
