@@ -9,14 +9,15 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
+    this->setStyleSheet("background-color: white;");
+    this->setFixedSize(this->width(),this->height());
 
 
     connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-    connect(api.serial,SIGNAL(error(QSerialPort::SerialPortError)),&api,SLOT(ErrorHandler(QSerialPort::SerialPortError)));
-    //connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
+    connect(api.serial,SIGNAL(error(QSerialPort::SerialPortError)),&api,SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+    connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
 
-    this->setStyleSheet("background-color: white;");
-    this->setFixedSize(this->width(),this->height());
+
 
 }
 
