@@ -13,9 +13,7 @@ int main(int argc, char *argv[])
 
     api.openSerialPort();
 
-
-    //connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-   // api.serial->connect(api.serial, &QSerialPort::readyRead, &api, &tetra_grip_readerreadData);
+   // QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
 
     StageOneMain w(nullptr);
     w.show();

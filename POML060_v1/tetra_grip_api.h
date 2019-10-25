@@ -18,6 +18,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QLabel>
 #include <QMessageBox>
+#include<QTimer>
 
 #define _CRT_SECURE_NO_DEPRECATE
 
@@ -46,6 +47,8 @@ public:
 
 signals:
 
+     void successfullyConnectedTo(QString portName);
+     void AutoconnectionIsSet(bool value);
 
 
 public slots:
@@ -53,14 +56,19 @@ public slots:
      void openSerialPort();
      void closeSerialPort();
      void readData();
+     bool autoconnect();
+     bool connectTo(QString port);
+     void setAutoconnect(bool value);
 
 
 private slots:
 
-    void ErrorHandler(QSerialPort::SerialPortError error);
+     void ErrorHandler(QSerialPort::SerialPortError error);
 
 private:
-
+     QString portName;
+     QTimer autoConnectionTimer;
+     bool tryToAutoconnect;
 
 
 };

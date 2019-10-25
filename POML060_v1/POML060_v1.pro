@@ -28,9 +28,7 @@ SOURCES += \
     stageprogram.cpp \
     stagetwonew.cpp \
     stagetwopatients.cpp \
-    stimstatus.cpp \
     tetra_grip_api.cpp \
-    tetra_grip_reader.cpp \
     tetra_grip_writer.cpp \
     twowaybutton.cpp
 
@@ -52,9 +50,7 @@ HEADERS += \
     stageprogram.h \
     stagetwonew.h \
     stagetwopatients.h \
-    stimstatus.h \
     tetra_grip_api.h \
-    tetra_grip_reader.h \
     tetra_grip_writer.h \
     twowaybutton.h
 
@@ -63,7 +59,6 @@ FORMS += \
     stageprogram.ui \
     stagetwonew.ui \
     stagetwopatients.ui \
-    stimstatus.ui \
     twowaybutton.ui
 
 INCLUDEPATH += ./leds

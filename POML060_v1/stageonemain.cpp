@@ -2,6 +2,8 @@
 #include "ui_stageonemain.h"
 #include <QtSerialPort/QSerialPort>
 #include <QtSerialPort/QSerialPortInfo>
+#include <QFile>
+#include <QTextStream>
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
@@ -14,10 +16,14 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
 
 
     connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-    connect(api.serial,SIGNAL(error(QSerialPort::SerialPortError)),&api,SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
-    connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
+    connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+ //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
 
-
+//    QFile file("/config.txt");
+//    if(!file.open(QIODevice::ReadOnly)) {
+//        QMessageBox::information(0, "error", file.errorString());
+//    }
+//    file.close();
 
 }
 

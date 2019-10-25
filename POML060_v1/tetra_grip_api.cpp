@@ -11,6 +11,10 @@ using namespace::std;
 tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 {
 
+//     connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+//     tryToAutoconnect = false;
+//     connect(&autoConnectionTimer,SIGNAL(timeout()),this,SLOT(autoconnect()));
+//     autoConnectionTimer.setInterval(5000);
 
 }
 
@@ -96,6 +100,59 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
     }
     qDebug()<<"Serial Port error: Number "<<error;
     //serialPort.clearError();
+}
+
+bool tetra_grip_api::autoconnect()
+{
+    QList <QSerialPortInfo>stim;
+    QSerialPortInfo info;
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
+        if(info.description() == "USB Serial Port" && info.manufacturer() == "FTDI" && !info.isBusy())
+        {
+            stim.append(info);
+        }
+    }
+    if(stim.size()>1)
+    {
+        qWarning()<<"Warning: You tried to autoconnect, but there are more than one Stimulators";
+    }
+    else if(stim.size() == 1)
+    {
+        qDebug()<<"try to autoconnect to: "<<stim.at(0).portName();
+        qDebug()<<"error status: "<<serial->error();
+        return connectTo(stim.at(0).portName());
+    }
+}
+
+bool tetra_grip_api::connectTo(QString port)
+{
+    serial->setPortName(port);
+    serial->setBaudRate(1000000);
+    serial->clearError();
+    if(serial->open(QIODevice::ReadWrite))
+    {
+        serial->clear();
+        portName = port;
+        qDebug()<<"connected to: "<<port;
+        emit successfullyConnectedTo(port);
+        if(autoConnectionTimer.isActive())
+        {
+            autoConnectionTimer.stop();
+        }
+        return true;
+    }
+    return false;
+}
+
+void tetra_grip_api::setAutoconnect(bool value)
+{
+    tryToAutoconnect = value;
+    emit AutoconnectionIsSet(value);
+    if(value){autoconnect();}
+    if(!serial->isOpen())
+    {
+        autoConnectionTimer.start();
+    }
 }
 
 
