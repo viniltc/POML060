@@ -11,9 +11,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    api.openSerialPort();
 
-   // QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+    api.openSerialPort();
+    QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+    QObject::connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+
 
     StageOneMain w(nullptr);
     w.show();

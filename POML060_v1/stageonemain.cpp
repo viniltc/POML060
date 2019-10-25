@@ -15,8 +15,8 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     this->setFixedSize(this->width(),this->height());
 
 
-    connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-    connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+//    connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+   //   connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
  //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
 
 //    QFile file("/config.txt");
@@ -24,7 +24,7 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
 //        QMessageBox::information(0, "error", file.errorString());
 //    }
 //    file.close();
-
+    //tetra_grip_api::read_stim_status_reg();
 }
 
 StageOneMain::~StageOneMain()
