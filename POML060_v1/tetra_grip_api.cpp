@@ -11,6 +11,7 @@ using namespace::std;
 tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 {
 
+
 }
 
 void tetra_grip_api::openSerialPort()
@@ -23,18 +24,20 @@ void tetra_grip_api::openSerialPort()
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
     serial->open(QIODevice::ReadWrite);
+
 }
 
 void tetra_grip_api::readData()
 {
-//    #define UART_PC_BUFFER_SIZE (65536);
-//    #define UART_BUFFER_SIZE (4096)
-//    uint8_t buf[UART_BUFFER_SIZE];
 
+    qDebug()<<"readData triggered |canReadLine is:"<<api.serial->canReadLine();
+    if(api.serial->canReadLine())
+    {
     const QByteArray data = api.serial->readAll();
 
     STIM_GUI_PROTOCOL_Process_Received_Bytes((uint8_t*)data.data(), (size_t)data.length());
     // STIM_GUI_PROTOCOL_Process_Received_Bytes(static_cast<uint8_t*>(data.data()), static_cast<size_t>(data.length()));
+    }
 }
 
 
@@ -60,6 +63,7 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
                              "Are you sure that you have write permission and no other Program is using this port?",QMessageBox::Ok	,QMessageBox::NoButton);
         break;
     case QSerialPort::OpenError:
+        QMessageBox::warning(0,"Serial port","Serial Port Open error!!",QMessageBox::Ok	,QMessageBox::NoButton);
         break;
     case QSerialPort::ParityError:
         break;
@@ -69,14 +73,17 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
     case QSerialPort::BreakConditionError:
         break;
     case QSerialPort::WriteError:
+        QMessageBox::warning(0,"Serial port","Serial Port Write Error!!",QMessageBox::Ok	,QMessageBox::NoButton);
         qDebug()<<"Serial Port WriteError!!";
         disconnect();
         break;
     case QSerialPort::ReadError:
+        QMessageBox::warning(0,"Serial port","Serial Port Read Error!!",QMessageBox::Ok	,QMessageBox::NoButton);
         qDebug()<<"Serial Port ReadError!!";
         disconnect();
         break;
     case QSerialPort::ResourceError:
+        QMessageBox::warning(0,"Serial port","Serial Port ResourceError!!",QMessageBox::Ok	,QMessageBox::NoButton);
         qDebug()<<"Serial Port ResourceError!!";
         //disconnect();
         break;
