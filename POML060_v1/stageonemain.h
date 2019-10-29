@@ -36,5 +36,6 @@ private slots:
 
 private:
     Ui::StageOneMain *ui;
+    QLabel *statusBat, *statusConfig;
 };
 #endif // STAGEONEMAIN_H

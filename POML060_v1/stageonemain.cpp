@@ -13,6 +13,11 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     ui->setupUi(this);
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
+    statusConfig = new QLabel(this);
+    statusBat = new QLabel(this);
+    statusBat->setAlignment(Qt::AlignRight);
+    ui->statusbar->addPermanentWidget(statusConfig);
+    ui->statusbar->addPermanentWidget(statusBat,1);
 
 
 
@@ -26,10 +31,14 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
           {
               QMessageBox::information(0, "config file error", f.errorString());
           }
+     else
+          {
+              QByteArray config = f.readAll();
+              tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+              statusConfig->setText("Config file sent");
+             // statusBar()->showMessage("Config file sent", 3000);
 
-      QByteArray config = f.readAll();
-      tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
-
+          }
 
 
       tetra_grip_api::battery_percentage();
@@ -74,8 +83,10 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
         switch(reg)
         {
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
-           // ui->label->setText("Battery remaining: "+QString::number(value));
-            statusBar()->showMessage("Battery remaining: "+QString::number(value)+"%", 5000);
+
+             statusBat->setText("Battery remaining: "+QString::number(value)+"%");
+             //QTimer::singleShot(3000, ui->statusbar, &QLabel::hide);
+
             if(value<86)
                 ui->qLed->setOnColor(QLed::Red);
             else
@@ -84,5 +95,5 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
             break;
         }
     }
-tr
+
 }
