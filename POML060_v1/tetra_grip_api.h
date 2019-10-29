@@ -45,6 +45,9 @@ public:
 
      QSerialPort *serial = nullptr;
     //QSerialPort *serial;
+     QString comPortName;
+     QTimer autoConnectionTimer;
+     bool tryToAutoconnect;
 
 signals:
 
@@ -68,9 +71,7 @@ private slots:
      void ErrorHandler(QSerialPort::SerialPortError error);
 
 private:
-     QString portName;
-     QTimer autoConnectionTimer;
-     bool tryToAutoconnect;
+
 
 
 };

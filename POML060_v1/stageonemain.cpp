@@ -21,6 +21,8 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
 
 
 
+
+
  //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
      connect(&api, SIGNAL(tetraGripEvent(STIM_GUI_TOPIC_T, uint8_t, uint32_t )), this, SLOT(eventHandler(STIM_GUI_TOPIC_T , uint8_t , uint32_t )));
 

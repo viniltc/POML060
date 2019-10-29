@@ -14,15 +14,27 @@ tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 
 //     connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
 //     tryToAutoconnect = false;
-//     connect(&autoConnectionTimer,SIGNAL(timeout()),this,SLOT(autoconnect()));
+   //  connect(&autoConnectionTimer,SIGNAL(timeout()),this,SLOT(autoconnect()));
 //     autoConnectionTimer.setInterval(5000);
+
 
 }
 
-void tetra_grip_api::openSerialPort()
+void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifier: 6015 (Orange stimulator!)
 {
     serial = new QSerialPort();
-    serial->setPortName("com5");
+   // serial->setPortName("com5");
+    QList <QSerialPortInfo>stim;
+    QSerialPortInfo info;
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    {
+       if(info.description() == "USB Serial Port" && info.manufacturer() == "FTDI" && QString::number(info.vendorIdentifier(), 16)== "403" && QString::number(info.productIdentifier(), 16)== "6015")
+        {
+           comPortName=  info.portName();
+        }
+    }
+    //serial->setPortName("com5");
+    serial->setPortName(comPortName);
     serial->setBaudRate(1000000); // baudrate 1000000 ..1M
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);
@@ -133,6 +145,7 @@ bool tetra_grip_api::autoconnect()
         qDebug()<<"try to autoconnect to: "<<stim.at(0).portName();
         qDebug()<<"error status: "<<serial->error();
         return connectTo(stim.at(0).portName());
+
     }
 }
 
@@ -144,7 +157,7 @@ bool tetra_grip_api::connectTo(QString port)
     if(serial->open(QIODevice::ReadWrite))
     {
         serial->clear();
-        portName = port;
+        comPortName = port;
         qDebug()<<"connected to: "<<port;
         emit successfullyConnectedTo(port);
         if(autoConnectionTimer.isActive())
