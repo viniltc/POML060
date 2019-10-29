@@ -29,6 +29,7 @@ SOURCES += \
     stagetwonew.cpp \
     stagetwopatients.cpp \
     tetra_grip_api.cpp \
+    tetra_grip_reporter.cpp \
     tetra_grip_writer.cpp \
     twowaybutton.cpp
 
@@ -51,6 +52,7 @@ HEADERS += \
     stagetwonew.h \
     stagetwopatients.h \
     tetra_grip_api.h \
+    tetra_grip_reporter.h \
     tetra_grip_writer.h \
     twowaybutton.h
 

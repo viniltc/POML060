@@ -18,13 +18,20 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
 //    connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
    //   connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
  //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
+     connect(&api, SIGNAL(tetraGripEvent()), this, SLOT(eventHandler()));
 
-//    QFile file("/config.txt");
-//    if(!file.open(QIODevice::ReadOnly)) {
-//        QMessageBox::information(0, "error", file.errorString());
-//    }
-//    file.close();
-    //tetra_grip_api::read_stim_status_reg();
+
+
+//     QFile f("/config.txt");
+//     if(!f.open(QFile::ReadOnly))
+//          {
+//              QMessageBox::information(0, "config file error", f.errorString());
+//          }
+
+//      QByteArray config = f.readAll();
+//      tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+       tetra_grip_api::battery_percentage();
 }
 
 StageOneMain::~StageOneMain()
@@ -58,8 +65,22 @@ void StageOneMain::on_pushButton_programs_clicked()
     stageprogram -> show();
 }
 
-void StageOneMain::serialReceived()
+void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
 {
 
-    ui->label->setText(api.serial->readAll());
+    if (topic==TOPIC_STIMULATOR)
+    {
+        switch(reg)
+        {
+        case STIM_REG_BATTERY_CAPACITY_REMAINING:
+            ui->label->setText("Battery remaining: "+QString::number(value));
+            if(value<84)
+                ui->qLed->setOnColor(QLed::Red);
+            else
+                ui->qLed->setOnColor(QLed::Green);
+            ui->qLed->setValue(true);
+            break;
+        }
+    }
+    //  ui->label->setText(api.serial->readAll());
 }

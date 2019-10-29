@@ -1,4 +1,5 @@
 #include "tetra_grip_api.h"
+#include "tetra_grip_reporter.h"
 #include <QDebug>
 #include <stdio.h>
 #include <stdlib.h>
@@ -319,4 +320,27 @@ void tetra_grip_api::read_stim_status_reg(void)
     {
         printf("Failed to send the read command for the status register.\n");
     }
+}
+
+void tetra_grip_api::battery_percentage(void)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=READ_COMMAND;
+    block.topic=TOPIC_STIMULATOR;
+    block.index=0;
+    block.reg_address=STIM_REG_BATTERY_CAPACITY_REMAINING;
+    block.data_length=1;
+    block.data=NULL;
+    if(!send_short_block(&block))
+    {
+        printf("Failed to send the read command for the status register.\n");
+    }
+}
+
+
+void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+{
+    emit api.tetraGripEvent(topic, reg, value);
+    //tetra_grip_api::emitter(topic, reg, value);
 }

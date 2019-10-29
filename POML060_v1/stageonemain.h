@@ -6,6 +6,7 @@
 #include "stageprogram.h"
 #include <QtSerialPort/QSerialPort>
 #include "tetra_grip_api.h"
+#include <QDebug>
 
 
 
@@ -32,7 +33,7 @@ private slots:
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
     void on_pushButton_programs_clicked();
-    void serialReceived();
+    void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 
 private:
     Ui::StageOneMain *ui;
