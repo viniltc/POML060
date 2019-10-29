@@ -1,0 +1,93 @@
+`R ref, version, "config_ID",                   menu language, Power timeout (hours), Number of users
+R  R1   1        "Stim Engine tests June 2016"  ENGLISH        1                      1
+
+`U ref, "user name", language, volume, number of activities
+U U1    "Any user"   ENGLISH   100%      1
+
+`A ref, "activity name",    max duration, max cycles, startingPW%, available/hidden
+ A A1   "Asym Engine tests" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE
+
+  B SA1 1 "Engine tests"
+` These limits apply to all phases
+`  M ref stim, channel, max current, minPW, maxPW, freq, waveform, output name
+   M CH1 1 1 120mA 10us 450us 40Hz ASYM "Channel 1"
+   M CH2 1 2 120mA 10us 450us 40Hz ASYM "Channel 2"
+   M CH3 1 3 120mA 10us 450us 40Hz ASYM "Channel 3"
+   M CH4 1 4 120mA 10us 450us 40Hz ASYM "Channel 4"
+   M CH5 1 5 120mA 10us 450us 40Hz ASYM "Channel 5"
+
+   P P0 "All off" 0ms NONE 2000ms P1 STOP P1
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   600000ns 0us RATE
+    O CH2 120mA  0ms    0ms   600000ns 0us RATE
+    O CH3 120mA  0ms    0ms   600000ns 0us RATE
+    O CH4 120mA  0ms    0ms   600000ns 0us RATE
+    O CH5 120mA  0ms    0ms   600000ns 0us RATE
+
+   P P1 "1 second ramp up" 0ms NONE 2000ms P2 STOP P2
+` rate=1000*PWchange/(freq*seconds)
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   4500ns 90us  RATE
+    O CH2 120mA  0ms    0ms   6000ns 180us RATE
+    O CH3 120mA  0ms    0ms   6750ns 270us RATE
+    O CH4 120mA  0ms    0ms   7200ns 360us RATE
+    O CH5 120mA  0ms    0ms   7500ns 450us RATE
+
+   P P2 "1 second ramp down" 0ms NONE 2000ms P3 STOP P3
+`                Delay  RR    rate   PW    
+    O CH1 120mA  0ms    0ms   4500ns 0us RATE
+    O CH2 120mA  0ms    0ms   6000ns 0us RATE
+    O CH3 120mA  0ms    0ms   6750ns 0us RATE
+    O CH4 120mA  0ms    0ms   7200ns 0us RATE
+    O CH5 120mA  0ms    0ms   7500ns 0us RATE
+
+   P P3 "1s ramp up delay" 0ms NONE 6000ms P4 STOP P4
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   4500ns 90us RATE
+    O CH2 120mA  1000ms 0ms   6000ns 180us RATE
+    O CH3 120mA  2000ms 0ms   6750ns 270us RATE
+    O CH4 120mA  3000ms 0ms   7200ns 360us RATE
+    O CH5 120mA  4000ms 0ms   7500ns 450us RATE
+
+   P P4 "1s ramp down delay" 0ms NONE 6000ms P5 STOP P5
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   4500ns 0us RATE
+    O CH2 120mA  1000ms 0ms   6000ns 0us RATE
+    O CH3 120mA  2000ms 0ms   6750ns 0us RATE
+    O CH4 120mA  3000ms 0ms   7200ns 0us RATE
+    O CH5 120mA  4000ms 0ms   7500ns 0us RATE
+
+   P P5 "2 second ramp up" 0ms NONE 3000ms P6 STOP P6
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   2250ns 90us  RATE
+    O CH2 120mA  0ms    0ms   3000ns 180us RATE
+    O CH3 120mA  0ms    0ms   3375ns 270us RATE
+    O CH4 120mA  0ms    0ms   3600ns 360us RATE
+    O CH5 120mA  0ms    0ms   3750ns 450us RATE
+
+   P P6 "2 second ramp down" 0ms NONE 3000ms P7 STOP P7
+`                Delay  RR    rate   PW    
+    O CH1 120mA  0ms    0ms   2250ns 0us  RATE
+    O CH2 120mA  0ms    0ms   3000ns 0us RATE
+    O CH3 120mA  0ms    0ms   3375ns 0us RATE
+    O CH4 120mA  0ms    0ms   3600ns 0us RATE
+    O CH5 120mA  0ms    0ms   3750ns 0us RATE
+
+   P P7 "100ms ramp up" 0ms NONE 1000ms P8 STOP P8
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   45000ns 90us  RATE
+    O CH2 120mA  0ms    0ms   60000ns 180us RATE
+    O CH3 120mA  0ms    0ms   67500ns 270us RATE
+    O CH4 120mA  0ms    0ms   72000ns 360us RATE
+    O CH5 120mA  0ms    0ms   75000ns 450us RATE
+
+   P P8 "100ms second ramp down" 0ms NONE 1000ms P0 STOP P0
+`                Delay  RR    rate    PW    
+    O CH1 120mA  0ms    0ms   45000ns 0us RATE
+    O CH2 120mA  0ms    0ms   60000ns 0us RATE
+    O CH3 120mA  0ms    0ms   67500ns 0us RATE
+    O CH4 120mA  0ms    0ms   72000ns 0us RATE
+    O CH5 120mA  0ms    0ms   75000ns 0us RATE
+
+
+@--------

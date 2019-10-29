@@ -15,23 +15,23 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     this->setFixedSize(this->width(),this->height());
 
 
-//    connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-   //   connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+
  //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
      connect(&api, SIGNAL(tetraGripEvent()), this, SLOT(eventHandler()));
 
 
 
-//     QFile f("/config.txt");
-//     if(!f.open(QFile::ReadOnly))
-//          {
-//              QMessageBox::information(0, "config file error", f.errorString());
-//          }
+     QFile f(":/resources/config.txt");
+     if(!f.open(QFile::ReadOnly))
+          {
+              QMessageBox::information(0, "config file error", f.errorString());
+          }
 
-//      QByteArray config = f.readAll();
-//      tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+      QByteArray config = f.readAll();
+      tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
 
-       tetra_grip_api::battery_percentage();
+
+      tetra_grip_api::battery_percentage();
 }
 
 StageOneMain::~StageOneMain()

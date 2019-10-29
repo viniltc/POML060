@@ -9,5 +9,6 @@
         <file>resources/icons8-double-down-96.png</file>
         <file>resources/icons8-double-up-96.png</file>
         <file>resources/icons8-rfid-signal-100.png</file>
+        <file>resources/config.txt</file>
     </qresource>
 </RCC>
