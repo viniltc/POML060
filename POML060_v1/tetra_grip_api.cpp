@@ -342,5 +342,4 @@ void tetra_grip_api::battery_percentage(void)
 void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
 {
     emit api.tetraGripEvent(topic, reg, value);
-    //tetra_grip_api::emitter(topic, reg, value);
 }

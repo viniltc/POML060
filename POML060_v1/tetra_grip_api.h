@@ -52,6 +52,7 @@ signals:
      void AutoconnectionIsSet(bool value);
      void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 
+
 public slots:
 
      void openSerialPort();
