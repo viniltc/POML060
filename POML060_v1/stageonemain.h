@@ -25,7 +25,6 @@ public:
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
 
-//size_t  send_using_qtserial(uint8_t *data, size_t len);  // global definition to access from "stim_gui_protocol_tx"
 
 private slots:
 

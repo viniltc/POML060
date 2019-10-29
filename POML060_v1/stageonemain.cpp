@@ -31,6 +31,7 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
       tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
 
 
+
       tetra_grip_api::battery_percentage();
 }
 
@@ -73,7 +74,8 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
         switch(reg)
         {
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
-            ui->label->setText("Battery remaining: "+QString::number(value));
+           // ui->label->setText("Battery remaining: "+QString::number(value));
+            statusBar()->showMessage("Battery remaining: "+QString::number(value)+"%", 5000);
             if(value<86)
                 ui->qLed->setOnColor(QLed::Red);
             else
@@ -82,5 +84,5 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
             break;
         }
     }
-    //  ui->label->setText(api.serial->readAll());
+tr
 }
