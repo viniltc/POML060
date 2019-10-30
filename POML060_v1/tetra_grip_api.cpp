@@ -20,17 +20,17 @@ tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 
 }
 
-void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifier: 6015 (Orange stimulator!)
+void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifier: 6015
 {
     serial = new QSerialPort();
-   // serial->setPortName("com5");
+
     QList <QSerialPortInfo>stim;
     QSerialPortInfo info;
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
     {
        if(info.description() == "USB Serial Port" && info.manufacturer() == "FTDI" && QString::number(info.vendorIdentifier(), 16)== "403" && QString::number(info.productIdentifier(), 16)== "6015")
         {
-           comPortName=  info.portName();
+           comPortName = info.portName();
         }
     }
     //serial->setPortName("com5");
@@ -48,7 +48,7 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
     {
         qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
     }
-        ;
+
 
 }
 
