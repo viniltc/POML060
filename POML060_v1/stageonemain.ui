@@ -77,7 +77,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>110</y>
+      <y>140</y>
       <width>181</width>
       <height>361</height>
      </rect>
@@ -334,6 +334,19 @@ QPushButton:disabled {
       <string>Exit</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_pid">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>90</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

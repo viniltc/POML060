@@ -26,6 +26,13 @@ public:
      stageProgram *stageprogram;
 
 
+signals:
+
+    void textToChange(QString);
+    void setPushButton(bool);
+
+
+
 private slots:
 
 
@@ -33,6 +40,13 @@ private slots:
     void on_pushButton_patients_clicked();
     void on_pushButton_programs_clicked();
     void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+
+    void on_pushButton_help_clicked();
+    void connectionError(bool);
+
+public slots:
+
+   // void subjectIDlabel(QString);
 
 private:
     Ui::StageOneMain *ui;

@@ -19,11 +19,20 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     ui->statusbar->addPermanentWidget(statusConfig);
     ui->statusbar->addPermanentWidget(statusBat,1);
 
+    // initial appearnece of main window
+    ui->label_pid->setText("Set up new patient");
+    ui->pushButton_programs->setEnabled(false);
 
 
 
 
- //   connect(api.serial, SIGNAL(readyRead()), this, SLOT(serialReceived())); // dummy label to test raw serial data
+
+    // connect(this, SIGNAL(textToChange(QString)), this->ui->label_pid, SLOT(setText(QString))); // dummy label to test raw serial data
+     connect(this, &StageOneMain::textToChange, ui->label_pid, &QLabel::setText);
+     connect(this, &StageOneMain::setPushButton, ui->pushButton_logs, &QPushButton::setEnabled);// NEW CONNECT SYNTAX
+     //connect(&api, SIGNAL(deviceError(bool)), this->ui->qLed, SLOT(setShape(QLed::Triangle)));//
+     connect(this, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
+     connect(&api, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
      connect(&api, SIGNAL(tetraGripEvent(STIM_GUI_TOPIC_T, uint8_t, uint32_t )), this, SLOT(eventHandler(STIM_GUI_TOPIC_T , uint8_t , uint32_t )));
 
 
@@ -98,4 +107,20 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
         }
     }
 
+}
+
+void StageOneMain::connectionError(bool val)
+{
+    if (val)
+    {
+        ui->qLed->setShape(QLed::Triangle);
+        ui->qLed->setOnColor(QLed::Red);
+    }
+}
+
+void StageOneMain::on_pushButton_help_clicked()
+{
+    emit textToChange("text updated");
+    emit setPushButton(true);
+   // emit deviceError(true);
 }

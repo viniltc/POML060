@@ -113,6 +113,7 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
     case QSerialPort::ResourceError:
         QMessageBox::warning(0,"Serial port","Serial Port ResourceError!!",QMessageBox::Ok	,QMessageBox::NoButton);
         qDebug()<<"Serial Port ResourceError!!";
+        emit api.deviceError(true);
         //disconnect();
         break;
     case QSerialPort::UnsupportedOperationError:

@@ -24,6 +24,12 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
+
+
+
+
+
+
 /*
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
         QString s = QObject::tr("Port: ") + info.portName() + "\n"

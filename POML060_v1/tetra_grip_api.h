@@ -44,8 +44,7 @@ public:
      void static stimulation_set_current(unsigned int, unsigned int);
 
      QSerialPort *serial = nullptr;
-    //QSerialPort *serial;
-     QString comPortName;
+
      QTimer autoConnectionTimer;
      bool tryToAutoconnect;
 
@@ -54,6 +53,7 @@ signals:
      void successfullyConnectedTo(QString portName);
      void AutoconnectionIsSet(bool value);
      void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+     void deviceError(bool);
 
 
 public slots:
@@ -72,7 +72,7 @@ private slots:
 
 private:
 
-
+        QString comPortName;
 
 };
 
