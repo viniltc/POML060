@@ -51,6 +51,7 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
 
           }
 //test git git
+     //test one more
 
       tetra_grip_api::battery_percentage();
 }
