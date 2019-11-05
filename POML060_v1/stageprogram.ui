@@ -36,7 +36,7 @@ QTabBar::tab:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -299,7 +299,7 @@ QPushButton:disabled {
          <string>Save</string>
         </property>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>30</x>
@@ -325,7 +325,7 @@ QPushButton:disabled {
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1746,7 +1746,7 @@ QPushButton:disabled {
         <property name="title">
          <string>Trigger settings</string>
         </property>
-        <widget class="QLed" name="qLed">
+        <widget class="QLed" name="qLed" native="true">
          <property name="geometry">
           <rect>
            <x>130</x>
@@ -1761,17 +1761,8 @@ QPushButton:disabled {
          <property name="whatsThis">
           <string>Led widget</string>
          </property>
-         <property name="value">
+         <property name="value" stdset="0">
           <bool>false</bool>
-         </property>
-         <property name="onColor">
-          <enum>QLed::Red</enum>
-         </property>
-         <property name="offColor">
-          <enum>QLed::Grey</enum>
-         </property>
-         <property name="shape">
-          <enum>QLed::Circle</enum>
          </property>
         </widget>
         <widget class="QPushButton" name="pushButton_52">

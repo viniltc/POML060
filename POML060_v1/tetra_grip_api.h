@@ -18,7 +18,7 @@
 #include <QtSerialPort/QSerialPortInfo>
 #include <QLabel>
 #include <QMessageBox>
-#include<QTimer>
+#include <QTimer>
 
 #define _CRT_SECURE_NO_DEPRECATE
 
