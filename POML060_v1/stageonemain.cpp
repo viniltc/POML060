@@ -50,7 +50,7 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
              // statusBar()->showMessage("Config file sent", 3000);
 
           }
-//test git
+//test git git
 
       tetra_grip_api::battery_percentage();
 }
