@@ -154,11 +154,28 @@ void StageTwoPatients::on_pushButton_bmain_clicked()
    back ->show();
 }
 
-void StageTwoPatients::on_pushButton_new_clicked()
+
+void StageTwoPatients::on_pushButton_Open_clicked()
+{
+    QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
+    qDebug()<<"\n The content is"<<selection[0].data().toString();
+
+    this-> close();
+    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
+    newPatient-> show();
+}
+
+void StageTwoPatients::on_pushButton_New_clicked()
 {
 
-//    hide();
-//    StageTwoNew *newone = new StageTwoNew(this);
-//    newone->show();
+}
+
+void StageTwoPatients::on_pushButton_Modify_clicked()
+{
+
+}
+
+void StageTwoPatients::on_pushButton_Remove_clicked()
+{
 
 }

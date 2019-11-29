@@ -28,6 +28,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 
     ui->label_pid->setText(patientLabel);
     ui->label_pid->setAlignment(Qt::AlignCenter);
+    ui->label_pid->setStyleSheet("color: blue;");
 
     pLabel = patientLabel;
 

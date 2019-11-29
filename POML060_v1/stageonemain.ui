@@ -54,18 +54,18 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>70</x>
        <y>20</y>
-       <width>201</width>
+       <width>211</width>
        <height>20</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Arial</family>
-       <pointsize>12</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>14</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="text">
@@ -338,11 +338,18 @@ QPushButton:disabled {
    <widget class="QLabel" name="label_pid">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>90</x>
       <y>90</y>
       <width>181</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>

@@ -18,7 +18,14 @@ public:
 
 private slots:
     void on_pushButton_bmain_clicked();
-    void on_pushButton_new_clicked();
+
+    void on_pushButton_Open_clicked();
+
+    void on_pushButton_New_clicked();
+
+    void on_pushButton_Modify_clicked();
+
+    void on_pushButton_Remove_clicked();
 
 private:
     Ui::StageTwoPatients *ui;
