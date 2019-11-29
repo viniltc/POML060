@@ -20,7 +20,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
     ui->statusbar->addPermanentWidget(statusBat,1);
 
     // initial appearnece of main window
-    if(patientLabel.isNull()){
+    if(patientLabel.isEmpty()){
         ui->pushButton_programs->setEnabled(false);
         ui->pushButton_logs->setEnabled(false);
 

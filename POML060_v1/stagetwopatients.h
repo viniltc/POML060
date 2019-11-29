@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::StageTwoPatients *ui;
+    void parseDataEntry(const QString dataPath);
 };
 
 #endif // STAGETWOPATIENTS_H
