@@ -20,8 +20,8 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 
 
     // Setup table
-    ui->tableWidget->setColumnCount(4);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList{"Patient ID","Name", "Surname", "LastSession"});
+    ui->tableWidget->setColumnCount(5);
+    ui->tableWidget->setHorizontalHeaderLabels(QStringList{"Patient ID","Name", "Surname", "LastSession", "Note"});
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
@@ -51,7 +51,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 void StageTwoPatients::parseDataEntry(const QString dataPath)
 {
 
-    QString patientID, firstName, surName, lastSession = "";
+    QString patientID, firstName, surName, lastSession = "", pNote;
 
     // Load our XML file.
     QFile *xmlFile;
@@ -95,6 +95,9 @@ void StageTwoPatients::parseDataEntry(const QString dataPath)
             else if(xmlReader->name() == "Date") {
                 lastSession = xmlReader->readElementText();
             }
+            else if(xmlReader->name() == "Clinician_Note") {
+                pNote = xmlReader->readElementText();
+            }
         }
     }
 
@@ -133,6 +136,9 @@ void StageTwoPatients::parseDataEntry(const QString dataPath)
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
                              3,
                              new QTableWidgetItem(lastSession));
+    ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
+                             4,
+                             new QTableWidgetItem(pNote));
   //  ui->tableWidget->setCellWidget(ui->tableWidget->rowCount()-1,3, new QTableWidgetItem(lastSession))
 }
 
