@@ -2,7 +2,6 @@
 #define STAGETWOPATIENTS_H
 
 #include <QMainWindow>
-#include "stagetwonew.h"
 
 
 namespace Ui {

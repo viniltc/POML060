@@ -26,7 +26,6 @@ SOURCES += \
     main.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
-    stagetwonew.cpp \
     stagetwopatients.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
@@ -49,7 +48,6 @@ HEADERS += \
     Stim_includes/uart.h \
     stageonemain.h \
     stageprogram.h \
-    stagetwonew.h \
     stagetwopatients.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
@@ -59,7 +57,6 @@ HEADERS += \
 FORMS += \
     stageonemain.ui \
     stageprogram.ui \
-    stagetwonew.ui \
     stagetwopatients.ui \
     twowaybutton.ui
 

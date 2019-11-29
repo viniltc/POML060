@@ -7,7 +7,7 @@
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
-StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
+StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
@@ -20,8 +20,16 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
     ui->statusbar->addPermanentWidget(statusBat,1);
 
     // initial appearnece of main window
-    ui->label_pid->setText("Set up new patient");
-    ui->pushButton_programs->setEnabled(false);
+    if(patientLabel.isNull()){
+        ui->pushButton_programs->setEnabled(false);
+        ui->pushButton_logs->setEnabled(false);
+
+    }
+
+    ui->label_pid->setText(patientLabel);
+    ui->label_pid->setAlignment(Qt::AlignCenter);
+
+    pLabel = patientLabel;
 
 
 
@@ -50,8 +58,8 @@ StageOneMain::StageOneMain(QWidget *parent) : QMainWindow(parent)
              // statusBar()->showMessage("Config file sent", 3000);
 
           }
-//test git git
-     //test one more
+
+
 
       tetra_grip_api::battery_percentage();
 }

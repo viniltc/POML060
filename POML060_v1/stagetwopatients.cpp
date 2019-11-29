@@ -1,7 +1,6 @@
 #include "stagetwopatients.h"
 #include "ui_stagetwopatients.h"
 #include "stageonemain.h"
-#include "stagetwonew.h"
 
 
 StageTwoPatients::StageTwoPatients(QWidget *parent) :
@@ -23,15 +22,15 @@ StageTwoPatients::~StageTwoPatients()
 void StageTwoPatients::on_pushButton_bmain_clicked()
 {
    hide();
-   StageOneMain *back =new StageOneMain(this);
+   StageOneMain *back =new StageOneMain("",this);
    back ->show();
 }
 
 void StageTwoPatients::on_pushButton_new_clicked()
 {
 
-    hide();
-    StageTwoNew *newone = new StageTwoNew(this);
-    newone->show();
+//    hide();
+//    StageTwoNew *newone = new StageTwoNew(this);
+//    newone->show();
 
 }

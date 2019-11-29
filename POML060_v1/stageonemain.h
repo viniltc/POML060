@@ -20,10 +20,11 @@ class StageOneMain : public QMainWindow
     Q_OBJECT
 
 public:
-     StageOneMain(QWidget *parent = nullptr);
+     StageOneMain(QString,QWidget *parent = nullptr);
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
+     QString pLabel;
 
 
 signals:
