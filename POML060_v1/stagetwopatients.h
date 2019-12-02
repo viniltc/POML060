@@ -2,6 +2,7 @@
 #define STAGETWOPATIENTS_H
 
 #include <QMainWindow>
+#include "tetra_grip_api.h"
 
 
 namespace Ui {
@@ -15,8 +16,12 @@ class StageTwoPatients : public QMainWindow
 public:
     explicit StageTwoPatients(QWidget *parent = nullptr);
     ~StageTwoPatients();
+    void parseDataEntry(const QString dataPath);
 
-private slots:
+public slots:
+
+    void eventHandlerTwo(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+
     void on_pushButton_bmain_clicked();
 
     void on_pushButton_Open_clicked();
@@ -27,9 +32,11 @@ private slots:
 
     void on_pushButton_Remove_clicked();
 
+
+
 private:
     Ui::StageTwoPatients *ui;
-    void parseDataEntry(const QString dataPath);
+
 };
 
 #endif // STAGETWOPATIENTS_H

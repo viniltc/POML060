@@ -6,6 +6,8 @@
 #include <QDirIterator>
 #include <QXmlStreamReader>
 #include <QMessageBox>
+#include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
 
 
 StageTwoPatients::StageTwoPatients(QWidget *parent) :
@@ -19,7 +21,10 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     this->setFixedSize(this->width(),this->height());
 
 
-    // Setup table
+
+   connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
+
+ // Setup table
     ui->tableWidget->setColumnCount(5);
     ui->tableWidget->setHorizontalHeaderLabels(QStringList{"Patient ID","Name", "Surname", "LastSession", "Note"});
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -149,9 +154,9 @@ StageTwoPatients::~StageTwoPatients()
 
 void StageTwoPatients::on_pushButton_bmain_clicked()
 {
-   hide();
-   StageOneMain *back =new StageOneMain("",this);
-   back ->show();
+    hide();
+    StageOneMain *back =new StageOneMain("",this);
+    back ->show();
 }
 
 
@@ -179,3 +184,25 @@ void StageTwoPatients::on_pushButton_Remove_clicked()
 {
 
 }
+
+void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+{
+    if (topic==TOPIC_STIMULATOR)
+    {
+        switch(reg)
+        {
+        case STIM_REG_BATTERY_CAPACITY_REMAINING:
+
+            if(value<86)
+                ui->qLed_p2->setOnColor(QLed::Red);
+            else
+                ui->qLed_p2->setOnColor(QLed::Green);
+                ui->qLed_p2->setValue(true);
+            break;
+        }
+    }
+
+
+    //ui->label_batteryVal->setText(QString::number(value));
+    ui->label_batteryVal->setText("Slot called");
+ }

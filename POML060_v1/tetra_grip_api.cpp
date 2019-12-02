@@ -55,17 +55,16 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
 void tetra_grip_api::readData()
 {
 
-//    qDebug()<<"readData triggered |canReadLine is:"<<api.serial->canReadLine();
-//    if(api.serial->canReadLine())
-//    {
+
     const QByteArray data = api.serial->readAll();
-    qDebug()<<"\n---------------------------------\n";
-    qDebug()<<"Bytes read len"<< data.length();
-    qDebug()<<"\n Bytes data " << data.toHex();
+
+//    qDebug()<<"\n---------------------------------\n";
+//    qDebug()<<"Bytes read len"<< data.length();
+//    qDebug()<<"\n Bytes data " << data.toHex();
 
     STIM_GUI_PROTOCOL_Process_Received_Bytes((uint8_t*)data.data(), (size_t)data.length());
     // STIM_GUI_PROTOCOL_Process_Received_Bytes(static_cast<uint8_t*>(data.data()), static_cast<size_t>(data.length()));
-    //}
+
 }
 
 

@@ -34,7 +34,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 
 
 
-
+   //  connect(this, &StageOneMain::batteryValue, stagetwopatients, &StageTwoPatients::eventHandlerTwo);
 
     // connect(this, SIGNAL(textToChange(QString)), this->ui->label_pid, SLOT(setText(QString))); // dummy label to test raw serial data
      connect(this, &StageOneMain::textToChange, ui->label_pid, &QLabel::setText);
@@ -42,8 +42,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
      //connect(&api, SIGNAL(deviceError(bool)), this->ui->qLed, SLOT(setShape(QLed::Triangle)));//
      connect(this, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
      connect(&api, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
-     connect(&api, SIGNAL(tetraGripEvent(STIM_GUI_TOPIC_T, uint8_t, uint32_t )), this, SLOT(eventHandler(STIM_GUI_TOPIC_T , uint8_t , uint32_t )));
-
+    connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
 
 
      QFile f(":/resources/config.txt");
@@ -84,7 +83,7 @@ void StageOneMain::on_pushButton_exit_clicked()
 void StageOneMain::on_pushButton_patients_clicked()
 {
 
-    hide();
+   // hide();
     stagetwopatients = new StageTwoPatients(this);
     stagetwopatients -> show();
 }
@@ -116,6 +115,8 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
             break;
         }
     }
+
+    emit batteryValue(value);
 
 }
 

@@ -31,6 +31,7 @@ signals:
 
     void textToChange(QString);
     void setPushButton(bool);
+    void batteryValue(uint32_t);
 
 
 
@@ -40,14 +41,15 @@ private slots:
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
     void on_pushButton_programs_clicked();
-    void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+
 
     void on_pushButton_help_clicked();
     void connectionError(bool);
 
 public slots:
 
-   // void subjectIDlabel(QString);
+ void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+
 
 private:
     Ui::StageOneMain *ui;

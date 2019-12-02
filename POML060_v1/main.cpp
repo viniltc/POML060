@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 
 
 
-
 /*
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
         QString s = QObject::tr("Port: ") + info.portName() + "\n"
