@@ -14,7 +14,8 @@ class StageTwoPatients : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit StageTwoPatients(QWidget *parent = nullptr);
+    //explicit StageTwoPatients(tetra_grip_api *api, QWidget *parent = nullptr);
+      StageTwoPatients( QWidget *parent = nullptr);
     ~StageTwoPatients();
     void parseDataEntry(const QString dataPath);
 

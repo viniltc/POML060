@@ -15,6 +15,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupBox_patient">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -397,7 +400,7 @@ QPushButton:disabled {
   <customwidget>
    <class>QLed</class>
    <extends>QWidget</extends>
-   <header>qled.h</header>
+   <header location="global">qled.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

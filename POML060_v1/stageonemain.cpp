@@ -7,7 +7,8 @@
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
-StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
+StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow(parent)
+//  StageOneMain::StageOneMain( tetra_grip_api *api, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
@@ -40,9 +41,11 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
      connect(this, &StageOneMain::textToChange, ui->label_pid, &QLabel::setText);
      connect(this, &StageOneMain::setPushButton, ui->pushButton_logs, &QPushButton::setEnabled);// NEW CONNECT SYNTAX
      //connect(&api, SIGNAL(deviceError(bool)), this->ui->qLed, SLOT(setShape(QLed::Triangle)));//
-     connect(this, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
-     connect(&api, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
-    connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
+  //   connect(this, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
+  //   connect(&api, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
+     connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
+
+
 
 
      QFile f(":/resources/config.txt");
@@ -69,10 +72,6 @@ StageOneMain::~StageOneMain()
     delete ui;
 }
 
-//extern "C" size_t StageOneMain::send_using_qtserial(uint8_t *data, size_t len)
-//{
-//    //return serial->write((const char *)data, (qint64)len);
-//}
 
 void StageOneMain::on_pushButton_exit_clicked()
 {
@@ -82,14 +81,16 @@ void StageOneMain::on_pushButton_exit_clicked()
 
 void StageOneMain::on_pushButton_patients_clicked()
 {
-
-   // hide();
-    stagetwopatients = new StageTwoPatients(this);
-    stagetwopatients -> show();
+     this->close();
+//    stagetwopatients = new StageTwoPatients(&api);
+//    tetra_grip_api api;
+     stagetwopatients = new StageTwoPatients(this);
+     stagetwopatients -> show();
 }
 
 void StageOneMain::on_pushButton_programs_clicked()
 {
+
     hide();
     stageprogram = new stageProgram(this);
     stageprogram -> show();

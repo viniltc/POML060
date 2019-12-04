@@ -2,7 +2,6 @@
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 #include "tetra_grip_writer.h"
-
 #include <QApplication>
 
 tetra_grip_api api;
@@ -11,16 +10,21 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-
+    //tetra_grip_api api;
     api.openSerialPort();
+
     QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
     QObject::connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
 //    QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
 //    api.tryToAutoconnect = false;
 
+      StageOneMain w(nullptr);
+ //   StageOneMain w(&api);
+//    StageTwoPatients v(nullptr);
+//    v.show();
 
-    StageOneMain w(nullptr);
     w.show();
+
     return a.exec();
 }
 

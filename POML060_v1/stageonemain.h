@@ -20,6 +20,7 @@ class StageOneMain : public QMainWindow
     Q_OBJECT
 
 public:
+     //StageOneMain(tetra_grip_api *api,QWidget *parent = nullptr);
      StageOneMain(QString,QWidget *parent = nullptr);
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;

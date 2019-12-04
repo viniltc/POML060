@@ -9,20 +9,21 @@
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
-
 StageTwoPatients::StageTwoPatients(QWidget *parent) :
+//StageTwoPatients::StageTwoPatients(tetra_grip_api *api, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StageTwoPatients)
 {
     ui->setupUi(this);
 
-
+//    api->openSerialPort();
+//    connect(api, SIGNAL(readyRead()), api, SLOT(readData()));
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
 
 
 
-   connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
+ connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
 
  // Setup table
     ui->tableWidget->setColumnCount(5);
@@ -154,9 +155,9 @@ StageTwoPatients::~StageTwoPatients()
 
 void StageTwoPatients::on_pushButton_bmain_clicked()
 {
-    hide();
-    StageOneMain *back =new StageOneMain("",this);
-    back ->show();
+//    hide();
+//    StageOneMain *back =new StageOneMain("",this);
+//    back ->show();
 }
 
 
@@ -165,9 +166,9 @@ void StageTwoPatients::on_pushButton_Open_clicked()
     QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
     qDebug()<<"\n The content is"<<selection[0].data().toString();
 
-    this-> close();
-    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
-    newPatient-> show();
+//    this-> close();
+//    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
+//    newPatient-> show();
 }
 
 void StageTwoPatients::on_pushButton_New_clicked()

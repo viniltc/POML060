@@ -12,11 +12,36 @@ using namespace::std;
 tetra_grip_api::tetra_grip_api(QObject *parent) : QObject(parent)
 {
 
-//     connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-//     tryToAutoconnect = false;
-   //  connect(&autoConnectionTimer,SIGNAL(timeout()),this,SLOT(autoconnect()));
-//     autoConnectionTimer.setInterval(5000);
+//    serial = new QSerialPort();
 
+//    QList <QSerialPortInfo>stim;
+//    QSerialPortInfo info;
+//    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+//    {
+//       if(info.description() == "USB Serial Port" && info.manufacturer() == "FTDI" && QString::number(info.vendorIdentifier(), 16)== "403" && QString::number(info.productIdentifier(), 16)== "6015")
+//        {
+//           comPortName = info.portName();
+//        }
+//    }
+//    //serial->setPortName("com5");
+//    serial->setPortName(comPortName);
+//    serial->setBaudRate(1000000); // baudrate 1000000 ..1M
+//    serial->setDataBits(QSerialPort::Data8);
+//    serial->setParity(QSerialPort::NoParity);
+//    serial->setStopBits(QSerialPort::OneStop);
+//    serial->setFlowControl(QSerialPort::HardwareControl); //Hardware flow control (RTS/CTS), NoFlowControl, SoftwareControl
+//    if(serial->open(QIODevice::ReadWrite))
+//    {
+//        qDebug()<<"Open port OK";
+//    }
+//    else
+//    {
+//        qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
+//    }
+
+
+//    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+//    connect(serial, SIGNAL(error(QSerialPort::SerialPortError)),this, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
 
 }
 
@@ -56,7 +81,9 @@ void tetra_grip_api::readData()
 {
 
 
-    const QByteArray data = api.serial->readAll();
+   const QByteArray data = api.serial->readAll();
+    //const QByteArray data = serial->readAll();
+
 
 //    qDebug()<<"\n---------------------------------\n";
 //    qDebug()<<"Bytes read len"<< data.length();
