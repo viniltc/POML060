@@ -23,7 +23,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 
 
 
- connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
+  connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
 
  // Setup table
     ui->tableWidget->setColumnCount(5);
@@ -37,7 +37,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 
 
 
-     QString path = QCoreApplication::applicationDirPath()+"/data/";
+    QString path = QCoreApplication::applicationDirPath()+"/data/";
 
 
 
@@ -51,6 +51,8 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
         parseDataEntry(qdi.next());
         //data.parseDataEntry(qdi.next());
     }
+
+    tetra_grip_api::battery_percentage();
 
 }
 
@@ -166,9 +168,9 @@ void StageTwoPatients::on_pushButton_Open_clicked()
     QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
     qDebug()<<"\n The content is"<<selection[0].data().toString();
 
-//    this-> close();
-//    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
-//    newPatient-> show();
+    this-> close();
+    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
+    newPatient-> show();
 }
 
 void StageTwoPatients::on_pushButton_New_clicked()

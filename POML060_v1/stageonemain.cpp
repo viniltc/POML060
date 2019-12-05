@@ -7,11 +7,14 @@
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
+
 StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow(parent)
 //  StageOneMain::StageOneMain( tetra_grip_api *api, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
+    this->setAttribute(Qt::WA_QuitOnClose, false);
+
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
     statusConfig = new QLabel(this);
@@ -22,7 +25,7 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
 
     // initial appearnece of main window
     if(patientLabel.isEmpty()){
-        ui->pushButton_programs->setEnabled(false);
+       // ui->pushButton_programs->setEnabled(false);
         ui->pushButton_logs->setEnabled(false);
 
     }
@@ -32,6 +35,8 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
     ui->label_pid->setStyleSheet("color: blue;");
 
     pLabel = patientLabel;
+
+
 
 
 
@@ -86,6 +91,9 @@ void StageOneMain::on_pushButton_patients_clicked()
 //    tetra_grip_api api;
      stagetwopatients = new StageTwoPatients(this);
      stagetwopatients -> show();
+
+//    StageTwoPatients v(nullptr);
+//            v.show();
 }
 
 void StageOneMain::on_pushButton_programs_clicked()
@@ -94,6 +102,8 @@ void StageOneMain::on_pushButton_programs_clicked()
     hide();
     stageprogram = new stageProgram(this);
     stageprogram -> show();
+
+
 }
 
 void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
@@ -117,7 +127,7 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
         }
     }
 
-    emit batteryValue(value);
+   // emit batteryValue(value);
 
 }
 

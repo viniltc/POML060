@@ -35,15 +35,11 @@ signals:
     void batteryValue(uint32_t);
 
 
-
 private slots:
-
 
     void on_pushButton_exit_clicked();
     void on_pushButton_patients_clicked();
     void on_pushButton_programs_clicked();
-
-
     void on_pushButton_help_clicked();
     void connectionError(bool);
 

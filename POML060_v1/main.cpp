@@ -1,8 +1,10 @@
 #include "stageonemain.h"
+#include "stagetwonew.h"
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 #include "tetra_grip_writer.h"
 #include <QApplication>
+
 
 tetra_grip_api api;
 
@@ -19,9 +21,9 @@ int main(int argc, char *argv[])
 //    api.tryToAutoconnect = false;
 
       StageOneMain w(nullptr);
+
  //   StageOneMain w(&api);
 //    StageTwoPatients v(nullptr);
-//    v.show();
 
     w.show();
 
