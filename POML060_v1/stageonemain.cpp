@@ -59,7 +59,6 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
           }
 
 
-
       tetra_grip_api::get_battery_percentage();
 }
 
@@ -113,8 +112,6 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t va
             break;
         }
     }
-
-   // emit batteryValue(value);
 
 }
 

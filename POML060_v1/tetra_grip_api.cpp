@@ -355,7 +355,7 @@ void tetra_grip_api::read_stim_status_reg(void)
     block.index=0;
     block.reg_address=STIM_REG_STATUS;
     block.data_length=1;
-    block.data=NULL;
+    block.data=nullptr;
     if(!send_short_block(&block))
     {
         printf("Failed to send the read command for the status register.\n");
@@ -371,7 +371,7 @@ void tetra_grip_api::get_battery_percentage(void)
     block.index=0;
     block.reg_address=STIM_REG_BATTERY_CAPACITY_REMAINING;
     block.data_length=1;
-    block.data=NULL;
+    block.data=nullptr;
     if(!send_short_block(&block))
     {
         printf("Failed to send the read command for the status register.\n");
