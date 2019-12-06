@@ -13,7 +13,8 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
     , ui(new Ui::StageOneMain)
 {
     ui->setupUi(this);
-    this->setAttribute(Qt::WA_QuitOnClose, false);
+
+  //  this->setAttribute(Qt::WA_QuitOnClose, false);
 
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
@@ -25,7 +26,7 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
 
     // initial appearnece of main window
     if(patientLabel.isEmpty()){
-       // ui->pushButton_programs->setEnabled(false);
+        ui->pushButton_programs->setEnabled(false);
         ui->pushButton_logs->setEnabled(false);
 
     }
@@ -37,19 +38,9 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
     pLabel = patientLabel;
 
 
-
-
-
-   //  connect(this, &StageOneMain::batteryValue, stagetwopatients, &StageTwoPatients::eventHandlerTwo);
-
-    // connect(this, SIGNAL(textToChange(QString)), this->ui->label_pid, SLOT(setText(QString))); // dummy label to test raw serial data
-     connect(this, &StageOneMain::textToChange, ui->label_pid, &QLabel::setText);
-     connect(this, &StageOneMain::setPushButton, ui->pushButton_logs, &QPushButton::setEnabled);// NEW CONNECT SYNTAX
-     //connect(&api, SIGNAL(deviceError(bool)), this->ui->qLed, SLOT(setShape(QLed::Triangle)));//
-  //   connect(this, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
-  //   connect(&api, SIGNAL(deviceError(bool)), this, SLOT(connectionError(bool)));
+   //connect(this, &StageOneMain::setPushButton, ui->pushButton_logs, &QPushButton::setEnabled);// NEW CONNECT SYNTAX
+     connect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
      connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
-
 
 
 
@@ -69,7 +60,7 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
 
 
 
-      tetra_grip_api::battery_percentage();
+      tetra_grip_api::get_battery_percentage();
 }
 
 StageOneMain::~StageOneMain()
@@ -87,13 +78,9 @@ void StageOneMain::on_pushButton_exit_clicked()
 void StageOneMain::on_pushButton_patients_clicked()
 {
      this->close();
-//    stagetwopatients = new StageTwoPatients(&api);
-//    tetra_grip_api api;
      stagetwopatients = new StageTwoPatients(this);
      stagetwopatients -> show();
 
-//    StageTwoPatients v(nullptr);
-//            v.show();
 }
 
 void StageOneMain::on_pushButton_programs_clicked()

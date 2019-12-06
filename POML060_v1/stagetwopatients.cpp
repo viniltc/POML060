@@ -52,7 +52,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
         //data.parseDataEntry(qdi.next());
     }
 
-    tetra_grip_api::battery_percentage();
+    tetra_grip_api::get_battery_percentage();
 
 }
 
@@ -155,13 +155,6 @@ StageTwoPatients::~StageTwoPatients()
     delete ui;
 }
 
-void StageTwoPatients::on_pushButton_bmain_clicked()
-{
-//    hide();
-//    StageOneMain *back =new StageOneMain("",this);
-//    back ->show();
-}
-
 
 void StageTwoPatients::on_pushButton_Open_clicked()
 {
@@ -205,7 +198,4 @@ void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic, uint8_t reg, uin
         }
     }
 
-
-    //ui->label_batteryVal->setText(QString::number(value));
-    ui->label_batteryVal->setText("Slot called");
  }

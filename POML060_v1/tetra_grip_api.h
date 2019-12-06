@@ -40,7 +40,7 @@ public:
      void static stimulation_start(bool);
      void static toggle_pause(void);
      void static read_stim_status_reg(void);
-     void static battery_percentage(void);
+     void static get_battery_percentage(void);
      void static stimulation_set_current(unsigned int, unsigned int);
 
      QSerialPort *serial = nullptr;

@@ -14,7 +14,6 @@ class StageTwoPatients : public QMainWindow
     Q_OBJECT
 
 public:
-    //explicit StageTwoPatients(tetra_grip_api *api, QWidget *parent = nullptr);
       StageTwoPatients( QWidget *parent = nullptr);
     ~StageTwoPatients();
     void parseDataEntry(const QString dataPath);
@@ -22,8 +21,6 @@ public:
 public slots:
 
     void eventHandlerTwo(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
-
-    void on_pushButton_bmain_clicked();
 
     void on_pushButton_Open_clicked();
 

@@ -362,7 +362,7 @@ void tetra_grip_api::read_stim_status_reg(void)
     }
 }
 
-void tetra_grip_api::battery_percentage(void)
+void tetra_grip_api::get_battery_percentage(void)
 {
     STIM_GUI_MESSAGE_S_BLOCK_T block={};
 
