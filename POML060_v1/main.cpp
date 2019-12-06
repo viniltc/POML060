@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    //tetra_grip_api api;
     api.openSerialPort();
 
     QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
@@ -22,17 +21,12 @@ int main(int argc, char *argv[])
 
       StageOneMain w(nullptr);
 
- //   StageOneMain w(&api);
-//    StageTwoPatients v(nullptr);
+
 
     w.show();
 
     return a.exec();
 }
-
-
-
-
 
 
 /*
