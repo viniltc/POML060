@@ -21,14 +21,14 @@ SOURCES += \
     Stim_includes/stim_gui_protocol_decode.c \
     Stim_includes/stim_gui_protocol_rx.c \
     Stim_includes/stim_gui_protocol_tx.c \
+    currentbuttonone.cpp \
     main.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwopatients.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
-    tetra_grip_writer.cpp \
-    twowaybutton.cpp
+    tetra_grip_writer.cpp
 
 HEADERS += \
     Stim_includes/clock.h \
@@ -44,19 +44,19 @@ HEADERS += \
     Stim_includes/system_config.h \
     Stim_includes/system_definitions.h \
     Stim_includes/uart.h \
+    currentbuttonone.h \
     stageonemain.h \
     stageprogram.h \
     stagetwopatients.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
-    tetra_grip_writer.h \
-    twowaybutton.h
+    tetra_grip_writer.h
 
 FORMS += \
+    currentbuttonone.ui \
     stageonemain.ui \
     stageprogram.ui \
-    stagetwopatients.ui \
-    twowaybutton.ui
+    stagetwopatients.ui
 
 INCLUDEPATH += ./leds
 include($$PWD/leds/qled.pri)
