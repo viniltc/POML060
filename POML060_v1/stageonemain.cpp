@@ -44,7 +44,7 @@ StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow
 
 
 
-     QFile f(":/resources/config.txt");
+     QFile f(":/resources/config_setup.txt");
      if(!f.open(QFile::ReadOnly))
           {
               QMessageBox::information(0, "config file error", f.errorString());

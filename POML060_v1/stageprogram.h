@@ -27,6 +27,11 @@ public slots:
 
 
 
+private slots:
+    void on_pushButton_stimStart_clicked();
+
+    void on_pushButton_stimStop_clicked();
+
 private:
     Ui::stageProgram *ui;
 };

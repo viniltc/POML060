@@ -130,7 +130,7 @@ QComboBox:disabled {
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="pushButton_stimStart">
         <property name="geometry">
          <rect>
           <x>150</x>
@@ -189,7 +189,7 @@ QPushButton:disabled {
           <normaloff>:/resources/icons8-rfid-signal-100.png</normaloff>:/resources/icons8-rfid-signal-100.png</iconset>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_7">
+       <widget class="QPushButton" name="pushButton_stimStop">
         <property name="geometry">
          <rect>
           <x>240</x>
@@ -244,7 +244,7 @@ QPushButton:disabled {
          <string>Done</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="pushButton_stimSave">
         <property name="geometry">
          <rect>
           <x>390</x>
