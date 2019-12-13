@@ -335,6 +335,19 @@ QPushButton:disabled {
          </rect>
         </property>
        </widget>
+       <widget class="QLabel" name="label_currentOne">
+        <property name="geometry">
+         <rect>
+          <x>460</x>
+          <y>140</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">

@@ -1,6 +1,8 @@
 #include "currentbuttonone.h"
 #include "ui_currentbuttonone.h"
 #include <QTimer>
+#include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
 
 CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
     QWidget(parent),
@@ -8,8 +10,9 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    number = 0;
-    ui->label_currentValue->setText(QString("Value: %1").arg(number));
+    value = 0;
+
+    ui->label_currentValue->setText(QString("Value: %1").arg(value));
     timerTimeout = 0;
     timer_high = new QTimer(this);
     timer_low = new QTimer(this);
@@ -31,6 +34,8 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
 
     connect(ui->pushButton_moreLow, &QPushButton::pressed, this, &CurrentButtonOne::buttonPressed_moreLow);
     connect(ui->pushButton_moreLow, &QPushButton::released, this, &CurrentButtonOne::buttonReleased_moreLow);
+
+    //tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsigned int current_uA)
 }
 
 CurrentButtonOne::~CurrentButtonOne()
@@ -83,8 +88,9 @@ timer_low->stop();
 
 void CurrentButtonOne::doIncrement()
 {
-++number;
-ui->label_currentValue->setText(QString("Value: %1").arg(number));
+++value;
+ui->label_currentValue->setText(QString("Value: %1").arg(value));
+emit getValue(QString::number(value));
 if(timerTimeout > 50)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
@@ -93,10 +99,11 @@ timer_high->start(timerTimeout);
 void CurrentButtonOne::doDecrement()
 
 {
-number--;
-if(number<=0)
-   number=0;
-ui->label_currentValue->setText(QString("Value: %1").arg(number));
+value--;
+if(value<=0)
+   value=0;
+ui->label_currentValue->setText(QString("Value: %1").arg(value));
+emit getValue(QString::number(value));
 if(timerTimeout > 50)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
@@ -104,9 +111,9 @@ timer_low->start(timerTimeout);
 
 void CurrentButtonOne::doMoreIncrement()
 {
-number=number+5;
-
-ui->label_currentValue->setText(QString("Value: %1").arg(number));
+value=value+5;
+ui->label_currentValue->setText(QString("Value: %1").arg(value));
+emit getValue(QString::number(value));
 if(timerTimeout > 50)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
@@ -115,10 +122,11 @@ timer_high->start(timerTimeout);
 void CurrentButtonOne::doMoreDecrement()
 
 {
-number=number-5;
-if(number<=0)
-   number=0;
-ui->label_currentValue->setText(QString("Value: %1").arg(number));
+value=value-5;
+if(value<=0)
+   value=0;
+ui->label_currentValue->setText(QString("Value: %1").arg(value));
+emit getValue(QString::number(value));
 if(timerTimeout > 50)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);

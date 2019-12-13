@@ -32,11 +32,15 @@ public slots:
     void doMoreIncrement();
     void doMoreDecrement();
 
+signals:
+    void getValue(QString);
+
 private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-    int number;
+     int value;
+     unsigned int channel_number = 1;
 };
 
 #endif // CURRENTBUTTONONE_H
