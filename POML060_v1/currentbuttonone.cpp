@@ -35,7 +35,7 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
     connect(ui->pushButton_moreLow, &QPushButton::pressed, this, &CurrentButtonOne::buttonPressed_moreLow);
     connect(ui->pushButton_moreLow, &QPushButton::released, this, &CurrentButtonOne::buttonReleased_moreLow);
 
-    //tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsigned int current_uA)
+
 }
 
 CurrentButtonOne::~CurrentButtonOne()

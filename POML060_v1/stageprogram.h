@@ -15,6 +15,18 @@ public:
     explicit stageProgram(QWidget *parent = nullptr);
     ~stageProgram();
 
+
+public slots:
+
+    void setCurrOnChannelOne(QString);
+    void setCurrOnChannelTwo(QString);
+    void setCurrOnChannelThree(QString);
+    void setCurrOnChannelFour(QString);
+    void setCurrOnChannelFive(QString);
+
+
+
+
 private:
     Ui::stageProgram *ui;
 };

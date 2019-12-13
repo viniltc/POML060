@@ -1,6 +1,9 @@
 #include "stageprogram.h"
 #include "ui_stageprogram.h"
-//#include "currentbuttonone.h"
+#include "currentbuttonone.h"
+#include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
+
 
 stageProgram::stageProgram(QWidget *parent) :
     QMainWindow(parent),
@@ -8,10 +11,39 @@ stageProgram::stageProgram(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->widget, &CurrentButtonOne::getValue, ui->label_currentOne, &QLabel::setText);
+    connect(ui->widget, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
 }
 
 stageProgram::~stageProgram()
 {
     delete ui;
+}
+
+
+void stageProgram::setCurrOnChannelOne(QString value)
+{
+    ui->label_currentOne->setText(value);
+    unsigned int channel_number = 1;
+    unsigned int current_uA = value.toUInt();
+    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+}
+
+void stageProgram::setCurrOnChannelTwo(QString value)
+{
+
+}
+
+void stageProgram::setCurrOnChannelThree(QString value)
+{
+
+}
+
+void stageProgram::setCurrOnChannelFour(QString value)
+{
+
+}
+
+void stageProgram::setCurrOnChannelFive(QString value)
+{
+
 }
