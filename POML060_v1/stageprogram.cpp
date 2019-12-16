@@ -24,7 +24,7 @@ stageProgram::stageProgram(QWidget *parent) :
     ui->widget_currentFour->setEnabled(false);
     ui->widget_currentFive->setEnabled(false);
 
-    connect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::eventHandler);
+    connect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
 
     connect(ui->widget_currentOne, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
     connect(ui->widget_currentTwo, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelTwo);
@@ -95,7 +95,7 @@ void stageProgram::on_pushButton_stimStop_clicked()
     tetra_grip_api::stimulation_pause(true);
 }
 
-void stageProgram::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
 {
     if (topic==TOPIC_STIMULATOR)
     {

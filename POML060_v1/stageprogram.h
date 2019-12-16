@@ -26,7 +26,7 @@ public slots:
     void setCurrOnChannelThree(QString);
     void setCurrOnChannelFour(QString);
     void setCurrOnChannelFive(QString);
-    void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+    void stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 
 
 
