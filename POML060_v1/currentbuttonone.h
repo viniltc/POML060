@@ -34,6 +34,7 @@ public slots:
 
 signals:
     void getValue(QString);
+    void zeroCurrent(QString);
 
 private:
     Ui::CurrentButtonOne *ui;

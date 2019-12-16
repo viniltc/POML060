@@ -713,6 +713,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessStimShortBlock(STIM_GUI_MESSAGE_S_BL
                 break;
             case STIM_REG_ACTIVITY_STATUS:
                 DEBUG_Print("Activity: %s.\n", *data ? "running":"stopped");
+                tetra_grip_reporter(TOPIC_STIMULATOR, STIM_REG_ACTIVITY_STATUS, *data);
                 bytes_used=1;
                 break;
             case STIM_REG_ACTIVITY_TIME_RUNNING_MS:
