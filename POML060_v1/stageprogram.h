@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "tetra_grip_api.h"
 #include <QDebug>
+#include "programkeygrip.h"
 
 namespace Ui {
 class stageProgram;
@@ -17,6 +18,7 @@ public:
     explicit stageProgram(QWidget *parent = nullptr);
     ~stageProgram();
      bool clickedCurrOne = false;
+     ProgramKeyGrip *keygrip;
 
 
 public slots:
@@ -28,7 +30,7 @@ public slots:
     void setCurrOnChannelFive(QString);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 
-//test git
+
 
 
 
@@ -36,6 +38,9 @@ private slots:
     void on_pushButton_stimStart_clicked();
 
     void on_pushButton_stimStop_clicked();
+
+
+    void on_pushButton_programKeyGrip_clicked();
 
 private:
     Ui::stageProgram *ui;

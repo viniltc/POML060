@@ -41,7 +41,7 @@ QTabBar::tab:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1175,54 +1175,7 @@ QPushButton:disabled {
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <widget class="QPushButton" name="pushButton">
-              <property name="styleSheet">
-               <string notr="true">QPushButton:hover{
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
-                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
-}
-
-QPushButton {
-        border: 1px solid #6593cf;
-        border-radius: 2px;
-        padding: 5px 15px 2px 5px;
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
-                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
-        color: #0000;
-        font:  large &quot;Arial&quot;;
-		font-size: 14px;
-        height: 30px;
-}
-
-
-
-
-QPushButton:pressed {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
-        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-
-}
-QPushButton:on {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
-        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-}
-
-QPushButton:disabled {
-        background: transparent #e5e9ee;
-        padding-top: 2px;        
-        padding-left: 3px;
-        color: black;
-}</string>
-              </property>
-              <property name="text">
-               <string>Palmar Grasp</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="pushButton_programKeyGrip">
               <property name="styleSheet">
                <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
@@ -1269,6 +1222,53 @@ QPushButton:disabled {
                <string>Key Grip</string>
               </property>
              </widget>
+             <widget class="QPushButton" name="pushButton_programPalmerGrasp">
+              <property name="styleSheet">
+               <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 15px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 14px;
+        height: 30px;
+}
+
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 2px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+              </property>
+              <property name="text">
+               <string>Palmer Grasp</string>
+              </property>
+             </widget>
             </widget>
            </item>
           </layout>
@@ -1285,7 +1285,7 @@ QPushButton:disabled {
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="pushButton_programOpenHand">
               <property name="styleSheet">
                <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
@@ -1332,7 +1332,7 @@ QPushButton:disabled {
                <string>Open Hand</string>
               </property>
              </widget>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="pushButton_programSwitchGrasp">
               <property name="styleSheet">
                <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
