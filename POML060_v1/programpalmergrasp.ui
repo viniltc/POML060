@@ -325,7 +325,7 @@ height: 10px;
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>30</y>
+      <y>20</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -380,9 +380,9 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>79</y>
+      <y>59</y>
       <width>481</width>
-      <height>251</height>
+      <height>271</height>
      </rect>
     </property>
     <property name="title">

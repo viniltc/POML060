@@ -66,9 +66,14 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
     painter1.drawPoint(p22);
     painter1.drawPoint(p23);
     painter1.drawPoint(p24);
-//    painter1.setPen(limitpen);
-//    painter1.drawLine(limitUp1, limitUp2);
-//    painter1.drawLine(limitDown1, limitDown2);
+
+    painter1.setPen(limitpen);
+    painter1.drawLine(handOpen1, handOpen2);
+    painter1.drawLine(fingerFlexion1, fingerFlexion2);
+    painter1.drawLine(thumbAdduct1, thumbAdduct2);
+    painter1.drawLine(handOpen11, handOpen22);
+    painter1.drawLine(handOpen111, handOpen222);
+
     painter1.setPen(linepen3);
     painter1.drawLine(p31,p32);
     painter1.drawLine(p32,p33);

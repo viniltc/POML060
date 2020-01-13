@@ -70,10 +70,17 @@ private:
 
 
 
-     QPoint limitUp1 = QPoint(100,150);
-     QPoint limitUp2 = QPoint(200,150);
-     QPoint limitDown1 = QPoint(100,250);
-     QPoint limitDown2 = QPoint(200,250);
+     QPoint handOpen1 =    QPoint(150,300);
+     QPoint handOpen2 =    QPoint(150,100);
+     QPoint fingerFlexion1 =  QPoint(230,300);
+     QPoint fingerFlexion2 =  QPoint(230,100);
+     QPoint thumbAdduct1 = QPoint(300,300);
+     QPoint thumbAdduct2 = QPoint(300,100);
+     QPoint handOpen11 = QPoint(450,300);
+     QPoint handOpen22 = QPoint(450,100);
+     QPoint handOpen111 = QPoint(550,300);
+     QPoint handOpen222 = QPoint(550,100);
+
          QPoint *CurPoint1=nullptr;
          QPoint *CurPoint2=nullptr;
          QPoint *CurPoint3=nullptr;
