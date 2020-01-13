@@ -124,6 +124,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, u
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
    this->close();
-   keygrip = new ProgramKeyGrip();
-   keygrip -> show();
+//   keygrip = new ProgramKeyGrip();
+//   keygrip -> show();
+   keygripv2 = new ProgramKeyGripV2();
+   keygripv2 -> show();
 }

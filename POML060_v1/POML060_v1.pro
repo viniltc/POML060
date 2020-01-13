@@ -23,7 +23,7 @@ SOURCES += \
     Stim_includes/stim_gui_protocol_tx.c \
     currentbuttonone.cpp \
     main.cpp \
-    programkeygrip.cpp \
+    programkeygripv2.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwopatients.cpp \
@@ -46,7 +46,7 @@ HEADERS += \
     Stim_includes/system_definitions.h \
     Stim_includes/uart.h \
     currentbuttonone.h \
-    programkeygrip.h \
+    programkeygripv2.h \
     stageonemain.h \
     stageprogram.h \
     stagetwopatients.h \
@@ -56,7 +56,7 @@ HEADERS += \
 
 FORMS += \
     currentbuttonone.ui \
-    programkeygrip.ui \
+    programkeygripv2.ui \
     stageonemain.ui \
     stageprogram.ui \
     stagetwopatients.ui
