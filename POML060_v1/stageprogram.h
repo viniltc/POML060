@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include "tetra_grip_api.h"
 #include <QDebug>
-//#include "programkeygrip.h"
 #include "programkeygripv2.h"
+#include "programpalmergrasp.h"
 
 namespace Ui {
 class stageProgram;
@@ -21,6 +21,7 @@ public:
      bool clickedCurrOne = false;
     // ProgramKeyGrip *keygrip;
      ProgramKeyGripV2 *keygripv2;
+     ProgramPalmerGrasp *palmergrasp;
 
 
 public slots:
@@ -43,6 +44,8 @@ private slots:
 
 
     void on_pushButton_programKeyGrip_clicked();
+
+    void on_pushButton_programPalmerGrasp_clicked();
 
 private:
     Ui::stageProgram *ui;

@@ -1,6 +1,5 @@
-#ifndef PROGRAMKEYGRIPV2_H
-#define PROGRAMKEYGRIPV2_H
-
+#ifndef PROGRAMPALMERGRASP_H
+#define PROGRAMPALMERGRASP_H
 #include <QMainWindow>
 #include<QDialog>
 #include <QPainter>
@@ -8,16 +7,16 @@
 #include <QDebug>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class ProgramKeyGripV2; }
+namespace Ui { class ProgramPalmerGrasp; }
 QT_END_NAMESPACE
 
-class ProgramKeyGripV2 : public QMainWindow
+class ProgramPalmerGrasp : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    ProgramKeyGripV2(QWidget *parent = nullptr);
-    ~ProgramKeyGripV2();
+    ProgramPalmerGrasp(QWidget *parent = nullptr);
+    ~ProgramPalmerGrasp();
     void paintEvent(QPaintEvent *e);
 
     int distance(QPoint, QPoint);
@@ -35,12 +34,13 @@ signals:
 
 
 private:
-    Ui::ProgramKeyGripV2 *ui;
+    Ui::ProgramPalmerGrasp *ui;
      bool dragging1 = false; // status var to see if we are dragging
      bool dragging2 = false;
      bool dragging3 = false;
      bool dragging4 = false;
      bool dragging5 = false;
+     bool dragging6 = false;
 
      QPoint p41 = QPoint(150,300);
      QPoint p42 = QPoint(170,250);
@@ -68,12 +68,18 @@ private:
      QPoint p23 = QPoint(450,240);
      QPoint p24 = QPoint(470,300);
 
+     QPoint p51 = QPoint(150,300);
+     QPoint p52 = QPoint(170,260);
+     QPoint p53 = QPoint(550,260);
+     QPoint p54 = QPoint(570,300);
+
 
 
      QPoint limitUp1 = QPoint(100,150);
      QPoint limitUp2 = QPoint(200,150);
      QPoint limitDown1 = QPoint(100,250);
      QPoint limitDown2 = QPoint(200,250);
+
          QPoint *CurPoint1=nullptr;
          QPoint *CurPoint2=nullptr;
          QPoint *CurPoint3=nullptr;
@@ -84,6 +90,7 @@ private:
          bool checked3;
          bool checked4;
          bool checked5;
+         bool checked6;
 
 
 protected:
@@ -91,9 +98,9 @@ protected:
          void mousePressEvent(QMouseEvent *event) ;
          void mouseReleaseEvent(QMouseEvent *event) ;
          void mouseMoveEvent(QMouseEvent *event) ;
-private slots:
 
-         void on_pushButton_back_keypro_clicked();
+private slots:
+         void on_pushButton_clicked();
 };
 
-#endif // PROGRAMKEYGRIPV2_H
+#endif // PROGRAMPALMERGRASP_H

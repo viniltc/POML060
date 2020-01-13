@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProgramKeyGripV2</class>
- <widget class="QMainWindow" name="ProgramKeyGripV2">
+ <class>ProgramPalmerGrasp</class>
+ <widget class="QMainWindow" name="ProgramPalmerGrasp">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,6 +14,101 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_three">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>460</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_two">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>480</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_five">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>460</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_one">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>460</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_four">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>480</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <widget class="QRadioButton" name="radioButton_four">
     <property name="geometry">
      <rect>
@@ -56,10 +151,53 @@ height: 10px;
      <string>Segment 1</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioButton_three">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>400</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+
+color: black;
+}
+
+QRadioButton::indicator {
+width: 11px;
+height: 11px;
+border-radius: 5px;
+}
+
+QRadioButton::indicator::unchecked{ 
+border: 2px solid; 
+border-color: blue;
+border-radius: 7px;
+background-color: white; 
+width: 10px; 
+height: 10px; 
+}
+
+QRadioButton::indicator::checked{ 
+border: 2px solid; 
+border-color: blue;
+border-radius: 7px;
+background-color: black; 
+width: 10px; 
+height: 10px; 
+}</string>
+    </property>
+    <property name="text">
+     <string>Segment 4</string>
+    </property>
+   </widget>
    <widget class="QRadioButton" name="radioButton_one">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>300</x>
       <y>340</y>
       <width>171</width>
       <height>17</height>
@@ -101,7 +239,7 @@ height: 10px;
    <widget class="QRadioButton" name="radioButton_two">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>300</x>
       <y>370</y>
       <width>161</width>
       <height>17</height>
@@ -138,49 +276,6 @@ height: 10px;
     </property>
     <property name="text">
      <string>Segment 3</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="radioButton_three">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>400</y>
-      <width>141</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QRadioButton {
-
-color: black;
-}
-
-QRadioButton::indicator {
-width: 11px;
-height: 11px;
-border-radius: 5px;
-}
-
-QRadioButton::indicator::unchecked{ 
-border: 2px solid; 
-border-color: blue;
-border-radius: 7px;
-background-color: white; 
-width: 10px; 
-height: 10px; 
-}
-
-QRadioButton::indicator::checked{ 
-border: 2px solid; 
-border-color: blue;
-border-radius: 7px;
-background-color: black; 
-width: 10px; 
-height: 10px; 
-}</string>
-    </property>
-    <property name="text">
-     <string>Segment 4</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_five">
@@ -226,107 +321,12 @@ height: 10px;
      <string>Segment 5</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_one">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>430</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_two">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>450</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_three">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>430</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_four">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>450</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_five">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>430</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_back_keypro">
+   <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
       <x>580</x>
       <y>30</y>
-      <width>101</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -373,7 +373,7 @@ QPushButton:disabled {
 }</string>
     </property>
     <property name="text">
-     <string> Back to Program</string>
+     <string>Back to Program</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -386,7 +386,7 @@ QPushButton:disabled {
      </rect>
     </property>
     <property name="title">
-     <string>Intensity level specific to Key grip program</string>
+     <string>Intensity level specific to Palmer Grasp program</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -425,13 +425,75 @@ QPushButton:disabled {
      </font>
     </property>
     <property name="text">
-     <string>Key Grip</string>
+     <string>Palmer Grasp</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_six">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>430</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+
+color: black;
+}
+
+QRadioButton::indicator {
+width: 11px;
+height: 11px;
+border-radius: 5px;
+}
+
+QRadioButton::indicator::unchecked{ 
+border: 2px solid; 
+border-color: gray;
+border-radius: 7px;
+background-color: white; 
+width: 10px; 
+height: 10px; 
+}
+
+QRadioButton::indicator::checked{ 
+border: 2px solid; 
+border-color: gray;
+border-radius: 7px;
+background-color: black; 
+width: 10px; 
+height: 10px; 
+}</string>
+    </property>
+    <property name="text">
+     <string>Segment 4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_six">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>210</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_stimStart">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>200</x>
       <y>500</y>
       <width>111</width>
       <height>41</height>
@@ -490,7 +552,7 @@ QPushButton:disabled {
    <widget class="QPushButton" name="pushButton_stimStop">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>340</x>
       <y>500</y>
       <width>91</width>
       <height>41</height>

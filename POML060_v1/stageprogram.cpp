@@ -123,9 +123,14 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, u
 
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
-   this->close();
-//   keygrip = new ProgramKeyGrip();
-//   keygrip -> show();
+   this->hide();
    keygripv2 = new ProgramKeyGripV2();
    keygripv2 -> show();
+}
+
+void stageProgram::on_pushButton_programPalmerGrasp_clicked()
+{
+    this->hide();
+    palmergrasp = new ProgramPalmerGrasp();
+    palmergrasp->show();
 }

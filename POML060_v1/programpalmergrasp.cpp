@@ -1,10 +1,10 @@
-#include "programkeygripv2.h"
-#include "ui_programkeygripv2.h"
+#include "programpalmergrasp.h"
+#include "ui_programpalmergrasp.h"
 #include "stageprogram.h"
 
-ProgramKeyGripV2::ProgramKeyGripV2(QWidget *parent)
+ProgramPalmerGrasp::ProgramPalmerGrasp(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::ProgramKeyGripV2)
+    , ui(new Ui::ProgramPalmerGrasp)
 {
     ui->setupUi(this);
 
@@ -16,19 +16,19 @@ ProgramKeyGripV2::ProgramKeyGripV2(QWidget *parent)
 //     ui->label_five->setText(QString::number(p45.y()));
  //ui->label_dragimg->setGeometry(360,60,31,21);
 }
-ProgramKeyGripV2::~ProgramKeyGripV2()
+ProgramPalmerGrasp::~ProgramPalmerGrasp()
 {
     delete ui;
 }
 
 // small helper to give us the distance
-int ProgramKeyGripV2::distance(QPoint x1, QPoint x2)
+int ProgramPalmerGrasp::distance(QPoint x1, QPoint x2)
 {
     return abs(x2.y() - x1.y());
 }
 
 
-void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
+void ProgramPalmerGrasp::paintEvent(QPaintEvent *e)
 {
     QPainter painter1(this);
 
@@ -44,6 +44,8 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
     linepen3.setWidth(2);
     QPen linepen4(Qt::darkGreen);
     linepen4.setWidth(2);
+    QPen linepen5(Qt::darkGray);
+    linepen5.setWidth(2);
 
 
     painter1.setPen(linepen1);
@@ -97,20 +99,30 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
     painter1.drawPoint(p47);
     painter1.drawPoint(p48);
 
+    painter1.setPen(linepen5);
+    painter1.drawLine(p51,p52);
+    painter1.drawLine(p52,p53);
+    painter1.drawLine(p53,p54);
+    painter1.setPen(pointpen);
+    painter1.drawPoint(p51);
+    painter1.drawPoint(p52);
+    painter1.drawPoint(p53);
+    painter1.drawPoint(p54);
+
 
 
     qDebug()<<"Values of p1.y and p2.y:"<<p12.y()<<"and"<<p22.y();
 }
 
 // when user clicks
-void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
+void ProgramPalmerGrasp::mousePressEvent(QMouseEvent *event)
 {
     checked1 = ui->radioButton_one->isChecked();
     checked2 = ui->radioButton_two->isChecked();
     checked3 = ui->radioButton_three->isChecked();
     checked4 = ui->radioButton_four->isChecked();
     checked5 = ui->radioButton_five->isChecked();
-
+    checked6 = ui->radioButton_six->isChecked();
 
    QPoint mp = event->pos(); // where is mouse
 
@@ -150,19 +162,27 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        CurPoint2 = &p47;
 
    }
+
+   else if (distance ( mp, p52) < 20 && ( mp.x() > p52.x() && mp.x() < p53.x() ) && checked6) {
+       dragging6 = true;
+       CurPoint1 = &p52;
+       CurPoint2 = &p53;
+
+   }
 }
 
-void ProgramKeyGripV2::mouseReleaseEvent(QMouseEvent *event)
+void ProgramPalmerGrasp::mouseReleaseEvent(QMouseEvent *event)
 {
     dragging1 = false; // if user release mouse we are not draggign anymore
     dragging2 = false;
     dragging3 = false;
     dragging4 = false;
     dragging5 = false;
+    dragging6 = false;
 }
 
 // then when mouse move
-void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
+void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
 {
    // If we are dragging, call your normal slider changed function to update your points.
 
@@ -227,42 +247,24 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       ui->label_five->setText(QString::number(CurPoint1->y()));
       }
     }
+    else if(dragging6 && checked6)
+    {
+      if(event->y() > 220 && event->y() < 280){
+        changeP1value(event->y());
+       }
+
+      if(checked6){
+      ui->radioButton_six->setText("Segment 2 Val:"+QString::number(CurPoint1->y()));
+      ui->label_six->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_six->setText(QString::number(CurPoint1->y()));
+      }
+    }
     else
        update();
 
-
-//         if(checked1){
-//         ui->radioButton_one->setText("Segment 3 Value:"+QString::number(CurPoint1->y()+100));
-//         ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_one->setText(QString::number(CurPoint1->y()));
-//         ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt(),31,21);
-//         }
-//         else if(checked2){
-//         ui->radioButton_two->setText("Segment 4 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_two->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked3){
-//         ui->radioButton_three->setText("Segment 5 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_three->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked4){
-//         ui->radioButton_four->setText("Segment 1 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt()+60,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_four->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked5){
-//         ui->radioButton_five->setText("Segment 2 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_five->setText(QString::number(CurPoint1->y()));
-//         }
-
-
-
 }
 
-void ProgramKeyGripV2::changeP1value(int value)
+void ProgramPalmerGrasp::changeP1value(int value)
 {
 
     CurPoint1->setY(value);
@@ -273,7 +275,7 @@ void ProgramKeyGripV2::changeP1value(int value)
 
 }
 
-void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
+void ProgramPalmerGrasp::on_pushButton_clicked()
 {
     stageProgram *backprogram;
     this->close();
