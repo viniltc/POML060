@@ -181,7 +181,7 @@ void StageTwoPatients::on_pushButton_Remove_clicked()
 
 }
 
-void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {
     if (topic==TOPIC_STIMULATOR)
     {

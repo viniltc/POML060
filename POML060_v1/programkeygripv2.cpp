@@ -2,12 +2,14 @@
 #include "ui_programkeygripv2.h"
 #include "stageprogram.h"
 
-ProgramKeyGripV2::ProgramKeyGripV2(QWidget *parent)
+ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ProgramKeyGripV2)
 {
     ui->setupUi(this);
-
+    ui->label_pLabel->setText(patientLabel);
+    ui->label_pLabel->setAlignment(Qt::AlignCenter);
+    ui->label_pLabel->setStyleSheet("color: blue;");
 
 //     ui->label_one->setText(QString::number(p12.y()));
 //     ui->label_two->setText(QString::number(p22.y()));
@@ -178,7 +180,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
          changeP1value(event->y());
        }
         if(checked1){
-           ui->radioButton_one->setText("Segment 3 Val:"+QString::number(CurPoint1->y()+100));
+           ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()+100));
            ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
            ui->label_one->setText(QString::number(CurPoint1->y()));
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
@@ -191,7 +193,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(checked2){
-      ui->radioButton_two->setText("Segment 4 Val:"+QString::number(CurPoint1->y()));
+      ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
       ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_two->setText(QString::number(CurPoint1->y()));
       }
@@ -203,7 +205,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(checked3){
-      ui->radioButton_three->setText("Segment 5 Val:"+QString::number(CurPoint1->y()));
+      ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
       ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_three->setText(QString::number(CurPoint1->y()));
       }
@@ -215,7 +217,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(checked4){
-      ui->radioButton_four->setText("Segment 1 Val:"+QString::number(CurPoint1->y()));
+      ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_four->setText(QString::number(CurPoint1->y()));
       }
@@ -227,41 +229,13 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(checked5){
-      ui->radioButton_five->setText("Segment 2 Val:"+QString::number(CurPoint1->y()));
+      ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_five->setText(QString::number(CurPoint1->y()));
       }
     }
     else
        update();
-
-
-//         if(checked1){
-//         ui->radioButton_one->setText("Segment 3 Value:"+QString::number(CurPoint1->y()+100));
-//         ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_one->setText(QString::number(CurPoint1->y()));
-//         ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt(),31,21);
-//         }
-//         else if(checked2){
-//         ui->radioButton_two->setText("Segment 4 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_two->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked3){
-//         ui->radioButton_three->setText("Segment 5 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_three->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked4){
-//         ui->radioButton_four->setText("Segment 1 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt()+60,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_four->setText(QString::number(CurPoint1->y()));
-//         }
-//         else if(checked5){
-//         ui->radioButton_five->setText("Segment 2 Value:"+QString::number(CurPoint1->y()));
-//         ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-//         ui->label_five->setText(QString::number(CurPoint1->y()));
-//         }
 
 
 
@@ -282,6 +256,6 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
 {
     stageProgram *backprogram;
     this->close();
-    backprogram = new stageProgram(this);
+    backprogram = new stageProgram("",this);
     backprogram -> show();
 }

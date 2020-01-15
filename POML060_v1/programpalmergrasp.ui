@@ -148,7 +148,7 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 1</string>
+     <string>EDC+EPL</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_three">
@@ -191,7 +191,7 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 4</string>
+     <string>FPL or ADP</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_one">
@@ -233,7 +233,7 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 2 </string>
+     <string>FDS+FDP</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_two">
@@ -275,7 +275,7 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 3</string>
+     <string>Ulna nerve</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_five">
@@ -318,16 +318,16 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 5</string>
+     <string>EDC+EPL</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>20</y>
-      <width>91</width>
-      <height>31</height>
+      <x>570</x>
+      <y>500</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -344,7 +344,7 @@ QPushButton {
                 stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
         color: #0000;
         font:  large &quot;Arial&quot;;
-		font-size: 10px;
+		font-size: 12px;
         height: 30px;
 }
 
@@ -407,7 +407,7 @@ QPushButton:disabled {
      </font>
     </property>
     <property name="text">
-     <string>Functional Training: </string>
+     <string>Functional Program: </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -468,7 +468,7 @@ height: 10px;
 }</string>
     </property>
     <property name="text">
-     <string>Segment 4</string>
+     <string>AbPB</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_six">
@@ -602,6 +602,78 @@ QPushButton:disabled {
     </property>
     <property name="text">
      <string>Stop</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>100</y>
+      <width>47</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hand opening</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>100</y>
+      <width>47</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Finger flexion</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>100</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thumb opposes fingers</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>100</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Hand opening</string>
     </property>
    </widget>
   </widget>

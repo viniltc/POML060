@@ -44,7 +44,7 @@ private slots:
 
 public slots:
 
- void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+ void eventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
 
 
 private:

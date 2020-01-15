@@ -6,7 +6,7 @@
 #include<QDebug>
 
 
-stageProgram::stageProgram(QWidget *parent) :
+stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::stageProgram)
 {
@@ -24,6 +24,12 @@ stageProgram::stageProgram(QWidget *parent) :
     ui->widget_currentFour->setEnabled(false);
     ui->widget_currentFive->setEnabled(false);
 
+    ui->label_pLabel->setText(patientLabel);
+    ui->label_pLabel->setAlignment(Qt::AlignCenter);
+    ui->label_pLabel->setStyleSheet("color: blue;");
+
+    pLabel = patientLabel;
+
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
 
     connect(ui->widget_currentOne, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
@@ -37,6 +43,8 @@ stageProgram::stageProgram(QWidget *parent) :
     connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
+
+  tetra_grip_api::get_target_current_channel(0);
 }
 
 stageProgram::~stageProgram()
@@ -95,13 +103,13 @@ void stageProgram::on_pushButton_stimStop_clicked()
     tetra_grip_api::stimulation_pause(true);
 }
 
-void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {
     if (topic==TOPIC_STIMULATOR)
     {
         switch(reg)
         {
-        case STIM_REG_ACTIVITY_STATUS:
+        case STIM_REG_ACTIVITY_STATUS: //STIM_REG_ACTIVITY_OPTIONS
 
             if(value==true)
             {
@@ -116,7 +124,13 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, u
             break;
         }
     }
+  else if (topic==TOPIC_CHANNEL && index==0){
+        switch(reg){
+        case STIM_ENGINE_REG_TARGET_CURRENT:
 
+            ui->label_PW->setText(QString::number(value));
+        }
+    }
 }
 
 
@@ -124,13 +138,28 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, u
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
    this->hide();
-   keygripv2 = new ProgramKeyGripV2();
+   keygripv2 = new ProgramKeyGripV2("hello");
    keygripv2 -> show();
 }
 
 void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 {
     this->hide();
-    palmergrasp = new ProgramPalmerGrasp();
+    palmergrasp = new ProgramPalmerGrasp(this);
     palmergrasp->show();
+}
+
+void stageProgram::on_pushButton_programOpenHand_clicked()
+{
+    this->close();
+    openhand = new ProgramOpenHand();
+    openhand->show();
+}
+
+void stageProgram::on_pushButton_programSwitchGrasp_clicked()
+{
+    this->hide();
+    switchgrasp = new ProgramSwitchGrasp();
+    switchgrasp->show();
+
 }

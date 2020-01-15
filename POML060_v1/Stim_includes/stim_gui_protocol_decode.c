@@ -629,7 +629,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessStimShortBlock(STIM_GUI_MESSAGE_S_BL
                 break;
             case STIM_REG_BATTERY_CAPACITY_REMAINING:
                 print_battery_capacity(*data);
-                tetra_grip_reporter(TOPIC_STIMULATOR, STIM_REG_BATTERY_CAPACITY_REMAINING, *data);
+                tetra_grip_reporter(TOPIC_STIMULATOR,b->index, STIM_REG_BATTERY_CAPACITY_REMAINING, *data);
                 bytes_used=1;
                 break;
             case STIM_REG_BATTERY_MINUTES_REMAINING:
@@ -713,7 +713,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessStimShortBlock(STIM_GUI_MESSAGE_S_BL
                 break;
             case STIM_REG_ACTIVITY_STATUS:
                 DEBUG_Print("Activity: %s.\n", *data ? "running":"stopped");
-                tetra_grip_reporter(TOPIC_STIMULATOR, STIM_REG_ACTIVITY_STATUS, *data);
+                tetra_grip_reporter(TOPIC_STIMULATOR,b->index, STIM_REG_ACTIVITY_STATUS, *data);
                 bytes_used=1;
                 break;
             case STIM_REG_ACTIVITY_TIME_RUNNING_MS:
@@ -1030,6 +1030,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessChannelShortBlock(STIM_GUI_MESSAGE_S
                 break;
             case STIM_ENGINE_REG_SET_PULSE_WIDTH:
                 DEBUG_Print("Set PW: %dus\n", get_uint16(data));
+
                 break;
             case STIM_ENGINE_REG_PULSE_WIDTH_MODIFIER:
                 DEBUG_Print("PW modifier: %d\n", get_uint16(data));
@@ -1081,9 +1082,11 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessChannelShortBlock(STIM_GUI_MESSAGE_S
                 break;
             case STIM_ENGINE_REG_TARGET_PULSE_WIDTH:
                 DEBUG_Print("Target PW: %dus\n", get_uint16(data));
+                //tetra_grip_reporter(TOPIC_CHANNEL, STIM_ENGINE_REG_TARGET_PULSE_WIDTH, get_uint16(data));
                 break;
             case STIM_ENGINE_REG_TARGET_CURRENT:
-                DEBUG_Print("Target current: %.1fmA\n", get_uint16(data)/100.0);
+                DEBUG_Print("Target current for channel %d: %.1fmA\n", b->index, get_uint16(data)/100.0);
+                tetra_grip_reporter(TOPIC_CHANNEL,b->index, STIM_ENGINE_REG_TARGET_CURRENT, get_uint16(data));
                 break;
             case STIM_ENGINE_REG_TARGET_FREQUENCY:
                 DEBUG_Print("Target frequency %dHz.\n", *data);

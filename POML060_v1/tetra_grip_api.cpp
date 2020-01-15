@@ -349,8 +349,27 @@ void tetra_grip_api::get_battery_percentage(void)
     }
 }
 
-
-void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+void tetra_grip_api::get_target_current_channel(uint8_t channel)
 {
-    emit api.tetraGripEvent(topic, reg, value);
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=READ_COMMAND;
+    block.topic=TOPIC_CHANNEL;
+    block.index=channel;
+    block.reg_address= STIM_ENGINE_REG_TARGET_PULSE_WIDTH;
+    block.data_length=1;
+    block.data=nullptr;
+    if(!send_short_block(&block))
+    {
+        printf("Failed to send the read command for the status register.\n");
+    }
+}
+
+
+
+
+
+void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
+{
+    emit api.tetraGripEvent(topic, index, reg, value);
 }

@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);
 
 #ifdef __cplusplus
 }

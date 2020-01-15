@@ -20,7 +20,7 @@ public:
 
 public slots:
 
-    void eventHandlerTwo(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+    void eventHandlerTwo(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);
 
     void on_pushButton_Open_clicked();
 

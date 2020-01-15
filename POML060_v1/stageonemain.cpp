@@ -8,7 +8,7 @@
 #include "tetra_grip_reader.h"
 
 
-StageOneMain::StageOneMain( QString patientLabel, QWidget *parent) : QMainWindow(parent)
+StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
 //  StageOneMain::StageOneMain( tetra_grip_api *api, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
 {
@@ -86,13 +86,13 @@ void StageOneMain::on_pushButton_programs_clicked()
 {
 
     hide();
-    stageprogram = new stageProgram(this);
+    stageprogram = new stageProgram(pLabel, this);
     stageprogram -> show();
 
 
 }
 
-void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
 {
 
     if (topic==TOPIC_STIMULATOR)

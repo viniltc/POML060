@@ -24,7 +24,9 @@ SOURCES += \
     currentbuttonone.cpp \
     main.cpp \
     programkeygripv2.cpp \
+    programopenhand.cpp \
     programpalmergrasp.cpp \
+    programswitchgrasp.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwopatients.cpp \
@@ -48,7 +50,9 @@ HEADERS += \
     Stim_includes/uart.h \
     currentbuttonone.h \
     programkeygripv2.h \
+    programopenhand.h \
     programpalmergrasp.h \
+    programswitchgrasp.h \
     stageonemain.h \
     stageprogram.h \
     stagetwopatients.h \
@@ -59,7 +63,9 @@ HEADERS += \
 FORMS += \
     currentbuttonone.ui \
     programkeygripv2.ui \
+    programopenhand.ui \
     programpalmergrasp.ui \
+    programswitchgrasp.ui \
     stageonemain.ui \
     stageprogram.ui \
     stagetwopatients.ui

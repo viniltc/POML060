@@ -10,6 +10,7 @@
 #include "Stim_includes/debug.h"
 #include "Stim_includes/sensor_message_format.h"
 #include "Stim_includes/stim_gui_protocol_decode.h"
+#include "Stim_includes/stim_engine.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -32,6 +33,7 @@ public:
 
     #define MAX_CONFIG_FILE_LENGTH (10000)
 
+
      void static send_config_file(QByteArray config, bool nonvolatile);
      void static send_long_register(uint8_t, uint32_t, uint8_t *);
      void static clear_stim_config(void);
@@ -42,6 +44,8 @@ public:
      void static read_stim_status_reg(void);
      void static get_battery_percentage(void);
      void static stimulation_set_current(unsigned int, unsigned int);
+     void static get_target_current_channel(uint8_t);
+
 
      QSerialPort *serial = nullptr;
 
@@ -52,7 +56,7 @@ signals:
 
      void successfullyConnectedTo(QString portName);
      void AutoconnectionIsSet(bool value);
-     void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+     void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);
      void deviceError(bool);
 
 

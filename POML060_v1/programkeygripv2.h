@@ -16,7 +16,7 @@ class ProgramKeyGripV2 : public QMainWindow
     Q_OBJECT
 
 public:
-    ProgramKeyGripV2(QWidget *parent = nullptr);
+    ProgramKeyGripV2(QString, QWidget *parent = nullptr);
     ~ProgramKeyGripV2();
     void paintEvent(QPaintEvent *e);
 
