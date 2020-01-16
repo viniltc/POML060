@@ -14,6 +14,7 @@ class ProgramSwitchGrasp : public QMainWindow
 public:
     explicit ProgramSwitchGrasp(QWidget *parent = nullptr);
     ~ProgramSwitchGrasp();
+        QString pLabel;
 
 private slots:
     void on_pushButton_back_keypro_clicked();

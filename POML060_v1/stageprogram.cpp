@@ -44,7 +44,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
 
-  tetra_grip_api::get_target_current_channel(0);
+ // tetra_grip_api::get_target_current_channel(0);
 }
 
 stageProgram::~stageProgram()
@@ -124,12 +124,27 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             break;
         }
     }
-  else if (topic==TOPIC_CHANNEL && index==0){
-        switch(reg){
-        case STIM_ENGINE_REG_TARGET_CURRENT:
-
-            ui->label_PW->setText(QString::number(value));
+   if (topic==TOPIC_CHANNEL && reg==STIM_ENGINE_REG_TARGET_CURRENT)
+   {
+        switch(index)
+        {
+        case 0: // channel 1
+            ui->label_curr_one->setText(QString::number(value));
+            break;
+        case 1:
+            ui->label_curr_two->setText(QString::number(value));
+            break;
+        case 2:
+            ui->label_curr_three->setText(QString::number(value));
+            break;
+        case 3:
+            ui->label_curr_four->setText(QString::number(value));
+            break;
+        case 4:
+            ui->label_curr_five->setText(QString::number(value));
+            break;
         }
+
     }
 }
 
@@ -138,14 +153,14 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
    this->hide();
-   keygripv2 = new ProgramKeyGripV2("hello");
+   keygripv2 = new ProgramKeyGripV2(pLabel);
    keygripv2 -> show();
 }
 
 void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 {
     this->hide();
-    palmergrasp = new ProgramPalmerGrasp(this);
+    palmergrasp = new ProgramPalmerGrasp(pLabel);
     palmergrasp->show();
 }
 

@@ -14,6 +14,7 @@ class ProgramOpenHand : public QMainWindow
 public:
     explicit ProgramOpenHand(QWidget *parent = nullptr);
     ~ProgramOpenHand();
+        QString pLabel;
 
 private slots:
     void on_pushButton_back_keypro_clicked();

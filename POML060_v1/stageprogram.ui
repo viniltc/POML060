@@ -623,17 +623,69 @@ QPushButton:checked {
          <string>TextLabel</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_PW">
+       <widget class="QLabel" name="label_curr_one">
         <property name="geometry">
          <rect>
-          <x>160</x>
+          <x>40</x>
           <y>320</y>
           <width>47</width>
           <height>13</height>
          </rect>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_curr_two">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>320</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_curr_three">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>320</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_curr_four">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>320</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_curr_five">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>320</y>
+          <width>47</width>
+          <height>13</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </widget>

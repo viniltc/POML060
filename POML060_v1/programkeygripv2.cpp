@@ -11,12 +11,9 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
 
-//     ui->label_one->setText(QString::number(p12.y()));
-//     ui->label_two->setText(QString::number(p22.y()));
-//     ui->label_three->setText(QString::number(p32.y()));
-//     ui->label_four->setText(QString::number(p42.y()));
-//     ui->label_five->setText(QString::number(p45.y()));
- //ui->label_dragimg->setGeometry(360,60,31,21);
+    pLabel = patientLabel;
+
+
 }
 ProgramKeyGripV2::~ProgramKeyGripV2()
 {
@@ -256,6 +253,6 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
 {
     stageProgram *backprogram;
     this->close();
-    backprogram = new stageProgram("",this);
+    backprogram = new stageProgram(pLabel,this);
     backprogram -> show();
 }

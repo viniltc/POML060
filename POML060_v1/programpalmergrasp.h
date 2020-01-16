@@ -15,11 +15,12 @@ class ProgramPalmerGrasp : public QMainWindow
     Q_OBJECT
 
 public:
-    ProgramPalmerGrasp(QWidget *parent = nullptr);
+    ProgramPalmerGrasp(QString, QWidget *parent = nullptr);
     ~ProgramPalmerGrasp();
     void paintEvent(QPaintEvent *e);
 
     int distance(QPoint, QPoint);
+        QString pLabel;
 
 
 

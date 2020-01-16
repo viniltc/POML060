@@ -21,6 +21,7 @@ public:
     void paintEvent(QPaintEvent *e);
 
     int distance(QPoint, QPoint);
+        QString pLabel;
 
 
 

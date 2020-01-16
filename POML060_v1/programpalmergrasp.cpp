@@ -2,7 +2,7 @@
 #include "ui_programpalmergrasp.h"
 #include "stageprogram.h"
 
-ProgramPalmerGrasp::ProgramPalmerGrasp(QWidget *parent)
+ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::ProgramPalmerGrasp)
 {
