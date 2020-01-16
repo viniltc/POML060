@@ -284,7 +284,7 @@ void tetra_grip_api::stimulation_pause(bool paused)
         printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
 }
 
-void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsigned int current_uA)
+void tetra_grip_api::stimulation_set_current(unsigned int channel_number, uint8_t current_uA)
 
 {
     STIM_GUI_MESSAGE_S_BLOCK_T block={}; // previously it was {0}

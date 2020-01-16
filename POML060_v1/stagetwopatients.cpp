@@ -50,7 +50,11 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     {
         parseDataEntry(qdi.next());
         //data.parseDataEntry(qdi.next());
+
+
     }
+
+
 
     tetra_grip_api::get_battery_percentage();
 
@@ -159,11 +163,22 @@ StageTwoPatients::~StageTwoPatients()
 void StageTwoPatients::on_pushButton_Open_clicked()
 {
     QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
-    qDebug()<<"\n The content is"<<selection[0].data().toString();
 
+ if(selection.empty())
+ {
+     QMessageBox::warning(this,"TetraGrip","Warning: Select a patient to start or add new patient"
+                          ,QMessageBox::Ok	,QMessageBox::NoButton);
+
+     return;
+ }
+
+ else {
     this-> close();
     StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
     newPatient-> show();
+ }
+
+
 }
 
 void StageTwoPatients::on_pushButton_New_clicked()

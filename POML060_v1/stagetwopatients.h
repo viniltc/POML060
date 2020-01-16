@@ -35,6 +35,7 @@ public slots:
 private:
     Ui::StageTwoPatients *ui;
 
+
 };
 
 #endif // STAGETWOPATIENTS_H

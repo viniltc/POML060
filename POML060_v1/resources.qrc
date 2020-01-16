@@ -11,5 +11,6 @@
         <file>resources/icons8-rfid-signal-100.png</file>
         <file>resources/config.txt</file>
         <file>resources/config_setup.txt</file>
+        <file>resources/alert.png</file>
     </qresource>
 </RCC>

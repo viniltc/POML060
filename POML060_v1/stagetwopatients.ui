@@ -140,6 +140,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QPushButton" name="pushButton_Open">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
@@ -390,7 +393,7 @@ QPushButton:disabled {
   <customwidget>
    <class>QLed</class>
    <extends>QWidget</extends>
-   <header location="global">qled.h</header>
+   <header>qled.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

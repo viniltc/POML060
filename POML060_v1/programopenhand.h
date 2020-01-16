@@ -12,7 +12,7 @@ class ProgramOpenHand : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ProgramOpenHand(QWidget *parent = nullptr);
+    explicit ProgramOpenHand(QString, QWidget *parent = nullptr);
     ~ProgramOpenHand();
         QString pLabel;
 

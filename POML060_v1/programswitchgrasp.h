@@ -12,7 +12,7 @@ class ProgramSwitchGrasp : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ProgramSwitchGrasp(QWidget *parent = nullptr);
+    explicit ProgramSwitchGrasp(QString, QWidget *parent = nullptr);
     ~ProgramSwitchGrasp();
         QString pLabel;
 

@@ -30,6 +30,7 @@ int ProgramKeyGripV2::distance(QPoint x1, QPoint x2)
 void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
 {
     QPainter painter1(this);
+    //this->setCursor(QCursor(Qt::WaitCursor));
 
     QPen pointpen(Qt::black, Qt::RoundJoin);
     pointpen.setWidth(5);
@@ -124,6 +125,8 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        dragging1 = true; // flag we are dragging
        CurPoint1 = &p12;
        CurPoint2 = &p13;
+
+      // this->setCursor(QCursor(Qt::DragMoveCursor));
 
      //  ui->radioButton_one->setText("Segment 1   Value:"+QString::number(event->y()));
 

@@ -2,7 +2,7 @@
 #include "ui_programswitchgrasp.h"
 #include "stageprogram.h"
 
-ProgramSwitchGrasp::ProgramSwitchGrasp(QWidget *parent) :
+ProgramSwitchGrasp::ProgramSwitchGrasp(QString patientLabel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ProgramSwitchGrasp)
 {

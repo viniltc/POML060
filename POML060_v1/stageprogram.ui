@@ -17,6 +17,9 @@
    <layout class="QGridLayout" name="gridLayout_4">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="font">
        <font>
         <pointsize>8</pointsize>
@@ -624,23 +627,29 @@ QPushButton:checked {
         </property>
        </widget>
        <widget class="QLabel" name="label_curr_one">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
         <property name="geometry">
          <rect>
-          <x>40</x>
-          <y>320</y>
-          <width>47</width>
-          <height>13</height>
+          <x>30</x>
+          <y>330</y>
+          <width>61</width>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
         </property>
        </widget>
        <widget class="QLabel" name="label_curr_two">
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>320</y>
+          <y>340</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -653,7 +662,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>220</x>
-          <y>320</y>
+          <y>330</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -666,7 +675,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>310</x>
-          <y>320</y>
+          <y>330</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -679,7 +688,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>400</x>
-          <y>320</y>
+          <y>340</y>
           <width>47</width>
           <height>13</height>
          </rect>
