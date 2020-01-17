@@ -134,7 +134,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         {
         case 0: // channel 1
             //emit targetCurrentValue(QString::number(value));
-            ui->label_curr_one->setText(QString::number(value));
+            //ui->label_curr_one->setText(QString::number(value));
+            ui->label_curr_one->setText(QString("%1").arg(value));
             if(value != currentOneSetVal/10)
             {
             ui->label_curr_one->setText("Value mismatch!");

@@ -33,14 +33,14 @@ public slots:
     void doMoreDecrement();
 
 signals:
-    void getValue(uint8_t);
-    void zeroCurrent(uint8_t);
+    void getValue(unsigned int);
+    void zeroCurrent(unsigned int);
 
 private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-     uint8_t value;
+     unsigned int value;
      unsigned int channel_number = 1;
 };
 

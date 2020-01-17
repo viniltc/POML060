@@ -632,8 +632,8 @@ QPushButton:checked {
         </property>
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>330</y>
+          <x>40</x>
+          <y>320</y>
           <width>61</width>
           <height>20</height>
          </rect>
@@ -649,7 +649,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>340</y>
+          <y>320</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -662,7 +662,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>220</x>
-          <y>330</y>
+          <y>320</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -675,7 +675,7 @@ QPushButton:checked {
         <property name="geometry">
          <rect>
           <x>310</x>
-          <y>330</y>
+          <y>320</y>
           <width>47</width>
           <height>13</height>
          </rect>
@@ -687,8 +687,8 @@ QPushButton:checked {
        <widget class="QLabel" name="label_curr_five">
         <property name="geometry">
          <rect>
-          <x>400</x>
-          <y>340</y>
+          <x>410</x>
+          <y>320</y>
           <width>47</width>
           <height>13</height>
          </rect>
