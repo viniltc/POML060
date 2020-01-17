@@ -42,4 +42,4 @@ int main(int argc, char *argv[])
         */
 
 //COM 5 : Vendor Identifier: 403 , Product Identifier: 6015
-//COM 6 : Vendor Identifier: 403 , Product Identifier: 6001
+//COM 6 : Vendor Identifier: 403 , Product Identifier: 6001 --> debug port

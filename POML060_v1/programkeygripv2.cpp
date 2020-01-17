@@ -126,7 +126,7 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        CurPoint1 = &p12;
        CurPoint2 = &p13;
 
-      // this->setCursor(QCursor(Qt::DragMoveCursor));
+      this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
      //  ui->radioButton_one->setText("Segment 1   Value:"+QString::number(event->y()));
 
@@ -136,11 +136,14 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        CurPoint1 = &p22;
        CurPoint2 = &p23;
 
+       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
+
    }
    else if (distance ( mp, p32) < 20 && ( mp.x() > p32.x() && mp.x() < p33.x() ) && checked3) {
        dragging3 = true;
        CurPoint1 = &p32;
        CurPoint2 = &p33;
+       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
@@ -148,6 +151,7 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        dragging4 = true;
        CurPoint1 = &p42;
        CurPoint2 = &p43;
+       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
@@ -155,6 +159,7 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        dragging5 = true;
        CurPoint1 = &p46;
        CurPoint2 = &p47;
+       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 }
@@ -166,6 +171,7 @@ void ProgramKeyGripV2::mouseReleaseEvent(QMouseEvent *event)
     dragging3 = false;
     dragging4 = false;
     dragging5 = false;
+    this->setCursor(QCursor(Qt::CursorShape::ArrowCursor));
 }
 
 // then when mouse move
@@ -258,4 +264,14 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
     this->close();
     backprogram = new stageProgram(pLabel,this);
     backprogram -> show();
+}
+
+void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
+{
+
+}
+
+void ProgramKeyGripV2::on_pushButton_nextPhase_clicked()
+{
+    ui->label_phaseNo->setText("");
 }

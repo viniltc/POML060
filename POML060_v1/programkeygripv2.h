@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
+#include "tetra_grip_api.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProgramKeyGripV2; }
@@ -28,6 +29,7 @@ public:
 public slots:
 
         void changeP1value(int);
+        void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
 
 signals:
 
@@ -102,6 +104,7 @@ protected:
 private slots:
 
          void on_pushButton_back_keypro_clicked();
+         void on_pushButton_nextPhase_clicked();
 };
 
 #endif // PROGRAMKEYGRIPV2_H

@@ -205,7 +205,6 @@ void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t 
 
 {
 
-
     STIM_GUI_MESSAGE_L_BLOCK_T block={};
 
     if(!data)
@@ -364,9 +363,6 @@ void tetra_grip_api::get_target_current_channel(uint8_t channel)
         printf("Failed to send the read command for the status register.\n");
     }
 }
-
-
-
 
 
 void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
