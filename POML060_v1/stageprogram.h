@@ -36,11 +36,11 @@ public slots:
 //    void setCurrOnChannelThree(QString);
 //    void setCurrOnChannelFour(QString);
 //    void setCurrOnChannelFive(QString);
-    void setCurrOnChannelOne(uint8_t);
-    void setCurrOnChannelTwo(uint8_t);
-    void setCurrOnChannelThree(uint8_t);
-    void setCurrOnChannelFour(uint8_t);
-    void setCurrOnChannelFive(uint8_t);
+    void setCurrOnChannelOne(unsigned int current_uA);
+    void setCurrOnChannelTwo(unsigned int current_uA);
+    void setCurrOnChannelThree(unsigned int current_uA);
+    void setCurrOnChannelFour(unsigned int current_uA);
+    void setCurrOnChannelFive(unsigned int current_uA);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
    // void stimTargetPulseWidthEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 

@@ -55,44 +55,38 @@ stageProgram::~stageProgram()
 }
 
 
-void stageProgram::setCurrOnChannelOne(uint8_t value)
+void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
     unsigned int channel_number = 0;
-   // unsigned int current_uA=value.toUInt();
-    uint8_t current_uA = value;
     currentOneSetVal = current_uA;
     tetra_grip_api::stimulation_set_current(channel_number, current_uA);
 
 }
 
-void stageProgram::setCurrOnChannelTwo(uint8_t value)
+void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
 {
     unsigned int channel_number = 1;
-   uint8_t current_uA = value;
     currentTwoSetVal = current_uA;
     tetra_grip_api::stimulation_set_current(channel_number, current_uA);
 }
 
-void stageProgram::setCurrOnChannelThree(uint8_t value)
+void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
 {
     unsigned int channel_number = 2;
-   uint8_t current_uA = value;
     currentThreeSetVal = current_uA;
     tetra_grip_api::stimulation_set_current(channel_number, current_uA);
 }
 
-void stageProgram::setCurrOnChannelFour(uint8_t value)
+void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
 {
     unsigned int channel_number = 3;
-   uint8_t current_uA = value;
     currentFourSetVal = current_uA;
     tetra_grip_api::stimulation_set_current(channel_number, current_uA);
 }
 
-void stageProgram::setCurrOnChannelFive(uint8_t value)
+void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 {
     unsigned int channel_number = 4;
-    uint8_t current_uA = value;
     currentFiveSetVal = current_uA;
     tetra_grip_api::stimulation_set_current(channel_number, current_uA);
 }

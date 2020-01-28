@@ -98,7 +98,7 @@ ui->label_currentValue->setText(QString("%1").arg(value));
 emit getValue(value);
 emit zeroCurrent(0);
 
-if(timerTimeout > 50)
+if(timerTimeout > 100)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
 }
@@ -113,19 +113,19 @@ ui->label_currentValue->setText(QString("%1").arg(value));
 //emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 50)
+if(timerTimeout > 100)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
 }
 
 void CurrentButtonOne::doMoreIncrement()
 {
-value=value+5;
+value=value+500;
 ui->label_currentValue->setText(QString("%1").arg(value));
 //emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 50)
+if(timerTimeout > 100)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
 }
@@ -133,14 +133,14 @@ timer_high->start(timerTimeout);
 void CurrentButtonOne::doMoreDecrement()
 
 {
-value=value-5;
+value=value-500;
 if(value<=0)
    value=0;
 ui->label_currentValue->setText(QString("%1").arg(value));
 //emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 50)
+if(timerTimeout > 100)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
 }

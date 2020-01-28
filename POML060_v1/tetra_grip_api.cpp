@@ -287,7 +287,6 @@ void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsign
 
 {
     STIM_GUI_MESSAGE_S_BLOCK_T block={}; // previously it was {0}
-
     block.msg_type=WRITE_COMMAND;
     block.topic=TOPIC_CHANNEL;
     block.index=channel_number;
@@ -297,6 +296,7 @@ void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsign
     data_array[1]=(current_uA/10) >> 8;
     data_array[0]=(current_uA/10) & 0xFF;
     block.data=&data_array[0];
+    qDebug() <<"\n current value:"<< current_uA << "MSB" << data_array[1] << "LSB" << data_array[0] << "\n";
     if(!send_short_block(&block))
         printf("Failed to set current at channel %d", channel_number);
 }
