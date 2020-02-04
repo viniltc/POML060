@@ -10,7 +10,7 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    value = 0;
+    //value = 0;
 
     ui->label_currentValue->setText(QString("%1").arg(value));
     ui->label_currentValue->setAlignment(Qt::AlignCenter);
@@ -92,13 +92,12 @@ timer_low->stop();
 
 void CurrentButtonOne::doIncrement()
 {
-++value;
+value=value+500;
 ui->label_currentValue->setText(QString("%1").arg(value));
-//emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
 
-if(timerTimeout > 100)
+if(timerTimeout > 500)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
 }
@@ -106,26 +105,25 @@ timer_high->start(timerTimeout);
 void CurrentButtonOne::doDecrement()
 
 {
-value--;
+value=value-500;
 if(value<=0)
    value=0;
 ui->label_currentValue->setText(QString("%1").arg(value));
-//emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 100)
+if(timerTimeout > 500)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
 }
 
 void CurrentButtonOne::doMoreIncrement()
 {
-value=value+500;
+value=value+5000;
 ui->label_currentValue->setText(QString("%1").arg(value));
 //emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 100)
+if(timerTimeout > 500)
 timerTimeout = timerTimeout / 2;
 timer_high->start(timerTimeout);
 }
@@ -133,14 +131,14 @@ timer_high->start(timerTimeout);
 void CurrentButtonOne::doMoreDecrement()
 
 {
-value=value-500;
+value=value-5000;
 if(value<=0)
    value=0;
 ui->label_currentValue->setText(QString("%1").arg(value));
 //emit getValue(QString::number(value));
 emit getValue(value);
 emit zeroCurrent(0);
-if(timerTimeout > 100)
+if(timerTimeout > 500)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
 }

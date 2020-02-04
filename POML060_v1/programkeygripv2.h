@@ -6,6 +6,8 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QButtonGroup>
+#include <QPushButton>
 #include "tetra_grip_api.h"
 
 QT_BEGIN_NAMESPACE
@@ -30,11 +32,15 @@ public slots:
 
         void changeP1value(int);
         void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
+        void nextBtn();
+        void prevBtn();
+        void paintBtn(int id);
 
 signals:
 
         void buttonOne(bool);
         void buttonTwo(bool);
+        void buttonChanged(int);
 
 
 private:
@@ -94,6 +100,9 @@ private:
          bool checked3;
          bool checked4;
          bool checked5;
+
+         int m_currentBtn = 0;
+         QButtonGroup *btnGrp = nullptr;
 
 
 protected:

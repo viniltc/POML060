@@ -13,6 +13,25 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
     pLabel = patientLabel;
 
+    btnGrp = new QButtonGroup(this);
+
+    btnGrp->addButton(ui->btn1, 1);
+    btnGrp->addButton(ui->btn2, 2);
+    btnGrp->addButton(ui->btn3, 3);
+    btnGrp->addButton(ui->btn4, 4);
+    ui->btn1->setText("1");
+    ui->btn2->setText("");
+    ui->btn3->setText("");
+    ui->btn4->setText("");
+
+   ui->btn1->setStyleSheet(""); // initial style (start with btn1)
+
+   m_currentBtn = 1;
+
+    connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::nextBtn);
+    connect(ui->btn_prevPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::prevBtn);
+    connect(this, &ProgramKeyGripV2::buttonChanged, this, &ProgramKeyGripV2::paintBtn);
+
 
 }
 ProgramKeyGripV2::~ProgramKeyGripV2()
@@ -265,6 +284,73 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
     backprogram = new stageProgram(pLabel,this);
     backprogram -> show();
 }
+
+void ProgramKeyGripV2::nextBtn()
+{
+    m_currentBtn++;
+    if(m_currentBtn > btnGrp->buttons().size())
+    {
+        m_currentBtn = 1;
+    }
+    emit buttonChanged(m_currentBtn);
+   // qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
+}
+
+void ProgramKeyGripV2::prevBtn()
+{
+    m_currentBtn--;
+     if(m_currentBtn < 1)
+     {
+         m_currentBtn = btnGrp->buttons().size();
+     }
+
+  emit buttonChanged(m_currentBtn);
+   //  qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
+}
+
+void ProgramKeyGripV2::paintBtn(int id)
+{
+
+    qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
+
+    switch(id)
+    {
+    case 1 :
+        ui->btn1->setText("1");
+       // btnGrp->button(id)->setText(QString::number(id));
+        ui->btn2->setText("");
+        ui->btn3->setText("");
+        ui->btn4->setText("");
+        break;
+    case 2 :
+         ui->btn2->setText("2");
+        // ui->btn2->setStyleSheet("background-color: rgb(150,0,0);");
+         ui->btn1->setText("");
+         ui->btn3->setText("");
+         ui->btn4->setText("");
+        break;
+
+    case 3 :
+        ui->btn3->setText("3");
+       // ui->btn3->setStyleSheet("background-color: rgb(150,0,0);");
+        ui->btn1->setText("");
+        ui->btn2->setText("");
+        ui->btn4->setText("");
+        break;
+    case 4 :
+        ui->btn4->setText("4");
+       // ui->btn4->setStyleSheet("background-color: rgb(150,0,0);");
+        ui->btn1->setText("");
+        ui->btn2->setText("");
+        ui->btn3->setText("");
+        break;
+
+    }
+
+
+}
+
+
 
 void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {

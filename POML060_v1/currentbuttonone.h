@@ -40,7 +40,7 @@ private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-     unsigned int value;
+      int value =0 ;
      unsigned int channel_number = 1;
 };
 

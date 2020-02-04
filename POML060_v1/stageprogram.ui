@@ -44,7 +44,7 @@ QTabBar::tab:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -175,7 +175,7 @@ QPushButton:disabled {
          <string>Start</string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset>
           <normaloff>:/resources/icons8-rfid-signal-100.png</normaloff>:/resources/icons8-rfid-signal-100.png</iconset>
         </property>
        </widget>
@@ -1175,7 +1175,7 @@ QPushButton:disabled {
          <string>Test Stim</string>
         </property>
         <property name="icon">
-         <iconset resource="resources.qrc">
+         <iconset>
           <normaloff>:/resources/icons8-rfid-signal-100.png</normaloff>:/resources/icons8-rfid-signal-100.png</iconset>
         </property>
        </widget>
@@ -1551,8 +1551,6 @@ QPushButton:disabled {
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

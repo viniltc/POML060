@@ -52,6 +52,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 stageProgram::~stageProgram()
 {
     delete ui;
+   // tetra_grip_api::stimulation_pause(true);
 }
 
 
@@ -149,7 +150,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         case 2:
             //emit targetCurrentValue(value);
             ui->label_curr_three->setText(QString::number(value));
-            if(value != currentThreeSetVal)
+            if(value != currentThreeSetVal/10)
             {
             ui->label_curr_three->setText("Value mismatch!");
             tetra_grip_api::stimulation_pause(true);
@@ -158,7 +159,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         case 3:
             //emit targetCurrentValue(value);
             ui->label_curr_four->setText(QString::number(value));
-            if(value != currentFourSetVal)
+            if(value != currentFourSetVal/10)
             {
             ui->label_curr_four->setText("Value mismatch!");
             tetra_grip_api::stimulation_pause(true);
@@ -167,7 +168,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         case 4:
            // emit targetCurrentValue(value);
             ui->label_curr_five->setText(QString::number(value));
-            if(value != currentFiveSetVal)
+            if(value != currentFiveSetVal/10)
             {
             ui->label_curr_five->setText("Value mismatch!");
             tetra_grip_api::stimulation_pause(true);

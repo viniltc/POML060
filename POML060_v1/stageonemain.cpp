@@ -65,6 +65,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 StageOneMain::~StageOneMain()
 {
     delete ui;
+    //tetra_grip_api::stimulation_pause(true);
 }
 
 
