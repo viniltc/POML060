@@ -1,6 +1,8 @@
 #include "programkeygripv2.h"
 #include "ui_programkeygripv2.h"
 #include "stageprogram.h"
+#include "tetra_grip_api.h"
+#include "tetra_grip_reader.h"
 
 ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     : QMainWindow(parent)
@@ -24,9 +26,13 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     ui->btn3->setText("");
     ui->btn4->setText("");
 
+   // ui->label_pwvalue->setText(QString("%1").arg(CurPoint1->y()));
+
    ui->btn1->setStyleSheet(""); // initial style (start with btn1)
 
    m_currentBtn = 1;
+
+    connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
 
     connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::nextBtn);
     connect(ui->btn_prevPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::prevBtn);
@@ -271,6 +277,7 @@ void ProgramKeyGripV2::changeP1value(int value)
 
     CurPoint1->setY(value);
     CurPoint2->setY(value);
+    ui->label_pwvalue->setText(QString("%1").arg(CurPoint1->y()));
 
     //QThread::msleep(200);
     update();
@@ -354,10 +361,44 @@ void ProgramKeyGripV2::paintBtn(int id)
 
 void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {
+    if (topic==TOPIC_SUB_ACTIVITY && reg==STIM_ENGINE_REG_TARGET_PULSE_WIDTH) // Line no: 1088,  stim_gui_protocol_decode.c
+    {
+        switch(index)
+        {
+        case 0: //
+
+            value = CurPoint1->y();
+
+            break;
+        case 1: //
+            value = CurPoint1->y();
+
+            break;
+        case 2: //
+            value = CurPoint1->y();
+
+            break;
+        case 3: //
+            value = CurPoint1->y();
+
+            break;
+        }
+    }
+
 
 }
 
 void ProgramKeyGripV2::on_pushButton_nextPhase_clicked()
 {
-    ui->label_phaseNo->setText("");
+    //ui->label_phaseNo->setText("");
+}
+
+void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
+{
+    tetra_grip_api::stimulation_start(true);
+}
+
+void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
+{
+     tetra_grip_api::stimulation_pause(true);
 }

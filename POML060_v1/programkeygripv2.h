@@ -114,6 +114,8 @@ private slots:
 
          void on_pushButton_back_keypro_clicked();
          void on_pushButton_nextPhase_clicked();
+         void on_pushButton_stimStart_clicked();
+         void on_pushButton_stimStop_clicked();
 };
 
 #endif // PROGRAMKEYGRIPV2_H
