@@ -58,38 +58,38 @@ stageProgram::~stageProgram()
 
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
-    unsigned int channel_number = 0;
+
     currentOneSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+    tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
 
 }
 
 void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
 {
-    unsigned int channel_number = 1;
+
     currentTwoSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+    tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
 }
 
 void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
 {
-    unsigned int channel_number = 2;
+
     currentThreeSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+    tetra_grip_api::stimulation_set_current( m_channelThree, current_uA);
 }
 
 void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
 {
-    unsigned int channel_number = 3;
+
     currentFourSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+    tetra_grip_api::stimulation_set_current( m_channelFour, current_uA);
 }
 
 void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 {
-    unsigned int channel_number = 4;
+
     currentFiveSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current(channel_number, current_uA);
+    tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
 }
 
 void stageProgram::on_pushButton_stimStart_clicked()

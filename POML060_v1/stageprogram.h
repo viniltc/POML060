@@ -67,7 +67,12 @@ private slots:
 private:
     Ui::stageProgram *ui;
     unsigned int currentOneSetVal,currentTwoSetVal, currentThreeSetVal,currentFourSetVal, currentFiveSetVal;
-    uint8_t m_currentmA = 100.0;
+    float m_currentmA = 100.0;
+    uint8_t m_channelOne= 0;
+    uint8_t m_channelTwo= 1;
+    uint8_t m_channelThree= 2;
+    uint8_t m_channelFour= 3;
+    uint8_t m_channelFive= 4;
 };
 
 #endif // STAGEPROGRAM_H
