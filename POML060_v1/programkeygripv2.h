@@ -32,15 +32,17 @@ public slots:
 
         void changeP1value(int);
         void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
-        void nextBtn();
-        void prevBtn();
-        void paintBtn(int id);
+        void nextBtn(int pwvalue);
+        void prevBtn(int pwvalue);
+        void paintBtn(int id, int pwvalue);
+        void getPWValue (int);
 
 signals:
 
         void buttonOne(bool);
         void buttonTwo(bool);
-        void buttonChanged(int);
+        void buttonChanged(int id, int pwvalue);
+        void pulseWidthValue(int);
 
 
 private:

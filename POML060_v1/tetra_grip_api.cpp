@@ -181,7 +181,7 @@ void tetra_grip_api::setAutoconnect(bool value)
 
 bool tetra_grip_api::send_short_block(STIM_GUI_MESSAGE_S_BLOCK_T *pblock)
 {
-    printf("\n>>>>>>>>>>>>>>>>>>>>>>>\nSending: ");
+    qDebug("\n>>>>>>>>>>>>>>>>>>>>>>>\nSending: ");
     return STIM_GUI_Send_message(STIMULATOR_ADDRESS1, GUI_ADDRESS, pblock);
 }
 
@@ -198,7 +198,7 @@ void tetra_grip_api::clear_stim_config(void)
     block.data_length=1;
     block.data=&command;
     if(!send_short_block(&block))
-        printf("Failed to send the command to clear stim config.\n");
+        qDebug("Failed to send the command to clear stim config.\n");
 }
 
 void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t *data)
@@ -209,7 +209,7 @@ void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t 
 
     if(!data)
     {
-        printf("Error: null pointer argument to send_long_register().\n");
+        qDebug("Error: null pointer argument to send_long_register().\n");
         return;
     }
 
@@ -217,16 +217,16 @@ void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t 
     block.reg_address=reg;
     block.data_length=data_len;
     block.data=data;
-    printf("Writing %d bytes to long register %d: '%*s'...\n", data_len, reg, data_len, data);
+   qDebug("Writing %d bytes to long register %d: '%*s'...\n", data_len, reg, data_len, data);
 
 
     if(STIM_GUI_Send_long_message(STIMULATOR_ADDRESS1, GUI_ADDRESS, &block))
     {
-        printf("Write OK\n");
+        qDebug("Write OK\n");
     }
     else
     {
-        printf("Write Failed.\n");
+        qDebug("Write Failed.\n");
     }
 }
 
@@ -241,7 +241,7 @@ void tetra_grip_api::send_config_file(QByteArray config, bool nonvolatile)
         }
         else
         {
-            printf("Could not read any bytes from file.\n");
+            qDebug("Could not read any bytes from file.\n");
         }
 
 }
@@ -259,9 +259,9 @@ void tetra_grip_api::stimulation_start(bool start)
     block.data_length=1;
     block.data=&en;
     if(!send_short_block(&block))
-        printf("Failed to send %s command to stimulator.\n", start?"start":"stop");
+        qDebug("Failed to send %s command to stimulator.\n", start?"start":"stop");
     else
-        printf("Asked stimulator to %s.\n", start?"start":"stop");
+        qDebug("Asked stimulator to %s.\n", start?"start":"stop");
 }
 
 
@@ -278,9 +278,9 @@ void tetra_grip_api::stimulation_pause(bool paused)
     block.data_length=1;
     block.data=&en;
     if(!send_short_block(&block))
-        printf("Failed to send %s command to stimulator.\n", paused?"pause":"unpause");
+        qDebug("Failed to send %s command to stimulator.\n", paused?"pause":"unpause");
     else
-        printf("Asked stimulator to %s.\n", paused?"pause":"unpause");
+        qDebug("Asked stimulator to %s.\n", paused?"pause":"unpause");
 }
 
 void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsigned int current_uA)
@@ -298,7 +298,7 @@ void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsign
     block.data=&data_array[0];
     qDebug() <<"\n current value:"<< current_uA << "MSB" << data_array[1] << "LSB" << data_array[0] << "\n";
     if(!send_short_block(&block))
-        printf("Failed to set current at channel %d", channel_number);
+        qDebug("Failed to set current at channel %d", channel_number);
 }
 
 
@@ -328,7 +328,7 @@ void tetra_grip_api::read_stim_status_reg(void)
     block.data=nullptr;
     if(!send_short_block(&block))
     {
-        printf("Failed to send the read command for the status register.\n");
+        qDebug("Failed to send the read command for the status register.\n");
     }
 }
 
@@ -344,7 +344,7 @@ void tetra_grip_api::get_battery_percentage(void)
     block.data=nullptr;
     if(!send_short_block(&block))
     {
-        printf("Failed to send the read command for the status register.\n");
+       qDebug("Failed to send the read command for the status register.\n");
     }
 }
 
@@ -360,8 +360,38 @@ void tetra_grip_api::get_target_current_channel(uint8_t channel)
     block.data=nullptr;
     if(!send_short_block(&block))
     {
-        printf("Failed to send the read command for the status register.\n");
+        qDebug("Failed to send the read command for the status register.\n");
     }
+}
+
+void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=WRITE_COMMAND;
+    block.topic=TOPIC_SUB_ACTIVITY;
+    block.index=sub_activity_id;
+    block.reg_address=STIM_SUB_ACT_REG_CONDITION_SATISFIED;
+    block.data_length=1;
+    block.data=&event;
+    if(!send_short_block(&block))
+    {
+        qDebug("Failed to send event %d to sub-activity %d.\n", event, sub_activity_id);
+    }
+}
+
+ void tetra_grip_api::jump_to_phase(uint8_t sub_activity_id, uint8_t phase)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=WRITE_COMMAND;
+    block.topic=TOPIC_SUB_ACTIVITY;
+    block.index=sub_activity_id;
+    block.reg_address=STIM_SUB_ACT_REG_CURRENT_PHASE;
+    block.data_length=1;
+    block.data=&phase;
+    if(!send_short_block(&block))
+        qDebug("Failed to send jump to phase %d command to sub-activity %d.\n", phase, sub_activity_id);
 }
 
 

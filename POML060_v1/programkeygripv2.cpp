@@ -37,6 +37,9 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::nextBtn);
     connect(ui->btn_prevPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::prevBtn);
     connect(this, &ProgramKeyGripV2::buttonChanged, this, &ProgramKeyGripV2::paintBtn);
+    connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::getPWValue);
+    connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::nextBtn);
+    connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
 
 
 }
@@ -277,10 +280,10 @@ void ProgramKeyGripV2::changeP1value(int value)
 
     CurPoint1->setY(value);
     CurPoint2->setY(value);
-    ui->label_pwvalue->setText(QString("%1").arg(CurPoint1->y()));
 
     //QThread::msleep(200);
     update();
+    emit pulseWidthValue(CurPoint1->y());
 
 }
 
@@ -292,18 +295,19 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
     backprogram -> show();
 }
 
-void ProgramKeyGripV2::nextBtn()
+void ProgramKeyGripV2::nextBtn(int pwvalue)
 {
     m_currentBtn++;
     if(m_currentBtn > btnGrp->buttons().size())
     {
         m_currentBtn = 1;
     }
-    emit buttonChanged(m_currentBtn);
+
+    emit buttonChanged(m_currentBtn, pwvalue);
    // qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
 }
 
-void ProgramKeyGripV2::prevBtn()
+void ProgramKeyGripV2::prevBtn(int pwvalue)
 {
     m_currentBtn--;
      if(m_currentBtn < 1)
@@ -311,11 +315,13 @@ void ProgramKeyGripV2::prevBtn()
          m_currentBtn = btnGrp->buttons().size();
      }
 
-  emit buttonChanged(m_currentBtn);
+
+
+  emit buttonChanged(m_currentBtn, pwvalue);
    //  qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
 }
 
-void ProgramKeyGripV2::paintBtn(int id)
+void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 {
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
@@ -325,6 +331,8 @@ void ProgramKeyGripV2::paintBtn(int id)
     case 1 :
         ui->btn1->setText("1");
        // btnGrp->button(id)->setText(QString::number(id));
+        ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
+
         ui->btn2->setText("");
         ui->btn3->setText("");
         ui->btn4->setText("");
@@ -332,6 +340,7 @@ void ProgramKeyGripV2::paintBtn(int id)
     case 2 :
          ui->btn2->setText("2");
         // ui->btn2->setStyleSheet("background-color: rgb(150,0,0);");
+          ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
          ui->btn1->setText("");
          ui->btn3->setText("");
          ui->btn4->setText("");
@@ -340,6 +349,7 @@ void ProgramKeyGripV2::paintBtn(int id)
     case 3 :
         ui->btn3->setText("3");
        // ui->btn3->setStyleSheet("background-color: rgb(150,0,0);");
+         ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
         ui->btn1->setText("");
         ui->btn2->setText("");
         ui->btn4->setText("");
@@ -347,6 +357,7 @@ void ProgramKeyGripV2::paintBtn(int id)
     case 4 :
         ui->btn4->setText("4");
        // ui->btn4->setStyleSheet("background-color: rgb(150,0,0);");
+         ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
         ui->btn1->setText("");
         ui->btn2->setText("");
         ui->btn3->setText("");
@@ -357,6 +368,11 @@ void ProgramKeyGripV2::paintBtn(int id)
 
 }
 
+
+void ProgramKeyGripV2::getPWValue(int value)
+{
+    // ui->label_pwvalue->setText(QString("%1").arg(value));
+}
 
 
 void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)

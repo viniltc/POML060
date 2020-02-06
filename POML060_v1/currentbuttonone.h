@@ -34,14 +34,18 @@ public slots:
 
 signals:
     void getValue(unsigned int);
-    void zeroCurrent(unsigned int);
+   // void zeroCurrent(unsigned int);
 
 private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-      int value =0 ;
-     unsigned int channel_number = 1;
+    int value =0 ;
+    unsigned int channel_number = 1;
+    int smallSteps = 500; // in mA
+    int bigSteps = 5000; // 10's of mA
+    int timeoutValue = 1000;
+
 };
 
 #endif // CURRENTBUTTONONE_H
