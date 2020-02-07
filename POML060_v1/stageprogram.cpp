@@ -17,6 +17,12 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->pushButton_currOnFour->setCheckable(true);
     ui->pushButton_currOnFive->setCheckable(true);
 
+    ui->label_curr_one->setText(QString("%1 mA").arg(0));
+    ui->label_curr_two->setText(QString("%1 mA").arg(0));
+    ui->label_curr_three->setText(QString("%1 mA").arg(0));
+    ui->label_curr_four->setText(QString("%1 mA").arg(0));
+    ui->label_curr_five->setText(QString("%1 mA").arg(0));
+
 
     ui->widget_currentOne->setEnabled(false);
     ui->widget_currentTwo->setEnabled(false);
@@ -130,7 +136,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         case 0: // channel 1
             //emit targetCurrentValue(QString::number(value));
             //ui->label_curr_one->setText(QString::number(value/100));
-            ui->label_curr_one->setText(QString("%1mA").arg(value/m_currentmA));
+            ui->label_curr_one->setText(QString("%1 mA").arg(value/m_currentmA));
             if(value != currentOneSetVal/10)
             {
             ui->label_curr_one->setText("Value mismatch!");
@@ -139,7 +145,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             break;
         case 1:
             //emit targetCurrentValue(value);
-            ui->label_curr_two->setText(QString("%1mA").arg(value/m_currentmA));
+            ui->label_curr_two->setText(QString("%1 mA").arg(value/m_currentmA));
 
             if(value != currentTwoSetVal/10)
             {
@@ -149,7 +155,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             break;
         case 2:
             //emit targetCurrentValue(value);
-            ui->label_curr_three->setText(QString("%1mA").arg(value/m_currentmA));
+            ui->label_curr_three->setText(QString("%1 mA").arg(value/m_currentmA));
             if(value != currentThreeSetVal/10)
             {
             ui->label_curr_three->setText("Value mismatch!");
@@ -158,7 +164,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             break;
         case 3:
             //emit targetCurrentValue(value);
-            ui->label_curr_four->setText(QString("%1mA").arg(value/m_currentmA));
+            ui->label_curr_four->setText(QString("%1 mA").arg(value/m_currentmA));
             if(value != currentFourSetVal/10)
             {
             ui->label_curr_four->setText("Value mismatch!");
@@ -167,7 +173,7 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             break;
         case 4:
            // emit targetCurrentValue(value);
-            ui->label_curr_five->setText(QString("%1mA").arg(value/m_currentmA));
+            ui->label_curr_five->setText(QString("%1 mA").arg(value/m_currentmA));
             if(value != currentFiveSetVal/10)
             {
             ui->label_curr_five->setText("Value mismatch!");

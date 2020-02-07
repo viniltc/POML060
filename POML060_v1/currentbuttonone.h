@@ -17,7 +17,7 @@ public:
     explicit CurrentButtonOne(QWidget *parent = nullptr);
     ~CurrentButtonOne();
 
-public slots:
+private slots:
 
     void buttonPressed_high();
     void buttonReleased_high();
@@ -40,10 +40,10 @@ private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-    int value =0 ;
+    int value = 0 ;
     unsigned int channel_number = 1;
-    int smallSteps = 500; // in mA
-    int bigSteps = 5000; // 10's of mA
+    int smallSteps = 500; // in 0.5 mA
+    int bigSteps = 5000; // in 5 mA
     int timeoutValue = 1000;
 
 };

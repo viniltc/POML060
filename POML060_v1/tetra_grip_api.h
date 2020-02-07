@@ -47,6 +47,7 @@ public:
      void static get_target_current_channel(uint8_t);
      void static send_event(uint8_t sub_activity_id, uint8_t event);
      void static jump_to_phase(uint8_t sub_activity_id, uint8_t phase);
+     void static stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
 
 
 

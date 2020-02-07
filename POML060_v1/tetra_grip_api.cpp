@@ -302,6 +302,38 @@ void tetra_grip_api::stimulation_set_current(unsigned int channel_number, unsign
 }
 
 
+void tetra_grip_api::stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us)
+
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block[2]={{},{}}; // previously it was {0}
+
+    // This block sets the phase pointer
+    block[0].msg_type=WRITE_COMMAND;
+    block[0].topic=TOPIC_CHANNEL;
+    block[0].index=channel_number;
+    block[0].reg_address=48;
+    block[0].data_length=1;
+    uint8_t phase_no=phase_number;
+    block[0].data=&phase_no;
+    block[0].next=&block[1];
+
+    // This block writes to the target pulse witdh
+    block[1].msg_type=WRITE_COMMAND;
+    block[1].topic=TOPIC_CHANNEL;
+    block[1].index=channel_number;
+    block[1].reg_address=52;
+    block[1].data_length=2;
+    uint8_t data_array[2];
+    data_array[1]=pulse_width_us >> 8;
+    data_array[0]=pulse_width_us & 0xFF;
+    block[1].data=&data_array[0];
+    block[1].next=nullptr;
+
+    qDebug() <<"\n Setting target pulse width for channel " << channel_number << " in phase " << phase_number << " to " << pulse_width_us << "us\n";
+    if(!send_short_block(block))
+        qDebug("Failed to set current at channel %d", channel_number);
+}
+
 
 void tetra_grip_api::toggle_pause(void)
 

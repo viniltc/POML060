@@ -1,0 +1,63 @@
+`R ref, version, "config_ID",                   menu language, Power timeout (hours), Number of users
+R  R1   1        "Template for setting parameters"  ENGLISH        1                      1
+
+`U ref, "user name", language, volume, number of activities
+U U1    "Any user"   ENGLISH   100%      1
+
+`A ref, "activity name",    max duration, max cycles, startingPW%, available/hidden
+ A A1   "Setup stim levels" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE
+
+  B SA1 1 "Engine tests"
+` These limits apply to all phases
+`  M ref stim, channel, max current, minPW, maxPW, freq, waveform, output name
+   M CH1 1 1 120mA 10us 450us 40Hz ASYM "EDC"
+   M CH2 1 2 120mA 10us 450us 40Hz ASYM "FDS+FDP"
+   M CH3 1 3 120mA 10us 450us 40Hz ASYM "Ulna nerve"
+   M CH4 1 4 120mA 10us 450us 40Hz ASYM "ADP"
+   M CH5 1 5 120mA 10us 450us 40Hz ASYM "EPL"
+
+   P P0 "Test phase" 0ms NONE 2000ms STOP STOP P1
+`                Delay  RR    rate    PW    
+    O CH1 10mA  0ms    0ms   600000ns 0us RATE
+    O CH2 10mA  0ms    0ms   600000ns 0us RATE
+    O CH3 10mA  0ms    0ms   600000ns 0us RATE
+    O CH4 10mA  0ms    0ms   600000ns 0us RATE
+    O CH5 10mA  0ms    0ms   600000ns 0us RATE
+
+   P P1 "Hand open" 0ms NONE 2000ms STOP STOP P2
+`                Delay  RR    rate    PW    
+    O CH1 10mA  0ms    0ms   600000ns 180us RATE
+    O CH2 10mA  0ms    0ms   600000ns 0us  RATE
+    O CH3 10mA  0ms    0ms   600000ns 0us RATE
+    O CH4 10mA  0ms    0ms   600000ns 0us RATE
+    O CH5 10mA  0ms    0ms   600000ns 0us RATE
+ 
+
+   P P2 "Finger flexion" 0ms NONE 2000ms STOP STOP P3
+`                Delay  RR    rate    PW    
+   
+    O CH1 10mA  0ms    0ms   600000ns 180us RATE
+    O CH2 10mA  0ms    0ms   600000ns 180us RATE
+    O CH3 10mA  0ms    0ms   600000ns 180us RATE
+    O CH4 10mA  0ms    0ms   600000ns 180us RATE
+    O CH5 10mA  0ms    0ms   600000ns 180us RATE
+
+
+   P P3 "Thumb adduct" 0ms NONE 2000ms STOP STOP P4
+`                Delay  RR    rate    PW    
+    O CH1 10mA  0ms    0ms   600000ns 180us RATE
+    O CH2 10mA  0ms    0ms   600000ns 180us RATE
+    O CH3 10mA  0ms    0ms   600000ns 180us RATE
+    O CH4 10mA  0ms    0ms   600000ns 180us RATE
+    O CH5 10mA  0ms    0ms   600000ns 180us RATE
+
+   P P4 "Hand open" 0ms NONE 2000ms STOP STOP STOP
+`                Delay  RR    rate    PW    
+    O CH1 10mA  0ms    0ms   600000ns 180us RATE
+    O CH2 10mA  0ms    0ms   600000ns 180us RATE
+    O CH3 10mA  0ms    0ms   600000ns 180us RATE
+    O CH4 10mA  0ms    0ms   600000ns 180us RATE
+    O CH5 10mA  0ms    0ms   600000ns 180us RATE
+
+
+@--------

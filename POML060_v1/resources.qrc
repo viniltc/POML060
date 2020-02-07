@@ -12,5 +12,6 @@
         <file>resources/config.txt</file>
         <file>resources/config_setup.txt</file>
         <file>resources/alert.png</file>
+        <file>resources/config_keygrip_v2.txt</file>
     </qresource>
 </RCC>

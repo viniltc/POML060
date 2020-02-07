@@ -42,6 +42,19 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
 
 
+    QFile f(":/resources/config_keygrip_v2.txt");
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+         }
+
+
 }
 ProgramKeyGripV2::~ProgramKeyGripV2()
 {
@@ -214,7 +227,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
          changeP1value(event->y());
        }
         if(checked1){
-           ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()+100));
+           ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
            ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
            ui->label_one->setText(QString::number(CurPoint1->y()));
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
@@ -324,14 +337,39 @@ void ProgramKeyGripV2::prevBtn(int pwvalue)
 void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 {
 
-    qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
 
+    if(checked1)
+    {
+      tetra_grip_api::stimulation_target_pulse_width( 0, id-1, pwvalue);
+    }
+    else if(checked2)
+    {
+        tetra_grip_api::stimulation_target_pulse_width( 1, 2, pwvalue);
+        tetra_grip_api::stimulation_target_pulse_width( 1, 3, pwvalue);
+    }
+    else if(checked3)
+    {
+    tetra_grip_api::stimulation_target_pulse_width( 2, id-1, pwvalue);
+    }
+    else if(checked4)
+    {
+    tetra_grip_api::stimulation_target_pulse_width( 3, id-1, pwvalue);
+    }
+    else if(checked5)
+    {
+    tetra_grip_api::stimulation_target_pulse_width( 0, id-1, pwvalue);
+    }
+
+    qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
+  //tetra_grip_api::stimulation_target_pulse_width()
     switch(id)
     {
     case 1 :
         ui->btn1->setText("1");
        // btnGrp->button(id)->setText(QString::number(id));
         ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
+        //int phaseOne = 1;
+
 
         ui->btn2->setText("");
         ui->btn3->setText("");
@@ -417,4 +455,9 @@ void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
 void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
 {
      tetra_grip_api::stimulation_pause(true);
+}
+
+void ProgramKeyGripV2::on_btn_nextPhase_clicked()
+{
+    tetra_grip_api::send_event(0, 253);
 }
