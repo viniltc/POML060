@@ -802,6 +802,67 @@ QPushButton:disabled {
      <string/>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioButton_six">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>430</y>
+      <width>141</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton {
+color: black;
+}
+
+QRadioButton::indicator {
+width: 11px;
+height: 11px;
+border-radius: 5px;
+}
+
+QRadioButton::indicator::unchecked{ 
+border: 2px solid; 
+border-color: green;
+border-radius: 7px;
+background-color: white; 
+width: 10px; 
+height: 10px; 
+}
+
+QRadioButton::indicator::checked{ 
+border: 2px solid; 
+border-color: green;
+border-radius: 7px;
+background-color: black; 
+width: 10px; 
+height: 10px; 
+}</string>
+    </property>
+    <property name="text">
+     <string>EDC+EPL</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_six">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -35,12 +35,11 @@ U U1    "Any user"   ENGLISH   100%      1
 
    P P2 "Finger flexion" 0ms NONE 2000ms STOP STOP P3
 `                Delay  RR    rate    PW    
-   
     O CH1 10mA  0ms    0ms   600000ns 180us RATE
     O CH2 10mA  0ms    0ms   600000ns 180us RATE
-    O CH3 10mA  0ms    0ms   600000ns 180us RATE
-    O CH4 10mA  0ms    0ms   600000ns 180us RATE
-    O CH5 10mA  0ms    0ms   600000ns 180us RATE
+    O CH3 10mA  0ms    0ms   600000ns 0us RATE
+    O CH4 10mA  0ms    0ms   600000ns 0us RATE
+    O CH5 10mA  0ms    0ms   600000ns 0us RATE
 
 
    P P3 "Thumb adduct" 0ms NONE 2000ms STOP STOP P4
@@ -54,10 +53,10 @@ U U1    "Any user"   ENGLISH   100%      1
    P P4 "Hand open" 0ms NONE 2000ms STOP STOP STOP
 `                Delay  RR    rate    PW    
     O CH1 10mA  0ms    0ms   600000ns 180us RATE
-    O CH2 10mA  0ms    0ms   600000ns 180us RATE
-    O CH3 10mA  0ms    0ms   600000ns 180us RATE
-    O CH4 10mA  0ms    0ms   600000ns 180us RATE
-    O CH5 10mA  0ms    0ms   600000ns 180us RATE
+    O CH2 10mA  0ms    0ms   600000ns 0us RATE
+    O CH3 10mA  0ms    0ms   600000ns 0us RATE
+    O CH4 10mA  0ms    0ms   600000ns 0us RATE
+    O CH5 10mA  0ms    0ms   600000ns 0us RATE
 
 
 @--------

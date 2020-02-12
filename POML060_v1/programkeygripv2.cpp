@@ -29,8 +29,10 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
    // ui->label_pwvalue->setText(QString("%1").arg(CurPoint1->y()));
 
    ui->btn1->setStyleSheet(""); // initial style (start with btn1)
+   ui->btn_nextPhase->setEnabled(false);
+   ui->btn_prevPhase->setEnabled(false);
 
-   m_currentBtn = 1;
+   m_currentBtn = 0;
 
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
 
@@ -151,19 +153,20 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
 // when user clicks
 void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
 {
-    checked1 = ui->radioButton_one->isChecked();
-    checked2 = ui->radioButton_two->isChecked();
-    checked3 = ui->radioButton_three->isChecked();
-    checked4 = ui->radioButton_four->isChecked();
-    checked5 = ui->radioButton_five->isChecked();
+    FDS_checked = ui->radioButton_one->isChecked();
+    Ulna_checked = ui->radioButton_two->isChecked();
+    ADP_checked = ui->radioButton_three->isChecked();
+    EDC_Seg1_checked = ui->radioButton_four->isChecked();
+    EDC_Seg2_checked = ui->radioButton_six->isChecked();
+    EDC_Seg3_checked = ui->radioButton_five->isChecked();
 
 
    QPoint mp = event->pos(); // where is mouse
 
 
    // test if we hit the line. give user 10 pixels slack as its hard to hit one pixel
-   if (distance ( mp, p12) < 20 && ( mp.x() > p12.x() && mp.x() < p13.x() ) && checked1) {
-       dragging1 = true; // flag we are dragging
+   if (distance ( mp, p12) < 20 && ( mp.x() > p12.x() && mp.x() < p13.x() ) && FDS_checked) {
+       FDS_dragging = true; // flag we are dragging
        CurPoint1 = &p12;
        CurPoint2 = &p13;
 
@@ -172,34 +175,41 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
      //  ui->radioButton_one->setText("Segment 1   Value:"+QString::number(event->y()));
 
    }
-   else if (distance ( mp, p22) < 20 && ( mp.x() > p22.x() && mp.x() < p23.x() ) && checked2) {
-       dragging2 = true;
+   else if (distance ( mp, p22) < 20 && ( mp.x() > p22.x() && mp.x() < p23.x() ) && Ulna_checked) {
+       Ulna_dragging = true;
        CurPoint1 = &p22;
        CurPoint2 = &p23;
 
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
-   else if (distance ( mp, p32) < 20 && ( mp.x() > p32.x() && mp.x() < p33.x() ) && checked3) {
-       dragging3 = true;
+   else if (distance ( mp, p32) < 20 && ( mp.x() > p32.x() && mp.x() < p33.x() ) && ADP_checked) {
+       ADP_dragging = true;
        CurPoint1 = &p32;
        CurPoint2 = &p33;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
-   else if (distance ( mp, p42) < 20 && ( mp.x() > p42.x() && mp.x() < p43.x() ) && checked4) {
-       dragging4 = true;
+   else if (distance ( mp, p42) < 20 && ( mp.x() > p42.x() && mp.x() < p43.x() ) && EDC_Seg1_checked) {
+       EDC_Seg1_dragging = true;
        CurPoint1 = &p42;
        CurPoint2 = &p43;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
-   else if (distance ( mp, p46) < 20 && ( mp.x() > p46.x() && mp.x() < p47.x() ) && checked5) {
-       dragging5 = true;
+   else if (distance ( mp, p46) < 20 && ( mp.x() > p46.x() && mp.x() < p47.x() ) && EDC_Seg3_checked) {
+       EDC_Seg3_dragging = true;
        CurPoint1 = &p46;
        CurPoint2 = &p47;
+       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
+
+   }
+   else if (distance ( mp, p44) < 20 && ( mp.x() > p44.x() && mp.x() < p45.x() ) && EDC_Seg2_checked) {
+       EDC_Seg2_dragging = true;
+       CurPoint1 = &p44;
+       CurPoint2 = &p45;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
@@ -207,11 +217,12 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
 
 void ProgramKeyGripV2::mouseReleaseEvent(QMouseEvent *event)
 {
-    dragging1 = false; // if user release mouse we are not draggign anymore
-    dragging2 = false;
-    dragging3 = false;
-    dragging4 = false;
-    dragging5 = false;
+    FDS_dragging = false; // if user release mouse we are not draggign anymore
+    Ulna_dragging = false;
+    ADP_dragging = false;
+    EDC_Seg1_dragging = false;
+    EDC_Seg3_dragging = false;
+    EDC_Seg2_dragging = false;
     this->setCursor(QCursor(Qt::CursorShape::ArrowCursor));
 }
 
@@ -221,64 +232,77 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
    // If we are dragging, call your normal slider changed function to update your points.
 
 
-    if (dragging1 && checked1)
+    if (FDS_dragging && FDS_checked)
     {
        if(event->y() > 150 && event->y() < 250){
          changeP1value(event->y());
        }
-        if(checked1){
+        if(FDS_checked){
            ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
            ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
            ui->label_one->setText(QString::number(CurPoint1->y()));
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
           }
     }
-    else if(dragging2 && checked2)
+    else if(Ulna_dragging && Ulna_checked)
     {
       if(event->y() > 160 && event->y() < 260){
         changeP1value(event->y());
        }
 
-      if(checked2){
+      if(Ulna_checked){
       ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
       ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_two->setText(QString::number(CurPoint1->y()));
       }
     }
-    else if(dragging3 && checked3)
+    else if(ADP_dragging && ADP_checked)
     {
       if(event->y() > 160 && event->y() < 260){
         changeP1value(event->y());
        }
 
-      if(checked3){
+      if(ADP_checked){
       ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
       ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_three->setText(QString::number(CurPoint1->y()));
       }
     }
-    else if(dragging4 && checked4)
+    else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
       if(event->y() > 220 && event->y() < 280){
         changeP1value(event->y());
        }
 
-      if(checked4){
+      if(EDC_Seg1_checked){
       ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_four->setText(QString::number(CurPoint1->y()));
       }
     }
-    else if(dragging5 && checked5)
+    else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
       if(event->y() > 220 && event->y() < 280){
         changeP1value(event->y());
        }
 
-      if(checked5){
+      if(EDC_Seg3_checked){
       ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_five->setText(QString::number(CurPoint1->y()));
+      }
+    }
+
+    else if(EDC_Seg2_dragging && EDC_Seg2_checked)
+    {
+      if(event->y() > 220 && event->y() < 280){
+        changeP1value(event->y());
+       }
+
+      if(EDC_Seg2_checked){
+      ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
+      ui->label_six->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_six->setText(QString::number(CurPoint1->y()));
       }
     }
     else
@@ -313,7 +337,7 @@ void ProgramKeyGripV2::nextBtn(int pwvalue)
     m_currentBtn++;
     if(m_currentBtn > btnGrp->buttons().size())
     {
-        m_currentBtn = 1;
+        m_currentBtn = 0;
     }
 
     emit buttonChanged(m_currentBtn, pwvalue);
@@ -338,38 +362,78 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 {
 
 
-    if(checked1)
+//    if(FDS_checked)
+//    {
+//      tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, id-1, pwvalue);
+//    }
+//    else if(Ulna_checked)
+//    {
+//       tetra_grip_api::stimulation_target_pulse_width( m_channelThree, id-1, pwvalue);
+//        //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
+//    }
+//    else if(ADP_checked)
+//    {
+//    tetra_grip_api::stimulation_target_pulse_width( m_channelFour, id-1, pwvalue);
+//    }
+//    else if(EDC_Seg1_checked)
+//    {
+//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
+//    }
+//    else if(EDC_Seg2_checked)
+//    {
+//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
+//    }
+//    else if(EDC_Seg3_checked)
+//    {
+//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
+//    }
+
+    if(EDC_Seg1_checked)
     {
-      tetra_grip_api::stimulation_target_pulse_width( 0, id-1, pwvalue);
+      tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
     }
-    else if(checked2)
+    else if(EDC_Seg2_checked)
     {
-        tetra_grip_api::stimulation_target_pulse_width( 1, 2, pwvalue);
-        tetra_grip_api::stimulation_target_pulse_width( 1, 3, pwvalue);
+    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
+    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
     }
-    else if(checked3)
+    else if(EDC_Seg3_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( 2, id-1, pwvalue);
+    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
     }
-    else if(checked4)
+    else if(Ulna_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( 3, id-1, pwvalue);
+       tetra_grip_api::stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
+        //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
     }
-    else if(checked5)
+    else if(FDS_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( 0, id-1, pwvalue);
+       tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
+       tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
+        //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
     }
+    else if(ADP_checked)
+    {
+    tetra_grip_api::stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
+    }
+
+
+
+
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
   //tetra_grip_api::stimulation_target_pulse_width()
     switch(id)
     {
+
     case 1 :
         ui->btn1->setText("1");
        // btnGrp->button(id)->setText(QString::number(id));
         ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
         //int phaseOne = 1;
-
+       // if(EDC_Seg1_checked){
+       // tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
+       // }
 
         ui->btn2->setText("");
         ui->btn3->setText("");
@@ -382,6 +446,8 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn1->setText("");
          ui->btn3->setText("");
          ui->btn4->setText("");
+//          tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
+//          tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
         break;
 
     case 3 :
@@ -391,14 +457,19 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
         ui->btn1->setText("");
         ui->btn2->setText("");
         ui->btn4->setText("");
+//        tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
+//        tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
+//        tetra_grip_api::stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
+//        tetra_grip_api::stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
         break;
     case 4 :
         ui->btn4->setText("4");
        // ui->btn4->setStyleSheet("background-color: rgb(150,0,0);");
-         ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
+        ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
         ui->btn1->setText("");
         ui->btn2->setText("");
         ui->btn3->setText("");
+//        tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
         break;
 
     }
@@ -415,30 +486,26 @@ void ProgramKeyGripV2::getPWValue(int value)
 
 void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {
-    if (topic==TOPIC_SUB_ACTIVITY && reg==STIM_ENGINE_REG_TARGET_PULSE_WIDTH) // Line no: 1088,  stim_gui_protocol_decode.c
+    if (topic==TOPIC_STIMULATOR)
     {
-        switch(index)
+        switch(reg)
         {
-        case 0: //
+        case STIM_REG_ACTIVITY_STATUS: // Line no: 714,  stim_gui_protocol_decode.c
 
-            value = CurPoint1->y();
-
-            break;
-        case 1: //
-            value = CurPoint1->y();
-
-            break;
-        case 2: //
-            value = CurPoint1->y();
-
-            break;
-        case 3: //
-            value = CurPoint1->y();
-
+            if(value==true)
+            {
+                 ui->pushButton_stimStop->setText("Stop");
+                 ui->pushButton_stimStart->setText("Running");
+            }
+            else
+            {
+                 ui->pushButton_stimStop->setText("Stopped");
+                 ui->pushButton_stimStart->setText("Start");
+                 ui->btn_nextPhase->setEnabled(false);
+            }
             break;
         }
     }
-
 
 }
 
@@ -450,6 +517,7 @@ void ProgramKeyGripV2::on_pushButton_nextPhase_clicked()
 void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
 {
     tetra_grip_api::stimulation_start(true);
+    ui->btn_nextPhase->setEnabled(true);
 }
 
 void ProgramKeyGripV2::on_pushButton_stimStop_clicked()

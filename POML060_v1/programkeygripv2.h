@@ -47,11 +47,12 @@ signals:
 
 private:
     Ui::ProgramKeyGripV2 *ui;
-     bool dragging1 = false; // status var to see if we are dragging
-     bool dragging2 = false;
-     bool dragging3 = false;
-     bool dragging4 = false;
-     bool dragging5 = false;
+     bool FDS_dragging = false; // status var to see if we are dragging
+     bool Ulna_dragging = false;
+     bool ADP_dragging = false;
+     bool EDC_Seg1_dragging = false;
+     bool EDC_Seg3_dragging = false;
+     bool EDC_Seg2_dragging = false;
 
      QPoint p41 = QPoint(150,300);
      QPoint p42 = QPoint(170,250);
@@ -97,14 +98,22 @@ private:
          QPoint *CurPoint3=nullptr;
          QPoint *CurPoint4=nullptr;
 
-         bool checked1;
-         bool checked2;
-         bool checked3;
-         bool checked4;
-         bool checked5;
+         bool FDS_checked;
+         bool Ulna_checked;
+         bool ADP_checked;
+         bool EDC_Seg1_checked;
+         bool EDC_Seg3_checked;
+         bool EDC_Seg2_checked;
 
          int m_currentBtn = 0;
          QButtonGroup *btnGrp = nullptr;
+
+         uint8_t m_channelOne = 0;
+         uint8_t m_channelTwo = 1;
+         uint8_t m_channelThree = 2;
+         uint8_t m_channelFour = 3;
+         uint8_t m_channelFive = 4;
+
 
 
 protected:
