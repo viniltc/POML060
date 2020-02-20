@@ -3,7 +3,10 @@
 #include "currentbuttonone.h"
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
-#include<QDebug>
+#include <QDebug>
+#include <QDomDocument>
+#include <QFile>
+#include "manageconfigfile.h"
 
 
 stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
@@ -53,6 +56,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
    // connect(this, &stageProgram::targetCurrentValue, this, &stageProgram::setCurrOnChannelOne);
 
  // tetra_grip_api::get_target_current_channel(0);
+
 }
 
 stageProgram::~stageProgram()
@@ -65,7 +69,7 @@ stageProgram::~stageProgram()
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
 
-    currentOneSetVal = current_uA;
+   // currentOneSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
 
 }
@@ -73,28 +77,28 @@ void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
 {
 
-    currentTwoSetVal = current_uA;
+    //currentTwoSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
 }
 
 void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
 {
 
-    currentThreeSetVal = current_uA;
+    //currentThreeSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelThree, current_uA);
 }
 
 void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
 {
 
-    currentFourSetVal = current_uA;
+   // currentFourSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFour, current_uA);
 }
 
 void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 {
 
-    currentFiveSetVal = current_uA;
+   // currentFiveSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
 }
 
@@ -134,51 +138,54 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         switch(index)
         {
         case 0: // channel 1
-            //emit targetCurrentValue(QString::number(value));
-            //ui->label_curr_one->setText(QString::number(value/100));
+
             ui->label_curr_one->setText(QString("%1 mA").arg(value/m_currentmA));
-            if(value != currentOneSetVal/10)
-            {
-            ui->label_curr_one->setText("Value mismatch!");
-            tetra_grip_api::stimulation_pause(true);
-            }
+            currentOneSetVal = value/m_currentmA;
+//            if(value != currentOneSetVal/10)
+//            {
+//            ui->label_curr_one->setText("Value mismatch!");
+//            tetra_grip_api::stimulation_pause(true);
+//            }
             break;
         case 1:
-            //emit targetCurrentValue(value);
-            ui->label_curr_two->setText(QString("%1 mA").arg(value/m_currentmA));
 
-            if(value != currentTwoSetVal/10)
-            {
-            ui->label_curr_two->setText("Value mismatch!");
-            tetra_grip_api::stimulation_pause(true);
-            }
+            ui->label_curr_two->setText(QString("%1 mA").arg(value/m_currentmA));
+            currentTwoSetVal = value/m_currentmA;
+//            if(value != currentTwoSetVal/10)
+//            {
+//            ui->label_curr_two->setText("Value mismatch!");
+//            tetra_grip_api::stimulation_pause(true);
+//            }
             break;
         case 2:
-            //emit targetCurrentValue(value);
+
             ui->label_curr_three->setText(QString("%1 mA").arg(value/m_currentmA));
-            if(value != currentThreeSetVal/10)
-            {
-            ui->label_curr_three->setText("Value mismatch!");
-            tetra_grip_api::stimulation_pause(true);
-            }
+            currentThreeSetVal = value/m_currentmA;
+//            if(value != currentThreeSetVal/10)
+//            {
+//            ui->label_curr_three->setText("Value mismatch!");
+//            tetra_grip_api::stimulation_pause(true);
+//            }
             break;
         case 3:
-            //emit targetCurrentValue(value);
+
             ui->label_curr_four->setText(QString("%1 mA").arg(value/m_currentmA));
-            if(value != currentFourSetVal/10)
-            {
-            ui->label_curr_four->setText("Value mismatch!");
-            tetra_grip_api::stimulation_pause(true);
-            }
+            currentFourSetVal = value/m_currentmA;
+//            if(value != currentFourSetVal/10)
+//            {
+//            ui->label_curr_four->setText("Value mismatch!");
+//            tetra_grip_api::stimulation_pause(true);
+//            }
             break;
         case 4:
-           // emit targetCurrentValue(value);
+
             ui->label_curr_five->setText(QString("%1 mA").arg(value/m_currentmA));
-            if(value != currentFiveSetVal/10)
-            {
-            ui->label_curr_five->setText("Value mismatch!");
-            tetra_grip_api::stimulation_pause(true);
-            }
+            currentFiveSetVal = value/m_currentmA;
+//            if(value != currentFiveSetVal/10)
+//            {
+//            ui->label_curr_five->setText("Value mismatch!");
+//            tetra_grip_api::stimulation_pause(true);
+//            }
             break;
         }
 
@@ -189,6 +196,9 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
+   ManageConfigFile configFile;
+   configFile.keyGripTest(pLabel);
+
    this->hide();
    keygripv2 = new ProgramKeyGripV2(pLabel);
    keygripv2 -> show();
@@ -214,4 +224,104 @@ void stageProgram::on_pushButton_programSwitchGrasp_clicked()
     switchgrasp = new ProgramSwitchGrasp(pLabel);
     switchgrasp->show();
 
+}
+
+void stageProgram::on_pushButton_stimSave_clicked()
+{
+
+  saveToXMLFile();
+
+}
+
+void stageProgram::saveToXMLFile()
+{
+    QString filename = pLabel;
+    QString path = QCoreApplication::applicationDirPath()+"/data/"+filename+".xml";
+    QFile file(path);
+
+    /* QT Append wont work!
+     * Open the file read-only, read it all in, close it.
+     * Make changes in-memory document.
+     * Then open the file for overwrite, write all content, close file. */
+
+    if(!file.open(QIODevice::ReadOnly  | QIODevice::Text))
+    {
+
+        QMessageBox::information(this, "Unable to open XML file to read", file.errorString());
+        return;
+    }
+
+     QDomDocument document;
+     document.setContent(&file);
+     QDomElement root = document.documentElement();
+
+
+    file.close();
+
+    QDomElement newCurrentTag = document.createElement(QString("Current"));
+
+    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+    QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+    if (CurrentNodeVal.isNull())
+    {
+        QDomElement Ch1Tag = document.createElement(QString("CH1"));
+        QDomText Ch1Val = document.createTextNode(QString::number(currentOneSetVal));
+        Ch1Tag.appendChild(Ch1Val);
+        newCurrentTag.appendChild(Ch1Tag);
+
+        QDomElement Ch2Tag = document.createElement(QString("CH2"));
+        QDomText Ch2Val = document.createTextNode(QString::number(currentTwoSetVal));
+        Ch2Tag.appendChild(Ch2Val);
+        newCurrentTag.appendChild(Ch2Tag);
+
+        QDomElement Ch3Tag = document.createElement(QString("CH3"));
+        QDomText Ch3Val = document.createTextNode(QString::number(currentThreeSetVal));
+        Ch3Tag.appendChild(Ch3Val);
+        newCurrentTag.appendChild(Ch3Tag);
+
+        QDomElement Ch4Tag = document.createElement(QString("CH4"));
+        QDomText Ch4Val = document.createTextNode(QString::number(currentFourSetVal));
+        Ch4Tag.appendChild(Ch4Val);
+        newCurrentTag.appendChild(Ch4Tag);
+
+        QDomElement Ch5Tag = document.createElement(QString("CH5"));
+        QDomText Ch5Val = document.createTextNode(QString::number(currentFiveSetVal));
+        Ch5Tag.appendChild(Ch5Val);
+        newCurrentTag.appendChild(Ch5Tag);
+
+        root.appendChild(newCurrentTag);
+    }
+
+    else
+    {
+          QDomElement root = document.documentElement();
+          QDomNode SettingsNode = root.namedItem("Current");
+
+          QDomNode cur1 = SettingsNode.namedItem("CH1");
+          cur1.firstChild().setNodeValue(QString::number(currentOneSetVal));
+          QDomNode cur2 = SettingsNode.namedItem("CH2");
+          cur2.firstChild().setNodeValue(QString::number(currentTwoSetVal));
+          QDomNode cur3 = SettingsNode.namedItem("CH3");
+          cur3.firstChild().setNodeValue(QString::number(currentThreeSetVal));
+          QDomNode cur4 = SettingsNode.namedItem("CH4");
+          cur4.firstChild().setNodeValue(QString::number(currentFourSetVal));
+          QDomNode cur5 = SettingsNode.namedItem("CH5");
+          cur5.firstChild().setNodeValue(QString::number(currentFiveSetVal));
+
+    }
+
+
+    if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
+    {
+        qDebug () << "Error saving XML file....";
+        QMessageBox::information(this, "Unable to open XML file to write", file.errorString());
+        return;
+    }
+
+    QTextStream output(&file);
+    output << document.toString();
+    file.close();
+
+    qDebug()<< "Finished";
 }

@@ -36,6 +36,7 @@ public slots:
         void prevBtn(int pwvalue);
         void paintBtn(int id, int pwvalue);
         void getPWValue (int);
+        int adjust_PW_range(int value);
 
 signals:
 
@@ -113,6 +114,8 @@ private:
          uint8_t m_channelThree = 2;
          uint8_t m_channelFour = 3;
          uint8_t m_channelFive = 4;
+
+
 
 
 

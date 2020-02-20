@@ -23,6 +23,7 @@ SOURCES += \
     Stim_includes/stim_gui_protocol_tx.c \
     currentbuttonone.cpp \
     main.cpp \
+    manageconfigfile.cpp \
     programkeygripv2.cpp \
     programopenhand.cpp \
     programpalmergrasp.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     Stim_includes/system_definitions.h \
     Stim_includes/uart.h \
     currentbuttonone.h \
+    manageconfigfile.h \
     programkeygripv2.h \
     programopenhand.h \
     programpalmergrasp.h \

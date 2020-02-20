@@ -146,7 +146,6 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
     painter1.drawPoint(p48);
 
 
-
     qDebug()<<"Values of p1.y and p2.y:"<<p12.y()<<"and"<<p22.y();
 }
 
@@ -234,7 +233,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
 
     if (FDS_dragging && FDS_checked)
     {
-       if(event->y() > 150 && event->y() < 250){
+       if(event->y() > 220 && event->y() < 280){
          changeP1value(event->y());
        }
         if(FDS_checked){
@@ -246,7 +245,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(Ulna_dragging && Ulna_checked)
     {
-      if(event->y() > 160 && event->y() < 260){
+      if(event->y() > 220 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -258,7 +257,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(ADP_dragging && ADP_checked)
     {
-      if(event->y() > 160 && event->y() < 260){
+      if(event->y() > 220 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -308,8 +307,6 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     else
        update();
 
-
-
 }
 
 void ProgramKeyGripV2::changeP1value(int value)
@@ -320,7 +317,7 @@ void ProgramKeyGripV2::changeP1value(int value)
 
     //QThread::msleep(200);
     update();
-    emit pulseWidthValue(CurPoint1->y());
+    emit pulseWidthValue(adjust_PW_range(CurPoint1->y()));
 
 }
 
@@ -528,4 +525,9 @@ void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
 void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 {
     tetra_grip_api::send_event(0, 253);
+}
+
+int ProgramKeyGripV2::adjust_PW_range(int value)
+{
+    return ((280-value)*3)+1;
 }

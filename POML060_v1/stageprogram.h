@@ -42,6 +42,7 @@ public slots:
     void setCurrOnChannelFour(unsigned int current_uA);
     void setCurrOnChannelFive(unsigned int current_uA);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
+    void saveToXMLFile();
    // void stimTargetPulseWidthEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 
 
@@ -55,7 +56,6 @@ private slots:
 
     void on_pushButton_stimStop_clicked();
 
-
     void on_pushButton_programKeyGrip_clicked();
 
     void on_pushButton_programPalmerGrasp_clicked();
@@ -64,15 +64,22 @@ private slots:
 
     void on_pushButton_programSwitchGrasp_clicked();
 
+    void on_pushButton_stimSave_clicked();
+
 private:
     Ui::stageProgram *ui;
-    unsigned int currentOneSetVal,currentTwoSetVal, currentThreeSetVal,currentFourSetVal, currentFiveSetVal;
+    float currentOneSetVal = 0;
+    float currentTwoSetVal = 0;
+    float currentThreeSetVal = 0;
+    float currentFourSetVal = 0;
+    float currentFiveSetVal = 0;
     float m_currentmA = 100.0;
     uint8_t m_channelOne= 0;
     uint8_t m_channelTwo= 1;
     uint8_t m_channelThree= 2;
     uint8_t m_channelFour= 3;
     uint8_t m_channelFive= 4;
+    int8_t uAtomA = 10000;
 };
 
 #endif // STAGEPROGRAM_H
