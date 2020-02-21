@@ -3,6 +3,9 @@
 #include "stageprogram.h"
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
+#include <QDebug>
+#include <QDomDocument>
+#include <QFile>
 
 ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     : QMainWindow(parent)
@@ -21,23 +24,17 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     btnGrp->addButton(ui->btn2, 2);
     btnGrp->addButton(ui->btn3, 3);
     btnGrp->addButton(ui->btn4, 4);
-    ui->btn1->setText("1");
-    ui->btn2->setText("");
-    ui->btn3->setText("");
-    ui->btn4->setText("");
 
-   // ui->label_pwvalue->setText(QString("%1").arg(CurPoint1->y()));
 
    ui->btn1->setStyleSheet(""); // initial style (start with btn1)
    ui->btn_nextPhase->setEnabled(false);
-   ui->btn_prevPhase->setEnabled(false);
 
    m_currentBtn = 0;
 
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
 
     connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::nextBtn);
-    connect(ui->btn_prevPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::prevBtn);
+
     connect(this, &ProgramKeyGripV2::buttonChanged, this, &ProgramKeyGripV2::paintBtn);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::getPWValue);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::nextBtn);
@@ -239,7 +236,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
         if(FDS_checked){
            ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
            ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-           ui->label_one->setText(QString::number(CurPoint1->y()));
+           ui->label_one->setText(QString::number(adjust_PW_range(CurPoint1->y())));
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
           }
     }
@@ -252,7 +249,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       if(Ulna_checked){
       ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
       ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_two->setText(QString::number(CurPoint1->y()));
+      ui->label_two->setText(QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else if(ADP_dragging && ADP_checked)
@@ -264,7 +261,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       if(ADP_checked){
       ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
       ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_three->setText(QString::number(CurPoint1->y()));
+      ui->label_three->setText(QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
@@ -276,7 +273,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       if(EDC_Seg1_checked){
       ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_four->setText(QString::number(CurPoint1->y()));
+      ui->label_four->setText(QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
@@ -288,7 +285,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       if(EDC_Seg3_checked){
       ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_five->setText(QString::number(CurPoint1->y()));
+      ui->label_five->setText(QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
 
@@ -301,7 +298,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       if(EDC_Seg2_checked){
       ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_six->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_six->setText(QString::number(CurPoint1->y()));
+      ui->label_six->setText(QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else
@@ -335,6 +332,7 @@ void ProgramKeyGripV2::nextBtn(int pwvalue)
     if(m_currentBtn > btnGrp->buttons().size())
     {
         m_currentBtn = 0;
+        saveToXMLFile();
     }
 
     emit buttonChanged(m_currentBtn, pwvalue);
@@ -358,32 +356,6 @@ void ProgramKeyGripV2::prevBtn(int pwvalue)
 void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 {
 
-
-//    if(FDS_checked)
-//    {
-//      tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, id-1, pwvalue);
-//    }
-//    else if(Ulna_checked)
-//    {
-//       tetra_grip_api::stimulation_target_pulse_width( m_channelThree, id-1, pwvalue);
-//        //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
-//    }
-//    else if(ADP_checked)
-//    {
-//    tetra_grip_api::stimulation_target_pulse_width( m_channelFour, id-1, pwvalue);
-//    }
-//    else if(EDC_Seg1_checked)
-//    {
-//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
-//    }
-//    else if(EDC_Seg2_checked)
-//    {
-//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
-//    }
-//    else if(EDC_Seg3_checked)
-//    {
-//    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, id-1, pwvalue);
-//    }
 
     if(EDC_Seg1_checked)
     {
@@ -420,55 +392,122 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
   //tetra_grip_api::stimulation_target_pulse_width()
-    switch(id)
+/*    switch(id)
     {
 
     case 1 :
-        ui->btn1->setText("1");
-       // btnGrp->button(id)->setText(QString::number(id));
-        ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
-        //int phaseOne = 1;
-       // if(EDC_Seg1_checked){
-       // tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
-       // }
 
-        ui->btn2->setText("");
-        ui->btn3->setText("");
-        ui->btn4->setText("");
+         ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("background-color: red");
+         ui->btn2->setStyleSheet("");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("");
+
         break;
     case 2 :
-         ui->btn2->setText("2");
-        // ui->btn2->setStyleSheet("background-color: rgb(150,0,0);");
-          ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
-         ui->btn1->setText("");
-         ui->btn3->setText("");
-         ui->btn4->setText("");
-//          tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
-//          tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
+         ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("");
+         ui->btn2->setStyleSheet("background-color: red");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("");
         break;
 
     case 3 :
-        ui->btn3->setText("3");
-       // ui->btn3->setStyleSheet("background-color: rgb(150,0,0);");
-         ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
-        ui->btn1->setText("");
-        ui->btn2->setText("");
-        ui->btn4->setText("");
-//        tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
-//        tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
-//        tetra_grip_api::stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
-//        tetra_grip_api::stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
+        ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
+        ui->btn1->setStyleSheet("");
+        ui->btn2->setStyleSheet("");
+        ui->btn3->setStyleSheet("background-color: red");
+        ui->btn4->setStyleSheet("");
         break;
-    case 4 :
-        ui->btn4->setText("4");
-       // ui->btn4->setStyleSheet("background-color: rgb(150,0,0);");
-        ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
-        ui->btn1->setText("");
-        ui->btn2->setText("");
-        ui->btn3->setText("");
-//        tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
+    case 4 :    
+        ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));     
+        ui->btn1->setStyleSheet("");
+        ui->btn2->setStyleSheet("");
+        ui->btn3->setStyleSheet("");
+        ui->btn4->setStyleSheet("background-color: red");
         break;
 
+    } */
+
+     if(id==1)
+     {
+         ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("background-color: green");
+         ui->btn2->setStyleSheet("");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("");
+
+         if(EDC_Seg1_checked)
+         {
+            PW_phase1_EDC = pwvalue;
+         }
+
+     }
+
+     else if(id==2)
+     {
+         ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("");
+         ui->btn2->setStyleSheet("background-color: green");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("");
+
+         if(EDC_Seg2_checked)
+         {
+            PW_phase2_EDC = pwvalue;
+         }
+         else if(FDS_checked)
+         {
+            PW_phase2_FDS = pwvalue;
+         }
+     }
+
+    else if(id==3)
+    {
+         ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("");
+         ui->btn2->setStyleSheet("");
+         ui->btn3->setStyleSheet("background-color: green");
+         ui->btn4->setStyleSheet("");
+
+         if(EDC_Seg2_checked)
+         {
+            PW_phase3_EDC = pwvalue;
+         }
+         else if(FDS_checked)
+         {
+            PW_phase3_FDS = pwvalue;
+         }
+         else if(Ulna_checked)
+         {
+            PW_phase3_Ulna = pwvalue;
+         }
+         else if(ADP_checked)
+         {
+            PW_phase3_ADP = pwvalue;
+         }
+    }
+
+    else if(id==4)
+    {
+         ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
+         ui->btn1->setStyleSheet("");
+         ui->btn2->setStyleSheet("");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("background-color: green");
+
+         if(EDC_Seg3_checked)
+         {
+            PW_phase4_EDC = pwvalue;
+         }
+    }
+
+    else
+    {
+         ui->btn1->setStyleSheet("");
+         ui->btn2->setStyleSheet("");
+         ui->btn3->setStyleSheet("");
+         ui->btn4->setStyleSheet("");
     }
 
 
@@ -530,4 +569,119 @@ void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 int ProgramKeyGripV2::adjust_PW_range(int value)
 {
     return ((280-value)*3)+1;
+}
+
+
+void ProgramKeyGripV2::saveToXMLFile()
+{
+    QString filename = pLabel;
+    QString path = QCoreApplication::applicationDirPath()+"/data/"+filename+".xml";
+    QFile file(path);
+
+    /* QT Append wont work!
+     * Open the file read-only, read it all in, close it.
+     * Make changes in-memory document.
+     * Then open the file for overwrite, write all content, close file. */
+
+    if(!file.open(QIODevice::ReadOnly  | QIODevice::Text))
+    {
+
+        QMessageBox::information(this, "Unable to open XML file to read", file.errorString());
+        return;
+    }
+
+     QDomDocument document;
+     document.setContent(&file);
+     QDomElement root = document.documentElement();
+
+
+    file.close();
+
+    QDomElement newPWTag = document.createElement(QString("PW_KeyGrip"));
+
+    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+    QDomElement PWNodeVal = PWNode.toElement();
+
+    if (PWNodeVal.isNull())
+    {
+        QDomElement P1_EDCTag = document.createElement(QString("PW_phase1_EDC"));
+        QDomText P1_EDCVal = document.createTextNode(QString::number(PW_phase1_EDC));
+        P1_EDCTag.appendChild(P1_EDCVal);
+        newPWTag.appendChild(P1_EDCTag);
+
+        QDomElement P2_EDCTag = document.createElement(QString("PW_phase2_EDC"));
+        QDomText P2_EDCVal = document.createTextNode(QString::number(PW_phase2_EDC));
+        P2_EDCTag.appendChild(P2_EDCVal);
+        newPWTag.appendChild(P2_EDCTag);
+
+        QDomElement P2_FDSTag = document.createElement(QString("PW_phase2_FDS"));
+        QDomText P2_FDSVal = document.createTextNode(QString::number(PW_phase2_FDS));
+        P2_FDSTag.appendChild(P2_FDSVal);
+        newPWTag.appendChild(P2_FDSTag);
+
+        QDomElement P3_EDCTag = document.createElement(QString("PW_phase3_EDC"));
+        QDomText P3_EDCVal = document.createTextNode(QString::number(PW_phase3_EDC));
+        P3_EDCTag.appendChild(P3_EDCVal);
+        newPWTag.appendChild(P3_EDCTag);
+
+        QDomElement P3_FDSTag = document.createElement(QString("PW_phase3_FDS"));
+        QDomText P3_FDSVal = document.createTextNode(QString::number(PW_phase3_FDS));
+        P3_FDSTag.appendChild(P3_FDSVal);
+        newPWTag.appendChild(P3_FDSTag);
+
+        QDomElement P3_UlnaTag = document.createElement(QString("PW_phase3_Ulna"));
+        QDomText P3_UlnaVal = document.createTextNode(QString::number(PW_phase3_Ulna));
+        P3_UlnaTag.appendChild(P3_UlnaVal);
+        newPWTag.appendChild(P3_UlnaTag);
+
+        QDomElement P3_ADPTag = document.createElement(QString("PW_phase3_ADP"));
+        QDomText P3_ADPVal = document.createTextNode(QString::number(PW_phase3_ADP));
+        P3_ADPTag.appendChild(P3_ADPVal);
+        newPWTag.appendChild(P3_ADPTag);
+
+        QDomElement P4_EDCTag = document.createElement(QString("PW_phase4_EDC"));
+        QDomText P4_EDCVal = document.createTextNode(QString::number(PW_phase4_EDC));
+        P4_EDCTag.appendChild(P4_EDCVal);
+        newPWTag.appendChild(P4_EDCTag);
+
+        root.appendChild(newPWTag);
+    }
+
+    else
+    {
+          QDomElement root = document.documentElement();
+          QDomNode SettingsNode = root.namedItem("PW_KeyGrip");
+
+          QDomNode pw1 = SettingsNode.namedItem("PW_phase1_EDC");
+          pw1.firstChild().setNodeValue(QString::number(PW_phase1_EDC));
+          QDomNode pw2 = SettingsNode.namedItem("PW_phase2_EDC");
+          pw2.firstChild().setNodeValue(QString::number(PW_phase2_EDC));
+          QDomNode pw3 = SettingsNode.namedItem("PW_phase2_FDS");
+          pw3.firstChild().setNodeValue(QString::number(PW_phase2_FDS));
+          QDomNode pw4 = SettingsNode.namedItem("PW_phase3_EDC");
+          pw4.firstChild().setNodeValue(QString::number(PW_phase3_EDC));
+          QDomNode pw5 = SettingsNode.namedItem("PW_phase3_FDS");
+          pw5.firstChild().setNodeValue(QString::number(PW_phase3_FDS));
+          QDomNode pw6 = SettingsNode.namedItem("PW_phase3_Ulna");
+          pw6.firstChild().setNodeValue(QString::number(PW_phase3_Ulna));
+          QDomNode pw7 = SettingsNode.namedItem("PW_phase3_ADP");
+          pw7.firstChild().setNodeValue(QString::number(PW_phase3_ADP));
+          QDomNode pw8 = SettingsNode.namedItem("PW_phase4_EDC");
+          pw8.firstChild().setNodeValue(QString::number(PW_phase4_EDC));
+
+    }
+
+
+    if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
+    {
+        qDebug () << "Error saving XML file....";
+        QMessageBox::information(this, "Unable to open XML file to write", file.errorString());
+        return;
+    }
+
+    QTextStream output(&file);
+    output << document.toString();
+    file.close();
+
+    qDebug()<< "Finished";
 }

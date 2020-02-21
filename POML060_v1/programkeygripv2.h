@@ -115,6 +115,16 @@ private:
          uint8_t m_channelFour = 3;
          uint8_t m_channelFive = 4;
 
+         float PW_phase1_EDC = 0;
+         float PW_phase2_EDC = 0;
+         float PW_phase2_FDS = 0;
+         float PW_phase3_EDC = 0;
+         float PW_phase3_FDS = 0;
+         float PW_phase3_Ulna = 0;
+         float PW_phase3_ADP = 0;
+         float PW_phase4_EDC = 0;
+
+
 
 
 
@@ -131,6 +141,8 @@ private slots:
          void on_pushButton_stimStart_clicked();
          void on_pushButton_stimStop_clicked();
          void on_btn_nextPhase_clicked();
+         void saveToXMLFile();
+
 };
 
 #endif // PROGRAMKEYGRIPV2_H

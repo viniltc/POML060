@@ -31,19 +31,15 @@ public:
 
 public slots:
 
-//    void setCurrOnChannelOne(QString);
-//    void setCurrOnChannelTwo(QString);
-//    void setCurrOnChannelThree(QString);
-//    void setCurrOnChannelFour(QString);
-//    void setCurrOnChannelFive(QString);
+
     void setCurrOnChannelOne(unsigned int current_uA);
     void setCurrOnChannelTwo(unsigned int current_uA);
     void setCurrOnChannelThree(unsigned int current_uA);
     void setCurrOnChannelFour(unsigned int current_uA);
     void setCurrOnChannelFive(unsigned int current_uA);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
-    void saveToXMLFile();
-   // void stimTargetPulseWidthEventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+
+
 
 
 signals:
@@ -53,18 +49,13 @@ signals:
 
 private slots:
     void on_pushButton_stimStart_clicked();
-
     void on_pushButton_stimStop_clicked();
-
     void on_pushButton_programKeyGrip_clicked();
-
     void on_pushButton_programPalmerGrasp_clicked();
-
     void on_pushButton_programOpenHand_clicked();
-
     void on_pushButton_programSwitchGrasp_clicked();
-
     void on_pushButton_stimSave_clicked();
+    void saveToXMLFile();
 
 private:
     Ui::stageProgram *ui;
@@ -79,7 +70,7 @@ private:
     uint8_t m_channelThree= 2;
     uint8_t m_channelFour= 3;
     uint8_t m_channelFive= 4;
-    int8_t uAtomA = 10000;
+
 };
 
 #endif // STAGEPROGRAM_H
