@@ -289,32 +289,6 @@ QPushButton:disabled {
          <string>Save</string>
         </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>360</y>
-          <width>107</width>
-          <height>42</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="QRadioButton" name="radioButton">
-           <property name="text">
-            <string>Thresold current</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="radioButton_2">
-           <property name="text">
-            <string>Maximum current</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="CurrentButtonOne" name="widget_currentOne" native="true">
         <property name="geometry">
          <rect>
@@ -775,7 +749,7 @@ QPushButton:checked {
          </rect>
         </property>
         <property name="title">
-         <string>Gravity Compensation</string>
+         <string>Shoulder Twitch Detection</string>
         </property>
         <widget class="QPushButton" name="btn_gx">
          <property name="geometry">

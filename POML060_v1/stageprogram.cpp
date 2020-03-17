@@ -61,14 +61,9 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->customPlot->graph(1)->setPen(QPen(QColor(255, 110, 40)));
     ui->customPlot->addGraph(); // red line
     ui->customPlot->graph(2)->setPen(QPen(QColor(110, 255, 40)));
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(3)->setPen(QPen(QColor(11, 25, 40)));
-    ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(2));
-
-
-
-
-
+//    ui->customPlot->addGraph();
+//    ui->customPlot->graph(3)->setPen(QPen(QColor(11, 25, 40)));
+//    ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(2));
 
     //ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(1));
 
@@ -90,7 +85,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->customPlot->graph(0)->setName("X");
     ui->customPlot->graph(1)->setName("Y");
     ui->customPlot->graph(2)->setName("Z");
-    ui->customPlot->graph(3)->setName("Z_test");
+  //  ui->customPlot->graph(3)->setName("Z_test");
    // ui->customPlot->graph(3)->setName("Conf Int, Y");
 
     ui->customPlot->legend->setVisible(true);
@@ -256,15 +251,15 @@ void stageProgram::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
 //                "Quaternion z: " + QString::number(sample->quaternion[3]));
 
 
-////   // from http://www.varesano.net/blog/fabio/simple-gravity-compensation-9-dom-imus
-//   double q0 = sample->quaternion[0];
-//   double q1 = sample->quaternion[1];
-//   double q2 = sample->quaternion[2];
-//   double q3 = sample->quaternion[3];
+//   // from http://www.varesano.net/blog/fabio/simple-gravity-compensation-9-dom-imus
+   double q0 = sample->quaternion[0];
+   double q1 = sample->quaternion[1];
+   double q2 = sample->quaternion[2];
+   double q3 = sample->quaternion[3];
 
-//   double a0 = sample->acceleration_g[0];
-//   double a1 = sample->acceleration_g[1];
-//   double a2 = sample->acceleration_g[2];
+   double a0 = sample->acceleration_g[0];
+   double a1 = sample->acceleration_g[1];
+   double a2 = sample->acceleration_g[2];
 
 ////    double a_mag=sqrt(a0*a0 + a1*a1 + a2*a2);
 ////    a0/=a_mag;
@@ -276,12 +271,13 @@ void stageProgram::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
 ////   q1=q2;
 ////   q2=q3;
 ////   q3=w;
-//   double q_mag=sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
-//  // double q_mag=sqrt(q1*q1 + q2*q2 + q3*q3);
-//   q0/=q_mag;
-//   q1/=q_mag;
-//   q2/=q_mag;
-//   q3/=q_mag;
+   double q_mag=sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
+  // double q_mag=sqrt(q1*q1 + q2*q2 + q3*q3);
+   q0/=q_mag;
+   q1/=q_mag;
+   q2/=q_mag;
+   q3/=q_mag;
+
 //   double g0 = 2 * (q1 * q3 - q0 * q2);
 //   double g1 = 2 * (q0 * q1 + q2 * q3);
 //   double g2 = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
@@ -313,14 +309,14 @@ void stageProgram::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
 ////    QGenericMatrix<1,3,double> Totmatrix = (R_matrix*A_matrix)+G_matrix;
 //    //qDebug() << "TOTMATRIX" << Totmatrix;
 
-//    QQuaternion quat(q0,q1,q2,q3);
-//    QVector3D acc(a0,a1,a2);
-//    QVector3D gg(0,0,-1.0);
+    QQuaternion quat(q0,q1,q2,q3);
+    QVector3D acc(a0,a1,a2);
+    QVector3D gg(0,0,-1.0);
 
-//    QVector3D vpost = quat.rotatedVector(acc);
-//    QVector3D res = vpost;
-//    QQuaternion quatinv= quat.inverted();
-//    QVector3D vpostt = quatinv.rotatedVector(res);
+    QVector3D vpost = quat.rotatedVector(acc);
+    QVector3D res = vpost+gg;
+    QQuaternion quatinv= quat.inverted();
+    QVector3D vpostt = quatinv.rotatedVector(res);
 //  // qDebug()<< "The index" << res.x();
 
 
@@ -330,7 +326,7 @@ void stageProgram::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
     realtimeDataSlot(sample->acceleration_g[0]-gCompensation_x, sample->acceleration_g[1]-gCompensation_y, sample->acceleration_g[2]-gCompensation_z, sample->acceleration_g[2]);
    // realtimeDataSlot(a0-gCompensation_x, a1-gCompensation_y, a2-gCompensation_z, sample->acceleration_g[2]);
    //  realtimeDataSlot(Totmatrix(0,0), Totmatrix(1,0),Totmatrix(2,0), sample->acceleration_g[2]);
-   // realtimeDataSlot(vpostt.x(), vpostt.y(), vpostt.z(), sample->acceleration_g[2]);
+   //  realtimeDataSlot(quatinv.x(), quatinv.y(), quatinv.z(), sample->acceleration_g[2]);
    // realtimeDataSlot(res.x(), res.y(), res.z(), sample->acceleration_g[2]);
 
 }
@@ -350,7 +346,7 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
         ui->customPlot->graph(1)->addData(key, y_acceleration_g);
         ui->customPlot->graph(2)->addData(key, z_acceleration_g);
 
-        ui->customPlot->graph(3)->addData(key, z_acceleration_gnew);
+       // ui->customPlot->graph(3)->addData(key, z_acceleration_gnew);
 
         // rescale value (vertical) axis to fit the current data:
       //ui->customPlot->graph(0)->rescaleValueAxis();
@@ -382,7 +378,8 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
     QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
     QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
-    double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
+    //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
+    double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
 
     if(a_sum > 0.5 && gCompensation_y == 1 && y_acceleration_g > 0)
     //if(a_sum > 0.5 && gCompensation_y==1)
