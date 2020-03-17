@@ -426,8 +426,66 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
         qDebug("Failed to send jump to phase %d command to sub-activity %d.\n", phase, sub_activity_id);
 }
 
+ void  tetra_grip_api::reset_sensors(uint8_t sensor_address)
+{
+    uint8_t command=SENSOR_CMD_RESET;
+
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=WRITE_COMMAND;
+    block.topic=TOPIC_SENSOR;
+    block.index=sensor_address;
+    block.reg_address=SENSOR_REG_COMMAND;
+    block.data_length=1;
+    block.data=&command;
+    if(!send_short_block(&block))
+    {
+        printf("Failed to send reset command to sensor %d.\n", sensor_address);
+    }
+}
+
+ void  tetra_grip_api::set_sensor_data_rate(uint8_t sensor_address, uint8_t Hz)
+ {
+     STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+     block.msg_type=WRITE_COMMAND;
+     block.topic=TOPIC_SENSOR;
+     block.index=sensor_address;
+     block.reg_address=SENSOR_REG_UPDATE_RATE;
+     block.data_length=1;
+     block.data=&Hz;
+     if(!send_short_block(&block))
+     {
+         printf("Failed to send data rate to sensor %d.\n", sensor_address);
+     }
+ }
+
+void tetra_grip_api::sensor_led(uint8_t sensor_address, bool on)
+ {
+     uint8_t command=on?SENSOR_CMD_AV_INDICATOR_ON:SENSOR_CMD_AV_INDICATOR_OFF;
+
+     STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+     block.msg_type=WRITE_COMMAND;
+     block.topic=TOPIC_SENSOR;
+     block.index=sensor_address;
+     block.reg_address=SENSOR_REG_COMMAND;
+     block.data_length=1;
+     block.data=&command;
+     if(!send_short_block(&block))
+     {
+         printf("Failed to send LED %s command to sensor %d.\n", (on?"ON":"OFF"), sensor_address);
+     }
+ }
+
 
 void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
 {
     emit api.tetraGripEvent(topic, index, reg, value);
+}
+
+void tetra_grip_sensor_reporter(uint8_t index, SENSOR_DATA_T *sample)
+{
+    emit api.tetraGripSensorEvent(index, sample);
+
 }

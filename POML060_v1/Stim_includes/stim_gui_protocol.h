@@ -220,6 +220,14 @@ bool STIM_GUI_Send_message(const uint8_t destination_device, const uint8_t sourc
 // Used for addressing stimulators
 extern uint8_t STIM_GUI_PROTOCOL_ThisStimulatorID;
 
+typedef struct {
+    double quaternion[4];
+    int16_t euler213_degrees[3];
+    int16_t euler123_degrees[3];
+    double acceleration_g[3];
+    double gyroscope_dps[3];
+} SENSOR_DATA_T;
+
 #ifdef __cplusplus
 }
 #endif

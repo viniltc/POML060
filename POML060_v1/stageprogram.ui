@@ -44,7 +44,7 @@ QTabBar::tab:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -765,35 +765,25 @@ QPushButton:checked {
          <string>Shoulder Control Settings</string>
         </property>
        </widget>
-       <widget class="QGraphicsView" name="graphicsView">
-        <property name="geometry">
-         <rect>
-          <x>270</x>
-          <y>50</y>
-          <width>281</width>
-          <height>211</height>
-         </rect>
-        </property>
-       </widget>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="geometry">
          <rect>
           <x>40</x>
           <y>60</y>
-          <width>211</width>
+          <width>161</width>
           <height>101</height>
          </rect>
         </property>
         <property name="title">
-         <string>Record Region of movement</string>
+         <string>Gravity Compensation</string>
         </property>
-        <widget class="QPushButton" name="pushButton_49">
+        <widget class="QPushButton" name="btn_gx">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>20</y>
-           <width>81</width>
-           <height>31</height>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -805,7 +795,7 @@ QPushButton:checked {
 QPushButton {
         border: 1px solid #6593cf;
         border-radius: 2px;
-        padding: 5px 5px 2px 5px;
+        padding: 5px 5px 5px 5px;
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
                 stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
         color: #0000;
@@ -826,28 +816,28 @@ QPushButton:pressed {
 QPushButton:on {
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
         stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
+        padding-top: 3px;
         padding-left: 3px;
 }
 
 QPushButton:disabled {
         background: transparent #e5e9ee;
-        padding-top: 2px;        
+        padding-top: 3px;        
         padding-left: 3px;
         color: black;
 }</string>
          </property>
          <property name="text">
-          <string>Start</string>
+          <string>X</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_50">
+        <widget class="QPushButton" name="btn_gy">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>60</y>
-           <width>81</width>
-           <height>31</height>
+           <x>50</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -859,7 +849,7 @@ QPushButton:disabled {
 QPushButton {
         border: 1px solid #6593cf;
         border-radius: 2px;
-        padding: 5px 5px 2px 5px;
+        padding: 5px 5px 5px 5px;
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
                 stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
         color: #0000;
@@ -880,82 +870,140 @@ QPushButton:pressed {
 QPushButton:on {
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
         stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
+        padding-top: 3px;
         padding-left: 3px;
 }
 
 QPushButton:disabled {
         background: transparent #e5e9ee;
-        padding-top: 2px;        
+        padding-top: 3px;        
         padding-left: 3px;
         color: black;
 }</string>
          </property>
          <property name="text">
-          <string>Stop</string>
+          <string>Y</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="pushButton_51">
+        <widget class="QPushButton" name="btn_gz">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>30</y>
+           <width>31</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 5px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 10px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 3px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 3px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+         </property>
+         <property name="text">
+          <string>Z</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_reset">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>71</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 5px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 10px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 3px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 3px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+         </property>
+         <property name="text">
+          <string>Reset</string>
+         </property>
+        </widget>
+        <widget class="QRadioButton" name="rdo_btn">
          <property name="geometry">
           <rect>
            <x>100</x>
-           <y>40</y>
-           <width>101</width>
-           <height>31</height>
+           <y>60</y>
+           <width>41</width>
+           <height>41</height>
           </rect>
          </property>
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>-1</pointsize>
-           <weight>50</weight>
-           <italic>false</italic>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton:hover{
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
-                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
-}
-
-QPushButton {
-        border: 1px solid #6593cf;
-        border-radius: 2px;
-        padding: 5px 5px 2px 5px;
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
-                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
-        color: #0000;
-        font:  large &quot;Arial&quot;;
-		font-size: 10px;
-        height: 30px;
-}
-
-
-
-QPushButton:pressed {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
-        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-
-}
-QPushButton:on {
-        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
-        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
-        padding-top: 2px;
-        padding-left: 3px;
-}
-
-QPushButton:disabled {
-        background: transparent #e5e9ee;
-        padding-top: 2px;        
-        padding-left: 3px;
-        color: black;
-}</string>
-         </property>
          <property name="text">
-          <string>Show Active ROM</string>
+          <string/>
          </property>
         </widget>
        </widget>
@@ -971,25 +1019,6 @@ QPushButton:disabled {
         <property name="title">
          <string>Trigger settings</string>
         </property>
-        <widget class="QLed" name="qLed" native="true">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>80</y>
-           <width>41</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="toolTip">
-          <string>Binary Led</string>
-         </property>
-         <property name="whatsThis">
-          <string>Led widget</string>
-         </property>
-         <property name="value" stdset="0">
-          <bool>false</bool>
-         </property>
-        </widget>
         <widget class="QPushButton" name="pushButton_52">
          <property name="geometry">
           <rect>
@@ -1168,8 +1197,8 @@ QComboBox:disabled {
        <widget class="QPushButton" name="pushButton_56">
         <property name="geometry">
          <rect>
-          <x>360</x>
-          <y>300</y>
+          <x>320</x>
+          <y>350</y>
           <width>91</width>
           <height>41</height>
          </rect>
@@ -1228,7 +1257,7 @@ QPushButton:disabled {
         <property name="geometry">
          <rect>
           <x>460</x>
-          <y>300</y>
+          <y>350</y>
           <width>91</width>
           <height>41</height>
          </rect>
@@ -1276,6 +1305,16 @@ QPushButton:disabled {
         </property>
         <property name="text">
          <string>Done</string>
+        </property>
+       </widget>
+       <widget class="QCustomPlot" name="customPlot" native="true">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>20</y>
+          <width>401</width>
+          <height>281</height>
+         </rect>
         </property>
        </widget>
       </widget>
@@ -1585,14 +1624,15 @@ QPushButton:disabled {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QLed</class>
-   <extends>QWidget</extends>
-   <header>qled.h</header>
-  </customwidget>
-  <customwidget>
    <class>CurrentButtonOne</class>
    <extends>QWidget</extends>
    <header>currentbuttonone.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

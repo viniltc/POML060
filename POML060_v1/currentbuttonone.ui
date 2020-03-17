@@ -65,7 +65,7 @@ QPushButton:disabled {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset>
            <normaloff>:/resources/icons8-double-up-96.png</normaloff>:/resources/icons8-double-up-96.png</iconset>
          </property>
         </widget>
@@ -117,7 +117,7 @@ QPushButton:disabled {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset>
            <normaloff>:/resources/icons8-chevron-up-100.png</normaloff>:/resources/icons8-chevron-up-100.png</iconset>
          </property>
         </widget>
@@ -186,7 +186,7 @@ QPushButton:disabled {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset>
            <normaloff>:/resources/icons8-chevron-down-100.png</normaloff>:/resources/icons8-chevron-down-100.png</iconset>
          </property>
         </widget>
@@ -238,7 +238,7 @@ QPushButton:disabled {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset>
            <normaloff>:/resources/icons8-double-down-96.png</normaloff>:/resources/icons8-double-down-96.png</iconset>
          </property>
         </widget>
@@ -249,8 +249,6 @@ QPushButton:disabled {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

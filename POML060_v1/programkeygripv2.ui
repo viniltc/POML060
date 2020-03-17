@@ -607,7 +607,7 @@ QPushButton:disabled {
      <string>Start</string>
     </property>
     <property name="icon">
-     <iconset resource="resources.qrc">
+     <iconset>
       <normaloff>:/resources/icons8-rfid-signal-100.png</normaloff>:/resources/icons8-rfid-signal-100.png</iconset>
     </property>
    </widget>
@@ -683,9 +683,9 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>410</y>
-      <width>71</width>
-      <height>31</height>
+      <y>400</y>
+      <width>91</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -702,7 +702,7 @@ QPushButton {
                 stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
         color: #0000;
         font:  large &quot;Arial&quot;;
-		font-size: 12px;
+		font-size: 16px;
         height: 30px;
 }
 
@@ -821,8 +821,6 @@ height: 10px;
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

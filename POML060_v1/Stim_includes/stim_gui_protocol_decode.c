@@ -306,11 +306,13 @@ static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t
     char *s=line;
     size_t len=0;
     
-    double quaternion[4];
-    int16_t euler213_degrees[3];
-    int16_t euler123_degrees[3];
-    double acceleration_g[3];
-    double gyroscope_dps[3];
+//    double quaternion[4];
+//    int16_t euler213_degrees[3];
+//    int16_t euler123_degrees[3];
+//    double acceleration_g[3];
+//    double gyroscope_dps[3];
+
+    SENSOR_DATA_T sample;
 
     if(max_len==2)
     {
@@ -330,38 +332,41 @@ static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t
     int i;
     for(i=0; i<4; i++)
     {
-        quaternion[i]=((float)get_int32(p))/(1<<29);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%9.6f", quaternion[i]);
+        sample.quaternion[i]=((float)get_int32(p))/(1<<29);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%9.6f", sample.quaternion[i]);
         p+=4;
     }
 
     for(i=0; i<3; i++)
     {
-        euler213_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", euler213_degrees[i]);
+        sample.euler213_degrees[i]=get_int16(p);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler213_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
-        euler123_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", euler123_degrees[i]);
+        sample.euler123_degrees[i]=get_int16(p);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler123_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
-        acceleration_g[i]=(2.0*get_int16(p))/(1<<15);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%6.3f", acceleration_g[i]);
+        sample.acceleration_g[i]=(2.0*get_int16(p))/(1<<15);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%6.3f", sample.acceleration_g[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
-        gyroscope_dps[i]=(2000.0*get_int16(p))/(1<<15);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%6.1f", gyroscope_dps[i]);
+        sample.gyroscope_dps[i]=(2000.0*get_int16(p))/(1<<15);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%6.1f", sample.gyroscope_dps[i]);
         p+=2;
     }
+
+    tetra_grip_sensor_reporter(index, &sample);
+
 #ifndef PIC32
 //    if(logfile && logfile!=(FILE*)(-1))
 //    {

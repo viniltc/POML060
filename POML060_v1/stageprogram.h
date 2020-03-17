@@ -8,6 +8,7 @@
 #include "programpalmergrasp.h"
 #include "programopenhand.h"
 #include "programswitchgrasp.h"
+#include "qcustomplot.h"
 
 namespace Ui {
 class stageProgram;
@@ -38,8 +39,8 @@ public slots:
     void setCurrOnChannelFour(unsigned int current_uA);
     void setCurrOnChannelFive(unsigned int current_uA);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
-
-
+    void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
+    void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double z_acceleration_gnew);
 
 
 signals:
@@ -57,6 +58,14 @@ private slots:
     void on_pushButton_stimSave_clicked();
     void saveToXMLFile();
 
+    void on_pushButton_reset_clicked();
+
+    void on_btn_gx_clicked();
+
+    void on_btn_gy_clicked();
+
+    void on_btn_gz_clicked();
+
 private:
     Ui::stageProgram *ui;
     float currentOneSetVal = 0;
@@ -70,6 +79,13 @@ private:
     uint8_t m_channelThree= 2;
     uint8_t m_channelFour= 3;
     uint8_t m_channelFive= 4;
+
+    QTimer dataTimer;
+    QCPItemTracer *itemDemoPhaseTracer;
+    double gCompensation_x =0;
+    double gCompensation_y =0;
+    double gCompensation_z =0;
+    int pCount=0;
 
 };
 

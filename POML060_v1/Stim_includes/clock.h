@@ -10,7 +10,7 @@ typedef struct {
     uint16_t milliseconds;
 } CLOCK_T;
 
-extern volatile CLOCK_T clock;
+extern volatile CLOCK_T clockk; // (check if this is needed)change from clock to clockk !
 
 /**
  * Get the time

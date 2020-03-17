@@ -49,6 +49,11 @@ public:
      void static jump_to_phase(uint8_t sub_activity_id, uint8_t phase);
      void static stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
 
+     //for sensors
+     void static reset_sensors(uint8_t sensor_address);
+     void static set_sensor_data_rate(uint8_t sensor_address, uint8_t Hz);
+     void static sensor_led(uint8_t sensor_address, bool on);
+
 
 
      QSerialPort *serial = nullptr;
@@ -62,6 +67,7 @@ signals:
      void AutoconnectionIsSet(bool value);
      void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);
      void deviceError(bool);
+     void tetraGripSensorEvent(uint8_t index, SENSOR_DATA_T *sample);
 
 
 public slots:

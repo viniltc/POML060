@@ -1,4 +1,4 @@
-QT       += core gui serialport xml
+QT       += core gui serialport xml printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,6 +28,7 @@ SOURCES += \
     programopenhand.cpp \
     programpalmergrasp.cpp \
     programswitchgrasp.cpp \
+    qcustomplot.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwopatients.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     programopenhand.h \
     programpalmergrasp.h \
     programswitchgrasp.h \
+    qcustomplot.h \
     stageonemain.h \
     stageprogram.h \
     stagetwopatients.h \
