@@ -333,35 +333,35 @@ static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t
     for(i=0; i<4; i++)
     {
         sample.quaternion[i]=((float)get_int32(p))/(1<<29);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%9.6f", sample.quaternion[i]);
+       // len+=snprintf(s+len, sizeof(line)-len, "\t%9.6f", sample.quaternion[i]);
         p+=4;
     }
 
     for(i=0; i<3; i++)
     {
         sample.euler213_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler213_degrees[i]);
+      //  len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler213_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
         sample.euler123_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler123_degrees[i]);
+      //  len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler123_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
         sample.acceleration_g[i]=(2.0*get_int16(p))/(1<<15);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%6.3f", sample.acceleration_g[i]);
+      //  len+=snprintf(s+len, sizeof(line)-len, "\t%6.3f", sample.acceleration_g[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
         sample.gyroscope_dps[i]=(2000.0*get_int16(p))/(1<<15);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%6.1f", sample.gyroscope_dps[i]);
+    //    len+=snprintf(s+len, sizeof(line)-len, "\t%6.1f", sample.gyroscope_dps[i]);
         p+=2;
     }
 

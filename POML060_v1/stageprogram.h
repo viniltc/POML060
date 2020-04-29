@@ -40,7 +40,7 @@ public slots:
     void setCurrOnChannelFive(unsigned int current_uA);
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
     void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
-    void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double z_acceleration_gnew);
+    void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double threshold);
 
 
 signals:
@@ -57,14 +57,7 @@ private slots:
     void on_pushButton_programSwitchGrasp_clicked();
     void on_pushButton_stimSave_clicked();
     void saveToXMLFile();
-
-    void on_pushButton_reset_clicked();
-
-    void on_btn_gx_clicked();
-
-    void on_btn_gy_clicked();
-
-    void on_btn_gz_clicked();
+    void on_pushButton_setThreshold_clicked();
 
 private:
     Ui::stageProgram *ui;
@@ -82,11 +75,10 @@ private:
 
     QTimer dataTimer;
     QCPItemTracer *itemDemoPhaseTracer;
-    double gCompensation_x =0;
-    double gCompensation_y =0;
-    double gCompensation_z =0;
-    int pCount=0;
 
+    int pCount=0;
+    double accThreshold = 0;
+    bool setThreshold = false;
 };
 
 #endif // STAGEPROGRAM_H

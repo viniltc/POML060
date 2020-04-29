@@ -28,6 +28,10 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
    ui->btn1->setStyleSheet(""); // initial style (start with btn1)
    ui->btn_nextPhase->setEnabled(false);
+   ui->comboBox_1->setEnabled(false);
+   ui->comboBox_2->setEnabled(false);
+   ui->comboBox_3->setEnabled(false);
+   ui->comboBox_4->setEnabled(false);
 
    m_currentBtn = 0;
 
@@ -437,9 +441,24 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn3->setStyleSheet("");
          ui->btn4->setStyleSheet("");
 
+
+         if(ui->comboBox_1->currentIndex()==0)
+             ramp_phase1 = 200;
+         else if(ui->comboBox_1->currentIndex()==1)
+             ramp_phase1 = 500;
+         else if(ui->comboBox_1->currentIndex()==2)
+             ramp_phase1 = 1000;
+         else if(ui->comboBox_1->currentIndex()==3)
+             ramp_phase1 = 1500;
+         else if(ui->comboBox_1->currentIndex()==4)
+             ramp_phase1 = 2000;
+
+   //       ramp_phase1=ui->lineEdit_ramp->text().toInt();
+
          if(EDC_Seg1_checked)
          {
             PW_phase1_EDC = pwvalue;
+
          }
 
      }
@@ -451,6 +470,20 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn2->setStyleSheet("background-color: green");
          ui->btn3->setStyleSheet("");
          ui->btn4->setStyleSheet("");
+
+
+         if(ui->comboBox_2->currentIndex()==0)
+             ramp_phase2 = 200;
+         else if(ui->comboBox_2->currentIndex()==1)
+             ramp_phase2 = 500;
+         else if(ui->comboBox_2->currentIndex()==2)
+             ramp_phase2 = 1000;
+         else if(ui->comboBox_2->currentIndex()==3)
+             ramp_phase2 = 1500;
+         else if(ui->comboBox_2->currentIndex()==4)
+             ramp_phase2 = 2000;
+
+      //   ramp_phase2=ui->lineEdit_ramp->text().toInt();
 
          if(EDC_Seg2_checked)
          {
@@ -469,6 +502,21 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn2->setStyleSheet("");
          ui->btn3->setStyleSheet("background-color: green");
          ui->btn4->setStyleSheet("");
+
+         if(ui->comboBox_3->currentIndex()==0)
+             ramp_phase3 = 200;
+         else if(ui->comboBox_3->currentIndex()==1)
+             ramp_phase3 = 500;
+         else if(ui->comboBox_3->currentIndex()==2)
+             ramp_phase3 = 1000;
+         else if(ui->comboBox_3->currentIndex()==3)
+             ramp_phase3 = 1500;
+         else if(ui->comboBox_3->currentIndex()==4)
+             ramp_phase3 = 2000;
+
+       //  ramp_phase3=ui->lineEdit_ramp->text().toInt();
+
+
 
          if(EDC_Seg2_checked)
          {
@@ -496,6 +544,18 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn3->setStyleSheet("");
          ui->btn4->setStyleSheet("background-color: green");
 
+         if(ui->comboBox_4->currentIndex()==0)
+             ramp_phase4 = 200;
+         else if(ui->comboBox_4->currentIndex()==1)
+             ramp_phase4 = 500;
+         else if(ui->comboBox_4->currentIndex()==2)
+             ramp_phase4 = 1000;
+         else if(ui->comboBox_4->currentIndex()==3)
+             ramp_phase4 = 1500;
+         else if(ui->comboBox_4->currentIndex()==4)
+             ramp_phase4 = 2000;
+      //    ramp_phase4=ui->lineEdit_ramp->text().toInt();
+
          if(EDC_Seg3_checked)
          {
             PW_phase4_EDC = pwvalue;
@@ -508,6 +568,10 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn2->setStyleSheet("");
          ui->btn3->setStyleSheet("");
          ui->btn4->setStyleSheet("");
+         ui->label_8->setText(QString::number(ramp_phase1));
+         ui->label_9->setText(QString::number(ramp_phase2));
+         ui->label_10->setText(QString::number(ramp_phase3));
+         ui->label_11->setText(QString::number(ramp_phase4));
     }
 
 
@@ -554,6 +618,10 @@ void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
 {
     tetra_grip_api::stimulation_start(true);
     ui->btn_nextPhase->setEnabled(true);
+    ui->comboBox_1->setEnabled(true);
+    ui->comboBox_2->setEnabled(true);
+    ui->comboBox_3->setEnabled(true);
+    ui->comboBox_4->setEnabled(true);
 }
 
 void ProgramKeyGripV2::on_pushButton_stimStop_clicked()

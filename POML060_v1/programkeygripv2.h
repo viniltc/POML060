@@ -124,6 +124,11 @@ private:
          float PW_phase3_ADP = 0;
          float PW_phase4_EDC = 0;
 
+         float ramp_phase1 = 0;
+         float ramp_phase2 = 0;
+         float ramp_phase3 = 0;
+         float ramp_phase4 = 0;
+
 
 
 

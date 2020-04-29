@@ -20,6 +20,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->pushButton_currOnFour->setCheckable(true);
     ui->pushButton_currOnFive->setCheckable(true);
 
+    ui->tabWidget->setCurrentWidget(ui->tab);
+
     ui->label_curr_one->setText(QString("%1 mA").arg(0));
     ui->label_curr_two->setText(QString("%1 mA").arg(0));
     ui->label_curr_three->setText(QString("%1 mA").arg(0));
@@ -36,6 +38,10 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
+
+    ui->doubleSpinBox_thresold->setSingleStep(0.05);
+    ui->doubleSpinBox_thresold->setMinimum(0);
+    ui->doubleSpinBox_thresold->setMaximum(1);
 
 
     pLabel = patientLabel;
@@ -55,12 +61,24 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
 
+    QPen pen0,pen1, pen2, pen3;
     ui->customPlot->addGraph(); // blue line
-    ui->customPlot->graph(0)->setPen(QPen(QColor(40, 110, 255)));
+    pen0.setWidth(2);
+    pen0.setColor(QColor(40, 110, 255));
+    ui->customPlot->graph(0)->setPen(pen0);
     ui->customPlot->addGraph(); // red line
-    ui->customPlot->graph(1)->setPen(QPen(QColor(255, 110, 40)));
+    pen1.setWidth(2);
+    pen1.setColor(QColor(255, 110, 40));
+    ui->customPlot->graph(1)->setPen(pen1);
     ui->customPlot->addGraph(); // red line
-    ui->customPlot->graph(2)->setPen(QPen(QColor(110, 255, 40)));
+    pen2.setWidth(2);
+    pen2.setColor(QColor(110, 255, 40));
+    ui->customPlot->graph(2)->setPen(pen2);
+    ui->customPlot->addGraph();
+    pen3.setWidth(1);
+    pen3.setColor(QColor(250, 0, 0));
+    pen3.setStyle(Qt::DotLine);
+    ui->customPlot->graph(3)->setPen(pen3);
 //    ui->customPlot->addGraph();
 //    ui->customPlot->graph(3)->setPen(QPen(QColor(11, 25, 40)));
 //    ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(2));
@@ -85,7 +103,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->customPlot->graph(0)->setName("X");
     ui->customPlot->graph(1)->setName("Y");
     ui->customPlot->graph(2)->setName("Z");
-  //  ui->customPlot->graph(3)->setName("Z_test");
+    ui->customPlot->graph(3)->setName("Threshold");
    // ui->customPlot->graph(3)->setName("Conf Int, Y");
 
     ui->customPlot->legend->setVisible(true);
@@ -240,97 +258,41 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
 void stageProgram::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
 {
-//    ui->textBrowser->setText("Index = " + QString::number(index) + "\n" +
-//                "Acceleration, X: " + QString::number(sample->acceleration_g[0]) + "\n" +
-//                "Acceleration, Y: " + QString::number(sample->acceleration_g[1]) + "\n" +
-//                "Acceleration, Z: " + QString::number(sample->acceleration_g[2]) + "\n\n" +
-
-//                "Quaternion w: " + QString::number(sample->quaternion[0]) + "\n" +
-//                "Quaternion x: " + QString::number(sample->quaternion[1]) + "\n" +
-//                "Quaternion y: " + QString::number(sample->quaternion[2]) + "\n" +
-//                "Quaternion z: " + QString::number(sample->quaternion[3]));
+    ////   // from http://www.varesano.net/blog/fabio/simple-gravity-compensation-9-dom-imus
+       double q0 = sample->quaternion[0];
+       double q1 = sample->quaternion[1];
+       double q2 = sample->quaternion[2];
+       double q3 = sample->quaternion[3];
 
 
-//   // from http://www.varesano.net/blog/fabio/simple-gravity-compensation-9-dom-imus
-   double q0 = sample->quaternion[0];
-   double q1 = sample->quaternion[1];
-   double q2 = sample->quaternion[2];
-   double q3 = sample->quaternion[3];
+       QQuaternion quat; // quaternion value change q0, (-)q1, (-)q2, q3
+       quat.setScalar(q0);
+       quat.setX(-q1);
+       quat.setY(-q2);
+       quat.setZ(q3);
 
-   double a0 = sample->acceleration_g[0];
-   double a1 = sample->acceleration_g[1];
-   double a2 = sample->acceleration_g[2];
+       QQuaternion qNormalized = quat.normalized();
 
-////    double a_mag=sqrt(a0*a0 + a1*a1 + a2*a2);
-////    a0/=a_mag;
-////    a1/=a_mag;
-////    a2/=a_mag;
-
-////   double w=q0;
-////   q0=q1;
-////   q1=q2;
-////   q2=q3;
-////   q3=w;
-   double q_mag=sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
-  // double q_mag=sqrt(q1*q1 + q2*q2 + q3*q3);
-   q0/=q_mag;
-   q1/=q_mag;
-   q2/=q_mag;
-   q3/=q_mag;
-
-//   double g0 = 2 * (q1 * q3 - q0 * q2);
-//   double g1 = 2 * (q0 * q1 + q2 * q3);
-//   double g2 = q0 * q0 - q1 * q1 - q2 * q2 + q3 * q3;
-//   //double g2 =    2 * (q0 * q0 - 1 + 2 * q3 * q3);
-//   gCompensation_x = g0;
-//   gCompensation_y = g1;
-//   gCompensation_z = g2;
+       double a0 = sample->acceleration_g[0];
+       double a1 = sample->acceleration_g[1];
+       double a2 = sample->acceleration_g[2];
+       accThreshold = ui->doubleSpinBox_thresold->value();
 
 
+       QVector3D acc(a0,a1,a2);
+       QVector3D gg(0,0,1);
 
-////   double rotation[] = {
-////       2*(q0*q0)-1+ 2*(q1*q1), 2*(q1*q2 + q0*q3), 2*(q1*q3 - q0*q2),
-////       2*(q1*q2 - q0*q3), 2*(q0*q0)-1+ 2*(q2*q2), 2*(q2*q3 + q0*q1),
-////       2*(q1*q3 + q0*q2), 2*(q2*q3 - q0*q1), 2*(q0*q0)-1+ 2*(q3*q3)
-////   };
-////   QGenericMatrix<3,3,double> R_matrix(rotation);
-////   //qDebug() <<  " th Matrix is:"<< R_matrix;
-
-////   double a[] = {
-////       a0, a1, a2
-////   };
-////   QGenericMatrix<1,3,double> A_matrix(a);
-////  // qDebug() <<  " the Acceleration Matrix is:"<< A_matrix;
-
-////   double g[] = {
-////       0, 0, -1
-////   };
-////    QGenericMatrix<1,3,double> G_matrix(g);
-////    QGenericMatrix<1,3,double> Totmatrix = (R_matrix*A_matrix)+G_matrix;
-//    //qDebug() << "TOTMATRIX" << Totmatrix;
-
-    QQuaternion quat(q0,q1,q2,q3);
-    QVector3D acc(a0,a1,a2);
-    QVector3D gg(0,0,-1.0);
-
-    QVector3D vpost = quat.rotatedVector(acc);
-    QVector3D res = vpost+gg;
-    QQuaternion quatinv= quat.inverted();
-    QVector3D vpostt = quatinv.rotatedVector(res);
-//  // qDebug()<< "The index" << res.x();
+        //QVector3D vpost = qNormalized.rotatedVector(acc);
+       QVector3D res = qNormalized.rotatedVector(acc)-gg; //rotate the acceleration from the local body reference frame to the local Earth reference frame and gravity if substracted
 
 
+       QVector3D rotRes = qNormalized.inverted().rotatedVector(res); // converted it back to the local body frame by taking inverse quaternion
 
 
-
-    realtimeDataSlot(sample->acceleration_g[0]-gCompensation_x, sample->acceleration_g[1]-gCompensation_y, sample->acceleration_g[2]-gCompensation_z, sample->acceleration_g[2]);
-   // realtimeDataSlot(a0-gCompensation_x, a1-gCompensation_y, a2-gCompensation_z, sample->acceleration_g[2]);
-   //  realtimeDataSlot(Totmatrix(0,0), Totmatrix(1,0),Totmatrix(2,0), sample->acceleration_g[2]);
-   //  realtimeDataSlot(quatinv.x(), quatinv.y(), quatinv.z(), sample->acceleration_g[2]);
-   // realtimeDataSlot(res.x(), res.y(), res.z(), sample->acceleration_g[2]);
-
+     //realtimeDataSlot(res.x(), res.y(), res.z());
+       realtimeDataSlot(rotRes.x(), rotRes.y(), rotRes.z(), accThreshold);
 }
-void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double z_acceleration_gnew)
+void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double threshold)
 {
     static QTime time(QTime::currentTime());
     // calculate two new data points:
@@ -345,6 +307,7 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
         ui->customPlot->graph(0)->addData(key, x_acceleration_g);
         ui->customPlot->graph(1)->addData(key, y_acceleration_g);
         ui->customPlot->graph(2)->addData(key, z_acceleration_g);
+        ui->customPlot->graph(3)->addData(key, threshold);
 
        // ui->customPlot->graph(3)->addData(key, z_acceleration_gnew);
 
@@ -375,38 +338,32 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
     }
 
   // twitch detection
+    static double lastTwitchKey;
     QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
     QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
     //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
     double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
 
-    if(a_sum > 0.5 && gCompensation_y == 1 && y_acceleration_g > 0)
-    //if(a_sum > 0.5 && gCompensation_y==1)
-        //ui->btn_twitch->setStyleSheet("background:red;");
-    {
-    ui->rdo_btn->show();
-    setStyleSheet(StyleSheetOn);
-    }
+    if(setThreshold && y_acceleration_g> accThreshold &&  y_acceleration_g > 0 && key-lastTwitchKey > 0.5)
+      {
+
+        ui->rdo_btn->show();
+        setStyleSheet(StyleSheetOn);
+//        QElapsedTimer ttime;
+//        ttime.start();
+        lastTwitchKey = key;
+        }
+
 
     else
-    {
+      {
         //ui->btn_twitch->setStyleSheet("");
-    setStyleSheet(StyleSheetOff);
+        setStyleSheet(StyleSheetOff);
+      }
+
+
     }
-
-
-
-//    if(y_acceleration_g>0.25  && key > 0.02)
-//    {
-//        pCount++;
-//        ui->btn_twitch->setStyleSheet("background:red;");
-//    }
-//    else
-//        ui->btn_twitch->setStyleSheet("");
-
-//    ui->lbl_peak->setText("Twitch count: "+QString::number(pCount));
-}
 
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
@@ -540,24 +497,11 @@ void stageProgram::saveToXMLFile()
     qDebug()<< "Finished";
 }
 
-void stageProgram::on_pushButton_reset_clicked()
-{
-    gCompensation_x = 0;
-    gCompensation_y = 0;
-    gCompensation_z = 0;
-}
 
-void stageProgram::on_btn_gx_clicked()
-{
-    gCompensation_x = 1;
-}
 
-void stageProgram::on_btn_gy_clicked()
-{
-    gCompensation_y = 1;
-}
 
-void stageProgram::on_btn_gz_clicked()
+void stageProgram::on_pushButton_setThreshold_clicked()
 {
-    gCompensation_z = 1;
+    accThreshold = ui->doubleSpinBox_thresold->value();
+    setThreshold = true;
 }
