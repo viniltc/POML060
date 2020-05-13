@@ -118,7 +118,15 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     // connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
     // dataTimer.start(0); // Interval 0 means to refresh as fast as possible
 
-    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 10); // sensor data in 100Hz
+    // sensor data in 100Hz
+
+
+    if(ui->tab)
+         tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+    else if(ui->tab_2)
+        tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
+    else if(ui->tab_3)
+        tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
 
 }
@@ -369,6 +377,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
    ManageConfigFile configFile;
    configFile.keyGripTest(pLabel);
+   tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
    this->hide();
    keygripv2 = new ProgramKeyGripV2(pLabel);
@@ -504,4 +513,20 @@ void stageProgram::on_pushButton_setThreshold_clicked()
 {
     accThreshold = ui->doubleSpinBox_thresold->value();
     setThreshold = true;
+}
+
+void stageProgram::on_tabWidget_currentChanged(int index)
+{
+ if (index == 0)
+     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+ else if (index == 2)
+     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+ else
+     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
+
+}
+
+void stageProgram::on_tabWidget_tabCloseRequested(int index)
+{
+
 }

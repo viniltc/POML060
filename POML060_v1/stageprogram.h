@@ -59,6 +59,10 @@ private slots:
     void saveToXMLFile();
     void on_pushButton_setThreshold_clicked();
 
+    void on_tabWidget_currentChanged(int index);
+
+    void on_tabWidget_tabCloseRequested(int index);
+
 private:
     Ui::stageProgram *ui;
     float currentOneSetVal = 0;

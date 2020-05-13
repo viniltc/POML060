@@ -57,6 +57,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 
 
     tetra_grip_api::get_battery_percentage();
+    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
 }
 
