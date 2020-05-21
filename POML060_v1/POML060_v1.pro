@@ -9,6 +9,8 @@ CONFIG += c++11
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+# to disale debug messages
+# DEFINES += QT_NO_DEBUG_OUTPUT
 
 # You can also make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -31,6 +33,7 @@ SOURCES += \
     qcustomplot.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
+    stagetwonew.cpp \
     stagetwopatients.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
@@ -59,6 +62,7 @@ HEADERS += \
     qcustomplot.h \
     stageonemain.h \
     stageprogram.h \
+    stagetwonew.h \
     stagetwopatients.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
@@ -72,6 +76,7 @@ FORMS += \
     programswitchgrasp.ui \
     stageonemain.ui \
     stageprogram.ui \
+    stagetwonew.ui \
     stagetwopatients.ui
 
 INCLUDEPATH += ./leds

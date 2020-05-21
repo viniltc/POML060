@@ -83,6 +83,7 @@ private:
     int pCount=0;
     double accThreshold = 0;
     bool setThreshold = false;
+    bool saveClicked = false;
 };
 
 #endif // STAGEPROGRAM_H

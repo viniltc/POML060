@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "tetra_grip_api.h"
+#include "stagetwonew.h"
 
 
 namespace Ui {
@@ -17,6 +18,7 @@ public:
       StageTwoPatients( QWidget *parent = nullptr);
     ~StageTwoPatients();
     void parseDataEntry(const QString dataPath);
+   StageTwoNew *stagetwonew;
 
 public slots:
 

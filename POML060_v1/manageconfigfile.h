@@ -9,6 +9,7 @@ public:
     ManageConfigFile();
     QString pLabel;
     void keyGripTest(QString patientLabel);
+    void keyGripFinal(QString patientLabel);
 };
 
 #endif // MANAGECONFIGFILE_H

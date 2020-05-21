@@ -184,7 +184,10 @@ void StageTwoPatients::on_pushButton_Open_clicked()
 
 void StageTwoPatients::on_pushButton_New_clicked()
 {
-
+    this->close();
+    stagetwonew = new StageTwoNew(this);
+    stagetwonew -> setWindowTitle("New details");
+    stagetwonew -> show();
 }
 
 void StageTwoPatients::on_pushButton_Modify_clicked()

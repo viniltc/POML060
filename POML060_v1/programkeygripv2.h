@@ -25,6 +25,7 @@ public:
 
     int distance(QPoint, QPoint);
         QString pLabel;
+        int pw_value = 0;
 
 
 
@@ -37,6 +38,8 @@ public slots:
         void paintBtn(int id, int pwvalue);
         void getPWValue (int);
         int adjust_PW_range(int value);
+        int adjust_Ramp_Step_size(int pwvalue, float rmpvalue);
+        void getRampStepSize(void);
 
 signals:
 
@@ -56,29 +59,29 @@ private:
      bool EDC_Seg2_dragging = false;
 
      QPoint p41 = QPoint(150,300);
-     QPoint p42 = QPoint(170,250);
-     QPoint p43 = QPoint(250,250);
+     QPoint p42 = QPoint(170,280); //250
+     QPoint p43 = QPoint(250,280); //250
      QPoint p44 = QPoint(270,280);
      QPoint p45 = QPoint(450,280);
-     QPoint p46 = QPoint(470,250);
-     QPoint p47 = QPoint(550,250);
+     QPoint p46 = QPoint(470,280); //250
+     QPoint p47 = QPoint(550,280); //250
      QPoint p48 = QPoint(570,300);
 
 
      QPoint p11 = QPoint(230,300);
-     QPoint p12 = QPoint(280,170);
-     QPoint p13 = QPoint(450,170);
+     QPoint p12 = QPoint(280,280);//170
+     QPoint p13 = QPoint(450,280);//170
      QPoint p14 = QPoint(500,300);
 
 
      QPoint p31 = QPoint(300,300);
-     QPoint p32 = QPoint(320,200);
-     QPoint p33 = QPoint(450,200);
+     QPoint p32 = QPoint(320,280); //200
+     QPoint p33 = QPoint(450,280); //200
      QPoint p34 = QPoint(470,300);
 
      QPoint p21 = QPoint(300,300);
-     QPoint p22 = QPoint(320,240);
-     QPoint p23 = QPoint(450,240);
+     QPoint p22 = QPoint(320,280); //240
+     QPoint p23 = QPoint(450,280); //240
      QPoint p24 = QPoint(470,300);
 
 
@@ -99,12 +102,12 @@ private:
          QPoint *CurPoint3=nullptr;
          QPoint *CurPoint4=nullptr;
 
-         bool FDS_checked;
-         bool Ulna_checked;
-         bool ADP_checked;
-         bool EDC_Seg1_checked;
-         bool EDC_Seg3_checked;
-         bool EDC_Seg2_checked;
+         bool FDS_checked = false;
+         bool Ulna_checked = false;
+         bool ADP_checked = false;
+         bool EDC_Seg1_checked = false;
+         bool EDC_Seg3_checked= false;
+         bool EDC_Seg2_checked= false;
 
          int m_currentBtn = 0;
          QButtonGroup *btnGrp = nullptr;
@@ -114,6 +117,8 @@ private:
          uint8_t m_channelThree = 2;
          uint8_t m_channelFour = 3;
          uint8_t m_channelFive = 4;
+
+         bool phaseOver = false;
 
          float PW_phase1_EDC = 0;
          float PW_phase2_EDC = 0;
@@ -129,8 +134,14 @@ private:
          float ramp_phase3 = 0;
          float ramp_phase4 = 0;
 
-
-
+         int ramp_stepsize_phase1_EDC = 0;
+         int ramp_stepsize_phase2_EDC = 0;
+         int ramp_stepsize_phase2_FDS = 0;
+         int ramp_stepsize_phase3_ADP = 0;
+         int ramp_stepsize_phase3_Ulna = 0;
+         int ramp_stepsize_phase3_FDS = 0;
+         int ramp_stepsize_phase3_EDC = 0;
+         int ramp_stepsize_phase4_EDC = 0;
 
 
 
@@ -148,6 +159,12 @@ private slots:
          void on_btn_nextPhase_clicked();
          void saveToXMLFile();
 
+         void on_comboBox_1_currentIndexChanged(int index);
+         void on_comboBox_2_currentIndexChanged(int index);
+         void on_comboBox_3_currentIndexChanged(int index);
+         void on_comboBox_4_currentIndexChanged(int index);
+         void on_pushButton_keyGrip_clicked();
+         void on_pushButton_save_clicked();
 };
 
 #endif // PROGRAMKEYGRIPV2_H

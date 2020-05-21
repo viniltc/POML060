@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QDomDocument>
 #include <QFile>
+#include "manageconfigfile.h"
 
 ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     : QMainWindow(parent)
@@ -25,13 +26,44 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     btnGrp->addButton(ui->btn3, 3);
     btnGrp->addButton(ui->btn4, 4);
 
-
-   ui->btn1->setStyleSheet(""); // initial style (start with btn1)
    ui->btn_nextPhase->setEnabled(false);
    ui->comboBox_1->setEnabled(false);
    ui->comboBox_2->setEnabled(false);
    ui->comboBox_3->setEnabled(false);
    ui->comboBox_4->setEnabled(false);
+   ui->pushButton_keyGrip->setEnabled(false);
+
+   ui->radioButton_one->setEnabled(false);
+   ui->radioButton_two->setEnabled(false);
+   ui->radioButton_three->setEnabled(false);
+   ui->radioButton_four->setEnabled(false);
+   ui->radioButton_five->setEnabled(false);
+   ui->radioButton_six->setEnabled(false);
+
+
+   ui->comboBox_1->addItem("200ms", QVariant(0.2));
+   ui->comboBox_1->addItem("500ms", QVariant(0.5));
+   ui->comboBox_1->addItem("1000ms", QVariant(1));
+   ui->comboBox_1->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_1->addItem("200ms", QVariant(2));
+
+   ui->comboBox_2->addItem("200ms", QVariant(0.2));
+   ui->comboBox_2->addItem("500ms", QVariant(0.5));
+   ui->comboBox_2->addItem("1000ms", QVariant(1));
+   ui->comboBox_2->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_2->addItem("200ms", QVariant(2));
+
+   ui->comboBox_3->addItem("200ms", QVariant(0.2));
+   ui->comboBox_3->addItem("500ms", QVariant(0.5));
+   ui->comboBox_3->addItem("1000ms", QVariant(1));
+   ui->comboBox_3->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_3->addItem("200ms", QVariant(2));
+
+   ui->comboBox_4->addItem("200ms", QVariant(0.2));
+   ui->comboBox_4->addItem("500ms", QVariant(0.5));
+   ui->comboBox_4->addItem("1000ms", QVariant(1));
+   ui->comboBox_4->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_4->addItem("200ms", QVariant(2));
 
    m_currentBtn = 0;
 
@@ -45,7 +77,10 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
 
 
-    QFile f(":/resources/config_keygrip_v2.txt");
+    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
+    //QFile f(":/resources/config_keygrip_v2.txt");
+    QFile f(txtWritePath);
     if(!f.open(QFile::ReadOnly))
          {
              QMessageBox::information(0, "config file error", f.errorString());
@@ -238,9 +273,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
          changeP1value(event->y());
        }
         if(FDS_checked){
-           ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
-           ui->label_one->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-           ui->label_one->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+          // ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
+           ui->label_FDS->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
+           ui->label_FDS->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
           }
     }
@@ -251,9 +286,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(Ulna_checked){
-      ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
-      ui->label_two->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_two->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+    //  ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
+      ui->label_Ulna->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_Ulna->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       }
     }
     else if(ADP_dragging && ADP_checked)
@@ -263,9 +298,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(ADP_checked){
-      ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
-      ui->label_three->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_three->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+     // ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
+      ui->label_ADP->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_ADP->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       }
     }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
@@ -275,9 +310,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(EDC_Seg1_checked){
-      ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_four->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_four->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+    //  ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
+      ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
@@ -287,9 +322,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(EDC_Seg3_checked){
-      ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_five->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_five->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+    //  ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
+      ui->label_EDC3->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       }
     }
 
@@ -300,9 +335,9 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
        }
 
       if(EDC_Seg2_checked){
-      ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_six->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_six->setText(QString::number(adjust_PW_range(CurPoint1->y())));
+     // ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
+      ui->label_EDC2->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC2->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       }
     }
     else
@@ -319,6 +354,8 @@ void ProgramKeyGripV2::changeP1value(int value)
     //QThread::msleep(200);
     update();
     emit pulseWidthValue(adjust_PW_range(CurPoint1->y()));
+    pw_value = adjust_PW_range(CurPoint1->y());
+
 
 }
 
@@ -336,6 +373,8 @@ void ProgramKeyGripV2::nextBtn(int pwvalue)
     if(m_currentBtn > btnGrp->buttons().size())
     {
         m_currentBtn = 0;
+        phaseOver = true;
+        getRampStepSize();
         saveToXMLFile();
     }
 
@@ -351,8 +390,6 @@ void ProgramKeyGripV2::prevBtn(int pwvalue)
          m_currentBtn = btnGrp->buttons().size();
      }
 
-
-
   emit buttonChanged(m_currentBtn, pwvalue);
    //  qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
 }
@@ -363,101 +400,64 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
     if(EDC_Seg1_checked)
     {
-      tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
+      tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
+
     }
     else if(EDC_Seg2_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
-    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
+    tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
+    tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
+
     }
     else if(EDC_Seg3_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
+    tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
     }
     else if(Ulna_checked)
     {
-       tetra_grip_api::stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
+       tetra_grip_api::set_stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
         //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
     }
     else if(FDS_checked)
     {
-       tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
-       tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
+       tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
+       tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
         //tetra_grip_api::stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
+
     }
     else if(ADP_checked)
     {
-    tetra_grip_api::stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
+    tetra_grip_api::set_stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
+    // PW_phase3_ADP = pwvalue;
     }
 
+    pw_value = pwvalue;
 
-
-
+    ui->label_test->setText(QString::number(pw_value));
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
-  //tetra_grip_api::stimulation_target_pulse_width()
-/*    switch(id)
-    {
 
-    case 1 :
-
-         ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("background-color: red");
-         ui->btn2->setStyleSheet("");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("");
-
-        break;
-    case 2 :
-         ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("");
-         ui->btn2->setStyleSheet("background-color: red");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("");
-        break;
-
-    case 3 :
-        ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
-        ui->btn1->setStyleSheet("");
-        ui->btn2->setStyleSheet("");
-        ui->btn3->setStyleSheet("background-color: red");
-        ui->btn4->setStyleSheet("");
-        break;
-    case 4 :    
-        ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));     
-        ui->btn1->setStyleSheet("");
-        ui->btn2->setStyleSheet("");
-        ui->btn3->setStyleSheet("");
-        ui->btn4->setStyleSheet("background-color: red");
-        break;
-
-    } */
+    QString StyleSheetOn("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
+                         "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)");
+    QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+                          "color: #0000;");
 
      if(id==1)
      {
          ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("background-color: green");
-         ui->btn2->setStyleSheet("");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("");
-
-
-         if(ui->comboBox_1->currentIndex()==0)
-             ramp_phase1 = 200;
-         else if(ui->comboBox_1->currentIndex()==1)
-             ramp_phase1 = 500;
-         else if(ui->comboBox_1->currentIndex()==2)
-             ramp_phase1 = 1000;
-         else if(ui->comboBox_1->currentIndex()==3)
-             ramp_phase1 = 1500;
-         else if(ui->comboBox_1->currentIndex()==4)
-             ramp_phase1 = 2000;
-
-   //       ramp_phase1=ui->lineEdit_ramp->text().toInt();
+        // ui->btn1->setStyleSheet("background-color: green");
+         ui->btn1->setStyleSheet(StyleSheetOn);
+         ui->btn2->setStyleSheet(StyleSheetOff);
+         ui->btn3->setStyleSheet(StyleSheetOff);
+         ui->btn4->setStyleSheet(StyleSheetOff);
+         ui->pushButton_keyGrip->setEnabled(false);
 
          if(EDC_Seg1_checked)
          {
             PW_phase1_EDC = pwvalue;
+            //ramp_stepsize_phase1_EDC = adjust_Ramp_Step_size( PW_phase1_EDC, ramp_phase1);
 
          }
 
@@ -466,114 +466,84 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
      else if(id==2)
      {
          ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("");
-         ui->btn2->setStyleSheet("background-color: green");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("");
-
-
-         if(ui->comboBox_2->currentIndex()==0)
-             ramp_phase2 = 200;
-         else if(ui->comboBox_2->currentIndex()==1)
-             ramp_phase2 = 500;
-         else if(ui->comboBox_2->currentIndex()==2)
-             ramp_phase2 = 1000;
-         else if(ui->comboBox_2->currentIndex()==3)
-             ramp_phase2 = 1500;
-         else if(ui->comboBox_2->currentIndex()==4)
-             ramp_phase2 = 2000;
-
-      //   ramp_phase2=ui->lineEdit_ramp->text().toInt();
+         ui->btn1->setStyleSheet(StyleSheetOff);
+         ui->btn2->setStyleSheet(StyleSheetOn);
+         ui->btn3->setStyleSheet(StyleSheetOff);
+         ui->btn4->setStyleSheet(StyleSheetOff);
+         ui->pushButton_keyGrip->setEnabled(false);
 
          if(EDC_Seg2_checked)
          {
             PW_phase2_EDC = pwvalue;
+            //ramp_stepsize_phase2_EDC = adjust_Ramp_Step_size( PW_phase2_EDC, ramp_phase2);
          }
          else if(FDS_checked)
          {
             PW_phase2_FDS = pwvalue;
+           // ramp_stepsize_phase2_FDS = adjust_Ramp_Step_size( PW_phase2_FDS, ramp_phase2);
          }
      }
 
     else if(id==3)
     {
          ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("");
-         ui->btn2->setStyleSheet("");
-         ui->btn3->setStyleSheet("background-color: green");
-         ui->btn4->setStyleSheet("");
-
-         if(ui->comboBox_3->currentIndex()==0)
-             ramp_phase3 = 200;
-         else if(ui->comboBox_3->currentIndex()==1)
-             ramp_phase3 = 500;
-         else if(ui->comboBox_3->currentIndex()==2)
-             ramp_phase3 = 1000;
-         else if(ui->comboBox_3->currentIndex()==3)
-             ramp_phase3 = 1500;
-         else if(ui->comboBox_3->currentIndex()==4)
-             ramp_phase3 = 2000;
-
-       //  ramp_phase3=ui->lineEdit_ramp->text().toInt();
-
-
+         ui->btn1->setStyleSheet(StyleSheetOff);
+         ui->btn2->setStyleSheet(StyleSheetOff);
+         ui->btn3->setStyleSheet(StyleSheetOn);
+         ui->btn4->setStyleSheet(StyleSheetOff);
+         ui->pushButton_keyGrip->setEnabled(false);
 
          if(EDC_Seg2_checked)
          {
-            PW_phase3_EDC = pwvalue;
+            //PW_phase3_EDC = pwvalue;
+            PW_phase3_EDC = PW_phase2_EDC;
+            //ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
          }
          else if(FDS_checked)
          {
             PW_phase3_FDS = pwvalue;
+           // ramp_stepsize_phase3_FDS = adjust_Ramp_Step_size( PW_phase3_FDS, ramp_phase3);
          }
          else if(Ulna_checked)
          {
             PW_phase3_Ulna = pwvalue;
+           // ramp_stepsize_phase3_Ulna = adjust_Ramp_Step_size( PW_phase3_Ulna, ramp_phase3);
          }
          else if(ADP_checked)
          {
             PW_phase3_ADP = pwvalue;
+           // ramp_stepsize_phase3_ADP = adjust_Ramp_Step_size( PW_phase3_ADP, ramp_phase3);
          }
     }
 
     else if(id==4)
     {
          ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet("");
-         ui->btn2->setStyleSheet("");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("background-color: green");
+         ui->btn1->setStyleSheet(StyleSheetOff);
+         ui->btn2->setStyleSheet(StyleSheetOff);
+         ui->btn3->setStyleSheet(StyleSheetOff);
+         ui->btn4->setStyleSheet(StyleSheetOn);
+         ui->pushButton_keyGrip->setEnabled(false);
 
-         if(ui->comboBox_4->currentIndex()==0)
-             ramp_phase4 = 200;
-         else if(ui->comboBox_4->currentIndex()==1)
-             ramp_phase4 = 500;
-         else if(ui->comboBox_4->currentIndex()==2)
-             ramp_phase4 = 1000;
-         else if(ui->comboBox_4->currentIndex()==3)
-             ramp_phase4 = 1500;
-         else if(ui->comboBox_4->currentIndex()==4)
-             ramp_phase4 = 2000;
-      //    ramp_phase4=ui->lineEdit_ramp->text().toInt();
 
          if(EDC_Seg3_checked)
          {
             PW_phase4_EDC = pwvalue;
+           // ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
          }
     }
 
     else
     {
-         ui->btn1->setStyleSheet("");
-         ui->btn2->setStyleSheet("");
-         ui->btn3->setStyleSheet("");
-         ui->btn4->setStyleSheet("");
-         ui->label_8->setText(QString::number(ramp_phase1));
-         ui->label_9->setText(QString::number(ramp_phase2));
-         ui->label_10->setText(QString::number(ramp_phase3));
-         ui->label_11->setText(QString::number(ramp_phase4));
-    }
+         ui->btn1->setStyleSheet(StyleSheetOff);
+         ui->btn2->setStyleSheet(StyleSheetOff);
+         ui->btn3->setStyleSheet(StyleSheetOff);
+         ui->btn4->setStyleSheet(StyleSheetOff);
+         ui->pushButton_keyGrip->setEnabled(true);
+         ui->pushButton_save->setEnabled(true);
 
+
+    }
 
 }
 
@@ -622,11 +592,46 @@ void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
     ui->comboBox_2->setEnabled(true);
     ui->comboBox_3->setEnabled(true);
     ui->comboBox_4->setEnabled(true);
+
+    ui->radioButton_one->setEnabled(true);
+    ui->radioButton_two->setEnabled(true);
+    ui->radioButton_three->setEnabled(true);
+    ui->radioButton_four->setEnabled(true);
+    ui->radioButton_five->setEnabled(true);
+    ui->radioButton_six->setEnabled(true);
 }
 
 void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
 {
      tetra_grip_api::stimulation_pause(true);
+
+     m_currentBtn = 0;
+
+     ui->btn_nextPhase->setEnabled(false);
+     ui->comboBox_1->setEnabled(false);
+     ui->comboBox_2->setEnabled(false);
+     ui->comboBox_3->setEnabled(false);
+     ui->comboBox_4->setEnabled(false);
+
+     ui->radioButton_one->setEnabled(false);
+     ui->radioButton_two->setEnabled(false);
+     ui->radioButton_three->setEnabled(false);
+     ui->radioButton_four->setEnabled(false);
+     ui->radioButton_five->setEnabled(false);
+     ui->radioButton_six->setEnabled(false);
+     ui->pushButton_keyGrip->setEnabled(false);
+     ui->pushButton_save->setEnabled(false);
+
+     QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                           "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+                                   "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+                           "color: #0000;");
+
+     ui->btn1->setStyleSheet(StyleSheetOff);
+     ui->btn2->setStyleSheet(StyleSheetOff);
+     ui->btn3->setStyleSheet(StyleSheetOff);
+     ui->btn4->setStyleSheet(StyleSheetOff);
+
 }
 
 void ProgramKeyGripV2::on_btn_nextPhase_clicked()
@@ -636,9 +641,61 @@ void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 
 int ProgramKeyGripV2::adjust_PW_range(int value)
 {
-    return ((280-value)*3)+1;
+    int result = ((280-value)*3)+1 ;
+
+    if (result == 0)
+         return -1;
+    else
+         return result;
 }
 
+void ProgramKeyGripV2::on_comboBox_1_currentIndexChanged(int index)
+{
+    float value = ui->comboBox_1->itemData(index).toFloat();
+    ramp_phase1 = value;
+}
+
+void ProgramKeyGripV2::on_comboBox_2_currentIndexChanged(int index)
+{
+    float value = ui->comboBox_2->itemData(index).toFloat();
+    ramp_phase2 = value;
+
+}
+
+void ProgramKeyGripV2::on_comboBox_3_currentIndexChanged(int index)
+{
+    float value = ui->comboBox_3->itemData(index).toFloat();
+    ramp_phase3 = value;
+
+}
+
+void ProgramKeyGripV2::on_comboBox_4_currentIndexChanged(int index)
+{
+    float value = ui->comboBox_4->itemData(index).toFloat();
+    ramp_phase4 = value;
+
+}
+
+int ProgramKeyGripV2::adjust_Ramp_Step_size(int pwvalue, float rmpvalue)
+{
+    int rmp_step_size = 1000*(pwvalue/(rmpvalue*40));
+    return rmp_step_size;
+}
+
+void ProgramKeyGripV2::getRampStepSize()
+{
+       ramp_stepsize_phase1_EDC = adjust_Ramp_Step_size( PW_phase1_EDC, ramp_phase1);
+       ramp_stepsize_phase2_EDC = adjust_Ramp_Step_size( PW_phase2_EDC, ramp_phase2);
+       ramp_stepsize_phase2_FDS = adjust_Ramp_Step_size( PW_phase2_FDS, ramp_phase2);
+       ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
+       ramp_stepsize_phase3_FDS = adjust_Ramp_Step_size( PW_phase3_FDS, ramp_phase3);
+       ramp_stepsize_phase3_Ulna = adjust_Ramp_Step_size( PW_phase3_Ulna, ramp_phase3);
+       ramp_stepsize_phase3_ADP = adjust_Ramp_Step_size( PW_phase3_ADP, ramp_phase3);
+       ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
+
+
+
+}
 
 void ProgramKeyGripV2::saveToXMLFile()
 {
@@ -666,48 +723,51 @@ void ProgramKeyGripV2::saveToXMLFile()
     file.close();
 
     QDomElement newPWTag = document.createElement(QString("PW_KeyGrip"));
+    QDomElement newRmpTag = document.createElement(QString("Ramp_KeyGrip"));
 
     QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
+    QDomNode RmpNode = root.elementsByTagName("Ramp_KeyGrip").at(0).firstChild();
+    QDomElement RmpNodeVal = RmpNode.toElement();
 
     if (PWNodeVal.isNull())
     {
-        QDomElement P1_EDCTag = document.createElement(QString("PW_phase1_EDC"));
+        QDomElement P1_EDCTag = document.createElement(QString("PW_p1_EDC"));
         QDomText P1_EDCVal = document.createTextNode(QString::number(PW_phase1_EDC));
         P1_EDCTag.appendChild(P1_EDCVal);
         newPWTag.appendChild(P1_EDCTag);
 
-        QDomElement P2_EDCTag = document.createElement(QString("PW_phase2_EDC"));
+        QDomElement P2_EDCTag = document.createElement(QString("PW_p2_EDC"));
         QDomText P2_EDCVal = document.createTextNode(QString::number(PW_phase2_EDC));
         P2_EDCTag.appendChild(P2_EDCVal);
         newPWTag.appendChild(P2_EDCTag);
 
-        QDomElement P2_FDSTag = document.createElement(QString("PW_phase2_FDS"));
+        QDomElement P2_FDSTag = document.createElement(QString("PW_p2_FDS"));
         QDomText P2_FDSVal = document.createTextNode(QString::number(PW_phase2_FDS));
         P2_FDSTag.appendChild(P2_FDSVal);
         newPWTag.appendChild(P2_FDSTag);
 
-        QDomElement P3_EDCTag = document.createElement(QString("PW_phase3_EDC"));
+        QDomElement P3_EDCTag = document.createElement(QString("PW_p3_EDC"));
         QDomText P3_EDCVal = document.createTextNode(QString::number(PW_phase3_EDC));
         P3_EDCTag.appendChild(P3_EDCVal);
         newPWTag.appendChild(P3_EDCTag);
 
-        QDomElement P3_FDSTag = document.createElement(QString("PW_phase3_FDS"));
+        QDomElement P3_FDSTag = document.createElement(QString("PW_p3_FDS"));
         QDomText P3_FDSVal = document.createTextNode(QString::number(PW_phase3_FDS));
         P3_FDSTag.appendChild(P3_FDSVal);
         newPWTag.appendChild(P3_FDSTag);
 
-        QDomElement P3_UlnaTag = document.createElement(QString("PW_phase3_Ulna"));
+        QDomElement P3_UlnaTag = document.createElement(QString("PW_p3_Ulna"));
         QDomText P3_UlnaVal = document.createTextNode(QString::number(PW_phase3_Ulna));
         P3_UlnaTag.appendChild(P3_UlnaVal);
         newPWTag.appendChild(P3_UlnaTag);
 
-        QDomElement P3_ADPTag = document.createElement(QString("PW_phase3_ADP"));
+        QDomElement P3_ADPTag = document.createElement(QString("PW_p3_ADP"));
         QDomText P3_ADPVal = document.createTextNode(QString::number(PW_phase3_ADP));
         P3_ADPTag.appendChild(P3_ADPVal);
         newPWTag.appendChild(P3_ADPTag);
 
-        QDomElement P4_EDCTag = document.createElement(QString("PW_phase4_EDC"));
+        QDomElement P4_EDCTag = document.createElement(QString("PW_p4_EDC"));
         QDomText P4_EDCVal = document.createTextNode(QString::number(PW_phase4_EDC));
         P4_EDCTag.appendChild(P4_EDCVal);
         newPWTag.appendChild(P4_EDCTag);
@@ -715,27 +775,93 @@ void ProgramKeyGripV2::saveToXMLFile()
         root.appendChild(newPWTag);
     }
 
+    else if(RmpNodeVal.isNull())
+    {
+        QDomElement P1_Rmp_EDCTag = document.createElement(QString("Rmp_p1_EDC"));
+        QDomText P1_Rmp_EDCVal = document.createTextNode(QString::number(ramp_stepsize_phase1_EDC));
+        P1_Rmp_EDCTag.appendChild(P1_Rmp_EDCVal);
+        newRmpTag.appendChild(P1_Rmp_EDCTag);
+
+        QDomElement P2_Rmp_EDCTag = document.createElement(QString("Rmp_p2_EDC"));
+        QDomText P2_Rmp_EDCVal = document.createTextNode(QString::number(ramp_stepsize_phase2_EDC));
+        P2_Rmp_EDCTag.appendChild(P2_Rmp_EDCVal);
+        newRmpTag.appendChild(P2_Rmp_EDCTag);
+
+        QDomElement P2_Rmp_FDSTag = document.createElement(QString("Rmp_p2_FDS"));
+        QDomText P2_Rmp_FDSVal = document.createTextNode(QString::number(ramp_stepsize_phase2_FDS));
+        P2_Rmp_FDSTag.appendChild(P2_Rmp_FDSVal);
+        newRmpTag.appendChild(P2_Rmp_FDSTag);
+
+        QDomElement P3_Rmp_FDSTag = document.createElement(QString("Rmp_p3_FDS"));
+        QDomText P3_Rmp_FDSVal = document.createTextNode(QString::number(ramp_stepsize_phase3_FDS));
+        P3_Rmp_FDSTag.appendChild(P3_Rmp_FDSVal);
+        newRmpTag.appendChild(P3_Rmp_FDSTag);
+
+        QDomElement P3_Rmp_EDCTag = document.createElement(QString("Rmp_p3_EDC"));
+        QDomText P3_Rmp_EDCVal = document.createTextNode(QString::number(ramp_stepsize_phase3_EDC));
+        P3_Rmp_EDCTag.appendChild(P3_Rmp_EDCVal);
+        newRmpTag.appendChild(P3_Rmp_EDCTag);
+
+        QDomElement P3_Rmp_UlnaTag = document.createElement(QString("Rmp_p3_Ulna"));
+        QDomText P3_Rmp_UlnaVal = document.createTextNode(QString::number(ramp_stepsize_phase3_Ulna));
+        P3_Rmp_UlnaTag.appendChild(P3_Rmp_UlnaVal);
+        newRmpTag.appendChild(P3_Rmp_UlnaTag);
+
+        QDomElement P3_Rmp_ADPTag = document.createElement(QString("Rmp_p3_ADP"));
+        QDomText P3_Rmp_ADPVal = document.createTextNode(QString::number(ramp_stepsize_phase3_ADP));
+        P3_Rmp_ADPTag.appendChild(P3_Rmp_ADPVal);
+        newRmpTag.appendChild(P3_Rmp_ADPTag);
+
+        QDomElement P4_Rmp_EDCTag = document.createElement(QString("Rmp_p4_EDC"));
+        QDomText P4_Rmp_EDCVal = document.createTextNode(QString::number(ramp_stepsize_phase4_EDC));
+        P4_Rmp_EDCTag.appendChild(P4_Rmp_EDCVal);
+        newRmpTag.appendChild(P4_Rmp_EDCTag);
+
+        root.appendChild(newRmpTag);
+
+    }
+
+
     else
     {
           QDomElement root = document.documentElement();
           QDomNode SettingsNode = root.namedItem("PW_KeyGrip");
 
-          QDomNode pw1 = SettingsNode.namedItem("PW_phase1_EDC");
+          QDomNode pw1 = SettingsNode.namedItem("PW_p1_EDC");
           pw1.firstChild().setNodeValue(QString::number(PW_phase1_EDC));
-          QDomNode pw2 = SettingsNode.namedItem("PW_phase2_EDC");
+          QDomNode pw2 = SettingsNode.namedItem("PW_p2_EDC");
           pw2.firstChild().setNodeValue(QString::number(PW_phase2_EDC));
-          QDomNode pw3 = SettingsNode.namedItem("PW_phase2_FDS");
+          QDomNode pw3 = SettingsNode.namedItem("PW_p2_FDS");
           pw3.firstChild().setNodeValue(QString::number(PW_phase2_FDS));
-          QDomNode pw4 = SettingsNode.namedItem("PW_phase3_EDC");
+          QDomNode pw4 = SettingsNode.namedItem("PW_p3_EDC");
           pw4.firstChild().setNodeValue(QString::number(PW_phase3_EDC));
-          QDomNode pw5 = SettingsNode.namedItem("PW_phase3_FDS");
+          QDomNode pw5 = SettingsNode.namedItem("PW_p3_FDS");
           pw5.firstChild().setNodeValue(QString::number(PW_phase3_FDS));
-          QDomNode pw6 = SettingsNode.namedItem("PW_phase3_Ulna");
+          QDomNode pw6 = SettingsNode.namedItem("PW_p3_Ulna");
           pw6.firstChild().setNodeValue(QString::number(PW_phase3_Ulna));
-          QDomNode pw7 = SettingsNode.namedItem("PW_phase3_ADP");
+          QDomNode pw7 = SettingsNode.namedItem("PW_p3_ADP");
           pw7.firstChild().setNodeValue(QString::number(PW_phase3_ADP));
-          QDomNode pw8 = SettingsNode.namedItem("PW_phase4_EDC");
+          QDomNode pw8 = SettingsNode.namedItem("PW_p4_EDC");
           pw8.firstChild().setNodeValue(QString::number(PW_phase4_EDC));
+
+          QDomNode RampSettingsNode = root.namedItem("Ramp_KeyGrip");
+
+          QDomNode rmp1 = RampSettingsNode.namedItem("Rmp_p1_EDC");
+          rmp1.firstChild().setNodeValue(QString::number(ramp_stepsize_phase1_EDC));
+          QDomNode rmp2 = RampSettingsNode.namedItem("Rmp_p2_EDC");
+          rmp2.firstChild().setNodeValue(QString::number(ramp_stepsize_phase2_EDC));
+          QDomNode rmp3 = RampSettingsNode.namedItem("Rmp_p2_FDS");
+          rmp3.firstChild().setNodeValue(QString::number(ramp_stepsize_phase2_FDS));
+          QDomNode rmp4 = RampSettingsNode.namedItem("Rmp_p3_EDC");
+          rmp4.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_EDC));
+          QDomNode rmp5 = RampSettingsNode.namedItem("Rmp_p3_FDS");
+          rmp5.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_FDS));
+          QDomNode rmp6 = RampSettingsNode.namedItem("Rmp_p3_Ulna");
+          rmp6.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_Ulna));
+          QDomNode rmp7 = RampSettingsNode.namedItem("Rmp_p3_ADP");
+          rmp7.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_ADP));
+          QDomNode rmp8 = RampSettingsNode.namedItem("Rmp_p4_EDC");
+          rmp8.firstChild().setNodeValue(QString::number(ramp_stepsize_phase4_EDC));
 
     }
 
@@ -752,4 +878,27 @@ void ProgramKeyGripV2::saveToXMLFile()
     file.close();
 
     qDebug()<< "Finished";
+}
+
+void ProgramKeyGripV2::on_pushButton_keyGrip_clicked()
+{
+    QString configfilename = "config_keygrip_"+pLabel;
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
+    QFile f(txtWritePath);
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+         }
+}
+
+void ProgramKeyGripV2::on_pushButton_save_clicked()
+{
+    ManageConfigFile configFile;
+    configFile.keyGripFinal(pLabel);
 }

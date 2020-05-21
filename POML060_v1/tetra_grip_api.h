@@ -47,7 +47,8 @@ public:
      void static get_target_current_channel(uint8_t);
      void static send_event(uint8_t sub_activity_id, uint8_t event);
      void static jump_to_phase(uint8_t sub_activity_id, uint8_t phase);
-     void static stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
+     void static set_stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
+     void static set_stimulation_ramp_rate(unsigned int channel_number, unsigned int phase_number, unsigned int ramp_rate_ns);
 
      //for sensors
      void static reset_sensors(uint8_t sensor_address);

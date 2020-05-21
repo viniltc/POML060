@@ -63,15 +63,15 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
     QPen pen0,pen1, pen2, pen3;
     ui->customPlot->addGraph(); // blue line
-    pen0.setWidth(2);
+    pen0.setWidth(1);
     pen0.setColor(QColor(40, 110, 255));
     ui->customPlot->graph(0)->setPen(pen0);
     ui->customPlot->addGraph(); // red line
-    pen1.setWidth(2);
+    pen1.setWidth(1);
     pen1.setColor(QColor(255, 110, 40));
     ui->customPlot->graph(1)->setPen(pen1);
     ui->customPlot->addGraph(); // red line
-    pen2.setWidth(2);
+    pen2.setWidth(1);
     pen2.setColor(QColor(110, 255, 40));
     ui->customPlot->graph(2)->setPen(pen2);
     ui->customPlot->addGraph();
@@ -345,30 +345,30 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
 
     }
 
-  // twitch detection
-    static double lastTwitchKey;
-    QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
-    QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
+//  // twitch detection
+//    static double lastTwitchKey;
+//    QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
+//    QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
-    //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
-    double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
+//    //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
+//   // double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
 
-    if(setThreshold && y_acceleration_g> accThreshold &&  y_acceleration_g > 0 && key-lastTwitchKey > 0.5)
-      {
+//    if(setThreshold && y_acceleration_g> accThreshold &&  y_acceleration_g > 0 && key-lastTwitchKey > 0.5)
+//      {
 
-        ui->rdo_btn->show();
-        setStyleSheet(StyleSheetOn);
-//        QElapsedTimer ttime;
-//        ttime.start();
-        lastTwitchKey = key;
-        }
+//        ui->rdo_btn->show();
+//        setStyleSheet(StyleSheetOn);
+////        QElapsedTimer ttime;
+////        ttime.start();
+//        lastTwitchKey = key;
+//        }
 
 
-    else
-      {
-        //ui->btn_twitch->setStyleSheet("");
-        setStyleSheet(StyleSheetOff);
-      }
+//    else
+//      {
+//        //ui->btn_twitch->setStyleSheet("");
+//        setStyleSheet(StyleSheetOff);
+//      }
 
 
     }
@@ -379,7 +379,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
    configFile.keyGripTest(pLabel);
    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
-   this->hide();
+   this->close();
    keygripv2 = new ProgramKeyGripV2(pLabel);
    keygripv2 -> show();
 }
@@ -410,6 +410,7 @@ void stageProgram::on_pushButton_stimSave_clicked()
 {
 
   saveToXMLFile();
+  saveClicked = true;
 
 }
 
@@ -517,12 +518,20 @@ void stageProgram::on_pushButton_setThreshold_clicked()
 
 void stageProgram::on_tabWidget_currentChanged(int index)
 {
- if (index == 0)
-     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
- else if (index == 2)
-     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
- else
+ if (index == 1)
      tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
+ else
+     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+
+ if (index == 2)
+ {
+     if(saveClicked == false)
+     {
+
+       QMessageBox::warning(this,"TetraGrip","Save Current Settings",QMessageBox::Ok	,QMessageBox::NoButton);
+
+     }
+ }
 
 }
 
