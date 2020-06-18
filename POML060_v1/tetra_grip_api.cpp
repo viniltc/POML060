@@ -334,7 +334,7 @@ void tetra_grip_api::set_stimulation_target_pulse_width(unsigned int channel_num
         qDebug("Failed to set current at channel %d", channel_number);
 }
 
-void tetra_grip_api::set_stimulation_ramp_rate(unsigned int channel_number, unsigned int phase_number, unsigned int ramp_rate_10ns)
+void tetra_grip_api::set_stimulation_ramp_rate(unsigned int channel_number, unsigned int phase_number, unsigned int ramp_rate_ns)
 
 {
     STIM_GUI_MESSAGE_S_BLOCK_T block[2]={{},{}}; // previously it was {0}
@@ -356,15 +356,17 @@ void tetra_grip_api::set_stimulation_ramp_rate(unsigned int channel_number, unsi
     block[1].reg_address=60;
     block[1].data_length=2;
     uint8_t data_array[2];
-    data_array[1]=ramp_rate_10ns >> 8;
-    data_array[0]=ramp_rate_10ns & 0xFF;
+    data_array[1]=(ramp_rate_ns/10) >> 8;
+    data_array[0]=(ramp_rate_ns/10) & 0xFF;
     block[1].data=&data_array[0];
     block[1].next=nullptr;
 
-    qDebug() <<"\n Setting ramp rate for channel " << channel_number << " in phase " << phase_number << " to " << ramp_rate_10ns << "ns\n";
+   // qDebug() <<"\n Setting ramp rate for channel " << channel_number << " in phase " << phase_number << " to " << ramp_rate_10ns << "ns\n";
     if(!send_short_block(block))
         qDebug("Failed to set current at channel %d", channel_number);
 }
+
+
 
 void tetra_grip_api::toggle_pause(void)
 

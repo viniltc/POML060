@@ -66,43 +66,43 @@ void ManageConfigFile::keyGripTest(QString patientLabel)
 
         << "  P P0 \"Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
         << "  P P1 \"Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
+        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
         << "  P P2 \"Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
+        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
         << "  P P3 \"Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
         << "  P P4 \"Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;

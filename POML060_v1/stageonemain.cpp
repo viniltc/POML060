@@ -80,6 +80,7 @@ void StageOneMain::on_pushButton_patients_clicked()
 {
      this->close();
      stagetwopatients = new StageTwoPatients(this);
+     //stagetwopatients->setAttribute(Qt::WA_DeleteOnClose);
      stagetwopatients -> show();
 
 }
@@ -88,7 +89,9 @@ void StageOneMain::on_pushButton_programs_clicked()
 {
 
     hide();
+    //this->close();
     stageprogram = new stageProgram(pLabel, this);
+    //stageprogram->setAttribute(Qt::WA_DeleteOnClose);
     stageprogram -> show();
 
 
@@ -131,4 +134,12 @@ void StageOneMain::on_pushButton_help_clicked()
     emit textToChange("text updated");
     emit setPushButton(true);
    // emit deviceError(true);
+}
+
+void StageOneMain::on_pushButton_logs_clicked()
+{
+    this->close();
+    window = new ShoulderControl(pLabel);
+    //window->setAttribute(Qt::WA_DeleteOnClose);
+    window -> show();
 }

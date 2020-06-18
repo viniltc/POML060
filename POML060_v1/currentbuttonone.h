@@ -16,6 +16,13 @@ class CurrentButtonOne : public QWidget
 public:
     explicit CurrentButtonOne(QWidget *parent = nullptr);
     ~CurrentButtonOne();
+      //int value = 0 ;
+    int value;
+
+public slots:
+
+    void disableMe();
+
 
 private slots:
 
@@ -40,7 +47,7 @@ private:
     Ui::CurrentButtonOne *ui;
     QTimer *timer_high, *timer_low;
     int timerTimeout;
-    int value = 0 ;
+
     unsigned int channel_number = 1;
     int smallSteps = 500; // in 0.5 mA
     int bigSteps = 5000; // in 5 mA

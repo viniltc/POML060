@@ -7,7 +7,7 @@
 #include <QtSerialPort/QSerialPort>
 #include "tetra_grip_api.h"
 #include <QDebug>
-
+#include "shouldercontrol.h"
 
 
 
@@ -24,6 +24,7 @@ public:
     ~StageOneMain();
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
+     ShoulderControl *window;
      QString pLabel;
 
 
@@ -41,6 +42,8 @@ private slots:
     void on_pushButton_programs_clicked();
     void on_pushButton_help_clicked();
     void connectionError(bool);
+
+    void on_pushButton_logs_clicked();
 
 public slots:
 

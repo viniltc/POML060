@@ -9,6 +9,9 @@
 #include "programopenhand.h"
 #include "programswitchgrasp.h"
 #include "qcustomplot.h"
+#include "stopwatch.h"
+#include "shouldercontrol.h"
+
 
 namespace Ui {
 class stageProgram;
@@ -27,6 +30,8 @@ public:
      ProgramPalmerGrasp *palmergrasp;
      ProgramOpenHand *openhand;
      ProgramSwitchGrasp *switchgrasp;
+     ShoulderControl *window;
+     //StageOneMain *backToMain;
      QString pLabel;
 
 
@@ -41,7 +46,10 @@ public slots:
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
     void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
     void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double threshold);
-
+    void onTimeout();
+    void startStopTimer();
+    void resetTimer();
+    void setZeroCurrOnChannelOne();
 
 signals:
 
@@ -62,6 +70,8 @@ private slots:
     void on_tabWidget_currentChanged(int index);
 
     void on_tabWidget_tabCloseRequested(int index);
+
+    void on_pushButton_shoulderControl_clicked();
 
 private:
     Ui::stageProgram *ui;
@@ -84,6 +94,15 @@ private:
     double accThreshold = 0;
     bool setThreshold = false;
     bool saveClicked = false;
+
+   float currOneStored = 0;
+    float currTwoStored = 0;
+    float currThreeStored = 0;
+    float currFourStored = 0;
+   float currFiveStored = 0;
+   bool timerLabel = false;
+
+    Stopwatch* watch;
 };
 
 #endif // STAGEPROGRAM_H

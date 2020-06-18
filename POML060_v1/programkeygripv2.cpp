@@ -10,7 +10,9 @@
 
 ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::ProgramKeyGripV2)
+    , ui(new Ui::ProgramKeyGripV2),
+      watch(new Stopwatch())
+
 {
     ui->setupUi(this);
     ui->label_pLabel->setText(patientLabel);
@@ -45,25 +47,25 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
    ui->comboBox_1->addItem("500ms", QVariant(0.5));
    ui->comboBox_1->addItem("1000ms", QVariant(1));
    ui->comboBox_1->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_1->addItem("200ms", QVariant(2));
+   ui->comboBox_1->addItem("2000ms", QVariant(2));
 
    ui->comboBox_2->addItem("200ms", QVariant(0.2));
    ui->comboBox_2->addItem("500ms", QVariant(0.5));
    ui->comboBox_2->addItem("1000ms", QVariant(1));
    ui->comboBox_2->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_2->addItem("200ms", QVariant(2));
+   ui->comboBox_2->addItem("2000ms", QVariant(2));
 
    ui->comboBox_3->addItem("200ms", QVariant(0.2));
    ui->comboBox_3->addItem("500ms", QVariant(0.5));
    ui->comboBox_3->addItem("1000ms", QVariant(1));
    ui->comboBox_3->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_3->addItem("200ms", QVariant(2));
+   ui->comboBox_3->addItem("2000ms", QVariant(2));
 
    ui->comboBox_4->addItem("200ms", QVariant(0.2));
    ui->comboBox_4->addItem("500ms", QVariant(0.5));
    ui->comboBox_4->addItem("1000ms", QVariant(1));
    ui->comboBox_4->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_4->addItem("200ms", QVariant(2));
+   ui->comboBox_4->addItem("2000ms", QVariant(2));
 
    m_currentBtn = 0;
 
@@ -75,6 +77,14 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::getPWValue);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::nextBtn);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
+
+    //slot
+//    connect(ui->pushButton_stimStart, &QPushButton::clicked, this, &ProgramKeyGripV2::startStopTimer);
+//    connect(ui->pushButton_stimStop, &QPushButton::clicked, this, &ProgramKeyGripV2::resetTimer);
+
+//    QTimer *timer2 = new QTimer(this);
+//    connect(timer2, SIGNAL(timeout()), this, SLOT(onTimeout()));
+//    timer2->start(10);
 
 
     QString configfilename = "config_keygrip_test_"+pLabel;
@@ -96,6 +106,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 }
 ProgramKeyGripV2::~ProgramKeyGripV2()
 {
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
     delete ui;
 }
 
@@ -104,6 +115,69 @@ int ProgramKeyGripV2::distance(QPoint x1, QPoint x2)
 {
     return abs(x2.y() - x1.y());
 }
+
+
+//void ProgramKeyGripV2::startStopTimer()
+//{
+//    if(watch->isRunning()) {
+//        //ui->startStopButton->setText("Restart");
+//        watch->pause();
+//    }
+//    else {
+//        //ui->startStopButton->setText("Pause");
+//        watch->start();
+//    }
+
+//}
+
+//void ProgramKeyGripV2::resetTimer()
+//{
+//    ui->hundredthsText->setText("00");
+//    ui->secondsText->setText("00");
+//    ui->minutesText->setText("00");
+//    watch->reset();
+
+
+//}
+
+
+
+//void ProgramKeyGripV2::onTimeout()
+//{
+//    QPalette p = ui->secondsText->palette();
+//    if(watch->isRunning())
+//    {
+//        qint64 time = watch->getTime();
+//        int h = time / 1000 / 60 / 60;
+//        int m = (time / 1000 / 60) - (h * 60);
+//        int s = (time / 1000) - (m * 60);
+//        int ms = time - ( s + ( m + ( h * 60)) * 60) * 1000;
+//        int ms_dis = ms / 10;
+//        if(ms_dis < 10) {
+//            ui->hundredthsText->setText(QStringLiteral("0%1").arg(ms_dis));
+//        }
+//        else {
+//            ui->hundredthsText->setText(QStringLiteral("%1").arg(ms_dis));
+//        }
+//        if(s < 10) {
+//            ui->secondsText->setText(QStringLiteral("0%1").arg(s));
+//           // p.setColor(QPalette::Base, Qt::white);
+//            //ui->secondsText->setPalette(p);
+//        }
+//        else {
+//            ui->secondsText->setText(QStringLiteral("%1").arg(s));
+
+//        }
+//        if(m < 10) {
+//            ui->minutesText->setText(QStringLiteral("0%1").arg(m));
+//        }
+//        else {
+//            ui->minutesText->setText(QStringLiteral("%1").arg(m));
+//        }
+
+//    }
+
+//}
 
 
 void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
@@ -182,7 +256,7 @@ void ProgramKeyGripV2::paintEvent(QPaintEvent *e)
     painter1.drawPoint(p48);
 
 
-    qDebug()<<"Values of p1.y and p2.y:"<<p12.y()<<"and"<<p22.y();
+    //qDebug()<<"Values of p1.y and p2.y:"<<p12.y()<<"and"<<p22.y();
 }
 
 // when user clicks
@@ -269,7 +343,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
 
     if (FDS_dragging && FDS_checked)
     {
-       if(event->y() > 220 && event->y() < 280){
+       if(event->y() > 150 && event->y() < 280){
          changeP1value(event->y());
        }
         if(FDS_checked){
@@ -281,7 +355,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(Ulna_dragging && Ulna_checked)
     {
-      if(event->y() > 220 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -293,7 +367,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(ADP_dragging && ADP_checked)
     {
-      if(event->y() > 220 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -305,7 +379,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
-      if(event->y() > 220 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -317,7 +391,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
-      if(event->y() > 220 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -330,7 +404,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
 
     else if(EDC_Seg2_dragging && EDC_Seg2_checked)
     {
-      if(event->y() > 220 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
        }
 
@@ -361,8 +435,9 @@ void ProgramKeyGripV2::changeP1value(int value)
 
 void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
 {
-    stageProgram *backprogram;
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
     this->close();
+    stageProgram *backprogram;
     backprogram = new stageProgram(pLabel,this);
     backprogram -> show();
 }
@@ -376,6 +451,7 @@ void ProgramKeyGripV2::nextBtn(int pwvalue)
         phaseOver = true;
         getRampStepSize();
         saveToXMLFile();
+        //resetTimer();
     }
 
     emit buttonChanged(m_currentBtn, pwvalue);
@@ -400,11 +476,15 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
     if(EDC_Seg1_checked)
     {
-      tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 1, pwvalue);
+      PW_EDC1 = pwvalue;
+      tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 1, PW_EDC1);
+      //ui->label_7->setText(QString::number(pwvalue));
+      tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 1, adjust_Ramp_Step_size(pwvalue,ui->comboBox_1->itemData(ui->comboBox_1->currentIndex()).toFloat() ));
 
     }
     else if(EDC_Seg2_checked)
     {
+    PW_EDC2 = pwvalue;
     tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
     tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
 
@@ -433,7 +513,7 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
     pw_value = pwvalue;
 
-    ui->label_test->setText(QString::number(pw_value));
+
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
 
@@ -496,7 +576,7 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          if(EDC_Seg2_checked)
          {
             //PW_phase3_EDC = pwvalue;
-            PW_phase3_EDC = PW_phase2_EDC;
+            PW_phase3_EDC = pwvalue;
             //ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
          }
          else if(FDS_checked)
@@ -634,6 +714,7 @@ void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
 
 }
 
+
 void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 {
     tetra_grip_api::send_event(0, 253);
@@ -641,7 +722,11 @@ void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 
 int ProgramKeyGripV2::adjust_PW_range(int value)
 {
-    int result = ((280-value)*3)+1 ;
+    //int result = ((280-value)*3)+1 ; // 0-180us
+    //int result = (1224-(4.2*value)) ; // 50-300us
+    int result = (588-(1.9*value)) ; // 50-300us
+
+
 
     if (result == 0)
          return -1;

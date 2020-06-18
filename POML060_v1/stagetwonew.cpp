@@ -13,13 +13,12 @@ StageTwoNew::StageTwoNew(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StageTwoNew)
 {
-    ui->setupUi(this);
+     ui->setupUi(this);
      QDir dir(QCoreApplication::applicationDirPath());
      QString location = dir.relativeFilePath("./PatientDat");
-     qDebug()<<"This is the location::"<<location;
-      //QString path = location+"/"+filename+".xml";
+    // qDebug()<<"This is the location::"<<location;
+    //QString path = location+"/"+filename+".xml";
     // connect(, SIGNAL(editdetails(QString, QString, QString)),this,SLOT(editdetails(QString, QString, QString)));
-
 
 }
 
@@ -30,9 +29,7 @@ StageTwoNew::~StageTwoNew()
 
 void StageTwoNew::on_pushButton_2_clicked()
 {
-//    hide();
-//    StageOneMain *back =new StageOneMain(this);
-//    back ->show();
+
      hide();
      StageTwoPatients().show();
 }
@@ -97,7 +94,6 @@ void StageTwoNew::on_pushButton_clicked()
 
     QTextStream output(&file);
     output << xml.toString();
-
 
     file.close();
 

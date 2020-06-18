@@ -1,6 +1,7 @@
 #include "stageprogram.h"
 #include "ui_stageprogram.h"
 #include "currentbuttonone.h"
+#include "stageonemain.h"
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 #include <QDebug>
@@ -11,7 +12,8 @@
 
 stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::stageProgram)
+    ui(new Ui::stageProgram),
+    watch(new Stopwatch())
 {
     ui->setupUi(this);
     ui->pushButton_currOnOne->setCheckable(true);
@@ -46,8 +48,21 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
     pLabel = patientLabel;
 
+
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
-    connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+    //connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+
+
+
+    //connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
+    //connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this](){ ui->widget_currentOne->setEnabled(!ui->widget_currentOne->isEnabled()); });
+
+    //connect(ui->pushButton, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::disableMe);
+    connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
 
     connect(ui->widget_currentOne, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
     connect(ui->widget_currentTwo, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelTwo);
@@ -55,11 +70,26 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     connect(ui->widget_currentFour, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFour);
     connect(ui->widget_currentFive, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFive);
 
-    connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
+//    connect(ui->widget_currentOne, &CurrentButtonOne::getValue,
+//            [this](unsigned int current_uA) { if (ui->widget_currentOne->isEnabled())  setCurrOnChannelOne( current_uA) ; else  setZeroCurrOnChannelOne();} );
+
+//    connect(ui->widget_currentOne, &CurrentButtonOne::getValue,
+//            [this](unsigned int current_uA) {
+//                qDebug() << "widget_currentOne->enabled(): " << ui->widget_currentOne->isEnabled();
+//                qDebug() << "current_uA: " << current_uA;
+//                setCurrOnChannelOne(ui->widget_currentOne->isEnabled() ? current_uA : 0);
+//            } );
+
+    //connect(ui->pushButton_currOnOne_2, &QPushButton::clicked, this,&stageProgram::setZeroCurrOnChannelOne);
+    //slot
+    connect(ui->pushButton_stimStart, &QPushButton::clicked, this, &stageProgram::startStopTimer);
+    connect(ui->pushButton_stimStop, &QPushButton::clicked, this, &stageProgram::resetTimer);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
+    timer->start(10);
+
+
 
     QPen pen0,pen1, pen2, pen3;
     ui->customPlot->addGraph(); // blue line
@@ -79,17 +109,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     pen3.setColor(QColor(250, 0, 0));
     pen3.setStyle(Qt::DotLine);
     ui->customPlot->graph(3)->setPen(pen3);
-//    ui->customPlot->addGraph();
-//    ui->customPlot->graph(3)->setPen(QPen(QColor(11, 25, 40)));
-//    ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(2));
 
-    //ui->customPlot->graph(3)->setChannelFillGraph(ui->customPlot->graph(1));
-
-//    QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
-//    timeTicker->setTimeFormat("%h:%m:%s");
-//    customPlot->xAxis->setTicker(timeTicker);
-//    customPlot->axisRect()->setupFullAxesBox();
-//    customPlot->yAxis->setRange(-1.2, 1.2);
 
     ui->customPlot->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     ui->customPlot->xAxis->setDateTimeFormat("hh:mm:ss");
@@ -114,19 +134,71 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     connect( ui->customPlot->xAxis, SIGNAL(rangeChanged(QCPRange)),  ui->customPlot->xAxis2, SLOT(setRange(QCPRange)));
     connect( ui->customPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui-> customPlot->yAxis2, SLOT(setRange(QCPRange)));
 
-    // setup a timer that repeatedly calls MainWindow::realtimeDataSlot:
-    // connect(&dataTimer, SIGNAL(timeout()), this, SLOT(realtimeDataSlot()));
-    // dataTimer.start(0); // Interval 0 means to refresh as fast as possible
 
-    // sensor data in 100Hz
 
 
     if(ui->tab)
+    {
+         //disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
          tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+    }
     else if(ui->tab_2)
+    {
+       // connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
         tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
+    }
     else if(ui->tab_3)
+    {
+       // disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
         tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+    }
+
+    QFile f(":/resources/config_setup.txt");
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+            // statusBar()->showMessage("Config file sent", 3000);
+
+         }
+
+
+    QDomDocument document;
+
+    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
+    currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
+    currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
+    currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
+    currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+
+    ui->widget_currentOne->value = currOneStored;
+    ui->widget_currentTwo->value = currTwoStored;
+    ui->widget_currentThree->value = currThreeStored;
+    ui->widget_currentFour->value = currFourStored;
+    ui->widget_currentFive->value = currFiveStored;
 
 
 }
@@ -142,16 +214,30 @@ void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
 
    // currentOneSetVal = current_uA;
-    tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
+    //ui->label_wi1->setText(QString::number(current_uA));
 
+    tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
+    //tetra_grip_api::stimulation_set_current( m_channelOne, 0);
+    //ui->label_11->setText(QString::number(current_uA));
+
+
+}
+
+void stageProgram::setZeroCurrOnChannelOne()
+{
+
+    tetra_grip_api::stimulation_set_current( m_channelOne, 0);
+    ui->widget_currentOne->setDisabled(true);
 }
 
 void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
 {
 
     //currentTwoSetVal = current_uA;
+
     tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
 }
+
 
 void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
 {
@@ -177,11 +263,13 @@ void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 void stageProgram::on_pushButton_stimStart_clicked()
 {
     tetra_grip_api::stimulation_start(true);
+
 }
 
 void stageProgram::on_pushButton_stimStop_clicked()
 {
     tetra_grip_api::stimulation_pause(true);
+
 }
 
 void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
@@ -308,10 +396,7 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
     static double lastPointKey = 0;
     if (key-lastPointKey > 0.02) // at most add point every 2 ms
     {
-      // add data to lines:
-    //    ui->customPlot->graph(0)->addData(key, qSin(key)+qrand()/(double)RAND_MAX*1*qSin(key/0.3843));
-    //    ui->customPlot->graph(1)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.4364));
-    //    ui->customPlot->graph(2)->addData(key, qCos(key)+qrand()/(double)RAND_MAX*0.5*qSin(key/0.5364));
+
         ui->customPlot->graph(0)->addData(key, x_acceleration_g);
         ui->customPlot->graph(1)->addData(key, y_acceleration_g);
         ui->customPlot->graph(2)->addData(key, z_acceleration_g);
@@ -345,39 +430,122 @@ void stageProgram::realtimeDataSlot(double x_acceleration_g, double y_accelerati
 
     }
 
-//  // twitch detection
-//    static double lastTwitchKey;
-//    QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
-//    QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
+  // twitch detection
+    static double lastTwitchKey;
+    QString StyleSheetOn("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
+    QString StyleSheetOff("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
-//    //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
-//   // double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
+    //double a_sum = sqrt(y_acceleration_g*y_acceleration_g+x_acceleration_g*x_acceleration_g+z_acceleration_g*z_acceleration_g);
+   // double a_sum = sqrt(y_acceleration_g*y_acceleration_g);
 
-//    if(setThreshold && y_acceleration_g> accThreshold &&  y_acceleration_g > 0 && key-lastTwitchKey > 0.5)
-//      {
+    if(setThreshold && y_acceleration_g> accThreshold &&  y_acceleration_g > 0 && key-lastTwitchKey > 0.5)
+      {
 
-//        ui->rdo_btn->show();
-//        setStyleSheet(StyleSheetOn);
-////        QElapsedTimer ttime;
-////        ttime.start();
-//        lastTwitchKey = key;
-//        }
+        ui->rdo_btn->show();
+        setStyleSheet(StyleSheetOn);
+//        QElapsedTimer ttime;
+//        ttime.start();
+        lastTwitchKey = key;
+        }
 
 
-//    else
-//      {
-//        //ui->btn_twitch->setStyleSheet("");
-//        setStyleSheet(StyleSheetOff);
-//      }
+    else
+      {
+        //ui->btn_twitch->setStyleSheet("");
+        setStyleSheet(StyleSheetOff);
+      }
 
+
+}
+
+void stageProgram::startStopTimer()
+{
+    if(watch->isRunning()) {
+        //ui->startStopButton->setText("Restart");
+        watch->pause();
+    }
+    else {
+        //ui->startStopButton->setText("Pause");
+        watch->start();
+    }
+
+}
+
+void stageProgram::resetTimer()
+{
+    ui->hundredthsText->setText("00");
+    ui->secondsText->setText("00");
+    ui->minutesText->setText("00");
+    watch->reset();
+    QPalette p = ui->secondsText->palette();
+    p.setColor(QPalette::Text, Qt::black);
+    ui->secondsText->setPalette(p);
+    ui->minutesText->setPalette(p);
+    ui->hundredthsText->setPalette(p);
+
+}
+
+
+
+void stageProgram::onTimeout()
+{
+    QPalette p = ui->secondsText->palette();
+    if(watch->isRunning())
+    {
+        qint64 time = watch->getTime();
+        int h = time / 1000 / 60 / 60;
+        int m = (time / 1000 / 60) - (h * 60);
+        int s = (time / 1000) - (m * 60);
+        int ms = time - ( s + ( m + ( h * 60)) * 60) * 1000;
+        int ms_dis = ms / 10;
+        if(ms_dis < 10) {
+            ui->hundredthsText->setText(QStringLiteral("0%1").arg(ms_dis));
+        }
+        else {
+            ui->hundredthsText->setText(QStringLiteral("%1").arg(ms_dis));
+        }
+        if(s < 10) {
+            ui->secondsText->setText(QStringLiteral("0%1").arg(s));
+           // p.setColor(QPalette::Base, Qt::white);
+            //ui->secondsText->setPalette(p);
+        }
+        else {
+            ui->secondsText->setText(QStringLiteral("%1").arg(s));
+
+        }
+        if(m < 10) {
+            ui->minutesText->setText(QStringLiteral("0%1").arg(m));
+        }
+        else {
+            ui->minutesText->setText(QStringLiteral("%1").arg(m));
+        }
+
+        if (s==5)
+        {
+            p.setColor(QPalette::Text, Qt::red);
+            ui->secondsText->setPalette(p);
+            ui->minutesText->setPalette(p);
+            ui->hundredthsText->setPalette(p);
+
+
+        }
 
     }
 
+}
+
+
+
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
+
+
    ManageConfigFile configFile;
    configFile.keyGripTest(pLabel);
    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+
+   disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+   disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
    this->close();
    keygripv2 = new ProgramKeyGripV2(pLabel);
@@ -519,9 +687,15 @@ void stageProgram::on_pushButton_setThreshold_clicked()
 void stageProgram::on_tabWidget_currentChanged(int index)
 {
  if (index == 1)
+ {
      tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
+     connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+ }
  else
+ {
      tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+     disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+ }
 
  if (index == 2)
  {
@@ -538,4 +712,19 @@ void stageProgram::on_tabWidget_currentChanged(int index)
 void stageProgram::on_tabWidget_tabCloseRequested(int index)
 {
 
+}
+
+void stageProgram::on_pushButton_shoulderControl_clicked()
+{
+//    this->close();
+//    window = new ShoulderControl(pLabel);
+//    window -> show();
+
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+    disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+
+    this-> close();
+    StageOneMain *newPatient = new StageOneMain(pLabel);
+   //newPatient->setAttribute(Qt::WA_DeleteOnClose);
+    newPatient-> show();
 }

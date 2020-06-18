@@ -231,7 +231,7 @@ QPushButton:disabled {
 }</string>
      </property>
      <property name="text">
-      <string>Logs</string>
+      <string>Shoulder Control</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_help">

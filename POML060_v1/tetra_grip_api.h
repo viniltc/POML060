@@ -50,6 +50,7 @@ public:
      void static set_stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
      void static set_stimulation_ramp_rate(unsigned int channel_number, unsigned int phase_number, unsigned int ramp_rate_ns);
 
+
      //for sensors
      void static reset_sensors(uint8_t sensor_address);
      void static set_sensor_data_rate(uint8_t sensor_address, uint8_t Hz);
@@ -66,8 +67,8 @@ signals:
 
      void successfullyConnectedTo(QString portName);
      void AutoconnectionIsSet(bool value);
-     void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);
-     void deviceError(bool);
+      void deviceError(bool);
+     void tetraGripEvent(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value);    
      void tetraGripSensorEvent(uint8_t index, SENSOR_DATA_T *sample);
 
 

@@ -21,8 +21,6 @@ int main(int argc, char *argv[])
 
       StageOneMain w(nullptr);
 
-
-
     w.show();
 
     return a.exec();
@@ -41,5 +39,12 @@ int main(int argc, char *argv[])
         qDebug()<<s;}
         */
 
-//COM 5 : Vendor Identifier: 403 , Product Identifier: 6015
-//COM 6 : Vendor Identifier: 403 , Product Identifier: 6001 --> debug port
+//COM 5 : Vendor Identifier: 403 , Product Identifier: 6015  $
+//COM 6 : Vendor Identifier: 403 , Product Identifier: 6001 --> debug port  $
+
+//COM 6 : Vendor Identifier: 403 , Product Identifier: 6001 £
+//COM 7 : Vendor Identifier: 403 , Product Identifier: 6015 £
+
+//$ --> Old Stim (Orange),  £ ---> Paul's stim (black)
+
+

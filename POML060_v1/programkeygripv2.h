@@ -9,6 +9,7 @@
 #include <QButtonGroup>
 #include <QPushButton>
 #include "tetra_grip_api.h"
+#include "stopwatch.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProgramKeyGripV2; }
@@ -40,6 +41,10 @@ public slots:
         int adjust_PW_range(int value);
         int adjust_Ramp_Step_size(int pwvalue, float rmpvalue);
         void getRampStepSize(void);
+//        void onTimeout();
+//        void startStopTimer();
+//        void resetTimer();
+
 
 signals:
 
@@ -59,29 +64,29 @@ private:
      bool EDC_Seg2_dragging = false;
 
      QPoint p41 = QPoint(150,300);
-     QPoint p42 = QPoint(170,280); //250
-     QPoint p43 = QPoint(250,280); //250
-     QPoint p44 = QPoint(270,280);
-     QPoint p45 = QPoint(450,280);
-     QPoint p46 = QPoint(470,280); //250
-     QPoint p47 = QPoint(550,280); //250
+     QPoint p42 = QPoint(170,214); //250
+     QPoint p43 = QPoint(250,214); //250
+     QPoint p44 = QPoint(270,214);
+     QPoint p45 = QPoint(450,214);
+     QPoint p46 = QPoint(470,214); //250
+     QPoint p47 = QPoint(550,214); //250
      QPoint p48 = QPoint(570,300);
 
 
      QPoint p11 = QPoint(230,300);
-     QPoint p12 = QPoint(280,280);//170
-     QPoint p13 = QPoint(450,280);//170
+     QPoint p12 = QPoint(280,214);//170
+     QPoint p13 = QPoint(450,214);//170
      QPoint p14 = QPoint(500,300);
 
 
      QPoint p31 = QPoint(300,300);
-     QPoint p32 = QPoint(320,280); //200
-     QPoint p33 = QPoint(450,280); //200
+     QPoint p32 = QPoint(320,214); //200
+     QPoint p33 = QPoint(450,214); //200
      QPoint p34 = QPoint(470,300);
 
      QPoint p21 = QPoint(300,300);
-     QPoint p22 = QPoint(320,280); //240
-     QPoint p23 = QPoint(450,280); //240
+     QPoint p22 = QPoint(320,214); //240
+     QPoint p23 = QPoint(450,214); //240
      QPoint p24 = QPoint(470,300);
 
 
@@ -129,6 +134,13 @@ private:
          float PW_phase3_ADP = 0;
          float PW_phase4_EDC = 0;
 
+         float PW_EDC1 = 0;
+         float PW_EDC2 = 0;
+         float PW_EDC3 = 0;
+         float PW_FDS = 0;
+         float PW_Ulna = 0;
+         float PW_ADP = 0;
+
          float ramp_phase1 = 0;
          float ramp_phase2 = 0;
          float ramp_phase3 = 0;
@@ -142,6 +154,8 @@ private:
          int ramp_stepsize_phase3_FDS = 0;
          int ramp_stepsize_phase3_EDC = 0;
          int ramp_stepsize_phase4_EDC = 0;
+
+         Stopwatch* watch;
 
 
 

@@ -6,11 +6,11 @@ extern "C" {
 #include <stdio.h>
 #include <stdint.h>
 
-//#define DEBUG_Print(...) do{printf(__VA_ARGS__); fflush(stdout); }while(0)
-#define DEBUG_Print(...) do{; }while(0)
+#define DEBUG_Print(...) do{printf(__VA_ARGS__); fflush(stdout); }while(0)
+//#define DEBUG_Print(...) do{; }while(0)
 
 #define DEBUG_WriteBytes(buffer, num, blocking) (void)(printf("%.*s", (num), (buffer)), (num))
-
+//#define DEBUG_WriteBytes(...) do{; }while(0)
 typedef struct
 {
     bool guiAlphabetTest;

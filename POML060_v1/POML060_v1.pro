@@ -31,10 +31,12 @@ SOURCES += \
     programpalmergrasp.cpp \
     programswitchgrasp.cpp \
     qcustomplot.cpp \
+    shouldercontrol.cpp \
     stageonemain.cpp \
     stageprogram.cpp \
     stagetwonew.cpp \
     stagetwopatients.cpp \
+    stopwatch.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
     tetra_grip_writer.cpp
@@ -60,10 +62,12 @@ HEADERS += \
     programpalmergrasp.h \
     programswitchgrasp.h \
     qcustomplot.h \
+    shouldercontrol.h \
     stageonemain.h \
     stageprogram.h \
     stagetwonew.h \
     stagetwopatients.h \
+    stopwatch.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
     tetra_grip_writer.h
@@ -74,6 +78,7 @@ FORMS += \
     programopenhand.ui \
     programpalmergrasp.ui \
     programswitchgrasp.ui \
+    shouldercontrol.ui \
     stageonemain.ui \
     stageprogram.ui \
     stagetwonew.ui \

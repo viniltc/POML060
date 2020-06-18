@@ -47,6 +47,15 @@ CurrentButtonOne::~CurrentButtonOne()
     delete ui;
 }
 
+void CurrentButtonOne::disableMe()
+{
+    //Disable
+     setDisabled(true);
+
+     //Reset current_uA
+     value = 0;
+}
+
 void CurrentButtonOne::buttonPressed_high()
 {
 timerTimeout = 5000;
