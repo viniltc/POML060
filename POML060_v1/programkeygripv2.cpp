@@ -21,6 +21,52 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
     pLabel = patientLabel;
 
+
+    QDomDocument document;
+
+    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+    QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+    if (!CurrentNodeVal.isNull())
+    {
+
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+
+
+        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored/m_currentDiv));
+        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currOneStored/m_currentDiv));
+        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored/m_currentDiv));
+        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored/m_currentDiv));
+        ui->label_currFive->setText(QString("Ch 5 (---): %1 mA").arg(currFiveStored/m_currentDiv));
+
+
+    }
+
+
+
+
     btnGrp = new QButtonGroup(this);
 
     btnGrp->addButton(ui->btn1, 1);
@@ -35,12 +81,12 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
    ui->comboBox_4->setEnabled(false);
    ui->pushButton_keyGrip->setEnabled(false);
 
-   ui->radioButton_one->setEnabled(false);
-   ui->radioButton_two->setEnabled(false);
-   ui->radioButton_three->setEnabled(false);
-   ui->radioButton_four->setEnabled(false);
-   ui->radioButton_five->setEnabled(false);
-   ui->radioButton_six->setEnabled(false);
+   ui->radioButton_one->setEnabled(false); // FPS
+   ui->radioButton_two->setEnabled(false); // Ulna
+   ui->radioButton_three->setEnabled(false); // ADP
+   ui->radioButton_four->setEnabled(false); // EDC seg 1
+   ui->radioButton_five->setEnabled(false); // EDC seg 3
+   ui->radioButton_six->setEnabled(false); // EDC seg 2
 
 
    ui->comboBox_1->addItem("200ms", QVariant(0.2));
@@ -87,8 +133,8 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 //    timer2->start(10);
 
 
-    QString configfilename = "config_keygrip_test_"+pLabel;
-    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
+    //QString configfilename1 = "config_keygrip_test_"+pLabel;
+  //  QString txtWritePath1 = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename1 + ".txt";
     //QFile f(":/resources/config_keygrip_v2.txt");
     QFile f(txtWritePath);
     if(!f.open(QFile::ReadOnly))
@@ -541,6 +587,13 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
          }
 
+         ui->radioButton_one->setEnabled(false); // FPS
+         ui->radioButton_two->setEnabled(false); // Ulna
+         ui->radioButton_three->setEnabled(false); // ADP
+         ui->radioButton_four->setEnabled(true); // EDC seg 1
+         ui->radioButton_five->setEnabled(false); // EDC seg 3
+         ui->radioButton_six->setEnabled(false); // EDC seg 2
+
      }
 
      else if(id==2)
@@ -551,6 +604,13 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn3->setStyleSheet(StyleSheetOff);
          ui->btn4->setStyleSheet(StyleSheetOff);
          ui->pushButton_keyGrip->setEnabled(false);
+
+         ui->radioButton_one->setEnabled(true); // FPS
+         ui->radioButton_two->setEnabled(false); // Ulna
+         ui->radioButton_three->setEnabled(false); // ADP
+         ui->radioButton_four->setEnabled(false); // EDC seg 1
+         ui->radioButton_five->setEnabled(false); // EDC seg 3
+         ui->radioButton_six->setEnabled(true); // EDC seg 2
 
          if(EDC_Seg2_checked)
          {
@@ -573,15 +633,23 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn4->setStyleSheet(StyleSheetOff);
          ui->pushButton_keyGrip->setEnabled(false);
 
+         ui->radioButton_one->setEnabled(true); // FPS
+         ui->radioButton_two->setEnabled(true); // Ulna
+         ui->radioButton_three->setEnabled(true); // ADP
+         ui->radioButton_four->setEnabled(false); // EDC seg 1
+         ui->radioButton_five->setEnabled(false); // EDC seg 3
+         ui->radioButton_six->setEnabled(true); // EDC seg 2
+
          if(EDC_Seg2_checked)
          {
             //PW_phase3_EDC = pwvalue;
-            PW_phase3_EDC = pwvalue;
+            PW_phase3_EDC = PW_phase2_EDC;
             //ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
          }
          else if(FDS_checked)
          {
-            PW_phase3_FDS = pwvalue;
+           // PW_phase3_FDS = pwvalue;
+            PW_phase3_FDS = PW_phase2_FDS;
            // ramp_stepsize_phase3_FDS = adjust_Ramp_Step_size( PW_phase3_FDS, ramp_phase3);
          }
          else if(Ulna_checked)
@@ -605,6 +673,13 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn4->setStyleSheet(StyleSheetOn);
          ui->pushButton_keyGrip->setEnabled(false);
 
+         ui->radioButton_one->setEnabled(false); // FPS
+         ui->radioButton_two->setEnabled(false); // Ulna
+         ui->radioButton_three->setEnabled(false); // ADP
+         ui->radioButton_four->setEnabled(false); // EDC seg 1
+         ui->radioButton_five->setEnabled(true); // EDC seg 3
+         ui->radioButton_six->setEnabled(false); // EDC seg 2
+
 
          if(EDC_Seg3_checked)
          {
@@ -621,6 +696,13 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          ui->btn4->setStyleSheet(StyleSheetOff);
          ui->pushButton_keyGrip->setEnabled(true);
          ui->pushButton_save->setEnabled(true);
+
+         ui->radioButton_one->setEnabled(false); // FPS
+         ui->radioButton_two->setEnabled(false); // Ulna
+         ui->radioButton_three->setEnabled(false); // ADP
+         ui->radioButton_four->setEnabled(false); // EDC seg 1
+         ui->radioButton_five->setEnabled(false); // EDC seg 3
+         ui->radioButton_six->setEnabled(false); // EDC seg 2
 
 
     }

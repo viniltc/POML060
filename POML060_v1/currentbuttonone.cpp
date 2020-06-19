@@ -40,6 +40,8 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
     connect(ui->pushButton_moreLow, &QPushButton::released, this, &CurrentButtonOne::buttonReleased_moreLow);
 
 
+
+
 }
 
 CurrentButtonOne::~CurrentButtonOne()
@@ -53,7 +55,8 @@ void CurrentButtonOne::disableMe()
      setDisabled(true);
 
      //Reset current_uA
-     value = 0;
+     //value = 0;
+    // tetra_grip_api::stimulation_set_current( 0, 0);
 }
 
 void CurrentButtonOne::buttonPressed_high()

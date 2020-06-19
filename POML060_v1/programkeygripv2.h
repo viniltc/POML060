@@ -63,27 +63,29 @@ private:
      bool EDC_Seg3_dragging = false;
      bool EDC_Seg2_dragging = false;
 
+     //EDC segments
      QPoint p41 = QPoint(150,300);
      QPoint p42 = QPoint(170,214); //250
      QPoint p43 = QPoint(250,214); //250
-     QPoint p44 = QPoint(270,214);
-     QPoint p45 = QPoint(450,214);
+     QPoint p44 = QPoint(270,280);
+     QPoint p45 = QPoint(450,280);
      QPoint p46 = QPoint(470,214); //250
      QPoint p47 = QPoint(550,214); //250
      QPoint p48 = QPoint(570,300);
 
-
+     //FDS segments
      QPoint p11 = QPoint(230,300);
      QPoint p12 = QPoint(280,214);//170
      QPoint p13 = QPoint(450,214);//170
      QPoint p14 = QPoint(500,300);
 
-
+     //Ulna segments
      QPoint p31 = QPoint(300,300);
      QPoint p32 = QPoint(320,214); //200
      QPoint p33 = QPoint(450,214); //200
      QPoint p34 = QPoint(470,300);
 
+     //ADP segments
      QPoint p21 = QPoint(300,300);
      QPoint p22 = QPoint(320,214); //240
      QPoint p23 = QPoint(450,214); //240
@@ -156,6 +158,13 @@ private:
          int ramp_stepsize_phase4_EDC = 0;
 
          Stopwatch* watch;
+
+         float currOneStored ;
+         float currTwoStored ;
+         float currThreeStored ;
+         float currFourStored ;
+         float currFiveStored ;
+         float m_currentDiv = 1000.0;
 
 
 

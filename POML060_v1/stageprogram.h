@@ -75,12 +75,16 @@ private slots:
 
 private:
     Ui::stageProgram *ui;
-    float currentOneSetVal = 0;
-    float currentTwoSetVal = 0;
-    float currentThreeSetVal = 0;
-    float currentFourSetVal = 0;
-    float currentFiveSetVal = 0;
+    float currentOneSetVal;
+    float currentTwoSetVal;
+    float currentThreeSetVal;
+    float currentFourSetVal;
+    float currentFiveSetVal;
+
     float m_currentmA = 100.0;
+    float m_currentDiv = 1000.0;
+    int zeroCurrent = 0;
+
     uint8_t m_channelOne= 0;
     uint8_t m_channelTwo= 1;
     uint8_t m_channelThree= 2;
@@ -95,11 +99,11 @@ private:
     bool setThreshold = false;
     bool saveClicked = false;
 
-   float currOneStored = 0;
-    float currTwoStored = 0;
-    float currThreeStored = 0;
-    float currFourStored = 0;
-   float currFiveStored = 0;
+   float currOneStored ;
+   float currTwoStored ;
+    float currThreeStored ;
+    float currFourStored ;
+   float currFiveStored ;
    bool timerLabel = false;
 
     Stopwatch* watch;

@@ -52,12 +52,76 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
     //connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
+    QDomDocument document;
+
+    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+    QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+    if (!CurrentNodeVal.isNull())
+    {
+
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+
+        ui->widget_currentOne->value = currOneStored;
+        ui->widget_currentTwo->value = currTwoStored;
+        ui->widget_currentThree->value = currThreeStored;
+        ui->widget_currentFour->value = currFourStored;
+        ui->widget_currentFive->value = currFiveStored;
+        ui->label_curr_one->setText(QString("%1 mA").arg(ui->widget_currentOne->value/m_currentDiv));
+        ui->label_curr_two->setText(QString("%1 mA").arg(ui->widget_currentTwo->value/m_currentDiv));
+        ui->label_curr_three->setText(QString("%1 mA").arg(ui->widget_currentThree->value/m_currentDiv));
+        ui->label_curr_four->setText(QString("%1 mA").arg(ui->widget_currentFour->value/m_currentDiv));
+        ui->label_curr_five->setText(QString("%1 mA").arg(ui->widget_currentFive->value/m_currentDiv));
+
+        currentOneSetVal = ui->widget_currentOne->value/m_currentDiv;
+        currentTwoSetVal = ui->widget_currentTwo->value/m_currentDiv;
+        currentThreeSetVal = ui->widget_currentThree->value/m_currentDiv;
+        currentFourSetVal = ui->widget_currentFour->value/m_currentDiv;
+        currentFiveSetVal = ui->widget_currentFive->value/m_currentDiv;
+    }
+    else
+    {
+        ui->widget_currentOne->value = zeroCurrent;
+        ui->widget_currentTwo->value = zeroCurrent;
+        ui->widget_currentThree->value = zeroCurrent;
+        ui->widget_currentFour->value = zeroCurrent;
+        ui->widget_currentFive->value = zeroCurrent;
+
+        currentOneSetVal = zeroCurrent;
+        currentTwoSetVal = zeroCurrent;
+        currentThreeSetVal = zeroCurrent;
+        currentFourSetVal = zeroCurrent;
+        currentFiveSetVal = zeroCurrent;
+    }
+
 
 
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this](){ ui->widget_currentOne->setEnabled(!ui->widget_currentOne->isEnabled()); });
 
-    //connect(ui->pushButton, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::disableMe);
+   // connect(ui->pushButton, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::disableMe);
     connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
     connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
@@ -168,37 +232,6 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
          }
 
 
-    QDomDocument document;
-
-    QString configfilename = "config_keygrip_test_"+pLabel;
-    QString xmlName = pLabel;
-
-    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
-   // QString txtWritePath = ":/resources/"+configfilename+".txt";
-    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
-
-    QFile xmlfile(xmlReadPath);
-
-    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
-
-    }
-    document.setContent(&xmlfile);
-    QDomElement root = document.documentElement();
-    xmlfile.close();
-
-    currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
-    currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
-    currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
-    currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
-    currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
-
-    ui->widget_currentOne->value = currOneStored;
-    ui->widget_currentTwo->value = currTwoStored;
-    ui->widget_currentThree->value = currThreeStored;
-    ui->widget_currentFour->value = currFourStored;
-    ui->widget_currentFive->value = currFiveStored;
 
 
 }
@@ -697,15 +730,15 @@ void stageProgram::on_tabWidget_currentChanged(int index)
      disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
  }
 
- if (index == 2)
- {
-     if(saveClicked == false)
-     {
+// if (index == 2)
+// {
+//     if(saveClicked == false)
+//     {
 
-       QMessageBox::warning(this,"TetraGrip","Save Current Settings",QMessageBox::Ok	,QMessageBox::NoButton);
+//       QMessageBox::warning(this,"TetraGrip","Save Current Settings",QMessageBox::Ok	,QMessageBox::NoButton);
 
-     }
- }
+//     }
+// }
 
 }
 
