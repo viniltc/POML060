@@ -1198,6 +1198,11 @@ QPushButton:disabled {
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
@@ -1210,6 +1215,11 @@ QPushButton:disabled {
       <width>101</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -1224,6 +1234,11 @@ QPushButton:disabled {
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
@@ -1236,6 +1251,11 @@ QPushButton:disabled {
       <width>101</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -1250,6 +1270,11 @@ QPushButton:disabled {
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>TextLabel</string>
     </property>
@@ -1258,15 +1283,59 @@ QPushButton:disabled {
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>100</y>
       <width>111</width>
-      <height>161</height>
+      <height>171</height>
      </rect>
     </property>
     <property name="title">
-     <string/>
+     <string>Current</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>380</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <zorder>groupBox_2</zorder>
+   <zorder>radioButton_four</zorder>
+   <zorder>radioButton_one</zorder>
+   <zorder>radioButton_two</zorder>
+   <zorder>radioButton_three</zorder>
+   <zorder>radioButton_five</zorder>
+   <zorder>pushButton_back_keypro</zorder>
+   <zorder>groupBox</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>pushButton_stimStart</zorder>
+   <zorder>pushButton_stimStop</zorder>
+   <zorder>label_pLabel</zorder>
+   <zorder>btn_nextPhase</zorder>
+   <zorder>label_pwvalue</zorder>
+   <zorder>radioButton_six</zorder>
+   <zorder>pushButton_keyGrip</zorder>
+   <zorder>label_Ulna</zorder>
+   <zorder>pushButton_save</zorder>
+   <zorder>label_EDC1</zorder>
+   <zorder>label_EDC2</zorder>
+   <zorder>label_FDS</zorder>
+   <zorder>label_Ulna_2</zorder>
+   <zorder>label_ADP</zorder>
+   <zorder>label_EDC3</zorder>
+   <zorder>label_currOne</zorder>
+   <zorder>label_currTwo</zorder>
+   <zorder>label_currThree</zorder>
+   <zorder>label_currFour</zorder>
+   <zorder>label_currFive</zorder>
+   <zorder>label_7</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

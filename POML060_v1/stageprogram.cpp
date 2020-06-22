@@ -89,6 +89,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         ui->widget_currentThree->value = currThreeStored;
         ui->widget_currentFour->value = currFourStored;
         ui->widget_currentFive->value = currFiveStored;
+
         ui->label_curr_one->setText(QString("%1 mA").arg(ui->widget_currentOne->value/m_currentDiv));
         ui->label_curr_two->setText(QString("%1 mA").arg(ui->widget_currentTwo->value/m_currentDiv));
         ui->label_curr_three->setText(QString("%1 mA").arg(ui->widget_currentThree->value/m_currentDiv));
@@ -103,17 +104,23 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     }
     else
     {
-        ui->widget_currentOne->value = zeroCurrent;
-        ui->widget_currentTwo->value = zeroCurrent;
-        ui->widget_currentThree->value = zeroCurrent;
-        ui->widget_currentFour->value = zeroCurrent;
-        ui->widget_currentFive->value = zeroCurrent;
+        ui->widget_currentOne->value = smallCurrent;
+        ui->widget_currentTwo->value = smallCurrent;
+        ui->widget_currentThree->value = smallCurrent;
+        ui->widget_currentFour->value = smallCurrent;
+        ui->widget_currentFive->value = smallCurrent;
 
-        currentOneSetVal = zeroCurrent;
-        currentTwoSetVal = zeroCurrent;
-        currentThreeSetVal = zeroCurrent;
-        currentFourSetVal = zeroCurrent;
-        currentFiveSetVal = zeroCurrent;
+        ui->label_curr_one->setText(QString("%1 mA").arg(ui->widget_currentOne->value/m_currentDiv));
+        ui->label_curr_two->setText(QString("%1 mA").arg(ui->widget_currentTwo->value/m_currentDiv));
+        ui->label_curr_three->setText(QString("%1 mA").arg(ui->widget_currentThree->value/m_currentDiv));
+        ui->label_curr_four->setText(QString("%1 mA").arg(ui->widget_currentFour->value/m_currentDiv));
+        ui->label_curr_five->setText(QString("%1 mA").arg(ui->widget_currentFive->value/m_currentDiv));
+
+        currentOneSetVal = smallCurrent;
+        currentTwoSetVal = smallCurrent;
+        currentThreeSetVal = smallCurrent;
+        currentFourSetVal = smallCurrent;
+        currentFiveSetVal = smallCurrent;
     }
 
 
@@ -334,51 +341,26 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             ui->label_curr_one->setText(QString("%1 mA").arg(value/m_currentmA));
             currentOneSetVal = value/m_currentmA;
-//            if(value != currentOneSetVal/10)
-//            {
-//            ui->label_curr_one->setText("Value mismatch!");
-//            tetra_grip_api::stimulation_pause(true);
-//            }
             break;
-        case 1:
+        case 1: // channel 2
 
             ui->label_curr_two->setText(QString("%1 mA").arg(value/m_currentmA));
             currentTwoSetVal = value/m_currentmA;
-//            if(value != currentTwoSetVal/10)
-//            {
-//            ui->label_curr_two->setText("Value mismatch!");
-//            tetra_grip_api::stimulation_pause(true);
-//            }
             break;
-        case 2:
+        case 2: //channel 3
 
             ui->label_curr_three->setText(QString("%1 mA").arg(value/m_currentmA));
             currentThreeSetVal = value/m_currentmA;
-//            if(value != currentThreeSetVal/10)
-//            {
-//            ui->label_curr_three->setText("Value mismatch!");
-//            tetra_grip_api::stimulation_pause(true);
-//            }
             break;
-        case 3:
+        case 3: // channel 4
 
             ui->label_curr_four->setText(QString("%1 mA").arg(value/m_currentmA));
             currentFourSetVal = value/m_currentmA;
-//            if(value != currentFourSetVal/10)
-//            {
-//            ui->label_curr_four->setText("Value mismatch!");
-//            tetra_grip_api::stimulation_pause(true);
-//            }
             break;
-        case 4:
+        case 4: // channle 5
 
             ui->label_curr_five->setText(QString("%1 mA").arg(value/m_currentmA));
-            currentFiveSetVal = value/m_currentmA;
-//            if(value != currentFiveSetVal/10)
-//            {
-//            ui->label_curr_five->setText("Value mismatch!");
-//            tetra_grip_api::stimulation_pause(true);
-//            }
+            currentFiveSetVal = value/m_currentmA;        
             break;
         }
 

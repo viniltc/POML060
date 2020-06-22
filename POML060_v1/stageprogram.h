@@ -84,27 +84,29 @@ private:
     float m_currentmA = 100.0;
     float m_currentDiv = 1000.0;
     int zeroCurrent = 0;
+    int smallCurrent = 7000; // 7mA -> minimum set to stim engine
 
-    uint8_t m_channelOne= 0;
-    uint8_t m_channelTwo= 1;
-    uint8_t m_channelThree= 2;
-    uint8_t m_channelFour= 3;
-    uint8_t m_channelFive= 4;
+    uint8_t m_channelOne = 0;
+    uint8_t m_channelTwo = 1;
+    uint8_t m_channelThree = 2;
+    uint8_t m_channelFour = 3;
+    uint8_t m_channelFive = 4;
 
     QTimer dataTimer;
     QCPItemTracer *itemDemoPhaseTracer;
 
     int pCount=0;
+
     double accThreshold = 0;
     bool setThreshold = false;
     bool saveClicked = false;
 
-   float currOneStored ;
-   float currTwoStored ;
-    float currThreeStored ;
-    float currFourStored ;
-   float currFiveStored ;
-   bool timerLabel = false;
+    float currOneStored;
+    float currTwoStored;
+    float currThreeStored;
+    float currFourStored;
+    float currFiveStored;
+    bool timerLabel = false;
 
     Stopwatch* watch;
 };

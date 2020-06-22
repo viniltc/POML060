@@ -5,6 +5,9 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDebug>
+#include <QButtonGroup>
+#include <QPushButton>
+#include "tetra_grip_api.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class ProgramPalmerGrasp; }
@@ -21,54 +24,70 @@ public:
 
     int distance(QPoint, QPoint);
         QString pLabel;
+        int pw_value = 0;
 
 
 
 public slots:
 
         void changeP1value(int);
+        void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
+        void nextBtn(int pwvalue);
+        void prevBtn(int pwvalue);
+        void paintBtn(int id, int pwvalue);
+        void getPWValue (int);
+        int adjust_PW_range(int value);
+        int adjust_Ramp_Step_size(int pwvalue, float rmpvalue);
+        void getRampStepSize(void);
 
 signals:
 
         void buttonOne(bool);
         void buttonTwo(bool);
+        void buttonChanged(int id, int pwvalue);
+        void pulseWidthValue(int);
 
 
 private:
     Ui::ProgramPalmerGrasp *ui;
-     bool dragging1 = false; // status var to see if we are dragging
-     bool dragging2 = false;
-     bool dragging3 = false;
-     bool dragging4 = false;
-     bool dragging5 = false;
-     bool dragging6 = false;
+    bool FDS_dragging = false; // status var to see if we are dragging
+    bool Ulna_dragging = false;
+    bool ADP_dragging = false;
+    bool EDC_Seg1_dragging = false;
+    bool EDC_Seg3_dragging = false;
+    bool EDC_Seg2_dragging = false;
+    bool APB_dragging = false;
 
+
+     //EDC segments
      QPoint p41 = QPoint(150,300);
-     QPoint p42 = QPoint(170,250);
-     QPoint p43 = QPoint(250,250);
+     QPoint p42 = QPoint(170,214); //250
+     QPoint p43 = QPoint(250,214); //250
      QPoint p44 = QPoint(270,280);
      QPoint p45 = QPoint(450,280);
-     QPoint p46 = QPoint(470,250);
-     QPoint p47 = QPoint(550,250);
+     QPoint p46 = QPoint(470,214); //250
+     QPoint p47 = QPoint(550,214); //250
      QPoint p48 = QPoint(570,300);
 
-
+     //FDS segments
      QPoint p11 = QPoint(230,300);
-     QPoint p12 = QPoint(280,170);
-     QPoint p13 = QPoint(450,170);
+     QPoint p12 = QPoint(280,214);//170
+     QPoint p13 = QPoint(450,214);//170
      QPoint p14 = QPoint(500,300);
 
-
+     //Ulna segments
      QPoint p31 = QPoint(300,300);
-     QPoint p32 = QPoint(320,200);
-     QPoint p33 = QPoint(450,200);
+     QPoint p32 = QPoint(320,214); //200
+     QPoint p33 = QPoint(450,214); //200
      QPoint p34 = QPoint(470,300);
 
+     //ADP segments
      QPoint p21 = QPoint(300,300);
-     QPoint p22 = QPoint(320,240);
-     QPoint p23 = QPoint(450,240);
+     QPoint p22 = QPoint(320,214); //240
+     QPoint p23 = QPoint(450,214); //240
      QPoint p24 = QPoint(470,300);
 
+     //AbPB segments
      QPoint p51 = QPoint(150,300);
      QPoint p52 = QPoint(170,260);
      QPoint p53 = QPoint(550,260);
@@ -92,12 +111,62 @@ private:
          QPoint *CurPoint3=nullptr;
          QPoint *CurPoint4=nullptr;
 
-         bool checked1;
-         bool checked2;
-         bool checked3;
-         bool checked4;
-         bool checked5;
-         bool checked6;
+         bool FDS_checked = false;
+         bool Ulna_checked = false;
+         bool ADP_checked = false;
+         bool EDC_Seg1_checked = false;
+         bool EDC_Seg3_checked= false;
+         bool EDC_Seg2_checked= false;
+         bool APB_checked= false;
+
+         int m_currentBtn = 0;
+         QButtonGroup *btnGrp = nullptr;
+
+         uint8_t m_channelOne = 0;
+         uint8_t m_channelTwo = 1;
+         uint8_t m_channelThree = 2;
+         uint8_t m_channelFour = 3;
+         uint8_t m_channelFive = 4;
+
+         bool phaseOver = false;
+
+         float PW_phase1_EDC = 0;
+         float PW_phase2_EDC = 0;
+         float PW_phase2_FDS = 0;
+         float PW_phase3_EDC = 0;
+         float PW_phase3_FDS = 0;
+         float PW_phase3_Ulna = 0;
+         float PW_phase3_ADP = 0;
+         float PW_phase4_EDC = 0;
+
+         float PW_EDC1 = 0;
+         float PW_EDC2 = 0;
+         float PW_EDC3 = 0;
+         float PW_FDS = 0;
+         float PW_Ulna = 0;
+         float PW_ADP = 0;
+
+         float ramp_phase1 = 0;
+         float ramp_phase2 = 0;
+         float ramp_phase3 = 0;
+         float ramp_phase4 = 0;
+
+         int ramp_stepsize_phase1_EDC = 0;
+         int ramp_stepsize_phase2_EDC = 0;
+         int ramp_stepsize_phase2_FDS = 0;
+         int ramp_stepsize_phase3_ADP = 0;
+         int ramp_stepsize_phase3_Ulna = 0;
+         int ramp_stepsize_phase3_FDS = 0;
+         int ramp_stepsize_phase3_EDC = 0;
+         int ramp_stepsize_phase4_EDC = 0;
+
+
+         float currOneStored ;
+         float currTwoStored ;
+         float currThreeStored ;
+         float currFourStored ;
+         float currFiveStored ;
+         float m_currentDiv = 1000.0;
 
 
 protected:
@@ -108,6 +177,15 @@ protected:
 
 private slots:
          void on_pushButton_clicked();
+         void on_btn_nextPhase_clicked();
+         void on_pushButton_stimStart_clicked();
+         void on_pushButton_stimStop_clicked();
+         void on_pushButton_save_clicked();
+         void on_pushButton_keyGrip_clicked();
+         void on_comboBox_1_currentIndexChanged(int index);
+         void on_comboBox_2_currentIndexChanged(int index);
+         void on_comboBox_3_currentIndexChanged(int index);
+         void on_comboBox_4_currentIndexChanged(int index);
 };
 
 #endif // PROGRAMPALMERGRASP_H
