@@ -4,9 +4,12 @@ extern "C" {
 
 #include "stim_gui_protocol_decode.h"
 #include "debug.h"
+#include "math.h" // for sqrt
 #include "sensor_message_format.h"
 #include "stim_engine.h"
 #include "tetra_grip_reporter.h"
+
+FILE* logfile=NULL;
 
 const STIM_ENGINE_REG_T reg_data[NUM_STIM_ENGINE_REGS]={
 /* Firmware version */          {0,     1,	0,	0,          RD_REG	},
@@ -297,12 +300,169 @@ static uint8_t print_sensor_command(uint8_t *data, uint8_t max_len)
     return 1;
 }
 
+// 2nd order IIR filter (Biquad) y0 = b0x0 + b1x1 + b2x2 - a1y1 - a2y2
+// To use, for each sample:
+//  Load input into x0
+//  Call IIR_FILTER_UPDATE
+//  Read output from y0
+typedef struct {
+    int32_t b[3]; // weighting of past filter inputs
+    int32_t a[3]; // weighting of past filter outputs
+    int16_t x[3]; // past filter inputs
+    int16_t y[3]; // past filter outputs
+} INTEGER_IIR_FILTER_T;
+
+#define IIR_COEFF_SCALE_FACTOR (2048) /* The floating point coefficients for the IIR filter are scaled by this and stored as INT32_T */
+#define F_TO_RINT(x) (round_nearest(IIR_COEFF_SCALE_FACTOR*(x))) /* Convert filter coefficients from float to nearest scaled integer.*/
+#define I_TO_F(x) (((float)(x))/IIR_COEFF_SCALE_FACTOR) /* Convert filter coefficients from integer to float */
+
+#define IIR_FILTER_UPDATE(f) do{ f.y[0] = (f.b[0] * f.x[0] + f.b[1] * f.x[1] - f.a[1] * f.y[1] + f.b[2] * f.x[2] - f.a[2] * f.y[2])/IIR_COEFF_SCALE_FACTOR; f.x[2] = f.x[1]; f.y[2] = f.y[1]; f.x[1] = f.x[0]; f.y[1] = f.y[0]; } while(0)
+
+// A selection of filters from https://arachnoid.com/BiQuadDesigner/  for 100H
+//                   a0=1       a1,         a2,         b0,         b1,         b2
+double filter_lp2Hz[] =  {1, -1.82267251, 0.83715906, 0.00362164, 0.00724327, 0.00362164}; /* LP Fc=2Hz Fs=100Hz */
+double filter_lp4Hz[] =  {1, -1.64742277, 0.70085836, 0.01335890, 0.02671780, 0.01335890}; /* LP Fc=4Hz Fs=100Hz */
+double filter_lp5Hz[] =  {1, -1.56097580, 0.64130708, 0.02008282, 0.04016564, 0.02008282}; /* LP Fc=5Hz Fs=100Hz */
+double filter_lp10Hz[] =  {1, -1.14292982, 0.41273895, 0.06745228, 0.13490457, 0.06745228}; /* LP Fc=10Hz Fs=100Hz */
+double filter_hp[] =  {1, -1.95557182, 0.95653726, 0.97802727, -1.95605454, 0.97802727}; /* HP Fc=0.5Hz Fs=100Hz */
+double filter_null[] =  {1, 0, 0, 1, 0, 0}; /* Pass signal through without filtering */
+
+
+int32_t round_nearest(double d)
+{
+    int32_t f=floor(d);
+    return (d-f > 0.5) ? f+1 : f;
+}
+
+/*
+ * Load filter coefficients from an array of doubles a1, a2, b0, b1, b2
+ * a0 (coefficient for y[n]) is required to be 1
+*/
+void load_filter_coeff(INTEGER_IIR_FILTER_T *f, double *coeffs)
+{
+    if(f->a[0]!=F_TO_RINT(1))
+    {
+        int i;
+        for(i=0; i<3; i++)
+        {
+            f->a[i]=F_TO_RINT(*coeffs++);
+            if(i==0 && f->a[0]!=F_TO_RINT(1))
+            {
+                DEBUG_Print("Coefficient for y[n] is required to be 1\n");
+            }
+        }
+        for(i=0; i<3; i++)
+        {
+            f->b[i]=F_TO_RINT(*coeffs++);
+        }
+    }
+}
+
+#define OML_WIRED_MOVEMENT_SENSOR_QUAT_W_OFFSET 0
+#define OML_WIRED_MOVEMENT_SENSOR_QUAT_X_OFFSET 4
+#define OML_WIRED_MOVEMENT_SENSOR_QUAT_Y_OFFSET 8
+#define OML_WIRED_MOVEMENT_SENSOR_QUAT_Z_OFFSET 12
+
+#define OML_WIRED_MOVEMENT_SENSOR_ACCEL_X_OFFSET    (28)
+#define OML_WIRED_MOVEMENT_SENSOR_ACCEL_Y_OFFSET    (30)
+#define OML_WIRED_MOVEMENT_SENSOR_ACCEL_Z_OFFSET    (32)
+
+#define ACCELEROMETER_1G_COUNT (16384)
+
+/** Performs a multiply and shift by 29 for fixed-point arithmetic
+ * Function from Invensense library
+ * @param[in] a
+ * @param[in] b
+ * @return ((long long)a*b)>>29
+*/
+static const int32_t mul(const int32_t a, const int32_t b)
+{
+    int64_t temp;
+    int32_t result;
+    temp = (int64_t)a * b;
+    result = (int32_t)(temp >> 29);
+    return result;
+}
+
+// Cross product on two three-element vectors where at least one of them has Q29 fixed point values
+#define FIXED_POINT_VECTOR_CROSS_PRODUCT(a, b) { mul(a[1],b[2]) - mul(b[1],a[2]), mul(b[0],a[2]) - mul(a[0],b[2]), mul(a[0],b[1]) - mul(b[0],a[1]) }
+
+// Calculate optional vertical and horizontal acceleration in the world frame
+// and accelerations in the sensor frame without gravity
+static size_t print_sensor_accel_without_gravity(char *where, size_t max_len, uint8_t *data)
+{
+
+    SENSOR_ACCEL_DATA_T accelSample;
+
+    int32_t w = get_int32(data + OML_WIRED_MOVEMENT_SENSOR_QUAT_W_OFFSET)/2;
+    int32_t r[3] = {
+        -get_int32(data + OML_WIRED_MOVEMENT_SENSOR_QUAT_X_OFFSET)/2, // It does seem this has to be negated!
+        -get_int32(data + OML_WIRED_MOVEMENT_SENSOR_QUAT_Y_OFFSET)/2, // It does seem this has to be
+        get_int32(data + OML_WIRED_MOVEMENT_SENSOR_QUAT_Z_OFFSET)/2
+    };
+
+    int16_t raw_acc[3] = {
+        get_int16(data+OML_WIRED_MOVEMENT_SENSOR_ACCEL_X_OFFSET),
+        get_int16(data+OML_WIRED_MOVEMENT_SENSOR_ACCEL_Y_OFFSET),
+        get_int16(data+OML_WIRED_MOVEMENT_SENSOR_ACCEL_Z_OFFSET)
+    };
+
+    // using formula for rotation of vector (from v to v') by quaternion q = w + r:
+    //  v' = v + 2r x ( r x v + wv)
+    // where
+    //  r = xi + yj + zk
+    //  v = acceleration in sensor frame
+    //  v'= acceleration in world frame
+
+    int32_t first_cross[3] = FIXED_POINT_VECTOR_CROSS_PRODUCT(r, raw_acc);
+
+    first_cross[0] += mul(w, raw_acc[0]);
+    first_cross[1] += mul(w, raw_acc[1]);
+    first_cross[2] += mul(w, raw_acc[2]);
+
+    int32_t acc_world[3] = FIXED_POINT_VECTOR_CROSS_PRODUCT(r, first_cross);
+
+    acc_world[0] += acc_world[0] + raw_acc[0];
+    acc_world[1] += acc_world[1] + raw_acc[1];
+    acc_world[2] += acc_world[2] + raw_acc[2];
+
+    int16_t accel_v = acc_world[2] - ACCELEROMETER_1G_COUNT; // Remove gravity
+    int16_t accel_h = sqrtf(acc_world[0] * acc_world[0] + acc_world[1] * acc_world[1]); // take horizontal magnitude
+
+    int16_t g_in_sensor_frame[3]= {
+        mul(mul(r[2],r[0]) - mul(w,r[1]), ACCELEROMETER_1G_COUNT*2),
+        mul(mul(r[2],r[1]) + mul(w,r[0]), ACCELEROMETER_1G_COUNT*2),
+        mul((1<<28) - mul(r[0],r[0]) - mul(r[1],r[1]), ACCELEROMETER_1G_COUNT*2),
+        };
+
+    int16_t accel_xs = raw_acc[0] - g_in_sensor_frame[0];
+    int16_t accel_ys = raw_acc[1] - g_in_sensor_frame[1];
+    int16_t accel_zs = raw_acc[2] - g_in_sensor_frame[2];
+
+
+    int16_t accel_p = sqrtf((int32_t)accel_xs * accel_xs + (int32_t)accel_zs * accel_zs); // take magnitude
+
+    accelSample.accel_v = accel_v;
+    accelSample.accel_h = accel_h;
+    accelSample.accel_xs = accel_xs;
+    accelSample.accel_ys = accel_ys;
+    accelSample.accel_zs = accel_zs;
+    accelSample.accel_p = accel_p;
+
+    tetra_grip_accel_sensor_reporter(&accelSample);
+
+    //return snprintf(where, max_len, "\t%d\t%d\t%d\t%d\t%d\t%d", accel_v, accel_h, accel_xs, accel_ys, accel_zs, accel_p);
+
+    return 0;
+}
+
+
 /**
  * Extract the sensor data from the data payload
  */
 static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t max_len)
 {
-    char line[200];
+    char line[400];
     char *s=line;
     size_t len=0;
     
@@ -332,28 +492,29 @@ static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t
     int i;
     for(i=0; i<4; i++)
     {
-        sample.quaternion[i]=((float)get_int32(p))/(1<<29);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%9.6f", sample.quaternion[i]);
+        sample.quaternion[i]=((float)get_int32(p))/(1<<30);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%2.6f", sample.quaternion[i]);
         p+=4;
     }
 
     for(i=0; i<3; i++)
     {
         sample.euler213_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler213_degrees[i]);
+         len+=snprintf(s+len, sizeof(line)-len, "\t%4.1d", sample.euler213_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
         sample.euler123_degrees[i]=get_int16(p);
-        len+=snprintf(s+len, sizeof(line)-len, "\t%d", sample.euler123_degrees[i]);
+        len+=snprintf(s+len, sizeof(line)-len, "\t%4.1d", sample.euler123_degrees[i]);
         p+=2;
     }
 
     for(i=0; i<3; i++)
     {
-        sample.acceleration_g[i]=(2.0*get_int16(p))/(1<<15);
+        sample.acceleration_raw[i] = get_int16(p);
+        sample.acceleration_g[i]=(2.0*sample.acceleration_raw[i])/(1<<15);
         len+=snprintf(s+len, sizeof(line)-len, "\t%6.3f", sample.acceleration_g[i]);
         p+=2;
     }
@@ -368,16 +529,117 @@ static uint8_t print_sensor_streaming_data(uint8_t index, uint8_t *data, uint8_t
     tetra_grip_sensor_reporter(index, &sample);
 
 #ifndef PIC32
-//    if(logfile && logfile!=(FILE*)(-1))
-//    {
-//        fprintf(logfile, "%d.%3.3d\t%d\t%*s\n", seconds, milliseconds, index, len, line);
-//    }
-//    else
+    // Some config files specify that various acceleration calculations for world and sensor frames are done on the stimulator.
+    // The results of those calculations would be reported separately (see print_sensor_streaming_accel()).
+    // The next two lines perform the same calculations on the same input data to give exactly the same results,
+    // whether or not the calculations are also being done on the stimulator.
+    #ifndef USE_CALCULATED_ACCEL_FROM_STIM
+    len+=print_sensor_accel_without_gravity(s+len, sizeof(line)-len, data);
+
+    #endif // USE_CALCULATED_ACCEL_FROM_STIM
+    if(logfile && logfile!=(FILE*)(-1))
+    {
+        fprintf(logfile, "\n%d.%3.3d\t%d%*s", seconds, milliseconds, index, len, line);
+    }
+    else
 #endif // PIC32
     {
-        DEBUG_Print("%*s\n", len, line);
+         //DEBUG_Print("\n%*s", len, line);
     }
     return p-data;
+}
+
+
+/*
+ * Add calculated accel data (world and sensor frame) as received from stimulator on to output line
+ */
+void print_sensor_streaming_accel(uint8_t *data)
+{
+    char line[100]={0};
+    char *s=line;
+    size_t len=0;
+
+    SENSOR_ACCEL_DATA_T sampleAccelStim;
+
+    #define NUMBER_OF_CALCULATED_COMPONENTS (6)
+    /*          These components are only calculated if sensors of this type are referenced in the configuration file.
+                Un-calculated values are reported as zero.
+    accel_v     Vertical acceleration in world frame
+    accel_h     Horizontal acceleration in world frame
+    accel_xs    Acceleration in sensor frame without gravity
+    accel_ys    Acceleration in sensor frame without gravity
+    accel_zs    Acceleration in sensor frame without gravity
+    accel_p     Acceleration in sensor frame perpendicular to sensor y axis i.e. sqrt(x*x +z*z)
+    */
+    int16_t calculated_acceleration_raw[NUMBER_OF_CALCULATED_COMPONENTS];
+
+    int i;
+    for(i=0; i<NUMBER_OF_CALCULATED_COMPONENTS; i++)
+    {
+
+        #ifdef USE_CALCULATED_ACCEL_FROM_STIM
+        calculated_acceleration_raw[i] = get_int16(data);
+        //len+=snprintf(s+len, sizeof(line)-len, "\t%d", calculated_acceleration_raw[i]);
+        #else
+        // we have suppressed printing acceleration from stim because we calculate it on the PC
+        (void)(*s);
+        (void)(calculated_acceleration_raw);
+        #endif
+        data+=2;
+    }
+
+#ifdef USE_CALCULATED_ACCEL_FROM_STIM
+
+    sampleAccelStim.accel_v = calculated_acceleration_raw[0];
+    sampleAccelStim.accel_h = calculated_acceleration_raw[1];
+    sampleAccelStim.accel_xs= calculated_acceleration_raw[2];
+    sampleAccelStim.accel_ys= calculated_acceleration_raw[3];
+    sampleAccelStim.accel_zs= calculated_acceleration_raw[4];
+    sampleAccelStim.accel_p = calculated_acceleration_raw[5];
+
+    tetra_grip_accel_sensor_reporter(&sampleAccelStim);
+
+ #endif
+
+#ifndef PIC32
+    if(logfile && logfile!=(FILE*)(-1))
+    {
+        fprintf(logfile, "%*s", len, line);
+    }
+    else
+#endif // PIC32
+    {
+        DEBUG_Print("%*s", len, line);
+    }
+}
+
+/*
+ * Add filtered data on to output line
+ */
+void print_sensor_filtered_data(uint8_t *data)
+{
+    char line[20];
+    char *s=line;
+    size_t len=0;
+
+    int16_t sensor_role = (data[1]<<8) | data[0];
+    int16_t filter_output = (data[3]<<8) | data[2];
+
+    //len+=snprintf(s+len, sizeof(line)-len, "\t%d\t%d", sensor_role, filter_output);
+
+
+    tetra_grip_sensor_filtered_data(sensor_role,filter_output);
+
+#ifndef PIC32
+    if(logfile && logfile!=(FILE*)(-1))
+    {
+        fprintf(logfile, "%*s", len, line);
+    }
+    else
+#endif // PIC32
+    {
+        DEBUG_Print("%*s", len, line);
+    }
 }
 
 
@@ -516,6 +778,20 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessSensorShortBlock(STIM_GUI_MESSAGE_S_
             case SENSOR_REG_STREAMING_LENGTH:
                 DEBUG_Print("Streaming length: %d.\n", *data);
                 bytes_used=1;
+                break;
+            case SENSOR_REG_STREAMING_ACCEL:
+                    if(len>=12)
+                    {
+                        print_sensor_streaming_accel(data);
+                        bytes_used=12;
+                    }
+                    break;
+            case SENSOR_REG_FILTERED_DATA:
+                if(len>=4)
+                {
+                    print_sensor_filtered_data(data);
+                    bytes_used=4;
+                }
                 break;
             case SENSOR_REG_STREAMING_DATA:
                 bytes_used=print_sensor_streaming_data(b->index, data, len);

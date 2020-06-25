@@ -48,11 +48,11 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     if (!CurrentNodeVal.isNull())
     {
 
-        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
-        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
-        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toInt()*1000;
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toInt()*1000;
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toInt()*1000;
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toInt()*1000;
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toInt()*1000;
 
 
         ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored/m_currentDiv));
@@ -79,7 +79,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
    ui->comboBox_2->setEnabled(false);
    ui->comboBox_3->setEnabled(false);
    ui->comboBox_4->setEnabled(false);
-   ui->pushButton_keyGrip->setEnabled(false);
+   ui->pushButton_keyGrip->setEnabled(true);
 
    ui->radioButton_one->setEnabled(false); // FPS
    ui->radioButton_two->setEnabled(false); // Ulna

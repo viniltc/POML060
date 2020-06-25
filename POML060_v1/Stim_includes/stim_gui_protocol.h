@@ -224,9 +224,28 @@ typedef struct {
     double quaternion[4];
     int16_t euler213_degrees[3];
     int16_t euler123_degrees[3];
+    int16_t acceleration_raw[3];
     double acceleration_g[3];
     double gyroscope_dps[3];
 } SENSOR_DATA_T;
+
+typedef struct {
+    int16_t accel_v;
+    int16_t accel_h;
+    int16_t accel_xs;
+    int16_t accel_ys;
+    int16_t accel_zs;
+    int16_t accel_p;
+} SENSOR_ACCEL_DATA_T;
+
+typedef struct {
+    int16_t accel_vF;
+    int16_t accel_hF;
+    int16_t accel_xsF;
+    int16_t accel_ysF;
+    int16_t accel_zsF;
+    int16_t accel_pF;
+} SENSOR_ACCEL_FILTERED_DATA_T;
 
 #ifdef __cplusplus
 }

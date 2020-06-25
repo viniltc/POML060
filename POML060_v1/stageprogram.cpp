@@ -569,7 +569,14 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 
 void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 {
-    this->hide();
+    ManageConfigFile configFile;
+    configFile.palmerGraspTest(pLabel);
+    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+    disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+
+    this->close();
     palmergrasp = new ProgramPalmerGrasp(pLabel);
     palmergrasp->show();
 }

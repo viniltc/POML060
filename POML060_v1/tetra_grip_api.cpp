@@ -522,3 +522,14 @@ void tetra_grip_sensor_reporter(uint8_t index, SENSOR_DATA_T *sample)
     emit api.tetraGripSensorEvent(index, sample);
 
 }
+
+void tetra_grip_accel_sensor_reporter(SENSOR_ACCEL_DATA_T *sample)
+{
+    emit api.tetraGripAccelSensorEvent(sample);
+}
+
+void tetra_grip_sensor_filtered_data(int16_t sensor_role, int16_t filter_output)
+{
+    emit api.tetraGripSensorFilteredEvent(sensor_role, filter_output);
+    //tetraGripSensorFilteredEvent
+}

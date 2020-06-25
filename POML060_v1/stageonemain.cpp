@@ -138,6 +138,8 @@ void StageOneMain::on_pushButton_help_clicked()
 
 void StageOneMain::on_pushButton_logs_clicked()
 {
+    disconnect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
     this->close();
     window = new ShoulderControl(pLabel);
     //window->setAttribute(Qt::WA_DeleteOnClose);

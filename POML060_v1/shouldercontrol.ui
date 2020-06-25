@@ -6,9 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
-    <height>323</height>
+    <width>465</width>
+    <height>612</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -16,14 +21,14 @@
   <widget class="QProgressBar" name="progressBar_vertical">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>90</y>
+     <x>110</x>
+     <y>360</y>
      <width>81</width>
      <height>221</height>
     </rect>
    </property>
    <property name="value">
-    <number>24</number>
+    <number>2</number>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
@@ -32,8 +37,8 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>60</y>
+     <x>320</x>
+     <y>330</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -50,15 +55,15 @@
   <widget class="QLabel" name="label_vertical">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>300</y>
+     <x>110</x>
+     <y>570</y>
      <width>81</width>
      <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>15</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -70,9 +75,9 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>60</y>
-     <width>81</width>
+     <x>120</x>
+     <y>330</y>
+     <width>71</width>
      <height>16</height>
     </rect>
    </property>
@@ -88,14 +93,14 @@
   <widget class="QProgressBar" name="progressBar_horizontal">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>90</y>
+     <x>320</x>
+     <y>360</y>
      <width>81</width>
      <height>221</height>
     </rect>
    </property>
    <property name="value">
-    <number>24</number>
+    <number>2</number>
    </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
@@ -104,8 +109,8 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_vertical">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>280</y>
+     <x>20</x>
+     <y>550</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -114,15 +119,15 @@
   <widget class="QLabel" name="label_horizontal">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>300</y>
+     <x>320</x>
+     <y>570</y>
      <width>81</width>
      <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>15</pointsize>
+     <pointsize>13</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -134,8 +139,8 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_horizontal">
    <property name="geometry">
     <rect>
-     <x>220</x>
-     <y>280</y>
+     <x>230</x>
+     <y>550</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -144,11 +149,52 @@
   <widget class="QPushButton" name="pushButton_back">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
+     <x>20</x>
+     <y>52</y>
      <width>75</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 12px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 2px;        
+        padding-left: 3px;
+        color: black;
+}</string>
    </property>
    <property name="text">
     <string>Back</string>
@@ -157,8 +203,8 @@
   <widget class="QRadioButton" name="rdo_btn_vertical">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>160</y>
+     <x>40</x>
+     <y>430</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -170,8 +216,8 @@
   <widget class="QRadioButton" name="rdo_btn_horizontal">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>160</y>
+     <x>270</x>
+     <y>430</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -183,9 +229,9 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>0</y>
-     <width>251</width>
+     <x>80</x>
+     <y>10</y>
+     <width>291</width>
      <height>31</height>
     </rect>
    </property>
@@ -195,14 +241,14 @@
     </font>
    </property>
    <property name="text">
-    <string>Shoulder Control Settings</string>
+    <string>Shoulder Sensor Control Settings</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_v">
    <property name="geometry">
     <rect>
-     <x>100</x>
-     <y>290</y>
+     <x>110</x>
+     <y>560</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -214,8 +260,8 @@
   <widget class="QLabel" name="label_h">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>290</y>
+     <x>320</x>
+     <y>560</y>
      <width>47</width>
      <height>13</height>
     </rect>
@@ -227,7 +273,7 @@
   <widget class="QLabel" name="label_time">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>400</x>
      <y>10</y>
      <width>71</width>
      <height>16</height>
@@ -240,7 +286,7 @@
   <widget class="QLabel" name="label_vtime">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>400</x>
      <y>30</y>
      <width>71</width>
      <height>16</height>
@@ -250,6 +296,359 @@
     <string>TextLabel</string>
    </property>
   </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>220</y>
+     <width>101</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Gain dB</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_db"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>130</y>
+     <width>75</width>
+     <height>116</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QRadioButton" name="radioButton">
+      <property name="text">
+       <string>Lowpass</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_2">
+      <property name="text">
+       <string>Highpass</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_3">
+      <property name="text">
+       <string>Bandpass</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_4">
+      <property name="text">
+       <string>Peak</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="radioButton_5">
+      <property name="text">
+       <string>Notch</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>160</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Sample Frequency, Fs (Hz)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_fs"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>130</y>
+     <width>221</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Cutoff Frequency, Fc (Hz)</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_fc"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>190</y>
+     <width>91</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Q</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="lineEdit_q"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>270</y>
+     <width>75</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 12px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 2px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Tune filter</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>270</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 12px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 2px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Load Config. file</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>100</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Filter type</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>89</y>
+     <width>431</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Filter Tuning Window</string>
+   </property>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>180</y>
+      <width>91</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover{
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
+                stop :   0.5 #ffbb6e, stop :   0.55 #feae42, stop :   1.0 #fedb74);
+}
+
+QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 5px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 12px;
+        height: 30px;
+}
+
+
+
+QPushButton:pressed {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #c0dbff,
+        stop :   0.5 #cfd26f, stop :   0.55 #c7df6f, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+
+}
+QPushButton:on {
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #5AA72D,
+        stop :   0.5 #B3E296, stop :   0.55 #B3E296, stop :   1.0 #f5f9ff);
+        padding-top: 2px;
+        padding-left: 3px;
+}
+
+QPushButton:disabled {
+        background: transparent #e5e9ee;
+        padding-top: 2px;        
+        padding-left: 3px;
+        color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Set Threshold</string>
+    </property>
+   </widget>
+  </widget>
+  <zorder>groupBox</zorder>
+  <zorder>progressBar_vertical</zorder>
+  <zorder>label_3</zorder>
+  <zorder>label_vertical</zorder>
+  <zorder>label_2</zorder>
+  <zorder>progressBar_horizontal</zorder>
+  <zorder>doubleSpinBox_vertical</zorder>
+  <zorder>label_horizontal</zorder>
+  <zorder>doubleSpinBox_horizontal</zorder>
+  <zorder>pushButton_back</zorder>
+  <zorder>rdo_btn_vertical</zorder>
+  <zorder>rdo_btn_horizontal</zorder>
+  <zorder>label_4</zorder>
+  <zorder>label_v</zorder>
+  <zorder>label_h</zorder>
+  <zorder>label_time</zorder>
+  <zorder>label_vtime</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget_2</zorder>
+  <zorder>layoutWidget_3</zorder>
+  <zorder>layoutWidget_4</zorder>
+  <zorder>layoutWidget_5</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>pushButton_2</zorder>
+  <zorder>label_9</zorder>
  </widget>
  <resources/>
  <connections/>

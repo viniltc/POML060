@@ -127,44 +127,44 @@ private:
 
          bool phaseOver = false;
 
-         float PW_phase1_EDC = 0;
-         float PW_phase2_EDC = 0;
-         float PW_phase2_FDS = 0;
-         float PW_phase3_EDC = 0;
-         float PW_phase3_FDS = 0;
-         float PW_phase3_Ulna = 0;
-         float PW_phase3_ADP = 0;
-         float PW_phase4_EDC = 0;
+         int PW_phase1_EDC = 0;
+         int PW_phase2_EDC = 0;
+         int PW_phase2_FDS = 0;
+         int PW_phase3_EDC = 0;
+         int PW_phase3_FDS = 0;
+         int PW_phase3_Ulna = 0;
+         int PW_phase3_ADP = 0;
+         int PW_phase4_EDC = 0;
 
-         float PW_EDC1 = 0;
-         float PW_EDC2 = 0;
-         float PW_EDC3 = 0;
-         float PW_FDS = 0;
-         float PW_Ulna = 0;
-         float PW_ADP = 0;
+         int PW_EDC1 = 0;
+         int PW_EDC2 = 0;
+         int PW_EDC3 = 0;
+         int PW_FDS = 0;
+         int PW_Ulna = 0;
+         int PW_ADP = 0;
 
          float ramp_phase1 = 0;
          float ramp_phase2 = 0;
          float ramp_phase3 = 0;
          float ramp_phase4 = 0;
 
-         int ramp_stepsize_phase1_EDC = 0;
-         int ramp_stepsize_phase2_EDC = 0;
-         int ramp_stepsize_phase2_FDS = 0;
-         int ramp_stepsize_phase3_ADP = 0;
-         int ramp_stepsize_phase3_Ulna = 0;
-         int ramp_stepsize_phase3_FDS = 0;
-         int ramp_stepsize_phase3_EDC = 0;
-         int ramp_stepsize_phase4_EDC = 0;
+         float ramp_stepsize_phase1_EDC = 0;
+         float ramp_stepsize_phase2_EDC = 0;
+         float ramp_stepsize_phase2_FDS = 0;
+         float ramp_stepsize_phase3_ADP = 0;
+         float ramp_stepsize_phase3_Ulna = 0;
+         float ramp_stepsize_phase3_FDS = 0;
+         float ramp_stepsize_phase3_EDC = 0;
+         float ramp_stepsize_phase4_EDC = 0;
 
          Stopwatch* watch;
 
-         float currOneStored ;
-         float currTwoStored ;
-         float currThreeStored ;
-         float currFourStored ;
-         float currFiveStored ;
-         float m_currentDiv = 1000.0;
+         int currOneStored ;
+         int currTwoStored ;
+         int currThreeStored ;
+         int currFourStored ;
+         int currFiveStored ;
+         int m_currentDiv = 1000.0;
 
 
 
