@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QDomDocument>
 #include <QFile>
+#include <QCloseEvent>
 #include "manageconfigfile.h"
 
 
@@ -268,6 +269,20 @@ void stageProgram::setZeroCurrOnChannelOne()
 
     tetra_grip_api::stimulation_set_current( m_channelOne, 0);
     ui->widget_currentOne->setDisabled(true);
+}
+
+void stageProgram::closeEvent(QCloseEvent *event)
+{
+//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "TetraGrip",
+//                                                                tr("Are you sure want to close TetraGrip Application?\n"),
+//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+//                                                                QMessageBox::Yes);
+//    if (resBtn != QMessageBox::Yes) {
+//        event->ignore();
+//    } else {
+//        event->accept();
+       tetra_grip_api::stimulation_pause(true);
+//    }
 }
 
 void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
@@ -559,7 +574,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
    configFile.keyGripTest(pLabel);
    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
-   disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+   //disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
    disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
    this->close();

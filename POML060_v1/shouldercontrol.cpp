@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <QtXml>
 #include "manageconfigfile.h"
+#include <QSound>
 
 ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     QWidget(parent),
@@ -21,16 +22,24 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     //connect(&api, &tetra_grip_api::tetraGripEvent,this, &ShoulderControl::eventHandler);
     //connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &ShoulderControl::sensorEventHandler);
     connect(&api, &tetra_grip_api::tetraGripSensorFilteredEvent,this, &ShoulderControl::sensorFilteredEventHandler);
-    ui->doubleSpinBox_vertical->setSingleStep(0.05);
-    ui->doubleSpinBox_horizontal->setSingleStep(0.05);
+    ui->doubleSpinBox_vertical->setSingleStep(0.02);
+    ui->doubleSpinBox_protraction->setSingleStep(0.02);
+    ui->doubleSpinBox_retraction->setSingleStep(0.02);
+
+    ui->pushButton_nosound -> setIcon(QIcon(":/resources/sound.png"));
+    ui->pushButton_nosound -> setIconSize(QSize(18, 18));
+
+    connect(ui->pushButton_nosound, &QPushButton::clicked, this, &ShoulderControl::noSoundBtn);
 
     ui->lineEdit_q->setText("0.707"); //Q default value
     ui->lineEdit_db->setText("10"); // Db default value
+    //ui->radioButton;
 
     //tetra_grip_api::get_battery_percentage();
     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 30);
-    ui->progressBar_horizontal->setRange(0, 0.5*100);
+    ui->progressBar_protraction->setRange(0, 0.5*100);
     ui->progressBar_vertical->setRange(0, 0.5*100);
+    ui->progressBar_retraction->setRange(0, 0.5*100);
 }
 
 ShoulderControl::~ShoulderControl()
@@ -139,7 +148,7 @@ void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t fi
 
         filter_outputs[sensor_role] = filter_output;
 
-        if(sensor_role == 5)
+        if(sensor_role == 5 && startBtnStatus == true)
         {
             realtimeDataSlot((double)filter_outputs[0]/ACCELEROMETER_1G_COUNT,
                     (double)filter_outputs[1]/ACCELEROMETER_1G_COUNT,
@@ -150,17 +159,21 @@ void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t fi
 
             //ui->label->setText(QString::number(ui->doubleSpinBox->value(), 'f', 3));
             spinbox_vertical100 = 570-(2.2*ui->doubleSpinBox_vertical->value()*100);
-            spinbox_horizontal100 = 570-(2.2*ui->doubleSpinBox_horizontal->value()*100);
-            ui->label_vertical->setGeometry(110, spinbox_vertical100,81,16);
-            ui->label_horizontal->setGeometry(320,spinbox_horizontal100,81,16);
+            spinbox_protraction100 = 570-(2.2*ui->doubleSpinBox_protraction->value()*100);
+            spinbox_retraction100 = 570-(2.2*ui->doubleSpinBox_retraction->value()*100);
+            ui->label_vertical->setGeometry(110, spinbox_vertical100,61,16);
+            ui->label_protraction->setGeometry(270,spinbox_protraction100,61,16);
+            ui->label_retraction->setGeometry(430,spinbox_retraction100,61,16);
 
             //ui->label_vertical->setStyleSheet("{color: #C0BBFE}");
             //ui->label_vertical->setText("<font color='red'>---------</font>");
 
-            ui->label_v->setGeometry(115, spinbox_vertical100-8,81,16);
+            ui->label_v->setGeometry(115, spinbox_vertical100-8,61,16);
             ui->label_v->setText(QString::number(ui->doubleSpinBox_vertical->value(), 'f',2 )+"g");
-            ui->label_h->setGeometry(325, spinbox_horizontal100-8,81,16);
-            ui->label_h->setText(QString::number(ui->doubleSpinBox_horizontal->value(), 'f',2 )+"g");
+            ui->label_p->setGeometry(275, spinbox_protraction100-8,61,16);
+            ui->label_p->setText(QString::number(ui->doubleSpinBox_protraction->value(), 'f',2 )+"g");
+            ui->label_r->setGeometry(435, spinbox_retraction100-8,61,16);
+            ui->label_r->setText(QString::number(ui->doubleSpinBox_retraction->value(), 'f',2 )+"g");
         }
 }
 
@@ -171,39 +184,132 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     // calculate two new data points:
     double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
 
-    double a_horizontal = aH;
-    double a_vertical = aV;
+
+    double a_protraction = axS;
+    double a_vertical = aV; //aV;
+    double a_retraction = axS; //aV;
 
     ui->progressBar_vertical->setValue(a_vertical*100);
-    ui->progressBar_horizontal->setValue(a_horizontal*100);
+    ui->progressBar_protraction->setValue(a_protraction*100);
+    ui->progressBar_retraction->setValue(a_retraction*100);
+
+    if (axS<0){
+        ui->progressBar_retraction->setValue(qAbs(axS)*100);
+        ui->progressBar_protraction->setValue(0);
+    }
+    else{
+        ui->progressBar_retraction->setValue(0);
+        ui->progressBar_protraction->setValue(axS*100);
+
+    }
+
+
 
     QString StyleSheetOn1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
     QString StyleSheetOff1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
     QString StyleSheetOn2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
     QString StyleSheetOff2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
-    if(a_vertical> ui->doubleSpinBox_vertical->value() &&  a_vertical > 0)
+    static double lastVTwitchKey;
+    static double lastPTwitchKey;
+    static double lastRTwitchKey;
+
+    double percentageValue = 5.0/100.0; // 5%
+    double onVThreshold = ui->doubleSpinBox_vertical->value();
+    double offVThreshold = onVThreshold - (onVThreshold*percentageValue);
+    double onPThreshold = ui->doubleSpinBox_protraction->value();
+    double offPThreshold = onPThreshold - (onPThreshold*percentageValue);
+    double onRThreshold = ui->doubleSpinBox_retraction->value();
+    double offRThreshold = onRThreshold - (onRThreshold*percentageValue);
+
+
+    // if(a_vertical> onVThreshold && onVThreshold > 0.15 && key-lastVTwitchKey >1 )
+     if(a_vertical> onVThreshold && onVThreshold > 0.15  && !twitchtimer.isActive())
+       {
+         //QThread::msleep(1000);
+           emit startTimer();
+           ui->rdo_btn_vertical->show();
+           ui->rdo_btn_vertical->setStyleSheet(StyleSheetOn1);
+           if(!soundBtnStatus){
+           QSound::play(":/resources/beep1.wav");}
+           lastVTwitchKey = key;
+
+
+
+       }
+       else
+       {
+           ui->rdo_btn_vertical->setStyleSheet(StyleSheetOff1);
+       }
+
+       //if(a_horizontal > onPThreshold &&  onPThreshold > 0.15 && key-lastPTwitchKey >1)
+       if(a_protraction > onPThreshold &&  onPThreshold > 0.15 && !twitchtimer.isActive())
+       {
+
+
+           emit startTimer();
+
+           ui->rdo_btn_protraction->show();
+           ui->rdo_btn_protraction->setStyleSheet(StyleSheetOn2);
+           if(!soundBtnStatus){
+           QSound::play(":/resources/beep2.wav");}
+
+
+           lastPTwitchKey = key;
+
+       }
+       else
+       {
+           ui->rdo_btn_protraction->setStyleSheet(StyleSheetOff2);
+       }
+
+     //if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && key-lastRTwitchKey >1)
+       if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && !twitchtimer.isActive())
+       {
+           //QThread::msleep(1000);
+           emit startTimer();
+
+           ui->rdo_btn_retraction->show();
+           ui->rdo_btn_retraction->setStyleSheet(StyleSheetOn2);
+           if(!soundBtnStatus){
+           QSound::play(":/resources/beep3.wav");}
+
+           lastRTwitchKey = key;
+
+       }
+       else
+       {
+           ui->rdo_btn_retraction->setStyleSheet(StyleSheetOff2);
+       }
+
+//  ui->label_time->setText("Time: "+QString::number(key, 'f', 2));
+
+}
+
+void ShoulderControl::startTimer()
+{
+    twitchtimer.setSingleShot(true);
+    twitchtimer.start(500);
+
+    qDebug()<<"2 Second Timer called";
+}
+
+void ShoulderControl::noSoundBtn()
+{
+    if(!soundBtnStatus)
     {
-        ui->rdo_btn_vertical->show();
-        ui->rdo_btn_vertical->setStyleSheet(StyleSheetOn1);
+        //ui->pushButton_nosound -> setStyleSheet("background-color:green;");
+        ui->pushButton_nosound -> setIcon(QIcon(":/resources/nosound.png"));
+        ui->pushButton_nosound -> setIconSize(QSize(25, 25));
     }
     else
     {
-        ui->rdo_btn_vertical->setStyleSheet(StyleSheetOff1);
+       // ui->pushButton_nosound ->setStyleSheet("background-color:red;");
+        ui->pushButton_nosound -> setIcon(QIcon(":/resources/sound.png"));
+        ui->pushButton_nosound -> setIconSize(QSize(18, 18));
     }
 
-    if(a_horizontal> ui->doubleSpinBox_vertical->value() &&  a_horizontal > 0)
-    {
-        ui->rdo_btn_horizontal->show();
-        ui->rdo_btn_horizontal->setStyleSheet(StyleSheetOn2);
-    }
-    else
-    {
-        ui->rdo_btn_horizontal->setStyleSheet(StyleSheetOff2);
-    }
-
-  ui->label_time->setText("Time: "+QString::number(key, 'f', 2));
-
+    soundBtnStatus = !soundBtnStatus;
 }
 
 void ShoulderControl::on_pushButton_back_clicked()
@@ -508,4 +614,11 @@ void ShoulderControl::saveToXMLFile()
 
     qDebug()<< "Finished";
 }
+
+
+void ShoulderControl::on_pushButton_4_clicked()
+{
+    startBtnStatus = true;
+}
+
 

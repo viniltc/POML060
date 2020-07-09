@@ -6,6 +6,7 @@
 #include <QTextStream>
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
+#include <QCloseEvent>
 
 
 StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
@@ -117,6 +118,13 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
             break;
         }
     }
+
+}
+
+void StageOneMain::closeEvent(QCloseEvent *event)
+{
+
+       tetra_grip_api::stimulation_pause(true);
 
 }
 

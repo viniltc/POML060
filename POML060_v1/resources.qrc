@@ -13,5 +13,10 @@
         <file>resources/config_setup.txt</file>
         <file>resources/alert.png</file>
         <file>resources/config_keygrip_v2.txt</file>
+        <file>resources/beep1.wav</file>
+        <file>resources/beep2.wav</file>
+        <file>resources/beep3.wav</file>
+        <file>resources/nosound.png</file>
+        <file>resources/sound.png</file>
     </qresource>
 </RCC>

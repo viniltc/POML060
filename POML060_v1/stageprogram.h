@@ -50,6 +50,7 @@ public slots:
     void startStopTimer();
     void resetTimer();
     void setZeroCurrOnChannelOne();
+    void closeEvent (QCloseEvent *event);
 
 signals:
 
