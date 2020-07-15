@@ -36,6 +36,7 @@ SOURCES += \
     stageprogram.cpp \
     stagetwonew.cpp \
     stagetwopatients.cpp \
+    statetestwindow.cpp \
     stopwatch.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
@@ -67,6 +68,7 @@ HEADERS += \
     stageprogram.h \
     stagetwonew.h \
     stagetwopatients.h \
+    statetestwindow.h \
     stopwatch.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
@@ -82,7 +84,8 @@ FORMS += \
     stageonemain.ui \
     stageprogram.ui \
     stagetwonew.ui \
-    stagetwopatients.ui
+    stagetwopatients.ui \
+    statetestwindow.ui
 
 INCLUDEPATH += ./leds
 include($$PWD/leds/qled.pri)

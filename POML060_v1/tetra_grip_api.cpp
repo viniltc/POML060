@@ -517,6 +517,7 @@ void tetra_grip_reporter(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uin
     emit api.tetraGripEvent(topic, index, reg, value);
 }
 
+
 void tetra_grip_sensor_reporter(uint8_t index, SENSOR_DATA_T *sample)
 {
     emit api.tetraGripSensorEvent(index, sample);

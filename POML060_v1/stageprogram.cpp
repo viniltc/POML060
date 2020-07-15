@@ -765,3 +765,14 @@ void stageProgram::on_pushButton_shoulderControl_clicked()
    //newPatient->setAttribute(Qt::WA_DeleteOnClose);
     newPatient-> show();
 }
+
+void stageProgram::on_pushButton_5_clicked()
+
+
+{
+    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+    disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
+    this->close();
+    statewindow = new StateTestWindow(pLabel);
+    statewindow -> show();
+}

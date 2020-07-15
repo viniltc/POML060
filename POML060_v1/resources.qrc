@@ -18,5 +18,9 @@
         <file>resources/beep3.wav</file>
         <file>resources/nosound.png</file>
         <file>resources/sound.png</file>
+        <file>resources/stateDiagram.jpg</file>
+        <file>resources/stateDiagram2.png</file>
+        <file>resources/GraspStateDiagram.png</file>
+        <file>resources/GraspStateDiagram_nobox.png</file>
     </qresource>
 </RCC>

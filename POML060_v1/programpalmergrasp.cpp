@@ -16,13 +16,14 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
+     ui->btn0->setVisible(false); // to make phase0 button invisible
 
     pLabel = patientLabel;
 
 
     QDomDocument document;
 
-    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString configfilename = "config_palmergrasp_test_"+pLabel;
     QString xmlName = pLabel;
 
     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
@@ -46,11 +47,11 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     if (!CurrentNodeVal.isNull())
     {
 
-        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toInt()*1000;
-        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toInt()*1000;
-        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toInt()*1000;
-        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toInt()*1000;
-        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toInt()*1000;
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
 
 
         ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored/m_currentDiv));
@@ -113,6 +114,13 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
    ui->comboBox_4->addItem("2000ms", QVariant(2));
 
    m_currentBtn = 0;
+
+   StyleSheetOn = "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
+                        "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)";
+   StyleSheetOff = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                         "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+                                 "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+                         "color: #0000;";
 
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramPalmerGrasp::keyGripPhaseEventHandler);
 
@@ -471,6 +479,15 @@ void ProgramPalmerGrasp::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_
                  ui->btn_nextPhase->setEnabled(false);
             }
             break;
+
+        case STIM_SUB_ACT_REG_CURRENT_PHASE:
+
+            QList<QPushButton *> List{ui->btn0,ui->btn1,ui->btn2,ui->btn3,ui->btn4};
+             for (QPushButton * button : List) {
+               button->setStyleSheet(StyleSheetOff);
+             }
+             List[value]->setStyleSheet(StyleSheetOn);
+           break;
         }
     }
 }
@@ -564,12 +581,12 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
 
-    QString StyleSheetOn("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
-                         "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)");
-    QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
-                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
-                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
-                          "color: #0000;");
+//    QString StyleSheetOn("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
+//                         "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)");
+//    QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+//                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+//                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+//                          "color: #0000;");
 
      if(id==1)
      {
@@ -751,6 +768,11 @@ int ProgramPalmerGrasp::adjust_Ramp_Step_size(int pwvalue, float rmpvalue)
 void ProgramPalmerGrasp::getRampStepSize()
 {
 
+}
+
+void ProgramPalmerGrasp::closeEvent(QCloseEvent *event)
+{
+    tetra_grip_api::stimulation_pause(true);
 }
 
 void ProgramPalmerGrasp::on_pushButton_clicked()

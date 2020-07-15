@@ -189,7 +189,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     double a_vertical = aV; //aV;
     double a_retraction = axS; //aV;
 
-    ui->progressBar_vertical->setValue(a_vertical*100);
+    ui->progressBar_vertical->setValue(qAbs(a_vertical)*100);
     ui->progressBar_protraction->setValue(a_protraction*100);
     ui->progressBar_retraction->setValue(a_retraction*100);
 
@@ -202,6 +202,8 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
         ui->progressBar_protraction->setValue(axS*100);
 
     }
+
+
 
 
 
@@ -224,14 +226,15 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
 
 
     // if(a_vertical> onVThreshold && onVThreshold > 0.15 && key-lastVTwitchKey >1 )
-     if(a_vertical> onVThreshold && onVThreshold > 0.15  && !twitchtimer.isActive())
+     if(a_vertical> onVThreshold && onVThreshold > 0.15  && !twitchtimer.isActive()&& key-lastVTwitchKey >1)
        {
          //QThread::msleep(1000);
            emit startTimer();
            ui->rdo_btn_vertical->show();
            ui->rdo_btn_vertical->setStyleSheet(StyleSheetOn1);
            if(!soundBtnStatus){
-           QSound::play(":/resources/beep1.wav");}
+           QSound::play(":/resources/beep1.wav");
+           }
            lastVTwitchKey = key;
 
 
@@ -243,7 +246,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        }
 
        //if(a_horizontal > onPThreshold &&  onPThreshold > 0.15 && key-lastPTwitchKey >1)
-       if(a_protraction > onPThreshold &&  onPThreshold > 0.15 && !twitchtimer.isActive())
+       if(a_protraction > onPThreshold &&  onPThreshold > 0.15 && !twitchtimer.isActive()&& key-lastPTwitchKey >1)
        {
 
 
@@ -252,9 +255,8 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
            ui->rdo_btn_protraction->show();
            ui->rdo_btn_protraction->setStyleSheet(StyleSheetOn2);
            if(!soundBtnStatus){
-           QSound::play(":/resources/beep2.wav");}
-
-
+           QSound::play(":/resources/beep2.wav");
+           }
            lastPTwitchKey = key;
 
        }
@@ -264,16 +266,14 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        }
 
      //if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && key-lastRTwitchKey >1)
-       if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && !twitchtimer.isActive())
+       if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && !twitchtimer.isActive()&& key-lastRTwitchKey >1)
        {
            //QThread::msleep(1000);
            emit startTimer();
-
            ui->rdo_btn_retraction->show();
            ui->rdo_btn_retraction->setStyleSheet(StyleSheetOn2);
            if(!soundBtnStatus){
            QSound::play(":/resources/beep3.wav");}
-
            lastRTwitchKey = key;
 
        }

@@ -1106,6 +1106,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessSubActivityShortBlock(STIM_GUI_MESSA
             {
                 case STIM_SUB_ACT_REG_CURRENT_PHASE:
                     DEBUG_Print("Current phase: %d\n", *data);
+                    tetra_grip_reporter(TOPIC_STIMULATOR,b->index,STIM_SUB_ACT_REG_CURRENT_PHASE, *data);
                     bytes_used=1;
                     break;
                 case STIM_SUB_ACT_REG_CONDITION_SATISFIED:

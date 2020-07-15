@@ -11,6 +11,7 @@
 #include "qcustomplot.h"
 #include "stopwatch.h"
 #include "shouldercontrol.h"
+#include "statetestwindow.h"
 
 
 namespace Ui {
@@ -31,6 +32,7 @@ public:
      ProgramOpenHand *openhand;
      ProgramSwitchGrasp *switchgrasp;
      ShoulderControl *window;
+     StateTestWindow *statewindow;
      //StageOneMain *backToMain;
      QString pLabel;
 
@@ -73,6 +75,8 @@ private slots:
     void on_tabWidget_tabCloseRequested(int index);
 
     void on_pushButton_shoulderControl_clicked();
+
+    void on_pushButton_5_clicked();
 
 private:
     Ui::stageProgram *ui;

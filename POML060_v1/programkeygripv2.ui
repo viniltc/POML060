@@ -281,7 +281,7 @@ QPushButton:disabled {
 }</string>
     </property>
     <property name="text">
-     <string>Program</string>
+     <string>Back</string>
     </property>
    </widget>
    <widget class="QGroupBox" name="groupBox">
@@ -1059,9 +1059,9 @@ QPushButton:disabled {
    <widget class="QPushButton" name="pushButton_save">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>490</x>
       <y>420</y>
-      <width>81</width>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
@@ -1074,7 +1074,7 @@ QPushButton:disabled {
 QPushButton {
         border: 1px solid #6593cf;
         border-radius: 2px;
-        padding: 5px 15px 2px 5px;
+        padding: 5px 5px 2px 5px;
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
                 stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
         color: #0000;
@@ -1108,7 +1108,7 @@ QPushButton:disabled {
 }</string>
     </property>
     <property name="text">
-     <string>Save</string>
+     <string>Save settings</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_currOne">
@@ -1305,6 +1305,32 @@ QPushButton:disabled {
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="btn0">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>51</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+        border: 1px solid #6593cf;
+        border-radius: 2px;
+        padding: 5px 15px 2px 5px;
+        background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,
+                stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);
+        color: #0000;
+        font:  large &quot;Arial&quot;;
+		font-size: 16px;
+        height: 30px;
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>groupBox_2</zorder>
    <zorder>radioButton_four</zorder>
    <zorder>radioButton_one</zorder>
@@ -1335,6 +1361,7 @@ QPushButton:disabled {
    <zorder>label_EDC1</zorder>
    <zorder>label_EDC2</zorder>
    <zorder>label_EDC3</zorder>
+   <zorder>btn0</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

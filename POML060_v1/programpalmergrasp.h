@@ -39,6 +39,7 @@ public slots:
         int adjust_PW_range(int value);
         int adjust_Ramp_Step_size(int pwvalue, float rmpvalue);
         void getRampStepSize(void);
+        void closeEvent (QCloseEvent *event);
 
 signals:
 
@@ -165,12 +166,16 @@ private:
 
 
 
-         int currOneStored ;
-         int currTwoStored ;
-         int currThreeStored ;
-         int currFourStored ;
-         int currFiveStored ;
-         int m_currentDiv = 1000.0;
+         float currOneStored ;
+         float currTwoStored ;
+         float currThreeStored ;
+         float currFourStored ;
+         float currFiveStored ;
+         float m_currentDiv = 1000.0;
+
+
+         QString StyleSheetOn;
+         QString StyleSheetOff;
 
 
 protected:

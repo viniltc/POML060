@@ -44,6 +44,7 @@ public slots:
 //        void onTimeout();
 //        void startStopTimer();
 //        void resetTimer();
+        void closeEvent (QCloseEvent *event);
 
 
 signals:
@@ -159,12 +160,15 @@ private:
 
          Stopwatch* watch;
 
-         int currOneStored ;
-         int currTwoStored ;
-         int currThreeStored ;
-         int currFourStored ;
-         int currFiveStored ;
-         int m_currentDiv = 1000.0;
+         float currOneStored ;
+         float currTwoStored ;
+         float currThreeStored ;
+         float currFourStored ;
+         float currFiveStored ;
+         float m_currentDiv = 1000.0;
+
+         QString StyleSheetOn;
+         QString StyleSheetOff;
 
 
 
