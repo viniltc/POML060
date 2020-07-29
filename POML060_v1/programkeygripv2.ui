@@ -1214,19 +1214,6 @@ QPushButton:disabled {
      <string>Current</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>380</y>
-      <width>171</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_ADP">
     <property name="geometry">
      <rect>
@@ -1331,6 +1318,32 @@ QPushButton:disabled {
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>410</y>
+      <width>271</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>440</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>groupBox_2</zorder>
    <zorder>radioButton_four</zorder>
    <zorder>radioButton_one</zorder>
@@ -1354,7 +1367,6 @@ QPushButton:disabled {
    <zorder>label_currThree</zorder>
    <zorder>label_currFour</zorder>
    <zorder>label_currFive</zorder>
-   <zorder>label_7</zorder>
    <zorder>label_ADP</zorder>
    <zorder>label_FDS</zorder>
    <zorder>label_Ulna</zorder>
@@ -1362,6 +1374,8 @@ QPushButton:disabled {
    <zorder>label_EDC2</zorder>
    <zorder>label_EDC3</zorder>
    <zorder>btn0</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

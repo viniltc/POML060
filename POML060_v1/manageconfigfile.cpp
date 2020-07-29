@@ -61,45 +61,45 @@ void ManageConfigFile::keyGripTest(QString patientLabel)
         << "  M CH4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M CH5 1 5 120mA 10us 450us 40Hz ASYM \"EPL\" "<< "\n\n"
 
-        << "  P P0 \"Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
+        << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1") <<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
-        << "  P P1 \"Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
+        << "  P P1 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
-        << "  P P2 \"Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
+        << "  P P2 \"KeyGrip:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
-        << "  P P3 \"Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
-        << "  P P4 \"Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
+        << "  P P4 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -161,45 +161,45 @@ void ManageConfigFile::keyGripFinal(QString patientLabel)
         << "  M CH3 1 3 120mA 10us 450us 40Hz ASYM \"Ulna nerve\" "<< '\n'
         << "  M CH4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M CH5 1 5 120mA 10us 450us 40Hz ASYM \"EPL\" "<< "\n\n"
-        << "  P P0 \"Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
+        << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P1 \"Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
+        << "  P P1 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p1_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p1_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<< findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P2 \"Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
+        << "  P P2 \"KeyGrip:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p2_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p2_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p2_FDS").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p2_FDS").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P3 \"Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_FDS").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_FDS").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_Ulna").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_Ulna").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_ADP").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_ADP").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P4 \"Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
+        << "  P P4 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   "<<root.elementsByTagName("Rmp_p4_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p4_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p4_EDC")<<"us "<<" RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -262,45 +262,45 @@ void ManageConfigFile::palmerGraspTest(QString patientLabel)
         << "  M CH4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M CH5 1 5 120mA 10us 450us 40Hz ASYM \"EPL\" "<< "\n\n"
 
-        << "  P P0 \"Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
+        << "  P P0 \"PalmerGrasp:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
-        << "  P P1 \"Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
+        << "  P P1 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
 
-        << "  P P2 \"Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
+        << "  P P2 \"PalmerGrasp:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
 
-        << "  P P3 \"Thumb opposes\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "  P P3 \"PalmerGrasp:Thumb opposes\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n' //180
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
 
-        << "  P P4 \"Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
+        << "  P P4 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -363,45 +363,45 @@ void ManageConfigFile::palmerGraspFinal(QString patientLabel)
         << "  M CH3 1 3 120mA 10us 450us 40Hz ASYM \"Ulna nerve\" "<< '\n'
         << "  M CH4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M CH5 1 5 120mA 10us 450us 40Hz ASYM \"EPL\" "<< "\n\n"
-        << "  P P0 \"Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
+        << "  P P0 \"PalmerGrasp:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P1 \"Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
+        << "  P P1 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p1_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p1_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_APB")<<"us "<<" RATE"<< "\n\n"
 
-        << "  P P2 \"Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
+        << "  P P2 \"PalmerGrasp:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p2_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p2_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p2_FDS").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p2_FDS").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_APB")<<"us "<<" RATE"<< "\n\n"
 
-        << "  P P3 \"Thumb opposes\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "  P P3 \"PalmerGrasp:Thumb opposes\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_FDS").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_FDS").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_Ulna").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_Ulna").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms "<<root.elementsByTagName("Rmp_p3_ADP").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p3_ADP").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_APB")<<"us "<<" RATE"<< "\n\n"
 
-        << "  P P4 \"Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
+        << "  P P4 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< root.elementsByTagName("CH1").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   "<<root.elementsByTagName("Rmp_p4_EDC").at(0).firstChild().nodeValue()<<"ns "<< root.elementsByTagName("PW_p4_EDC").at(0).firstChild().nodeValue()<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH2 "<< root.elementsByTagName("CH2").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH3 "<< root.elementsByTagName("CH3").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH4 "<< root.elementsByTagName("CH4").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< root.elementsByTagName("CH5").at(0).firstChild().nodeValue()<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_APB")<<"us "<<" RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -449,20 +449,20 @@ void ManageConfigFile::filterTest(QString patientLabel)
         << "U U1    \"Any user\"   ENGLISH   100%   1" << "\n"
 
         << " A A1   \"Twitch Freq tests\" 0min  0  0%  AVAILABLE FALSE FALSE TRUE TRUE" << "\n"
-        << "  F LP3 2 1 " << root.elementsByTagName("a1").at(0).firstChild().nodeValue()<<" "<< root.elementsByTagName("a2").at(0).firstChild().nodeValue()<<" "<< root.elementsByTagName("b0").at(0).firstChild().nodeValue()<<" "<< root.elementsByTagName("b1").at(0).firstChild().nodeValue()<<" "<< root.elementsByTagName("b2").at(0).firstChild().nodeValue()<<" ` lp Fs=100Hz Fc=3Hz" << "\n\n"
-
+        << "  F LP1 2 1 " << findXMLNodeValue(root, "Filter_Coeffs", "a1l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "a2l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b0l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b1l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b2l")<<" ` lp Fs=30Hz Fc=3Hz" << '\n' //a1 a2 bo b1 b2
+        << "  F HP1 2 1 " << findXMLNodeValue(root, "Filter_Coeffs", "a1h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "a2h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b0h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b1h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b2h")<<" ` lp Fs=30Hz Fc=3Hz" << "\n\n" //a1 a2 bo b1 b2
         << "  F NULL1 1 1 0 1 0 "<< '\n'
         << "  F NULL2 2 1 0 0 1 0 0 "<<"\n\n"
         << "  B SA1 1 \"Tests\""<< '\n'
         << "   M Extensors 1 1 20mA 10us 250us 40Hz ASYM \"Wrist extensors\" "<< '\n'
         << "   M Flexors 1 2 20mA 10us 250us 40Hz ASYM \"Wrist flexors\" "<< "\n\n"
 
-        << "   S ShoulderX 1 0 FALSE ACCEL_XS \"Sensor X\" 20Hz 20Hz \\LP3" << '\n'
-        << "   S ShoulderY 1 0 FALSE ACCEL_YS \"Sensor Y\" 20Hz 20Hz \\LP3" << '\n'
-        << "   S ShoulderZ 1 0 FALSE ACCEL_ZS \"Sensor Z\" 20Hz 20Hz \\LP3" << '\n'
-        << "   S ShoulderV 1 0 FALSE ACCEL_V \"Vertical twitch\" 20Hz 20Hz \\LP3" << '\n'
-        << "   S ShoulderH 1 0 FALSE ACCEL_H \"Horizontal twitch\" 20Hz 20Hz \\LP3" << '\n'
-        << "   S ShoulderP 1 0 FALSE ACCEL_P \"Perp Humerous\" 20Hz 20Hz \\LP3" << "\n\n"
+        << "   S ShoulderX 1 0 FALSE ACCEL_XS \"Sensor X\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderY 1 0 FALSE ACCEL_YS \"Sensor Y\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderZ 1 0 FALSE ACCEL_ZS \"Sensor Z\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderV 1 0 FALSE ACCEL_V \"Vertical twitch\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderH 1 0 FALSE ACCEL_H \"Horizontal twitch\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderP 1 0 FALSE ACCEL_P \"Perp Humerous\" 20Hz 20Hz \\LP1 \\HP1" << "\n\n"
 
         << "   P P1 \"twitch when ready\" 0ms NONE 2000ms P2 STOP P2" << '\n'
         << "`     Ref        I     D   R   R   PW" << '\n'
@@ -486,7 +486,230 @@ void ManageConfigFile::filterTest(QString patientLabel)
     }
 }
 
-QString ManageConfigFile::findNodeValue(QDomElement const& root, QString const& parentname, QString const& childname)
+void ManageConfigFile::TetraGripFinal(QString patientLabel)
+{
+
+    QDomDocument document;
+    pLabel = patientLabel;
+
+    QString configfilename = "config_tetraGrip_"+pLabel;
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+
+
+    QFile originalFile(txtWritePath);
+    if(originalFile.open(QIODevice::WriteOnly  | QIODevice::Text))
+    {
+        QTextStream stream_1(& originalFile);
+
+
+
+
+        stream_1 << "`R ref, version, \"config_ID\",                   menu language, Power timeout (hours), Number of users" <<'\n'
+            << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
+
+        << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
+        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+
+        << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
+        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+
+        <<  "`   Ref def min max NV" << '\n'
+        <<   "V t   0   0   X FALSE ` time of last twitch" << '\n'
+        <<   "V c   0   0   X FALSE ` number of twitches"<< '\n'
+        <<   "V x1   180 0   360 TRUE ` PW adjust for KeyGrip"<< '\n'
+        <<   "V x2   180 0   360 TRUE ` PW adjust for PalmrGrasp"<< '\n'
+        <<   "V stepsize 10 10 50 FALSE ` stepsize"<< "\n\n"
+
+
+        <<   "F LP1 2 1 -1.14293 0.412739 0.0674523 0.134905 0.0674523 ` lp Fs=100Hz Fc=3Hz" << "\n\n"
+        <<   "F HP1 2 1 -1.14293 0.412739 0.0674523 0.134905 0.0674523 ` hp Fs=100Hz Fc=3Hz" << "\n\n"
+
+        << "  B SA1 1 \"Engine tests\" " << '\n'
+        << "` These limits apply to all phases" << '\n'
+        << "` M ref stim, channel, max current, minPW, maxPW, freq, waveform, output name" << '\n'
+        << "  M C1 1 1 120mA 10us 450us 40Hz ASYM \"EDC\" "<< '\n'
+        << "  M C2 1 2 120mA 10us 450us 40Hz ASYM \"FDS\" "<< '\n'
+        << "  M C3 1 3 120mA 10us 450us 40Hz ASYM \"Ulna\" "<< '\n'
+        << "  M C4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
+        << "  M C5 1 5 120mA 10us 450us 40Hz ASYM \"Opp\" "<< "\n\n"
+
+        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor X\" 20Hz 20Hz \\LP1" <<'\n'
+        << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 20Hz 20Hz \\LP1" << "\n\n"
+
+        << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P5"<<'\n'
+        << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P1"<<"\n\n"
+
+        << "  P P1 \"KeyGrip:Hand open\" 3000ms P2 2000ms STOP STOP P2" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<< findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+
+        << "  P P2 \"KeyGrip:Finger flexion\" 3000ms P3 2000ms STOP STOP P3" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+
+        << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<<'\n'
+        << "  `  double twitch to the KeyGrip intensity adjust phase P9"<<'\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P9"<<'\n'
+        << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P4"<<"\n\n"
+
+        << "  P P4 \"KeyGrip:Hand open\" 2000ms P0 2000ms STOP STOP P0" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p4_EDC")<<"us "<<" RATE"<< '\n'
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+
+        << "  P P5 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P6" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_APB")<<"us "<<" RATE"<< "\n\n"
+
+        << "  P P6 \"PalmerGrasp:Finger flexion\" 0ms NONE 2000ms STOP STOP P7" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_APB")<<"us "<<" RATE"<< "\n\n"
+
+        << "  P P7 \"PalmerGrasp:Thumb opposes\" 0ms NONE 2000ms STOP STOP P8" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<<"x2"<<" RATE"<< "\n\n"
+        << "  `  double twitch to the palmrGrsp intensity adjust phase P10"<<'\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P10"<<'\n'
+        << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P8"<<"\n\n"
+
+        << "  P P8 \"PalmerGrasp:Hand open\" 2000ms P0 2000ms STOP STOP P0" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_APB")<<"us "<<" RATE"<< "\n\n"
+
+        << "  P P9 \"KeyGrip:Adjust grip\" 0ms NONE 2000ms STOP STOP P4" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
+        << "  ` protraction twitch to increment C4 PW in steps of 10us"<<'\n'
+        << "  ` retraction twitch to decrement C4 PW in steps of 10us"<<'\n'
+        << "  ` single shoulder twitch to back to P3"<<'\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND AND AND > @SX 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 + :x1 :stepsize 1' GOTO P11"<<'\n'
+        << "    X X1_2 'AND AND AND < @SX -2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 - :x1 :stepsize 1' GOTO P12"<<'\n'
+        << "    X X1_3 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P3"<<"\n\n"
+
+        << "  P P10 \"PalmerGrasp:Adjust grip\" 0ms NONE 2000ms STOP STOP P8" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< '\n'
+        << "  ` protraction twitch to increment C5 PW in steps of 10us" <<'\n'
+        << "  ` retraction twitch to decrement C5 PW in steps of 10us" <<'\n'
+        << "  ` single shoulder twitch to back to P7" <<'\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t 0 0' GOTO NONE" <<'\n'
+        << "    X X1_1 'AND AND AND > @SX 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 + :x2 :stepsize 1' GOTO P13" <<'\n'
+        << "    X X1_2 'AND AND AND < @SX -2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 - :x2 :stepsize 1' GOTO P14" <<'\n'
+        << "    X X1_3 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P7" <<"\n\n"
+
+        << "  P P11 \"KeyGrip:increment\" 500ms P9 2000ms STOP STOP NONE" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+
+        << "  P P12 \"KeyGrip:decrement\" 500ms P9 2000ms STOP STOP NONE" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+
+        << "  P P13 \"PalmrGrsp:increment\" 500ms P10 2000ms STOP STOP NONE" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< "\n\n"
+
+        << "  P P14 \"PalmrGrsp:decrement\" 500ms P10 2000ms STOP STOP NONE" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< "\n\n"
+
+
+
+        <<"@--------" << '\n' ;
+
+        originalFile.close();
+        qDebug() << "Writing finished";
+    }
+
+}
+
+QString ManageConfigFile::findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname)
 {
     QDomElement element = root.firstChildElement(parentname);
     return element.firstChildElement(childname).firstChild().nodeValue();

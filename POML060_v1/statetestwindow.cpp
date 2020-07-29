@@ -11,12 +11,15 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
 {
     ui->setupUi(this);
     pLabel = patientLabel;
+
     StyleSheetOn = "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
                          "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)";
     StyleSheetOff = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
                           "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
                                   "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
                           "color: #0000;";
+
+    ui->btn00->setVisible(false); // to make phase0 button invisible
 
     QPixmap pix(":/resources/GraspStateDiagram_nobox.png"); // this is the code to add image to the form
     int w = ui->label_bg->width();
@@ -29,15 +32,12 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
      }
 
     // List[0] - > setStyleSheet(StyleSheetOn);
-     ui->btn5->setStyleSheet(StyleSheetOn);
+     ui->btn0->setStyleSheet(StyleSheetOn);
 
-     QString configfilename = "config_full_sample_v1";
-     //QString xmlName = pLabel;
-
-    // QString txtWritePath = ":/resources/"+configfilename+".txt";
-     QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
-
-     QFile f(txtWritePath);
+    // QString txtfilename = "config_tetraGrip_v4";
+     QString txtfilename = "config_tetraGrip_"+pLabel;
+     QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
+     QFile f(configFileName);
      if(!f.open(QFile::ReadOnly))
           {
               QMessageBox::information(0, "config file error", f.errorString());
@@ -49,6 +49,8 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
 
           }
 
+
+     connect(&api, &tetra_grip_api::tetraGripEvent,this, &StateTestWindow::phaseEventHandler);
 
 
 }
@@ -64,43 +66,28 @@ void StateTestWindow::phaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, u
     {
         switch(reg)
         {
+
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
-            //ui -> label_bat -> setText("Battery remaining: "+QString::number(value)+"%");
+            //ui -> label_20 -> setText("Battery remaining: "+QString::number(value)+"%");
             break;
 
         case STIM_SUB_ACT_REG_CURRENT_PHASE:
-            //ui->btn1->setText("Phase No " + QString::number(value));
-//            if(value == 0)
-//            {
-//                ui->btn1->setStyleSheet(StyleSheetOn);
-//                ui->btn2->setStyleSheet(StyleSheetOff);
-//                ui->btn3->setStyleSheet(StyleSheetOff);
-//            }
-//            else if(value == 1)
-//            {
-//                ui->btn2->setStyleSheet(StyleSheetOn);
-//                ui->btn1->setStyleSheet(StyleSheetOff);
-//                ui->btn3->setStyleSheet(StyleSheetOff);
-//            }
-//            else if(value == 2)
-//            {
-//                ui->btn3->setStyleSheet(StyleSheetOn);
-//                ui->btn2->setStyleSheet(StyleSheetOff);
-//                ui->btn1->setStyleSheet(StyleSheetOff);
-//            }
-
-
-            QList<QPushButton *> List{ui->btn0,ui->btn1,ui->btn2,ui->btn3,ui->btn4,ui->btn5,ui->btn6,ui->btn7,ui->btn8 };
+            QList<QPushButton *> List{ui->btn0,ui->btn1,ui->btn2,ui->btn3,ui->btn4,ui->btn5,ui->btn6,ui->btn7,ui->btn8,ui->btn9,ui->btn10,ui->btn11,ui->btn12,ui->btn13,ui->btn14};
              for (QPushButton * button : List) {
                button->setStyleSheet(StyleSheetOff);
              }
+            // ui->label_20->setText("Phase no: " + QString::number(value));
              List[value]->setStyleSheet(StyleSheetOn);
              //List.removeAt(2);
-             qDebug()<<"The list values are" << List;
-
+             //qDebug()<<"The list values are" << List;
             break;
         }
     }
+}
+
+void StateTestWindow::closeEvent(QCloseEvent *event)
+{
+    tetra_grip_api::stimulation_pause(true);
 }
 
 void StateTestWindow::on_pushButton_back_clicked()

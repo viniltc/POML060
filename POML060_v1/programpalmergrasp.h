@@ -134,12 +134,15 @@ private:
          int PW_phase1_EDC = 0;
          int PW_phase1_APB = 0;
          int PW_phase2_EDC = 0;
+         int PW_phase2_APB = 0;
          int PW_phase2_FDS = 0;
          int PW_phase3_EDC = 0;
+         int PW_phase3_APB = 0;
          int PW_phase3_FDS = 0;
          int PW_phase3_Ulna = 0;
          int PW_phase3_ADP = 0;
          int PW_phase4_EDC = 0;
+         int PW_phase4_APB = 0;
 
          int PW_EDC1 = 0;
          int PW_APB = 0;
@@ -157,12 +160,15 @@ private:
          float ramp_stepsize_phase1_EDC = 0;
          float ramp_stepsize_phase1_APB = 0;
          float ramp_stepsize_phase2_EDC = 0;
+         float ramp_stepsize_phase2_APB = 0;
          float ramp_stepsize_phase2_FDS = 0;
          float ramp_stepsize_phase3_ADP = 0;
+         float ramp_stepsize_phase3_APB = 0;
          float ramp_stepsize_phase3_Ulna = 0;
          float ramp_stepsize_phase3_FDS = 0;
          float ramp_stepsize_phase3_EDC = 0;
          float ramp_stepsize_phase4_EDC = 0;
+         float ramp_stepsize_phase4_APB = 0;
 
 
 

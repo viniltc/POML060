@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "tetra_grip_api.h"
+#include "filtersettings.h"
 
 namespace Ui {
 class ShoulderControl;
@@ -16,6 +17,7 @@ public:
     explicit ShoulderControl(QString,QWidget *parent = nullptr);
     ~ShoulderControl();
      QString pLabel;
+    // FilterSettings *window;
 
 public slots:
 
@@ -24,6 +26,7 @@ public slots:
  void sensorFilteredEventHandler(int16_t sensor_role, int16_t filter_output);
  void realtimeDataSlot(double axS, double ayS, double azS, double aV, double aH, double aP);
  void startTimer();
+ void startTwoTwitchTimer();
  void noSoundBtn();
 
 private slots:
@@ -31,7 +34,6 @@ private slots:
  void biquadratic_filter_coefficient(double Q, double dB, double FS, double FC,
          int type, float *coeff);
 
- void on_pushButton_clicked();
 
  void on_pushButton_2_clicked();
  void saveToXMLFile();
@@ -39,6 +41,8 @@ private slots:
  void on_pushButton_4_clicked();
 
 
+
+ void on_pushButton_settings_clicked();
 
 private:
     Ui::ShoulderControl *ui;
@@ -50,6 +54,15 @@ private:
     double spinbox_retraction100 = 0;
     const int16_t ACCELEROMETER_1G_COUNT = 16384;
     QTimer twitchtimer;
+    QTimer twoTwitchtimer;
+    int doubleTimer = 0;
+
+    QString StyleSheetOn1;
+    QString StyleSheetOn2;
+    QString StyleSheetOff;
+    QString StyleSheetTwoTwitchOn;
+
+
     bool startBtnStatus = false;
     bool soundBtnStatus = false;
 

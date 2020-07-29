@@ -770,6 +770,10 @@ void stageProgram::on_pushButton_5_clicked()
 
 
 {
+
+    ManageConfigFile configFile1;
+    configFile1.TetraGripFinal(pLabel);
+
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
     disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
     this->close();

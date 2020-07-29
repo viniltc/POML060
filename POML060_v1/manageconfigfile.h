@@ -17,10 +17,11 @@ public:
     void palmerGraspTest(QString patientLabel);
     void palmerGraspFinal(QString patientLabel);
     void filterTest(QString patientLabel);
+    void TetraGripFinal(QString patientLabel);
 
 private:
 
-    QString findNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
+    QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
 
 };
 

@@ -25,14 +25,21 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->doubleSpinBox_vertical->setSingleStep(0.02);
     ui->doubleSpinBox_protraction->setSingleStep(0.02);
     ui->doubleSpinBox_retraction->setSingleStep(0.02);
+    ui->spinBox_twotwitch->setValue(1000);
+
+    ui->label_pid->setText(patientLabel);
+    ui->label_pid->setAlignment(Qt::AlignCenter);
+    ui->label_pid->setStyleSheet("color: blue;");
 
     ui->pushButton_nosound -> setIcon(QIcon(":/resources/sound.png"));
     ui->pushButton_nosound -> setIconSize(QSize(18, 18));
+    ui->pushButton_settings -> setIcon(QIcon(":/resources/settings.png"));
+    ui->pushButton_settings -> setIconSize(QSize(18, 18));
 
     connect(ui->pushButton_nosound, &QPushButton::clicked, this, &ShoulderControl::noSoundBtn);
 
-    ui->lineEdit_q->setText("0.707"); //Q default value
-    ui->lineEdit_db->setText("10"); // Db default value
+//    ui->lineEdit_q->setText("0.707"); //Q default value
+//    ui->lineEdit_db->setText("10"); // Db default value
     //ui->radioButton;
 
     //tetra_grip_api::get_battery_percentage();
@@ -40,6 +47,11 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->progressBar_protraction->setRange(0, 0.5*100);
     ui->progressBar_vertical->setRange(0, 0.5*100);
     ui->progressBar_retraction->setRange(0, 0.5*100);
+
+    StyleSheetOn1 = "QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}";
+    StyleSheetOn2 = "QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}";
+    StyleSheetOff = "QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}";
+    StyleSheetTwoTwitchOn = "QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: yellow; border: 2px solid gray;}";
 }
 
 ShoulderControl::~ShoulderControl()
@@ -47,94 +59,6 @@ ShoulderControl::~ShoulderControl()
     delete ui;
 }
 
-//void ShoulderControl::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
-//{
-
-//}
-
-//void ShoulderControl::sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample)
-//{
-//    static QTime time(QTime::currentTime());
-//    // calculate two new data points:
-//    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-
-//    double q0 = sample->quaternion[0];
-//    double q1 = sample->quaternion[1];
-//    double q2 = sample->quaternion[2];
-//    double q3 = sample->quaternion[3];
-
-//    QQuaternion quat; // quaternion value change q0, (-)q1, (-)q2, q3
-//    quat.setScalar(q0);
-//    quat.setX(-q1);
-//    quat.setY(-q2);
-//    quat.setZ(q3);
-
-//    QQuaternion qNormalized = quat.normalized();
-
-//    float a0 = sample->acceleration_g[0];
-//    double a1 = sample->acceleration_g[1];
-//    double a2 = sample->acceleration_g[2];
-
-
-
-
-
-
-//     QVector3D acc(a0,a1,a2);
-//     QVector3D gg(0,0,1);
-
-//     //QVector3D vpost = qNormalized.rotatedVector(acc);
-//     QVector3D res = qNormalized.rotatedVector(acc)-gg;
-//    //QVector3D res = acc-gg;
-
-//     QVector3D rotRes = qNormalized.inverted().rotatedVector(res);
-//    //qDebug()<< "The index" << res.x();
-
-
-//    //threshold = ui->doubleSpinBox->value();
-
-//    double a_horizontal = sqrt(rotRes.x()*rotRes.x()+rotRes.z()*rotRes.z());
-//    double a_vertical = rotRes.y();
-
-//    ui->progressBar_vertical->setValue(a_vertical*100);
-//    ui->progressBar_horizontal->setValue(a_horizontal*100);
-
-
-//    //twitchDetection
-//    static double lastTwitchKey_v;
-//   // if(a_vertical> ui->doubleSpinBox_vertical->value() &&  a_vertical > 0 && key-lastTwitchKey_v > 0.3)
-//    if(a_vertical> ui->doubleSpinBox_vertical->value() &&  a_vertical > 0)
-//      {
-
-//        lastTwitchKey_v = key;
-//        ui->rdo_btn_vertical->show();
-//        ui->rdo_btn_vertical->setStyleSheet(StyleSheetOn1);
-
-
-//      }
-//    else
-//      {
-//        //ui->btn_twitch->setStyleSheet("");
-//        ui->rdo_btn_vertical->setStyleSheet(StyleSheetOff1);
-//      }
-
-//    if(a_horizontal> ui->doubleSpinBox_vertical->value() &&  a_horizontal > 0)
-//      {
-
-//        ui->rdo_btn_horizontal->show();
-//        ui->rdo_btn_horizontal->setStyleSheet(StyleSheetOn2);
-
-//      }
-//    else
-//      {
-//        //ui->btn_twitch->setStyleSheet("");
-//        ui->rdo_btn_horizontal->setStyleSheet(StyleSheetOff2);
-
-//      }
-
-//  ui->label_vtime->setText("V Time: "+QString::number(key-lastTwitchKey_v, 'f', 2));
-
-//}
 
 void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t filter_output)
 {
@@ -157,10 +81,10 @@ void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t fi
                     (double)filter_outputs[4]/ACCELEROMETER_1G_COUNT,
                     (double)filter_outputs[5]/ACCELEROMETER_1G_COUNT);
 
-            //ui->label->setText(QString::number(ui->doubleSpinBox->value(), 'f', 3));
-            spinbox_vertical100 = 570-(2.2*ui->doubleSpinBox_vertical->value()*100);
-            spinbox_protraction100 = 570-(2.2*ui->doubleSpinBox_protraction->value()*100);
-            spinbox_retraction100 = 570-(2.2*ui->doubleSpinBox_retraction->value()*100);
+          //  420-(2.2*ui->doubleSpinBox_vertical->value()*100);
+            spinbox_vertical100 = 420-(ui->doubleSpinBox_vertical->value()*100);
+            spinbox_protraction100 = 420-(ui->doubleSpinBox_protraction->value()*100);
+            spinbox_retraction100 = 420-(ui->doubleSpinBox_retraction->value()*100);
             ui->label_vertical->setGeometry(110, spinbox_vertical100,61,16);
             ui->label_protraction->setGeometry(270,spinbox_protraction100,61,16);
             ui->label_retraction->setGeometry(430,spinbox_retraction100,61,16);
@@ -189,7 +113,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     double a_vertical = aV; //aV;
     double a_retraction = axS; //aV;
 
-    ui->progressBar_vertical->setValue(qAbs(a_vertical)*100);
+    ui->progressBar_vertical->setValue(a_vertical*100);
     ui->progressBar_protraction->setValue(a_protraction*100);
     ui->progressBar_retraction->setValue(a_retraction*100);
 
@@ -205,12 +129,10 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
 
 
 
-
-
-    QString StyleSheetOn1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
-    QString StyleSheetOff1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
-    QString StyleSheetOn2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
-    QString StyleSheetOff2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
+//    QString StyleSheetOn1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
+//    QString StyleSheetOff1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
+//    QString StyleSheetOn2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
+//    QString StyleSheetOff2("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
 
     static double lastVTwitchKey;
     static double lastPTwitchKey;
@@ -224,26 +146,52 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     double onRThreshold = ui->doubleSpinBox_retraction->value();
     double offRThreshold = onRThreshold - (onRThreshold*percentageValue);
 
+    static int countCrossings = 0;
+
+    ui->textBrowser->setText(
+                 "Ver coor: " + QString::number( spinbox_vertical100) + "\n" +
+                 "Pro coor: " + QString::number(spinbox_protraction100) + "\n" +
+                 "Ret coor): " + QString::number(spinbox_retraction100) + "\n"
+                 "Ver thr: " + QString::number(onVThreshold) + "\n" +
+                 "Pro thr: " + QString::number(onPThreshold) +  "\n" +
+                 "Ret thr: " + QString::number(onRThreshold) );
+
 
     // if(a_vertical> onVThreshold && onVThreshold > 0.15 && key-lastVTwitchKey >1 )
-     if(a_vertical> onVThreshold && onVThreshold > 0.15  && !twitchtimer.isActive()&& key-lastVTwitchKey >1)
+     if(a_vertical> onVThreshold && onVThreshold > 0.08  && !twitchtimer.isActive())
        {
          //QThread::msleep(1000);
            emit startTimer();
+           emit startTwoTwitchTimer();
+           countCrossings++;
            ui->rdo_btn_vertical->show();
            ui->rdo_btn_vertical->setStyleSheet(StyleSheetOn1);
            if(!soundBtnStatus){
            QSound::play(":/resources/beep1.wav");
            }
-           lastVTwitchKey = key;
+           //lastVTwitchKey = key;
 
 
 
        }
        else
        {
-           ui->rdo_btn_vertical->setStyleSheet(StyleSheetOff1);
+           ui->rdo_btn_vertical->setStyleSheet(StyleSheetOff);
        }
+
+     if(!twoTwitchtimer.isActive()){
+         if(countCrossings >= 2){
+             ui->rdo_btn_vertical->setStyleSheet(StyleSheetTwoTwitchOn);
+             QSound::play(":/resources/beep4.wav");
+         }
+         countCrossings = 0;
+
+     }
+     else
+     {
+         qDebug()<<"No of Twitch: "+QString::number(countCrossings);
+
+     }
 
        //if(a_horizontal > onPThreshold &&  onPThreshold > 0.15 && key-lastPTwitchKey >1)
        if(a_protraction > onPThreshold &&  onPThreshold > 0.15 && !twitchtimer.isActive()&& key-lastPTwitchKey >1)
@@ -262,7 +210,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        }
        else
        {
-           ui->rdo_btn_protraction->setStyleSheet(StyleSheetOff2);
+           ui->rdo_btn_protraction->setStyleSheet(StyleSheetOff);
        }
 
      //if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && key-lastRTwitchKey >1)
@@ -279,7 +227,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        }
        else
        {
-           ui->rdo_btn_retraction->setStyleSheet(StyleSheetOff2);
+           ui->rdo_btn_retraction->setStyleSheet(StyleSheetOff);
        }
 
 //  ui->label_time->setText("Time: "+QString::number(key, 'f', 2));
@@ -289,9 +237,19 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
 void ShoulderControl::startTimer()
 {
     twitchtimer.setSingleShot(true);
-    twitchtimer.start(500);
+    twitchtimer.start(1000);
 
     qDebug()<<"2 Second Timer called";
+}
+
+void ShoulderControl::startTwoTwitchTimer()
+{
+    doubleTimer = ui->spinBox_twotwitch->value();
+    twoTwitchtimer.setSingleShot(true);
+    //doubleTwitchtimer.start(2000);
+    twoTwitchtimer.start(doubleTimer);
+
+    //qDebug()<<"2 Second Timer called";
 }
 
 void ShoulderControl::noSoundBtn()
@@ -432,70 +390,7 @@ void ShoulderControl::biquadratic_filter_coefficient(double Q, double dB, double
         //0:b2, 1:b1, 2:b0, 3:a1, 4:a2
 }
 
-void ShoulderControl::on_pushButton_clicked()
-{
-    if(ui->radioButton->isChecked())
-    {
-        qDebug()<<"Low pass filter";
-        filter_type = 0;
-    }
-    else if(ui->radioButton_2->isChecked())
-    {
-        qDebug()<<"High pass filter";
-        filter_type = 1;
-    }
-    else if(ui->radioButton_3->isChecked())
-    {
-        qDebug()<<"Band Pass Peak gain Q";
-        filter_type = 2;
-    }
-    else if(ui->radioButton_4->isChecked())
-    {
-        qDebug()<<"Peaking EQ Filter";
-        filter_type = 6;
-    }
-    else if(ui->radioButton_5->isChecked())
-    {
-        qDebug()<<"Notch filter";
-       filter_type = 4;
-    }
 
-    FC = ui->lineEdit_fc->text().toDouble();   //Fc
-    FS = ui->lineEdit_fs->text().toDouble(); //Fs
-    Q = ui->lineEdit_q->text().toDouble(); //Q
-    dB = ui->lineEdit_db->text().toDouble(); // Db
-
-    if(ui->lineEdit_fc->text().isEmpty() || ui->lineEdit_fs->text().isEmpty() || ui->lineEdit_q->text().isEmpty() ||ui->lineEdit_db->text().isEmpty())
-    {
-        QMessageBox::warning(this,"TetraGrip","Warning: Enter valid filter parameters"
-                             ,QMessageBox::Ok	,QMessageBox::NoButton);
-
-        return;
-    }
-
-    biquadratic_filter_coefficient(Q, dB, FS, FC, filter_type,coeff);
-    qDebug()<<coeff[0]<< coeff[1]<<coeff[2]<<coeff[3]<<coeff[4]; //0:b2, 1:b1, 2:b0, 3:a1, 4:a2
-
-//    ui->textBrowser->setText(
-//                 "a1: " + QString::number(coeff[3]) + "\n" +
-//                 "a2: " + QString::number(coeff[4]) + "\n" +
-//                 "b0: " + QString::number(coeff[0]) + "\n" +
-//                 "b1: " + QString::number(coeff[1]) + "\n" +
-//                 "b2: " + QString::number(coeff[2]));
-
-   ui->pushButton_2->setEnabled(true);
-
-
-
-   saveToXMLFile();
-
-   qDebug()<<"Filter Parameters saved to the xml file";
-
-   ManageConfigFile configFile;
-   configFile.filterTest(pLabel);
-
-   qDebug()<<"Filter settings config file created";
-}
 
 void ShoulderControl::on_pushButton_2_clicked()
 {
@@ -621,4 +516,13 @@ void ShoulderControl::on_pushButton_4_clicked()
     startBtnStatus = true;
 }
 
+
+
+void ShoulderControl::on_pushButton_settings_clicked()
+{
+    FilterSettings *filterw;
+    //this->hide();
+    filterw = new FilterSettings(pLabel);
+    filterw -> show();
+}
 

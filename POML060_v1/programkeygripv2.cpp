@@ -131,6 +131,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::getPWValue);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::nextBtn);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
+    //connect(this, &ProgramKeyGripV2::lastPhase, this, &ProgramKeyGripV2::sendConfigFile);
 
     //slot
 //    connect(ui->pushButton_stimStart, &QPushButton::clicked, this, &ProgramKeyGripV2::startStopTimer);
@@ -359,14 +360,22 @@ void ProgramKeyGripV2::mousePressEvent(QMouseEvent *event)
        EDC_Seg1_dragging = true;
        CurPoint1 = &p42;
        CurPoint2 = &p43;
+
+       CurPoint3 = &p46;
+       CurPoint4 = &p47;
+
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
    else if (distance ( mp, p46) < 20 && ( mp.x() > p46.x() && mp.x() < p47.x() ) && EDC_Seg3_checked) {
        EDC_Seg3_dragging = true;
-       CurPoint1 = &p46;
-       CurPoint2 = &p47;
+
+       CurPoint1 = &p42;
+       CurPoint2 = &p43;
+
+       CurPoint3 = &p46;
+       CurPoint4 = &p47;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
@@ -405,6 +414,8 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
           // ui->radioButton_one->setText("FDS+FDP Val:"+QString::number(CurPoint1->y()));
            ui->label_FDS->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
            ui->label_FDS->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+
+           Y_coordinates_FDS = CurPoint1->y();
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
           }
     }
@@ -418,6 +429,8 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
     //  ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
       ui->label_Ulna->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_Ulna->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+
+      Y_coordinates_Ulna = CurPoint1->y();
       }
     }
     else if(ADP_dragging && ADP_checked)
@@ -430,31 +443,42 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
      // ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
       ui->label_ADP->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_ADP->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      Y_coordinates_ADP = CurPoint1->y();
       }
     }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
+        changeP2value(event->y());
        }
 
       if(EDC_Seg1_checked){
     //  ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
-      ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
+
+      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt(),QString::number(CurPoint3->y()).toInt()-15,47,13);
+      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
+      //ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
+      Y_coordinates_EDC1 = CurPoint1->y();
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
+        changeP2value(event->y());
        }
 
       if(EDC_Seg3_checked){
     //  ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_EDC3->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt()+50,QString::number(CurPoint3->y()).toInt()-15,47,13);
+      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
+
+      ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      Y_coordinates_EDC3 = CurPoint1->y();
 
       }
     }
@@ -469,6 +493,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
      // ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_EDC2->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC2->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      Y_coordinates_EDC2 = CurPoint1->y();
       }
     }
     else
@@ -482,12 +507,19 @@ void ProgramKeyGripV2::changeP1value(int value)
     CurPoint1->setY(value);
     CurPoint2->setY(value);
 
-    //QThread::msleep(200);
+
     update();
     emit pulseWidthValue(adjust_PW_range(CurPoint1->y()));
     pw_value = adjust_PW_range(CurPoint1->y());
 
 
+}
+
+void ProgramKeyGripV2::changeP2value(int value)
+{
+    CurPoint3->setY(value);
+    CurPoint4->setY(value);
+    update();
 }
 
 void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
@@ -500,18 +532,19 @@ void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
 }
 
 void ProgramKeyGripV2::nextBtn(int pwvalue)
+//void ProgramKeyGripV2::nextBtn()
 {
     m_currentBtn++;
     if(m_currentBtn > btnGrp->buttons().size())
     {
         m_currentBtn = 0;
-        phaseOver = true;
+        //phaseOver = true;
         getRampStepSize();
         saveToXMLFile();
-        //resetTimer();
-    }
 
-    emit buttonChanged(m_currentBtn, pwvalue);
+    }
+   emit buttonChanged(m_currentBtn, pwvalue);
+    // emit buttonChanged(m_currentBtn, pw_value);
    // qDebug()<<"Button size"<< btnGrp->buttons().size() << "And current Button"<< m_currentBtn;
 }
 
@@ -584,12 +617,6 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
     qDebug()<<"Button size is"<< btnGrp->buttons().size() << "And current Button is"<< id;
 
-//    QString StyleSheetOn("background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
-//                         "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)");
-//    QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
-//                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
-//                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
-//                          "color: #0000;");
 
      if(id==1)
      {
@@ -749,12 +776,15 @@ void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t i
             {
                  ui->pushButton_stimStop->setText("Stop");
                  ui->pushButton_stimStart->setText("Running");
+                 stimStopped = false;
+
             }
             else
             {
                  ui->pushButton_stimStop->setText("Stopped");
                  ui->pushButton_stimStart->setText("Start");
                  ui->btn_nextPhase->setEnabled(false);
+                 stimStopped = true;
             }
             break;
 
@@ -765,9 +795,17 @@ void ProgramKeyGripV2::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t i
                button->setStyleSheet(StyleSheetOff);
              }
              List[value]->setStyleSheet(StyleSheetOn);
+
+//             if(value == 4)
+//                 phaseOver = true;
+//             else
+//                 phaseOver = false;
+
            break;
+
         }
     }
+
 
 }
 
@@ -800,6 +838,7 @@ void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
 
      m_currentBtn = 0;
 
+
      ui->btn_nextPhase->setEnabled(false);
      ui->comboBox_1->setEnabled(false);
      ui->comboBox_2->setEnabled(false);
@@ -815,10 +854,10 @@ void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
      ui->pushButton_keyGrip->setEnabled(false);
      ui->pushButton_save->setEnabled(false);
 
-     QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
-                           "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
-                                   "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
-                           "color: #0000;");
+//     QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+//                           "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+//                                   "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+//                           "color: #0000;");
 
      ui->btn1->setStyleSheet(StyleSheetOff);
      ui->btn2->setStyleSheet(StyleSheetOff);
@@ -927,6 +966,7 @@ void ProgramKeyGripV2::saveToXMLFile()
 
     QDomElement newPWTag = document.createElement(QString("PW_KeyGrip"));
     QDomElement newRmpTag = document.createElement(QString("Ramp_KeyGrip"));
+
 
     QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
@@ -1081,6 +1121,37 @@ void ProgramKeyGripV2::saveToXMLFile()
     file.close();
 
     qDebug()<< "Finished";
+}
+
+void ProgramKeyGripV2::loadConfigFile(QString configfilename)
+{
+
+
+
+
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
+
+    QFile f(txtWritePath);
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+         }
+
+}
+
+void ProgramKeyGripV2::sendConfigFile()
+{
+    ManageConfigFile newFile;
+    newFile.keyGripFinal(pLabel);
+             //resetTimer();
+    loadConfigFile("config_keygrip_"+pLabel);
+    ui->label_7->setText("stim config file sent");
 }
 
 void ProgramKeyGripV2::on_pushButton_keyGrip_clicked()

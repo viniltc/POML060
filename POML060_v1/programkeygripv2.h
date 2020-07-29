@@ -33,8 +33,10 @@ public:
 public slots:
 
         void changeP1value(int);
+        void changeP2value(int);
         void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
         void nextBtn(int pwvalue);
+        //void nextBtn();
         void prevBtn(int pwvalue);
         void paintBtn(int id, int pwvalue);
         void getPWValue (int);
@@ -53,6 +55,7 @@ signals:
         void buttonTwo(bool);
         void buttonChanged(int id, int pwvalue);
         void pulseWidthValue(int);
+        void lastPhase();
 
 
 private:
@@ -127,6 +130,7 @@ private:
          uint8_t m_channelFive = 4;
 
          bool phaseOver = false;
+         bool stimStopped = false;
 
          int PW_phase1_EDC = 0;
          int PW_phase2_EDC = 0;
@@ -143,6 +147,14 @@ private:
          int PW_FDS = 0;
          int PW_Ulna = 0;
          int PW_ADP = 0;
+
+         int Y_coordinates_EDC1 = 0;
+         int Y_coordinates_EDC2 = 0;
+         int Y_coordinates_EDC3 = 0;
+         int Y_coordinates_FDS = 0;
+         int Y_coordinates_Ulna = 0;
+         int Y_coordinates_ADP = 0;
+         int X_coordinate_Common = 0;
 
          float ramp_phase1 = 0;
          float ramp_phase2 = 0;
@@ -172,6 +184,8 @@ private:
 
 
 
+
+
 protected:
    // we then override / make our own of these function to track mouse movement and clicks
          void mousePressEvent(QMouseEvent *event) ;
@@ -185,6 +199,8 @@ private slots:
          void on_pushButton_stimStop_clicked();
          void on_btn_nextPhase_clicked();
          void saveToXMLFile();
+         void loadConfigFile(QString fileName);
+         void sendConfigFile();
 
          void on_comboBox_1_currentIndexChanged(int index);
          void on_comboBox_2_currentIndexChanged(int index);

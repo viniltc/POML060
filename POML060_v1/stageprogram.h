@@ -69,14 +69,14 @@ private slots:
     void on_pushButton_stimSave_clicked();
     void saveToXMLFile();
     void on_pushButton_setThreshold_clicked();
-
     void on_tabWidget_currentChanged(int index);
-
     void on_tabWidget_tabCloseRequested(int index);
 
     void on_pushButton_shoulderControl_clicked();
 
     void on_pushButton_5_clicked();
+
+
 
 private:
     Ui::stageProgram *ui;

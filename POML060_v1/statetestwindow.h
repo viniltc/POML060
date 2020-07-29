@@ -16,6 +16,7 @@ public:
     explicit StateTestWindow(QString, QWidget *parent = nullptr);
     ~StateTestWindow();
     void phaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
+    void closeEvent (QCloseEvent *event);
 
 private slots:
     void on_pushButton_back_clicked();
