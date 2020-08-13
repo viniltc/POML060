@@ -19,7 +19,9 @@ FilterSettings::FilterSettings(QString patientLabel, QWidget *parent) :
 
     //lpf
     ui->lineEdit_qlp->setText("0.707"); //Q default value
+    ui->lineEdit_qlp->setVisible(false); // invisible for users
     ui->lineEdit_dblp->setText("10"); // Db default value
+    ui->lineEdit_dblp->setVisible(false); // invisible for users
     ui->lineEdit_fclp->setText("4"); //fc def value
 
     ui->lineEdit_fs->setText("30"); // fs default value
@@ -28,6 +30,17 @@ FilterSettings::FilterSettings(QString patientLabel, QWidget *parent) :
     ui->lineEdit_fchp->setText("2"); // fc default value
     ui->lineEdit_qhp->setText("0.707"); //Q default value
     ui->lineEdit_dbhp->setText("10"); // Db default value
+    ui->lineEdit_dbhp->setVisible(false); // invisible for users
+
+    ui->lineEdit_qhp->setVisible(false); // invisible for users
+    ui->label_3->setVisible(false); // invisible for users
+    ui->label_4->setVisible(false); // invisible for users
+    ui->label_15->setVisible(false); // invisible for users
+    ui->label_16->setVisible(false); // invisible for users
+
+    ui->radioButton_hp->setVisible(false);
+    ui->radioButton_lp->setVisible(false);
+    ui->radioButton_bp->setVisible(false);
 }
 
 FilterSettings::~FilterSettings()

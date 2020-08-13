@@ -300,7 +300,7 @@ void ManageConfigFile::palmerGraspTest(QString patientLabel)
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -401,7 +401,7 @@ void ManageConfigFile::palmerGraspFinal(QString patientLabel)
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_APB")<<"us "<<" RATE"<< "\n\n"
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
 
 
         <<"@--------" << '\n' ;
@@ -457,12 +457,12 @@ void ManageConfigFile::filterTest(QString patientLabel)
         << "   M Extensors 1 1 20mA 10us 250us 40Hz ASYM \"Wrist extensors\" "<< '\n'
         << "   M Flexors 1 2 20mA 10us 250us 40Hz ASYM \"Wrist flexors\" "<< "\n\n"
 
-        << "   S ShoulderX 1 0 FALSE ACCEL_XS \"Sensor X\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
-        << "   S ShoulderY 1 0 FALSE ACCEL_YS \"Sensor Y\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
-        << "   S ShoulderZ 1 0 FALSE ACCEL_ZS \"Sensor Z\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
-        << "   S ShoulderV 1 0 FALSE ACCEL_V \"Vertical twitch\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
-        << "   S ShoulderH 1 0 FALSE ACCEL_H \"Horizontal twitch\" 20Hz 20Hz \\LP1 \\HP1" << '\n'
-        << "   S ShoulderP 1 0 FALSE ACCEL_P \"Perp Humerous\" 20Hz 20Hz \\LP1 \\HP1" << "\n\n"
+        << "   S ShoulderX 1 0 FALSE ACCEL_XS \"Sensor X\" 30Hz 30Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderY 1 0 FALSE ACCEL_YS \"Sensor Y\" 30Hz 30Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderZ 1 0 FALSE ACCEL_ZS \"Sensor Z\" 30Hz 30Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderV 1 0 FALSE ACCEL_V \"Vertical twitch\" 30Hz 30Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderH 1 0 FALSE ACCEL_H \"Horizontal twitch\" 30Hz 30Hz \\LP1 \\HP1" << '\n'
+        << "   S ShoulderP 1 0 FALSE ACCEL_P \"Perp Humerous\" 30Hz 30Hz \\LP1 \\HP1" << "\n\n"
 
         << "   P P1 \"twitch when ready\" 0ms NONE 2000ms P2 STOP P2" << '\n'
         << "`     Ref        I     D   R   R   PW" << '\n'
@@ -551,8 +551,8 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  M C4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M C5 1 5 120mA 10us 450us 40Hz ASYM \"Opp\" "<< "\n\n"
 
-        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor X\" 20Hz 20Hz \\LP1" <<'\n'
-        << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 20Hz 20Hz \\LP1" << "\n\n"
+        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor X\" 30Hz 30Hz \\LP1" <<'\n'
+        << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 30Hz 30Hz \\LP1" << "\n\n"
 
         << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -565,7 +565,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P5"<<'\n'
         << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P1"<<"\n\n"
 
-        << "  P P1 \"KeyGrip:Hand open\" 3000ms P2 2000ms STOP STOP P2" << '\n'
+        << "  P P1 \"KeyGrip:Hand open\" 2000ms P2 2000ms STOP STOP P2" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<< findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
@@ -573,7 +573,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P2 \"KeyGrip:Finger flexion\" 3000ms P3 2000ms STOP STOP P3" << '\n'
+        << "  P P2 \"KeyGrip:Finger flexion\" 2000ms P3 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
@@ -593,15 +593,17 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P9"<<'\n'
         << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P4"<<"\n\n"
 
-        << "  P P4 \"KeyGrip:Hand open\" 2000ms P0 2000ms STOP STOP P0" << '\n'
+        << "  P P4 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP P0" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p4_EDC")<<"us "<<" RATE"<< '\n'
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< "\n\n"
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P0" <<"\n\n"
 
-        << "  P P5 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P6" << '\n'
+        << "  P P5 \"PalmerGrasp:Hand open\" 2000ms P6 2000ms STOP STOP P6" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
@@ -609,7 +611,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p1_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p1_APB")<<"us "<<" RATE"<< "\n\n"
 
-        << "  P P6 \"PalmerGrasp:Finger flexion\" 0ms NONE 2000ms STOP STOP P7" << '\n'
+        << "  P P6 \"PalmerGrasp:Finger flexion\" 2000ms P7 2000ms STOP STOP P7" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_FDS")<<"us "<<" RATE"<< '\n' // 180
@@ -629,13 +631,15 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P10"<<'\n'
         << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P8"<<"\n\n"
 
-        << "  P P8 \"PalmerGrasp:Hand open\" 2000ms P0 2000ms STOP STOP P0" << '\n'
+        << "  P P8 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P0" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
-        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p4_APB")<<"us "<<" RATE"<< "\n\n"
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
+        << "    X X1_1 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P0" <<"\n\n"
 
         << "  P P9 \"KeyGrip:Adjust grip\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'

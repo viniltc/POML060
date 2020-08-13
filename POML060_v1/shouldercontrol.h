@@ -52,6 +52,7 @@ private:
     double spinbox_vertical100 = 0;
     double spinbox_protraction100 = 0;
     double spinbox_retraction100 = 0;
+
     const int16_t ACCELEROMETER_1G_COUNT = 16384;
     QTimer twitchtimer;
     QTimer twoTwitchtimer;

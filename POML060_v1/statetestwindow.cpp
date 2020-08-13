@@ -34,7 +34,7 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
     // List[0] - > setStyleSheet(StyleSheetOn);
      ui->btn0->setStyleSheet(StyleSheetOn);
 
-    // QString txtfilename = "config_tetraGrip_v4";
+    // QString txtfilename = "config_tetraGrip_S01_v1";
      QString txtfilename = "config_tetraGrip_"+pLabel;
      QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
      QFile f(configFileName);

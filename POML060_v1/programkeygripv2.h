@@ -172,11 +172,11 @@ private:
 
          Stopwatch* watch;
 
-         float currOneStored ;
-         float currTwoStored ;
-         float currThreeStored ;
-         float currFourStored ;
-         float currFiveStored ;
+         float currOneStored =0;
+         float currTwoStored =0 ;
+         float currThreeStored=0 ;
+         float currFourStored =0;
+         float currFiveStored=0 ;
          float m_currentDiv = 1000.0;
 
          QString StyleSheetOn;

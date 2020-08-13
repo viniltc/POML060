@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>316</height>
+    <width>536</width>
+    <height>269</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButton_save">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>270</y>
+     <x>400</x>
+     <y>220</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -70,8 +70,8 @@ QPushButton:disabled {
   <widget class="QPushButton" name="pushButton_tune">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>270</y>
+     <x>310</x>
+     <y>220</y>
      <width>75</width>
      <height>31</height>
     </rect>
@@ -126,28 +126,39 @@ QPushButton:disabled {
     <rect>
      <x>10</x>
      <y>70</y>
-     <width>191</width>
-     <height>22</height>
+     <width>217</width>
+     <height>24</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QLabel" name="label_2">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Sample Frequency, Fs (Hz)</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_fs"/>
+     <widget class="QLineEdit" name="lineEdit_fs">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
   <widget class="QRadioButton" name="radioButton_lp">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>260</y>
+     <x>20</x>
+     <y>230</y>
      <width>91</width>
      <height>17</height>
     </rect>
@@ -159,9 +170,9 @@ QPushButton:disabled {
   <widget class="QWidget" name="layoutWidget_4">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>190</y>
-     <width>121</width>
+     <x>340</x>
+     <y>40</y>
+     <width>188</width>
      <height>22</height>
     </rect>
    </property>
@@ -181,30 +192,41 @@ QPushButton:disabled {
   <widget class="QWidget" name="layoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>110</y>
-     <width>161</width>
-     <height>22</height>
+     <x>30</x>
+     <y>150</y>
+     <width>178</width>
+     <height>24</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>Low pass cutoff (Hz)</string>
+       <string>Noise reduction (Hz)</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_fclp"/>
+     <widget class="QLineEdit" name="lineEdit_fclp">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
   <widget class="QRadioButton" name="radioButton_hp">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>280</y>
+     <x>20</x>
+     <y>240</y>
      <width>91</width>
      <height>17</height>
     </rect>
@@ -216,8 +238,8 @@ QPushButton:disabled {
   <widget class="QWidget" name="layoutWidget_3">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>150</y>
+     <x>340</x>
+     <y>100</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -238,8 +260,8 @@ QPushButton:disabled {
   <widget class="QWidget" name="layoutWidget_5">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>190</y>
+     <x>340</x>
+     <y>10</y>
      <width>119</width>
      <height>22</height>
     </rect>
@@ -261,29 +283,40 @@ QPushButton:disabled {
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>110</y>
-     <width>161</width>
-     <height>22</height>
+     <y>150</y>
+     <width>254</width>
+     <height>24</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
      <widget class="QLabel" name="label_14">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
-       <string>High pass cutoff (Hz)</string>
+       <string>Movement artefact reduction (Hz)</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_fchp"/>
+     <widget class="QLineEdit" name="lineEdit_fchp">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
   <widget class="QWidget" name="layoutWidget_7">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>150</y>
+     <x>340</x>
+     <y>70</y>
      <width>111</width>
      <height>22</height>
     </rect>
@@ -304,8 +337,8 @@ QPushButton:disabled {
   <widget class="QRadioButton" name="radioButton_bp">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>240</y>
+     <x>20</x>
+     <y>210</y>
      <width>91</width>
      <height>17</height>
     </rect>
@@ -325,7 +358,7 @@ QPushButton:disabled {
    </property>
    <property name="font">
     <font>
-     <pointsize>13</pointsize>
+     <pointsize>14</pointsize>
     </font>
    </property>
    <property name="text">

@@ -47,18 +47,18 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     if (!CurrentNodeVal.isNull())
     {
 
-        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
-        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
-        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat();
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat();
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
 
 
-        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored/m_currentDiv));
-        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currOneStored/m_currentDiv));
-        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored/m_currentDiv));
-        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored/m_currentDiv));
-        ui->label_currFive->setText(QString("Ch 5 (AdPB): %1 mA").arg(currFiveStored/m_currentDiv));
+        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
+        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currOneStored));
+        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
+        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
+        ui->label_currFive->setText(QString("Ch 5 (AdPB): %1 mA").arg(currFiveStored));
 
 
     }
@@ -308,14 +308,21 @@ void ProgramPalmerGrasp::mousePressEvent(QMouseEvent *event)
        EDC_Seg1_dragging = true;
        CurPoint1 = &p42;
        CurPoint2 = &p43;
+
+       CurPoint3 = &p46;
+       CurPoint4 = &p47;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
 
    else if (distance ( mp, p46) < 20 && ( mp.x() > p46.x() && mp.x() < p47.x() ) && EDC_Seg3_checked) {
        EDC_Seg3_dragging = true;
-       CurPoint1 = &p46;
-       CurPoint2 = &p47;
+
+       CurPoint1 = &p42;
+       CurPoint2 = &p43;
+
+       CurPoint3 = &p46;
+       CurPoint4 = &p47;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
@@ -393,6 +400,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
+        changeP2value(event->y());
        }
 
       if(EDC_Seg1_checked){
@@ -400,18 +408,25 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
       ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
      // ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
+
+      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt(),QString::number(CurPoint3->y()).toInt()-15,47,13);
+      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
+        changeP2value(event->y());
        }
 
       if(EDC_Seg3_checked){
     //  ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_EDC3->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt()+50,QString::number(CurPoint3->y()).toInt()-15,47,13);
       ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+
+      ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+      ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
 
       }
     }
@@ -459,6 +474,13 @@ void ProgramPalmerGrasp::changeP1value(int value)
 
 }
 
+void ProgramPalmerGrasp::changeP2value(int value)
+{
+    CurPoint3->setY(value);
+    CurPoint4->setY(value);
+    update();
+}
+
 void ProgramPalmerGrasp::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
 {
     if (topic==TOPIC_STIMULATOR)
@@ -493,6 +515,7 @@ void ProgramPalmerGrasp::keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_
 }
 
 void ProgramPalmerGrasp::nextBtn(int pwvalue)
+//void ProgramPalmerGrasp::nextBtn()
 {
     m_currentBtn++;
     if(m_currentBtn > btnGrp->buttons().size())
@@ -505,6 +528,7 @@ void ProgramPalmerGrasp::nextBtn(int pwvalue)
     }
 
     emit buttonChanged(m_currentBtn, pwvalue);
+    //emit buttonChanged(m_currentBtn, adjust_PW_range(CurPoint1->y()));
 }
 
 void ProgramPalmerGrasp::prevBtn(int pwvalue)
@@ -521,6 +545,9 @@ void ProgramPalmerGrasp::prevBtn(int pwvalue)
 
 void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 {
+
+  //  ui->label_7->setText(QString::number(pw_value));
+
     if(EDC_Seg1_checked)
     {
         PW_EDC1 = pwvalue;
@@ -573,13 +600,13 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
        tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 1, pwvalue);
        tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 2, pwvalue);
        tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 3, pwvalue);
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 4, pwvalue);
+      // tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 4, pwvalue);
 
 
        tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 1, adjust_Ramp_Step_size(pwvalue,ramp_phase1));
        tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 2, adjust_Ramp_Step_size(pwvalue,ramp_phase2));
        tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 4, adjust_Ramp_Step_size(pwvalue,ramp_phase4));
+      // tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 4, adjust_Ramp_Step_size(pwvalue,ramp_phase4));
     }
 
     pw_value = pwvalue;
@@ -616,6 +643,7 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
          if(EDC_Seg1_checked)
          {
             PW_phase1_EDC = pwvalue;
+            PW_phase4_EDC = pwvalue;
 
 
          }
@@ -627,7 +655,6 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
             PW_phase4_APB= pwvalue;
 
          }
-
 
 
      }
@@ -722,7 +749,8 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 
          if(EDC_Seg3_checked)
          {
-            PW_phase4_EDC = pwvalue;
+             PW_phase1_EDC = pwvalue;
+             PW_phase4_EDC = pwvalue;
            // ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
          }
     }
@@ -1007,7 +1035,39 @@ void ProgramPalmerGrasp::saveToXMLFile()
         root.appendChild(newPWTag);
     }
 
-    else if(RmpNodeVal.isNull())
+    else
+    {
+        QDomElement root = document.documentElement();
+        QDomNode SettingsNode = root.namedItem("PW_PalmerGrasp");
+
+        QDomNode pw1 = SettingsNode.namedItem("PW_p1_EDC");
+        pw1.firstChild().setNodeValue(QString::number(PW_phase1_EDC));
+        QDomNode pw2 = SettingsNode.namedItem("PW_p2_EDC");
+        pw2.firstChild().setNodeValue(QString::number(PW_phase2_EDC));
+        QDomNode pw3 = SettingsNode.namedItem("PW_p2_FDS");
+        pw3.firstChild().setNodeValue(QString::number(PW_phase2_FDS));
+        QDomNode pw4 = SettingsNode.namedItem("PW_p3_EDC");
+        pw4.firstChild().setNodeValue(QString::number(PW_phase3_EDC));
+        QDomNode pw5 = SettingsNode.namedItem("PW_p3_FDS");
+        pw5.firstChild().setNodeValue(QString::number(PW_phase3_FDS));
+        QDomNode pw6 = SettingsNode.namedItem("PW_p3_Ulna");
+        pw6.firstChild().setNodeValue(QString::number(PW_phase3_Ulna));
+        QDomNode pw7 = SettingsNode.namedItem("PW_p3_ADP");
+        pw7.firstChild().setNodeValue(QString::number(PW_phase3_ADP));
+        QDomNode pw8 = SettingsNode.namedItem("PW_p4_EDC");
+        pw8.firstChild().setNodeValue(QString::number(PW_phase4_EDC));
+        QDomNode pw9 = SettingsNode.namedItem("PW_p1_APB");
+        pw9.firstChild().setNodeValue(QString::number(PW_phase1_APB));
+        QDomNode pw10 = SettingsNode.namedItem("PW_p2_APB");
+        pw10.firstChild().setNodeValue(QString::number(PW_phase2_APB));
+        QDomNode pw11 = SettingsNode.namedItem("PW_p3_APB");
+        pw11.firstChild().setNodeValue(QString::number(PW_phase3_APB));
+        QDomNode pw12 = SettingsNode.namedItem("PW_p4_APB");
+        pw12.firstChild().setNodeValue(QString::number(PW_phase4_APB));
+
+    }
+
+     if(RmpNodeVal.isNull())
     {
         QDomElement P1_Rmp_EDCTag = document.createElement(QString("Rmp_p1_EDC"));
         QDomText P1_Rmp_EDCVal = document.createTextNode(QString::number(ramp_stepsize_phase1_EDC));
@@ -1078,32 +1138,32 @@ void ProgramPalmerGrasp::saveToXMLFile()
     else
     {
           QDomElement root = document.documentElement();
-          QDomNode SettingsNode = root.namedItem("PW_PalmerGrasp");
+//          QDomNode SettingsNode = root.namedItem("PW_PalmerGrasp");
 
-          QDomNode pw1 = SettingsNode.namedItem("PW_p1_EDC");
-          pw1.firstChild().setNodeValue(QString::number(PW_phase1_EDC));
-          QDomNode pw2 = SettingsNode.namedItem("PW_p2_EDC");
-          pw2.firstChild().setNodeValue(QString::number(PW_phase2_EDC));
-          QDomNode pw3 = SettingsNode.namedItem("PW_p2_FDS");
-          pw3.firstChild().setNodeValue(QString::number(PW_phase2_FDS));
-          QDomNode pw4 = SettingsNode.namedItem("PW_p3_EDC");
-          pw4.firstChild().setNodeValue(QString::number(PW_phase3_EDC));
-          QDomNode pw5 = SettingsNode.namedItem("PW_p3_FDS");
-          pw5.firstChild().setNodeValue(QString::number(PW_phase3_FDS));
-          QDomNode pw6 = SettingsNode.namedItem("PW_p3_Ulna");
-          pw6.firstChild().setNodeValue(QString::number(PW_phase3_Ulna));
-          QDomNode pw7 = SettingsNode.namedItem("PW_p3_ADP");
-          pw7.firstChild().setNodeValue(QString::number(PW_phase3_ADP));
-          QDomNode pw8 = SettingsNode.namedItem("PW_p4_EDC");
-          pw8.firstChild().setNodeValue(QString::number(PW_phase4_EDC));
-          QDomNode pw9 = SettingsNode.namedItem("PW_p1_APB");
-          pw9.firstChild().setNodeValue(QString::number(PW_phase1_APB));
-          QDomNode pw10 = SettingsNode.namedItem("PW_p2_APB");
-          pw10.firstChild().setNodeValue(QString::number(PW_phase2_APB));
-          QDomNode pw11 = SettingsNode.namedItem("PW_p3_APB");
-          pw11.firstChild().setNodeValue(QString::number(PW_phase3_APB));
-          QDomNode pw12 = SettingsNode.namedItem("PW_p4_APB");
-          pw12.firstChild().setNodeValue(QString::number(PW_phase4_APB));
+//          QDomNode pw1 = SettingsNode.namedItem("PW_p1_EDC");
+//          pw1.firstChild().setNodeValue(QString::number(PW_phase1_EDC));
+//          QDomNode pw2 = SettingsNode.namedItem("PW_p2_EDC");
+//          pw2.firstChild().setNodeValue(QString::number(PW_phase2_EDC));
+//          QDomNode pw3 = SettingsNode.namedItem("PW_p2_FDS");
+//          pw3.firstChild().setNodeValue(QString::number(PW_phase2_FDS));
+//          QDomNode pw4 = SettingsNode.namedItem("PW_p3_EDC");
+//          pw4.firstChild().setNodeValue(QString::number(PW_phase3_EDC));
+//          QDomNode pw5 = SettingsNode.namedItem("PW_p3_FDS");
+//          pw5.firstChild().setNodeValue(QString::number(PW_phase3_FDS));
+//          QDomNode pw6 = SettingsNode.namedItem("PW_p3_Ulna");
+//          pw6.firstChild().setNodeValue(QString::number(PW_phase3_Ulna));
+//          QDomNode pw7 = SettingsNode.namedItem("PW_p3_ADP");
+//          pw7.firstChild().setNodeValue(QString::number(PW_phase3_ADP));
+//          QDomNode pw8 = SettingsNode.namedItem("PW_p4_EDC");
+//          pw8.firstChild().setNodeValue(QString::number(PW_phase4_EDC));
+//          QDomNode pw9 = SettingsNode.namedItem("PW_p1_APB");
+//          pw9.firstChild().setNodeValue(QString::number(PW_phase1_APB));
+//          QDomNode pw10 = SettingsNode.namedItem("PW_p2_APB");
+//          pw10.firstChild().setNodeValue(QString::number(PW_phase2_APB));
+//          QDomNode pw11 = SettingsNode.namedItem("PW_p3_APB");
+//          pw11.firstChild().setNodeValue(QString::number(PW_phase3_APB));
+//          QDomNode pw12 = SettingsNode.namedItem("PW_p4_APB");
+//          pw12.firstChild().setNodeValue(QString::number(PW_phase4_APB));
 
           QDomNode RampSettingsNode = root.namedItem("Ramp_PalmerGrasp");
 
@@ -1123,6 +1183,14 @@ void ProgramPalmerGrasp::saveToXMLFile()
           rmp7.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_ADP));
           QDomNode rmp8 = RampSettingsNode.namedItem("Rmp_p4_EDC");
           rmp8.firstChild().setNodeValue(QString::number(ramp_stepsize_phase4_EDC));
+          QDomNode rmp9 = RampSettingsNode.namedItem("Rmp_p1_APB");
+          rmp9.firstChild().setNodeValue(QString::number(ramp_stepsize_phase1_APB));
+          QDomNode rmp10 = RampSettingsNode.namedItem("Rmp_p2_APB");
+          rmp10.firstChild().setNodeValue(QString::number(ramp_stepsize_phase2_APB));
+          QDomNode rmp11 = RampSettingsNode.namedItem("Rmp_p3_APB");
+          rmp11.firstChild().setNodeValue(QString::number(ramp_stepsize_phase3_APB));
+          QDomNode rmp12 = RampSettingsNode.namedItem("Rmp_p4_APB");
+          rmp12.firstChild().setNodeValue(QString::number(ramp_stepsize_phase4_APB));
 
     }
 

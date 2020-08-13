@@ -25,7 +25,10 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->doubleSpinBox_vertical->setSingleStep(0.02);
     ui->doubleSpinBox_protraction->setSingleStep(0.02);
     ui->doubleSpinBox_retraction->setSingleStep(0.02);
-    ui->spinBox_twotwitch->setValue(1000);
+    ui->spinBox_twotwitch->setValue(2000);
+
+    //ui->textBrowser->setHidden(true);
+
 
     ui->label_pid->setText(patientLabel);
     ui->label_pid->setAlignment(Qt::AlignCenter);
@@ -82,22 +85,52 @@ void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t fi
                     (double)filter_outputs[5]/ACCELEROMETER_1G_COUNT);
 
           //  420-(2.2*ui->doubleSpinBox_vertical->value()*100);
-            spinbox_vertical100 = 420-(ui->doubleSpinBox_vertical->value()*100);
-            spinbox_protraction100 = 420-(ui->doubleSpinBox_protraction->value()*100);
-            spinbox_retraction100 = 420-(ui->doubleSpinBox_retraction->value()*100);
-            ui->label_vertical->setGeometry(110, spinbox_vertical100,61,16);
-            ui->label_protraction->setGeometry(270,spinbox_protraction100,61,16);
-            ui->label_retraction->setGeometry(430,spinbox_retraction100,61,16);
+
+            threshold_vertical = ((ui->doubleSpinBox_vertical->value()*100)/50);
+            threshold_protraction = ((ui->doubleSpinBox_protraction->value()*100)/50);
+            threshold_retraction = ((ui->doubleSpinBox_retraction->value()*100)/50);
+
+//            spinbox_vertical100 = 420-(ui->doubleSpinBox_vertical->value()*100);
+//            spinbox_protraction100 = 420-(ui->doubleSpinBox_protraction->value()*100);
+//            spinbox_retraction100 = 420-(ui->doubleSpinBox_retraction->value()*100);
+
+
+
+            spinbox_vertical100 = 420-(threshold_vertical*100);
+            spinbox_protraction100 = 420-(threshold_protraction*100);
+            spinbox_retraction100 = 420-(threshold_retraction*100);
+
+//            ui->label_vertical->setGeometry(110, spinbox_vertical100,61,16);
+//            ui->label_protraction->setGeometry(270,spinbox_protraction100,61,16);
+//            ui->label_retraction->setGeometry(430,spinbox_retraction100,61,16);
+
+            const double threshold = ui->doubleSpinBox_vertical->value();
+            double labelY = qRound(threshold/ 50.0 * ui->progressBar_vertical->height());
+            ui->label_vertical->setGeometry(110, 420 - labelY, 61,16);
+
+            //ui->label_vertical->setGeometry(110, 250,61,16);
+
+
+            ui->label_protraction->setGeometry(270,250,61,16);
+            ui->label_retraction->setGeometry(430,250,61,16);
+
+
 
             //ui->label_vertical->setStyleSheet("{color: #C0BBFE}");
             //ui->label_vertical->setText("<font color='red'>---------</font>");
 
-            ui->label_v->setGeometry(115, spinbox_vertical100-8,61,16);
-            ui->label_v->setText(QString::number(ui->doubleSpinBox_vertical->value(), 'f',2 )+"g");
-            ui->label_p->setGeometry(275, spinbox_protraction100-8,61,16);
-            ui->label_p->setText(QString::number(ui->doubleSpinBox_protraction->value(), 'f',2 )+"g");
-            ui->label_r->setGeometry(435, spinbox_retraction100-8,61,16);
-            ui->label_r->setText(QString::number(ui->doubleSpinBox_retraction->value(), 'f',2 )+"g");
+           // ui->label_v->setGeometry(115, spinbox_vertical100-8,61,16);
+             ui->label_v->setGeometry(115, 242,61,16);
+           // ui->label_v->setText(QString::number(ui->doubleSpinBox_vertical->value(), 'f',2 )+"g");
+             ui->label_v->setText(QString::number(threshold_vertical, 'f',2 )+"g");
+         //   ui->label_p->setGeometry(275, spinbox_protraction100-8,61,16);
+             ui->label_p->setGeometry(275, 242,61,16);
+           // ui->label_p->setText(QString::number(ui->doubleSpinBox_protraction->value(), 'f',2 )+"g");
+            ui->label_p->setText(QString::number(threshold_protraction, 'f',2 )+"g");
+         //   ui->label_r->setGeometry(435, spinbox_retraction100-8,61,16);
+            ui->label_r->setGeometry(435, 242,61,16);
+           // ui->label_r->setText(QString::number(ui->doubleSpinBox_retraction->value(), 'f',2 )+"g");
+            ui->label_r->setText(QString::number(threshold_retraction, 'f',2 )+"g");
         }
 }
 
@@ -139,11 +172,11 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     static double lastRTwitchKey;
 
     double percentageValue = 5.0/100.0; // 5%
-    double onVThreshold = ui->doubleSpinBox_vertical->value();
+    double onVThreshold =   threshold_vertical ;
     double offVThreshold = onVThreshold - (onVThreshold*percentageValue);
-    double onPThreshold = ui->doubleSpinBox_protraction->value();
+    double onPThreshold = threshold_protraction;
     double offPThreshold = onPThreshold - (onPThreshold*percentageValue);
-    double onRThreshold = ui->doubleSpinBox_retraction->value();
+    double onRThreshold = threshold_retraction;
     double offRThreshold = onRThreshold - (onRThreshold*percentageValue);
 
     static int countCrossings = 0;
@@ -152,9 +185,10 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
                  "Ver coor: " + QString::number( spinbox_vertical100) + "\n" +
                  "Pro coor: " + QString::number(spinbox_protraction100) + "\n" +
                  "Ret coor): " + QString::number(spinbox_retraction100) + "\n"
-                 "Ver thr: " + QString::number(onVThreshold) + "\n" +
-                 "Pro thr: " + QString::number(onPThreshold) +  "\n" +
-                 "Ret thr: " + QString::number(onRThreshold) );
+                 "labelY: " + QString::number(qRound(threshold_vertical/ ui->progressBar_vertical->maximum() * ui->progressBar_vertical->height())) + "\n" +
+                 "Pro bar max: " + QString::number(ui->progressBar_vertical->maximum()) +  "\n" +
+                 "Pro bar height: " + QString::number(ui->progressBar_vertical->height()) );
+
 
 
     // if(a_vertical> onVThreshold && onVThreshold > 0.15 && key-lastVTwitchKey >1 )
@@ -194,7 +228,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
      }
 
        //if(a_horizontal > onPThreshold &&  onPThreshold > 0.15 && key-lastPTwitchKey >1)
-       if(a_protraction > onPThreshold &&  onPThreshold > 0.15 && !twitchtimer.isActive()&& key-lastPTwitchKey >1)
+       if(a_protraction > onPThreshold &&  onPThreshold > 0.08 && !twitchtimer.isActive())
        {
 
 
@@ -214,7 +248,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        }
 
      //if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && key-lastRTwitchKey >1)
-       if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.011 && !twitchtimer.isActive()&& key-lastRTwitchKey >1)
+       if(a_retraction < (-1)*onRThreshold &&  onRThreshold > 0.08 && !twitchtimer.isActive())
        {
            //QThread::msleep(1000);
            emit startTimer();

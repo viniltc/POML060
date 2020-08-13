@@ -48,18 +48,19 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     if (!CurrentNodeVal.isNull())
     {
 
-        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat()*1000;
-        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat()*1000;
-        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat()*1000;
-        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat()*1000;
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat();
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat();
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
 
 
-        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored/m_currentDiv));
-        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currOneStored/m_currentDiv));
-        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored/m_currentDiv));
-        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored/m_currentDiv));
-        ui->label_currFive->setText(QString("Ch 5 (---): %1 mA").arg(currFiveStored/m_currentDiv));
+        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
+       // ui->label_currOne->setText(QString::number(currOneStored, 'f',2));
+        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
+        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
+        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
+        ui->label_currFive->setText(QString("Ch 5 (---): %1 mA").arg(currFiveStored));
 
 
     }
@@ -631,6 +632,7 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
          if(EDC_Seg1_checked)
          {
             PW_phase1_EDC = pwvalue;
+            PW_phase4_EDC = pwvalue;
             //ramp_stepsize_phase1_EDC = adjust_Ramp_Step_size( PW_phase1_EDC, ramp_phase1);
 
          }
@@ -731,7 +733,8 @@ void ProgramKeyGripV2::paintBtn(int id, int pwvalue)
 
          if(EDC_Seg3_checked)
          {
-            PW_phase4_EDC = pwvalue;
+             PW_phase1_EDC = pwvalue;
+             PW_phase4_EDC = pwvalue;
            // ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
          }
     }

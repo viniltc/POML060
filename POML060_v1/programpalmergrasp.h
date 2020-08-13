@@ -31,10 +31,13 @@ public:
 public slots:
 
         void changeP1value(int);
+        void changeP2value(int);
         void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
         void nextBtn(int pwvalue);
+       // void nextBtn();
         void prevBtn(int pwvalue);
         void paintBtn(int id, int pwvalue);
+        //void paintBtn(int id);
         void getPWValue (int);
         int adjust_PW_range(int value);
         int adjust_Ramp_Step_size(int pwvalue, float rmpvalue);
@@ -46,6 +49,7 @@ signals:
         void buttonOne(bool);
         void buttonTwo(bool);
         void buttonChanged(int id, int pwvalue);
+        //void buttonChanged(int);
         void pulseWidthValue(int);
 
 
@@ -91,8 +95,8 @@ private:
      //AbPB segments
      QPoint p51 = QPoint(150,300);
      QPoint p52 = QPoint(170,260);
-     QPoint p53 = QPoint(550,260);
-     QPoint p54 = QPoint(570,300);
+     QPoint p53 = QPoint(450,260);
+     QPoint p54 = QPoint(470,300);
 
 
 
@@ -172,11 +176,11 @@ private:
 
 
 
-         float currOneStored ;
-         float currTwoStored ;
-         float currThreeStored ;
-         float currFourStored ;
-         float currFiveStored ;
+         float currOneStored =0 ;
+         float currTwoStored =0 ;
+         float currThreeStored =0 ;
+         float currFourStored=0 ;
+         float currFiveStored=0 ;
          float m_currentDiv = 1000.0;
 
 

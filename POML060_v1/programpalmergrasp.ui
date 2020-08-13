@@ -1023,6 +1023,15 @@ border-radius: 7px;
 background-color: white; 
 width: 10px; 
 height: 10px; 
+}
+
+QRadioButton::indicator::checked{ 
+border: 2px solid; 
+border-color: green;
+border-radius: 7px;
+background-color: black; 
+width: 10px; 
+height: 10px; 
 }</string>
     </property>
     <property name="text">
@@ -1439,6 +1448,19 @@ QPushButton:disabled {
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>380</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
