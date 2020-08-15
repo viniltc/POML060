@@ -2,6 +2,7 @@
 #define CURRENTBUTTONONE_H
 
 #include <QWidget>
+#include <QMouseEvent>
 
 class Timer;
 
@@ -42,6 +43,7 @@ private slots:
 signals:
     void getValue(unsigned int);
    // void zeroCurrent(unsigned int);
+    void myButtonPressed();
 
 private:
     Ui::CurrentButtonOne *ui;
@@ -52,6 +54,12 @@ private:
     int smallSteps = 500; // in 0.5 mA
     int bigSteps = 5000; // in 5 mA
     int timeoutValue = 1000;
+
+    bool isPressed = false;
+
+protected:
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
 
 };
 

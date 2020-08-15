@@ -128,19 +128,24 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this](){ ui->widget_currentOne->setEnabled(!ui->widget_currentOne->isEnabled()); });
-
-   // connect(ui->pushButton, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::disableMe);
     connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnOne, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelOne);
     connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelTwo);
     connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnThree, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelThree);
     connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnFour, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFour);
     connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
+    connect(ui->pushButton_currOnFive, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFive);
 
     connect(ui->widget_currentOne, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
     connect(ui->widget_currentTwo, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelTwo);
     connect(ui->widget_currentThree, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelThree);
     connect(ui->widget_currentFour, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFour);
     connect(ui->widget_currentFive, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFive);
+
+    //connect(ui->widget_currentOne, &CurrentButtonOne::myButtonPressed, this, &stageProgram::setZeroCurrOnChannelOne);
 
 //    connect(ui->widget_currentOne, &CurrentButtonOne::getValue,
 //            [this](unsigned int current_uA) { if (ui->widget_currentOne->isEnabled())  setCurrOnChannelOne( current_uA) ; else  setZeroCurrOnChannelOne();} );
@@ -247,58 +252,28 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 stageProgram::~stageProgram()
 {
     delete ui;
-   // tetra_grip_api::stimulation_pause(true);
 }
 
 
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
-
-   // currentOneSetVal = current_uA;
-    //ui->label_wi1->setText(QString::number(current_uA));
-
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
-    //tetra_grip_api::stimulation_set_current( m_channelOne, 0);
-    //ui->label_11->setText(QString::number(current_uA));
-
-
-}
-
-void stageProgram::setZeroCurrOnChannelOne()
-{
-
-    tetra_grip_api::stimulation_set_current( m_channelOne, 0);
-    ui->widget_currentOne->setDisabled(true);
-}
-
-void stageProgram::closeEvent(QCloseEvent *event)
-{
-//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "TetraGrip",
-//                                                                tr("Are you sure want to close TetraGrip Application?\n"),
-//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-//                                                                QMessageBox::Yes);
-//    if (resBtn != QMessageBox::Yes) {
-//        event->ignore();
-//    } else {
-//        event->accept();
-       tetra_grip_api::stimulation_pause(true);
-//    }
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
 }
 
 void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
 {
-
     //currentTwoSetVal = current_uA;
-
     tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelTwo,0,180);
 }
 
 
 void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
 {
-
     //currentThreeSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelThree, current_uA);
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelThree,0,180);
 }
 
 void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
@@ -306,6 +281,7 @@ void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
 
    // currentFourSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFour, current_uA);
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelFour,0,180);
 }
 
 void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
@@ -313,6 +289,37 @@ void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 
    // currentFiveSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelFive,0,180);
+}
+
+void stageProgram::setZeroCurrOnChannelOne()
+{
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,0); // pw to 0 to turn off the stimulation
+  //  ui->widget_currentOne->setDisabled(true);
+}
+
+void stageProgram::setZeroCurrOnChannelTwo()
+{
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelTwo,0,0); // pw to 0 to turn off the stimulation
+   // ui->widget_currentTwo->setDisabled(true);
+}
+
+void stageProgram::setZeroCurrOnChannelThree()
+{
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelThree,0,0); // pw to 0 to turn off the stimulation
+   // ui->widget_currentThree->setDisabled(true);
+}
+
+void stageProgram::setZeroCurrOnChannelFour()
+{
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelFour,0,0); // pw to 0 to turn off the stimulation
+   // ui->widget_currentFour->setDisabled(true);
+}
+
+void stageProgram::setZeroCurrOnChannelFive()
+{
+    tetra_grip_api::set_stimulation_target_pulse_width(m_channelFive,0,0); // pw to 0 to turn off the stimulation
+   // ui->widget_currentFive->setDisabled(true);
 }
 
 void stageProgram::on_pushButton_stimStart_clicked()
@@ -324,6 +331,13 @@ void stageProgram::on_pushButton_stimStart_clicked()
 void stageProgram::on_pushButton_stimStop_clicked()
 {
     tetra_grip_api::stimulation_pause(true);
+
+}
+
+void stageProgram::closeEvent(QCloseEvent *event)
+{
+
+       tetra_grip_api::stimulation_pause(true);
 
 }
 

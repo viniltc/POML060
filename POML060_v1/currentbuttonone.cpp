@@ -56,7 +56,7 @@ void CurrentButtonOne::disableMe()
 
      //Reset current_uA
      //value = 0;
-    // tetra_grip_api::stimulation_set_current( 0, 0);
+     tetra_grip_api::stimulation_set_current( 0, 0);
 }
 
 void CurrentButtonOne::buttonPressed_high()
@@ -149,6 +149,20 @@ emit getValue(value);
 if(timerTimeout > timeoutValue)
 timerTimeout = timerTimeout / 2;
 timer_low->start(timerTimeout);
+}
+
+void CurrentButtonOne::mousePressEvent(QMouseEvent *e)
+{
+    isPressed = true;
+    emit myButtonPressed();
+    QWidget::mousePressEvent(e);
+}
+
+void CurrentButtonOne::mouseReleaseEvent(QMouseEvent *e)
+{
+    isPressed = false;
+   // emit myButtonPressed();
+    QWidget::mousePressEvent(e);
 }
 
 

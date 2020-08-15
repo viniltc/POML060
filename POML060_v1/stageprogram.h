@@ -45,13 +45,18 @@ public slots:
     void setCurrOnChannelThree(unsigned int current_uA);
     void setCurrOnChannelFour(unsigned int current_uA);
     void setCurrOnChannelFive(unsigned int current_uA);
+    void setZeroCurrOnChannelOne();
+    void setZeroCurrOnChannelTwo();
+    void setZeroCurrOnChannelThree();
+    void setZeroCurrOnChannelFour();
+    void setZeroCurrOnChannelFive();
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
     void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
     void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double threshold);
     void onTimeout();
     void startStopTimer();
     void resetTimer();
-    void setZeroCurrOnChannelOne();
+
     void closeEvent (QCloseEvent *event);
 
 signals:
