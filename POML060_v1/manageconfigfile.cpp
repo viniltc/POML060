@@ -534,8 +534,8 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         <<  "`   Ref def min max NV" << '\n'
         <<   "V t   0   0   X FALSE ` time of last twitch" << '\n'
         <<   "V c   0   0   X FALSE ` number of twitches"<< '\n'
-        <<   "V x1   180 0   360 TRUE ` PW adjust for KeyGrip"<< '\n'
-        <<   "V x2   180 0   360 TRUE ` PW adjust for PalmrGrasp"<< '\n'
+        <<   "V x1 "<<findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_ADP")<<" 0   360 TRUE ` PW adjust for KeyGrip"<< '\n'
+        <<   "V x2 "<<findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_APB")<<" 0   360 TRUE ` PW adjust for PalmrGrasp"<< '\n'
         <<   "V stepsize 10 10 50 FALSE ` stepsize"<< "\n\n"
 
 
@@ -590,8 +590,9 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<<'\n'
         << "  `  double twitch to the KeyGrip intensity adjust phase P9"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P9"<<'\n'
-        << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P4"<<"\n\n"
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
+        << "    X X1_2 '= :c 2' GOTO P9" << '\n'
+        << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P4"<<"\n\n"
 
         << "  P P4 \"KeyGrip:Hand open\" 0ms NONE 2000ms STOP STOP P0" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -628,8 +629,9 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<<"x2"<<" RATE"<< "\n\n"
         << "  `  double twitch to the palmrGrsp intensity adjust phase P10"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P10"<<'\n'
-        << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P8"<<"\n\n"
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
+        << "    X X1_2 '= :c 2' GOTO P10"<<'\n'
+        << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P8"<<"\n\n"
 
         << "  P P8 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP P0" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -671,37 +673,45 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    X X1_2 'AND AND AND < @SX -2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 - :x2 :stepsize 1' GOTO P14" <<'\n'
         << "    X X1_3 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P7" <<"\n\n"
 
-        << "  P P11 \"KeyGrip:increment\" 500ms P9 2000ms STOP STOP NONE" << '\n'
+        << "  P P11 \"KeyGrip:increment\" 0ms NONE 2000ms STOP STOP NONE" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    X X11_1 '> PHASE_MS 500' SOUND 1s 150ms 2000Hz 1" << '\n'
+        << "    X X11_2 '> PHASE_MS 500' GOTO P9" << "\n\n"
 
-        << "  P P12 \"KeyGrip:decrement\" 500ms P9 2000ms STOP STOP NONE" << '\n'
+        << "  P P12 \"KeyGrip:decrement\" 0ms NONE 2000ms STOP STOP NONE" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_ADP")<<"ns "<< "x1"<<" RATE"<< '\n' // 180
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
+        << "    X X11_1 '> PHASE_MS 500' SOUND 1s 150ms 500Hz 1" << '\n'
+        << "    X X11_2 '> PHASE_MS 500' GOTO P9" << "\n\n"
 
-        << "  P P13 \"PalmrGrsp:increment\" 500ms P10 2000ms STOP STOP NONE" << '\n'
+        << "  P P13 \"PalmrGrsp:increment\" 0ms NONE 2000ms STOP STOP NONE" << '\n'
+        << "`                Delay  RR    rate    PW" << '\n'
+        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< '\n'
+        << "    X X11_1 '> PHASE_MS 500' SOUND 1s 150ms 2000Hz 1" << '\n'
+        << "    X X11_2 '> PHASE_MS 500' GOTO P10" << "\n\n"
+
+        << "  P P14 \"PalmrGrsp:decrement\" 0ms NONE 2000ms STOP STOP NONE" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< "\n\n"
-
-        << "  P P14 \"PalmrGrsp:decrement\" 500ms P10 2000ms STOP STOP NONE" << '\n'
-        << "`                Delay  RR    rate    PW" << '\n'
-        << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
-        << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
-        << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
-        << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
-        << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<< "x2"<<" RATE"<< "\n\n"
+        << "    X X11_1 '> PHASE_MS 500' SOUND 1s 150ms 500Hz 1" << '\n'
+        << "    X X11_2 '> PHASE_MS 500' GOTO P10" << "\n\n"
 
 
 

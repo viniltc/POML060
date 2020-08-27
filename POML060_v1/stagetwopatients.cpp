@@ -176,7 +176,7 @@ void StageTwoPatients::on_pushButton_Open_clicked()
  else {
     this-> close();
     StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
-    newPatient ->setAttribute(Qt::WA_DeleteOnClose);
+   // newPatient ->setAttribute(Qt::WA_DeleteOnClose);
     newPatient-> show();
  }
 

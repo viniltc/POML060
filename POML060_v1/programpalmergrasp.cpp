@@ -78,7 +78,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
    ui->comboBox_2->setEnabled(false);
    ui->comboBox_3->setEnabled(false);
    ui->comboBox_4->setEnabled(false);
-   ui->pushButton_keyGrip->setEnabled(false);
+   ui->pushButton_keyGrip->setEnabled(true);
 
    ui->radioButton_one->setEnabled(false); // FPS
    ui->radioButton_two->setEnabled(false); // Ulna
@@ -309,8 +309,8 @@ void ProgramPalmerGrasp::mousePressEvent(QMouseEvent *event)
        CurPoint1 = &p42;
        CurPoint2 = &p43;
 
-       CurPoint3 = &p46;
-       CurPoint4 = &p47;
+//       CurPoint3 = &p46;
+//       CurPoint4 = &p47;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
@@ -318,11 +318,11 @@ void ProgramPalmerGrasp::mousePressEvent(QMouseEvent *event)
    else if (distance ( mp, p46) < 20 && ( mp.x() > p46.x() && mp.x() < p47.x() ) && EDC_Seg3_checked) {
        EDC_Seg3_dragging = true;
 
-       CurPoint1 = &p42;
-       CurPoint2 = &p43;
+       CurPoint1 = &p46;
+       CurPoint2 = &p47;
 
-       CurPoint3 = &p46;
-       CurPoint4 = &p47;
+//       CurPoint3 = &p46;
+//       CurPoint4 = &p47;
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
@@ -370,7 +370,10 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
            ui->label_FDS->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
            ui->label_FDS->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
            //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
-          }
+           PW_FDS = adjust_PW_range(CurPoint1->y());
+           PW_phase2_FDS = PW_FDS;
+           PW_phase3_FDS = PW_FDS;
+        }
     }
     else if(Ulna_dragging && Ulna_checked)
     {
@@ -382,6 +385,8 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
     //  ui->radioButton_two->setText("Ulna nerve Val:"+QString::number(CurPoint1->y()));
       ui->label_Ulna->setGeometry(QString::number(CurPoint1->x()).toInt()+20,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_Ulna->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      PW_Ulna = adjust_PW_range(CurPoint1->y());
+      PW_phase3_Ulna = PW_Ulna;
       }
     }
     else if(ADP_dragging && ADP_checked)
@@ -394,39 +399,44 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
      // ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
       ui->label_ADP->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_ADP->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      PW_ADP = adjust_PW_range(CurPoint1->y());
+      PW_phase3_ADP = PW_ADP;
       }
     }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
-        changeP2value(event->y());
+      //  changeP2value(event->y());
        }
 
       if(EDC_Seg1_checked){
     //  ui->radioButton_four->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt(),QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
-     // ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
+      PW_EDC1 = adjust_PW_range(CurPoint1->y());
+      PW_phase1_EDC = PW_EDC1;
+      // ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
 
-      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt(),QString::number(CurPoint3->y()).toInt()-15,47,13);
-      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
+//      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt(),QString::number(CurPoint3->y()).toInt()-15,47,13);
+//      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
       if(event->y() > 150 && event->y() < 280){
         changeP1value(event->y());
-        changeP2value(event->y());
+       // changeP2value(event->y());
        }
 
       if(EDC_Seg3_checked){
     //  ui->radioButton_five->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
-      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt()+50,QString::number(CurPoint3->y()).toInt()-15,47,13);
+      ui->label_EDC3->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
-
-      ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      PW_EDC3 = adjust_PW_range(CurPoint1->y());
+      PW_phase4_EDC = PW_EDC3;
+//      ui->label_EDC1->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
+//      ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
 
       }
     }
@@ -441,6 +451,9 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
      // ui->radioButton_six->setText("EDC+EPL Val:"+QString::number(CurPoint1->y()));
       ui->label_EDC2->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_EDC2->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      PW_EDC2 = adjust_PW_range(CurPoint1->y());
+      PW_phase2_EDC = PW_EDC2;
+      PW_phase3_EDC = PW_EDC2;
       }
     }
 
@@ -454,6 +467,11 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
      // ui->radioButton_seven->setText("APB Val:"+QString::number(CurPoint1->y()));
       ui->label_APB->setGeometry(QString::number(CurPoint1->x()).toInt()+50,QString::number(CurPoint1->y()).toInt()-15,47,13);
       ui->label_APB->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+      PW_APB = adjust_PW_range(CurPoint1->y());
+      PW_phase1_APB = PW_APB;
+      PW_phase2_APB = PW_APB;
+      PW_phase3_APB = PW_APB;
+      PW_phase4_APB = PW_APB;
       }
     }
     else
@@ -467,7 +485,7 @@ void ProgramPalmerGrasp::changeP1value(int value)
     CurPoint1->setY(value);
     CurPoint2->setY(value);
 
-    //QThread::msleep(200);
+
     update();
     emit pulseWidthValue(adjust_PW_range(CurPoint1->y()));
     pw_value = adjust_PW_range(CurPoint1->y());
@@ -546,67 +564,92 @@ void ProgramPalmerGrasp::prevBtn(int pwvalue)
 void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 {
 
-  //  ui->label_7->setText(QString::number(pw_value));
-
-    if(EDC_Seg1_checked)
+    if(id==1)
     {
-        PW_EDC1 = pwvalue;
-        tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 1, PW_EDC1);
+        if(EDC_Seg1_checked)
+        {
+           // PW_EDC1 = pwvalue;
+       //     ui->label_11->setText("EDC: "+QString::number(PW_EDC1));
+            tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 1, PW_EDC1);
 
-        tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 1, adjust_Ramp_Step_size(pwvalue,ramp_phase1));
+            tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 1, adjust_Ramp_Step_size(PW_EDC1,ramp_phase1));
 
-    }
-    else if(EDC_Seg2_checked)
-    {
-        PW_EDC2 = pwvalue;
-        tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 2, pwvalue);
-        tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 3, pwvalue);
+        }
+        else if (APB_checked)
+        {
+            tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 1, PW_APB);
+            tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 2, PW_APB);
+            tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 3, PW_APB);
+           // tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 4, PW_APB);
 
-        tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 2, adjust_Ramp_Step_size(pwvalue,ramp_phase2));
-        tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
-
-    }
-    else if(EDC_Seg3_checked)
-    {
-        tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 4, pwvalue);
-
-        tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 4, adjust_Ramp_Step_size(pwvalue,ramp_phase4));
-    }
-    else if(Ulna_checked)
-    {
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelThree, 3, pwvalue);
-
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelThree, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
-
-    }
-    else if(FDS_checked)
-    {
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 2, pwvalue);
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 3, pwvalue);
-
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelTwo, 2, adjust_Ramp_Step_size(pwvalue,ramp_phase2));
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelTwo, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
-
-    }
-    else if(ADP_checked)
-    {
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelFour, 3, pwvalue);
-
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelFour, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
+            tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 1, adjust_Ramp_Step_size(PW_APB,ramp_phase1));
+            tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 2, adjust_Ramp_Step_size(PW_APB,ramp_phase2));
+            tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 3, adjust_Ramp_Step_size(PW_APB,ramp_phase3));
+          //  tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 4, adjust_Ramp_Step_size(PW_APB,ramp_phase4));
+        }
     }
 
-    else if(APB_checked)
+    else if(id==2)
     {
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 1, pwvalue);
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 2, pwvalue);
-       tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 3, pwvalue);
-      // tetra_grip_api::set_stimulation_target_pulse_width( m_channelFive, 4, pwvalue);
+        if(EDC_Seg2_checked)
+       {
+           //PW_EDC2 = pwvalue;
+       //    ui->label_12->setText("EDC 2: "+QString::number(PW_EDC2));
+           tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 2, PW_EDC2);
+           tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 3, PW_EDC2);
+
+           tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 2, adjust_Ramp_Step_size(PW_EDC2,ramp_phase2));
+           tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 3, adjust_Ramp_Step_size(PW_EDC2,ramp_phase3));
+
+       }
+
+        else if(FDS_checked)
+        {
+           //PW_FDS = pwvalue;
+        //   ui->label_15->setText("FDS: "+QString::number(PW_FDS));
+           tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 2, PW_FDS);
+           tetra_grip_api::set_stimulation_target_pulse_width( m_channelTwo, 3, PW_FDS);
+
+           tetra_grip_api::set_stimulation_ramp_rate( m_channelTwo, 2, adjust_Ramp_Step_size(PW_FDS,ramp_phase2));
+           tetra_grip_api::set_stimulation_ramp_rate( m_channelTwo, 3, adjust_Ramp_Step_size(PW_FDS,ramp_phase3));
+
+        }
+    }
+
+    else if(id==3)
+    {
+        if(Ulna_checked)
+       {
+          //PW_Ulna = pwvalue;
+      //    ui->label_14->setText("Ulna: "+QString::number(PW_Ulna));
+          tetra_grip_api::set_stimulation_target_pulse_width( m_channelThree, 3, PW_Ulna);
+
+          tetra_grip_api::set_stimulation_ramp_rate( m_channelThree, 3, adjust_Ramp_Step_size(PW_Ulna,ramp_phase3));
+
+       }
+
+       else if(ADP_checked)
+       {
+         // PW_ADP = pwvalue;
+      //    ui->label_16->setText("ADP: "+QString::number(PW_ADP));
+          tetra_grip_api::set_stimulation_target_pulse_width( m_channelFour, 3, PW_ADP);
+
+          tetra_grip_api::set_stimulation_ramp_rate( m_channelFour, 3, adjust_Ramp_Step_size(PW_ADP,ramp_phase3));
+       }
+    }
 
 
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 1, adjust_Ramp_Step_size(pwvalue,ramp_phase1));
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 2, adjust_Ramp_Step_size(pwvalue,ramp_phase2));
-       tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 3, adjust_Ramp_Step_size(pwvalue,ramp_phase3));
-      // tetra_grip_api::set_stimulation_ramp_rate( m_channelFive, 4, adjust_Ramp_Step_size(pwvalue,ramp_phase4));
+    else if(id==4)
+    {
+        if(EDC_Seg3_checked)
+        {
+            //PW_EDC3 = pwvalue;
+         //   ui->label_13->setText("EDC: "+QString::number(PW_EDC3));
+            tetra_grip_api::set_stimulation_target_pulse_width( m_channelOne, 4, PW_EDC3);
+
+            tetra_grip_api::set_stimulation_ramp_rate( m_channelOne, 4, adjust_Ramp_Step_size(PW_EDC3,ramp_phase4));
+        }
+
     }
 
     pw_value = pwvalue;
@@ -622,159 +665,159 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 //                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
 //                          "color: #0000;");
 
-     if(id==1)
-     {
-        // ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
-        // ui->btn1->setStyleSheet("background-color: green");
-         ui->btn1->setStyleSheet(StyleSheetOn);
-         ui->btn2->setStyleSheet(StyleSheetOff);
-         ui->btn3->setStyleSheet(StyleSheetOff);
-         ui->btn4->setStyleSheet(StyleSheetOff);
-         ui->pushButton_keyGrip->setEnabled(false);
+//     if(id==1)
+//     {
+//        // ui->label_pwvalue->setText(QString("From 1, %1").arg(pwvalue));
+//        // ui->btn1->setStyleSheet("background-color: green");
+//         ui->btn1->setStyleSheet(StyleSheetOn);
+//         ui->btn2->setStyleSheet(StyleSheetOff);
+//         ui->btn3->setStyleSheet(StyleSheetOff);
+//         ui->btn4->setStyleSheet(StyleSheetOff);
+//         ui->pushButton_keyGrip->setEnabled(false);
 
-         ui->radioButton_one->setEnabled(false); // FPS
-         ui->radioButton_two->setEnabled(false); // Ulna
-         ui->radioButton_three->setEnabled(false); // ADP
-         ui->radioButton_four->setEnabled(true); // EDC seg 1
-         ui->radioButton_five->setEnabled(false); // EDC seg 3
-         ui->radioButton_six->setEnabled(false); // EDC seg 2
-         ui->radioButton_seven->setEnabled(true); // APB
+//         ui->radioButton_one->setEnabled(false); // FPS
+//         ui->radioButton_two->setEnabled(false); // Ulna
+//         ui->radioButton_three->setEnabled(false); // ADP
+//         ui->radioButton_four->setEnabled(true); // EDC seg 1
+//         ui->radioButton_five->setEnabled(false); // EDC seg 3
+//         ui->radioButton_six->setEnabled(false); // EDC seg 2
+//         ui->radioButton_seven->setEnabled(true); // APB
 
-         if(EDC_Seg1_checked)
-         {
-            PW_phase1_EDC = pwvalue;
-            PW_phase4_EDC = pwvalue;
-
-
-         }
-         else if(APB_checked)
-         {
-            PW_phase1_APB= pwvalue;
-            PW_phase2_APB= pwvalue;
-            PW_phase3_APB= pwvalue;
-            PW_phase4_APB= pwvalue;
-
-         }
+//         if(EDC_Seg1_checked)
+//         {
+//            PW_phase1_EDC = pwvalue;
+//            PW_phase4_EDC = pwvalue;
 
 
-     }
+//         }
+//         else if(APB_checked)
+//         {
+//            PW_phase1_APB= pwvalue;
+//            PW_phase2_APB= pwvalue;
+//            PW_phase3_APB= pwvalue;
+//            PW_phase4_APB= pwvalue;
 
-     else if(id==2)
-     {
-        // ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet(StyleSheetOff);
-         ui->btn2->setStyleSheet(StyleSheetOn);
-         ui->btn3->setStyleSheet(StyleSheetOff);
-         ui->btn4->setStyleSheet(StyleSheetOff);
-         ui->pushButton_keyGrip->setEnabled(false);
-
-         ui->radioButton_one->setEnabled(true); // FPS
-         ui->radioButton_two->setEnabled(false); // Ulna
-         ui->radioButton_three->setEnabled(false); // ADP
-         ui->radioButton_four->setEnabled(false); // EDC seg 1
-         ui->radioButton_five->setEnabled(false); // EDC seg 3
-         ui->radioButton_six->setEnabled(true); // EDC seg 2
-         ui->radioButton_seven->setEnabled(false);
-
-         if(EDC_Seg2_checked)
-         {
-            PW_phase2_EDC = pwvalue;
-
-         }
-         else if(FDS_checked)
-         {
-            PW_phase2_FDS = pwvalue;
-
-         }
-     }
-
-    else if(id==3)
-    {
-         //ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet(StyleSheetOff);
-         ui->btn2->setStyleSheet(StyleSheetOff);
-         ui->btn3->setStyleSheet(StyleSheetOn);
-         ui->btn4->setStyleSheet(StyleSheetOff);
-         ui->pushButton_keyGrip->setEnabled(false);
-
-         ui->radioButton_one->setEnabled(true); // FPS
-         ui->radioButton_two->setEnabled(true); // Ulna
-         ui->radioButton_three->setEnabled(true); // ADP
-         ui->radioButton_four->setEnabled(false); // EDC seg 1
-         ui->radioButton_five->setEnabled(false); // EDC seg 3
-         ui->radioButton_six->setEnabled(true); // EDC seg 2
-         ui->radioButton_seven->setEnabled(false);
-
-         if(EDC_Seg2_checked)
-         {
-            //PW_phase3_EDC = pwvalue;
-            PW_phase3_EDC = PW_phase2_EDC;
-            //ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
-         }
-         else if(FDS_checked)
-         {
-           // PW_phase3_FDS = pwvalue;
-            PW_phase3_FDS = PW_phase2_FDS;
-           // ramp_stepsize_phase3_FDS = adjust_Ramp_Step_size( PW_phase3_FDS, ramp_phase3);
-         }
-         else if(Ulna_checked)
-         {
-            PW_phase3_Ulna = pwvalue;
-           // ramp_stepsize_phase3_Ulna = adjust_Ramp_Step_size( PW_phase3_Ulna, ramp_phase3);
-         }
-         else if(ADP_checked)
-         {
-            PW_phase3_ADP = pwvalue;
-           // ramp_stepsize_phase3_ADP = adjust_Ramp_Step_size( PW_phase3_ADP, ramp_phase3);
-         }
-    }
-
-    else if(id==4)
-    {
-        // ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
-         ui->btn1->setStyleSheet(StyleSheetOff);
-         ui->btn2->setStyleSheet(StyleSheetOff);
-         ui->btn3->setStyleSheet(StyleSheetOff);
-         ui->btn4->setStyleSheet(StyleSheetOn);
-         ui->pushButton_keyGrip->setEnabled(false);
-
-         ui->radioButton_one->setEnabled(false); // FPS
-         ui->radioButton_two->setEnabled(false); // Ulna
-         ui->radioButton_three->setEnabled(false); // ADP
-         ui->radioButton_four->setEnabled(false); // EDC seg 1
-         ui->radioButton_five->setEnabled(true); // EDC seg 3
-         ui->radioButton_six->setEnabled(false); // EDC seg 2
-         ui->radioButton_seven->setEnabled(false);
+//         }
 
 
-         if(EDC_Seg3_checked)
-         {
-             PW_phase1_EDC = pwvalue;
-             PW_phase4_EDC = pwvalue;
-           // ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
-         }
-    }
+//     }
 
-    else
-    {
-         ui->btn1->setStyleSheet(StyleSheetOff);
-         ui->btn2->setStyleSheet(StyleSheetOff);
-         ui->btn3->setStyleSheet(StyleSheetOff);
-         ui->btn4->setStyleSheet(StyleSheetOff);
-         ui->pushButton_keyGrip->setEnabled(true);
-         ui->pushButton_save->setEnabled(true);
+//     else if(id==2)
+//     {
+//        // ui->label_pwvalue->setText(QString("From 2, %1").arg(pwvalue));
+//         ui->btn1->setStyleSheet(StyleSheetOff);
+//         ui->btn2->setStyleSheet(StyleSheetOn);
+//         ui->btn3->setStyleSheet(StyleSheetOff);
+//         ui->btn4->setStyleSheet(StyleSheetOff);
+//         ui->pushButton_keyGrip->setEnabled(false);
 
-         ui->radioButton_one->setEnabled(false); // FPS
-         ui->radioButton_two->setEnabled(false); // Ulna
-         ui->radioButton_three->setEnabled(false); // ADP
-         ui->radioButton_four->setEnabled(false); // EDC seg 1
-         ui->radioButton_five->setEnabled(false); // EDC seg 3
-         ui->radioButton_six->setEnabled(false); // EDC seg 2
-         ui->radioButton_seven->setEnabled(false);
+//         ui->radioButton_one->setEnabled(true); // FPS
+//         ui->radioButton_two->setEnabled(false); // Ulna
+//         ui->radioButton_three->setEnabled(false); // ADP
+//         ui->radioButton_four->setEnabled(false); // EDC seg 1
+//         ui->radioButton_five->setEnabled(false); // EDC seg 3
+//         ui->radioButton_six->setEnabled(true); // EDC seg 2
+//         ui->radioButton_seven->setEnabled(false);
+
+//         if(EDC_Seg2_checked)
+//         {
+//            PW_phase2_EDC = pwvalue;
+
+//         }
+//         else if(FDS_checked)
+//         {
+//            PW_phase2_FDS = pwvalue;
+
+//         }
+//     }
+
+//    else if(id==3)
+//    {
+//         //ui->label_pwvalue->setText(QString("From 3, %1").arg(pwvalue));
+//         ui->btn1->setStyleSheet(StyleSheetOff);
+//         ui->btn2->setStyleSheet(StyleSheetOff);
+//         ui->btn3->setStyleSheet(StyleSheetOn);
+//         ui->btn4->setStyleSheet(StyleSheetOff);
+//         ui->pushButton_keyGrip->setEnabled(false);
+
+//         ui->radioButton_one->setEnabled(true); // FPS
+//         ui->radioButton_two->setEnabled(true); // Ulna
+//         ui->radioButton_three->setEnabled(true); // ADP
+//         ui->radioButton_four->setEnabled(false); // EDC seg 1
+//         ui->radioButton_five->setEnabled(false); // EDC seg 3
+//         ui->radioButton_six->setEnabled(true); // EDC seg 2
+//         ui->radioButton_seven->setEnabled(false);
+
+//         if(EDC_Seg2_checked)
+//         {
+//            //PW_phase3_EDC = pwvalue;
+//            PW_phase3_EDC = PW_phase2_EDC;
+//            //ramp_stepsize_phase3_EDC = adjust_Ramp_Step_size( PW_phase3_EDC, ramp_phase3);
+//         }
+//         else if(FDS_checked)
+//         {
+//           // PW_phase3_FDS = pwvalue;
+//            PW_phase3_FDS = PW_phase2_FDS;
+//           // ramp_stepsize_phase3_FDS = adjust_Ramp_Step_size( PW_phase3_FDS, ramp_phase3);
+//         }
+//         else if(Ulna_checked)
+//         {
+//            PW_phase3_Ulna = pwvalue;
+//           // ramp_stepsize_phase3_Ulna = adjust_Ramp_Step_size( PW_phase3_Ulna, ramp_phase3);
+//         }
+//         else if(ADP_checked)
+//         {
+//            PW_phase3_ADP = pwvalue;
+//           // ramp_stepsize_phase3_ADP = adjust_Ramp_Step_size( PW_phase3_ADP, ramp_phase3);
+//         }
+//    }
+
+//    else if(id==4)
+//    {
+//        // ui->label_pwvalue->setText(QString("From 4, %1").arg(pwvalue));
+//         ui->btn1->setStyleSheet(StyleSheetOff);
+//         ui->btn2->setStyleSheet(StyleSheetOff);
+//         ui->btn3->setStyleSheet(StyleSheetOff);
+//         ui->btn4->setStyleSheet(StyleSheetOn);
+//         ui->pushButton_keyGrip->setEnabled(false);
+
+//         ui->radioButton_one->setEnabled(false); // FPS
+//         ui->radioButton_two->setEnabled(false); // Ulna
+//         ui->radioButton_three->setEnabled(false); // ADP
+//         ui->radioButton_four->setEnabled(false); // EDC seg 1
+//         ui->radioButton_five->setEnabled(true); // EDC seg 3
+//         ui->radioButton_six->setEnabled(false); // EDC seg 2
+//         ui->radioButton_seven->setEnabled(false);
+
+
+//         if(EDC_Seg3_checked)
+//         {
+//             PW_phase1_EDC = pwvalue;
+//             PW_phase4_EDC = pwvalue;
+//           // ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
+//         }
+//    }
+
+//    else
+//    {
+//         ui->btn1->setStyleSheet(StyleSheetOff);
+//         ui->btn2->setStyleSheet(StyleSheetOff);
+//         ui->btn3->setStyleSheet(StyleSheetOff);
+//         ui->btn4->setStyleSheet(StyleSheetOff);
+//         ui->pushButton_keyGrip->setEnabled(true);
+//         ui->pushButton_save->setEnabled(true);
+
+//         ui->radioButton_one->setEnabled(false); // FPS
+//         ui->radioButton_two->setEnabled(false); // Ulna
+//         ui->radioButton_three->setEnabled(false); // ADP
+//         ui->radioButton_four->setEnabled(false); // EDC seg 1
+//         ui->radioButton_five->setEnabled(false); // EDC seg 3
+//         ui->radioButton_six->setEnabled(false); // EDC seg 2
+//         ui->radioButton_seven->setEnabled(false);
 
 
 
-    }
+//    }
 
 }
 
@@ -813,9 +856,9 @@ void ProgramPalmerGrasp::getRampStepSize()
     ramp_stepsize_phase3_Ulna = adjust_Ramp_Step_size( PW_phase3_Ulna, ramp_phase3);
     ramp_stepsize_phase3_ADP = adjust_Ramp_Step_size( PW_phase3_ADP, ramp_phase3);
     ramp_stepsize_phase4_EDC = adjust_Ramp_Step_size( PW_phase4_EDC, ramp_phase4);
-    ramp_stepsize_phase1_APB = adjust_Ramp_Step_size( PW_phase1_APB, ramp_phase4);
-    ramp_stepsize_phase2_APB = adjust_Ramp_Step_size( PW_phase2_APB, ramp_phase4);
-    ramp_stepsize_phase3_APB = adjust_Ramp_Step_size( PW_phase3_APB, ramp_phase4);
+    ramp_stepsize_phase1_APB = adjust_Ramp_Step_size( PW_phase1_APB, ramp_phase1);
+    ramp_stepsize_phase2_APB = adjust_Ramp_Step_size( PW_phase2_APB, ramp_phase2);
+    ramp_stepsize_phase3_APB = adjust_Ramp_Step_size( PW_phase3_APB, ramp_phase3);
     ramp_stepsize_phase4_APB = adjust_Ramp_Step_size( PW_phase4_APB, ramp_phase4);
 }
 
@@ -868,6 +911,14 @@ void ProgramPalmerGrasp::on_pushButton_stimStop_clicked()
     ui->comboBox_3->setEnabled(false);
     ui->comboBox_4->setEnabled(false);
 
+    ui->radioButton_one->setAutoExclusive(false); //autoExclusive is off by default, except for radio buttons
+    ui->radioButton_two->setAutoExclusive(false);
+    ui->radioButton_three->setAutoExclusive(false);
+    ui->radioButton_four->setAutoExclusive(false);
+    ui->radioButton_five->setAutoExclusive(false);
+    ui->radioButton_six->setAutoExclusive(false);
+    ui->radioButton_seven->setAutoExclusive(false);
+
     ui->radioButton_one->setEnabled(false);
     ui->radioButton_two->setEnabled(false);
     ui->radioButton_three->setEnabled(false);
@@ -875,6 +926,16 @@ void ProgramPalmerGrasp::on_pushButton_stimStop_clicked()
     ui->radioButton_five->setEnabled(false);
     ui->radioButton_six->setEnabled(false);
     ui->radioButton_seven->setEnabled(false);
+
+    ui->radioButton_one->setAutoExclusive(true);
+    ui->radioButton_two->setAutoExclusive(true);
+    ui->radioButton_three->setAutoExclusive(true);
+    ui->radioButton_four->setAutoExclusive(true);
+    ui->radioButton_five->setAutoExclusive(true);
+    ui->radioButton_six->setAutoExclusive(true);
+    ui->radioButton_seven->setAutoExclusive(true);
+
+
     ui->pushButton_keyGrip->setEnabled(false);
     ui->pushButton_save->setEnabled(false);
 
@@ -988,7 +1049,7 @@ void ProgramPalmerGrasp::saveToXMLFile()
         newPWTag.appendChild(P2_EDCTag);
 
         QDomElement P2_APBTag = document.createElement(QString("PW_p2_APB"));
-        QDomText P2_APBVal = document.createTextNode(QString::number(PW_phase2_EDC));
+        QDomText P2_APBVal = document.createTextNode(QString::number(PW_phase2_APB));
         P2_APBTag.appendChild(P2_APBVal);
         newPWTag.appendChild(P2_APBTag);
 
@@ -1003,7 +1064,7 @@ void ProgramPalmerGrasp::saveToXMLFile()
         newPWTag.appendChild(P3_EDCTag);
 
         QDomElement P3_APBTag = document.createElement(QString("PW_p3_APB"));
-        QDomText P3_APBVal = document.createTextNode(QString::number(PW_phase3_EDC));
+        QDomText P3_APBVal = document.createTextNode(QString::number(PW_phase3_APB));
         P3_APBTag.appendChild(P3_APBVal);
         newPWTag.appendChild(P3_APBTag);
 
@@ -1028,7 +1089,7 @@ void ProgramPalmerGrasp::saveToXMLFile()
         newPWTag.appendChild(P4_EDCTag);
 
         QDomElement P4_APBTag = document.createElement(QString("PW_p4_APB"));
-        QDomText P4_APBVal = document.createTextNode(QString::number(PW_phase4_EDC));
+        QDomText P4_APBVal = document.createTextNode(QString::number(PW_phase4_APB));
         P4_APBTag.appendChild(P4_APBVal);
         newPWTag.appendChild(P4_APBTag);
 

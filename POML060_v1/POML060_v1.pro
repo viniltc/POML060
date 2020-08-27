@@ -25,6 +25,7 @@ SOURCES += \
     Stim_includes/stim_gui_protocol_tx.c \
     currentbuttonone.cpp \
     filtersettings.cpp \
+    incdecbutton.cpp \
     main.cpp \
     manageconfigfile.cpp \
     programkeygripv2.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     Stim_includes/uart.h \
     currentbuttonone.h \
     filtersettings.h \
+    incdecbutton.h \
     manageconfigfile.h \
     programkeygripv2.h \
     programopenhand.h \
@@ -79,6 +81,7 @@ HEADERS += \
 FORMS += \
     currentbuttonone.ui \
     filtersettings.ui \
+    incdecbutton.ui \
     programkeygripv2.ui \
     programopenhand.ui \
     programpalmergrasp.ui \

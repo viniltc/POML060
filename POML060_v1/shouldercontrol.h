@@ -29,6 +29,7 @@ public slots:
  void startTwoTwitchTimer();
  void noSoundBtn();
 
+
 private slots:
  void on_pushButton_back_clicked();
  void biquadratic_filter_coefficient(double Q, double dB, double FS, double FC,
@@ -44,6 +45,8 @@ private slots:
 
  void on_pushButton_settings_clicked();
 
+ void on_pushButton_3_clicked();
+
 private:
     Ui::ShoulderControl *ui;
     double threshold_protraction = 0;
@@ -52,6 +55,8 @@ private:
     double spinbox_vertical100 = 0;
     double spinbox_protraction100 = 0;
     double spinbox_retraction100 = 0;
+
+    double sampThres = 0;
 
     const int16_t ACCELEROMETER_1G_COUNT = 16384;
     QTimer twitchtimer;
@@ -62,6 +67,8 @@ private:
     QString StyleSheetOn2;
     QString StyleSheetOff;
     QString StyleSheetTwoTwitchOn;
+
+
 
 
     bool startBtnStatus = false;

@@ -55,7 +55,7 @@ signals:
         void buttonTwo(bool);
         void buttonChanged(int id, int pwvalue);
         void pulseWidthValue(int);
-        void lastPhase();
+        void lastPhase(int id);
 
 
 private:
@@ -200,7 +200,7 @@ private slots:
          void on_btn_nextPhase_clicked();
          void saveToXMLFile();
          void loadConfigFile(QString fileName);
-         void sendConfigFile();
+         void sendConfigFile(int id);
 
          void on_comboBox_1_currentIndexChanged(int index);
          void on_comboBox_2_currentIndexChanged(int index);

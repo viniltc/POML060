@@ -12,6 +12,7 @@
 #include <QtXml>
 #include "manageconfigfile.h"
 #include <QSound>
+#include "incdecbutton.h"
 
 ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     QWidget(parent),
@@ -27,7 +28,7 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->doubleSpinBox_retraction->setSingleStep(0.02);
     ui->spinBox_twotwitch->setValue(2000);
 
-    //ui->textBrowser->setHidden(true);
+    ui->textBrowser->setVisible(false);
 
 
     ui->label_pid->setText(patientLabel);
@@ -40,6 +41,8 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->pushButton_settings -> setIconSize(QSize(18, 18));
 
     connect(ui->pushButton_nosound, &QPushButton::clicked, this, &ShoulderControl::noSoundBtn);
+
+    //connect(ui->widget, &IncDecButton::getValue, this, &ShoulderControl::thresholdSet1);
 
 //    ui->lineEdit_q->setText("0.707"); //Q default value
 //    ui->lineEdit_db->setText("10"); // Db default value
@@ -84,52 +87,41 @@ void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t fi
                     (double)filter_outputs[4]/ACCELEROMETER_1G_COUNT,
                     (double)filter_outputs[5]/ACCELEROMETER_1G_COUNT);
 
-          //  420-(2.2*ui->doubleSpinBox_vertical->value()*100);
-
-            threshold_vertical = ((ui->doubleSpinBox_vertical->value()*100)/50);
-            threshold_protraction = ((ui->doubleSpinBox_protraction->value()*100)/50);
-            threshold_retraction = ((ui->doubleSpinBox_retraction->value()*100)/50);
-
-//            spinbox_vertical100 = 420-(ui->doubleSpinBox_vertical->value()*100);
-//            spinbox_protraction100 = 420-(ui->doubleSpinBox_protraction->value()*100);
-//            spinbox_retraction100 = 420-(ui->doubleSpinBox_retraction->value()*100);
-
-
+            threshold_vertical = ui->doubleSpinBox_vertical->value();
+            threshold_protraction = ui->doubleSpinBox_protraction->value();
+            threshold_retraction = ui->doubleSpinBox_retraction->value();
 
             spinbox_vertical100 = 420-(threshold_vertical*100);
             spinbox_protraction100 = 420-(threshold_protraction*100);
             spinbox_retraction100 = 420-(threshold_retraction*100);
 
-//            ui->label_vertical->setGeometry(110, spinbox_vertical100,61,16);
-//            ui->label_protraction->setGeometry(270,spinbox_protraction100,61,16);
-//            ui->label_retraction->setGeometry(430,spinbox_retraction100,61,16);
+            double spinValueVer = (ui->doubleSpinBox_vertical->value()*100.0);
+            double minPVer = ui->progressBar_vertical->minimum();
+            double maxPVer = ui->progressBar_vertical->maximum();
+            double percentagePVer = (spinValueVer - minPVer)/(maxPVer - minPVer);
+            double yCoorVer = 420 - (420-220)*percentagePVer;
 
-            const double threshold = ui->doubleSpinBox_vertical->value();
-            double labelY = qRound(threshold/ 50.0 * ui->progressBar_vertical->height());
-            ui->label_vertical->setGeometry(110, 420 - labelY, 61,16);
+            double spinValueRet = (ui->doubleSpinBox_retraction->value()*100.0);
+            double minPRet = ui->progressBar_retraction->minimum();
+            double maxPRet = ui->progressBar_retraction->maximum();
+            double percentagePRet = (spinValueRet - minPRet)/(maxPRet - minPRet);
+            double yCoorRet = 420 - (420-220)*percentagePRet;
 
-            //ui->label_vertical->setGeometry(110, 250,61,16);
+            double spinValuePro = (ui->doubleSpinBox_protraction->value()*100.0);
+            double minPPro = ui->progressBar_protraction->minimum();
+            double maxPPro = ui->progressBar_protraction->maximum();
+            double percentagePPro = (spinValuePro - minPPro)/(maxPPro - minPPro);
+            double yCoorPro = 420 - (420-220)*percentagePPro;
 
+            ui->label_vertical->setGeometry(110,yCoorVer,61,16);
+            ui->label_protraction->setGeometry(270,yCoorPro,61,16);
+            ui->label_retraction->setGeometry(430,yCoorRet,61,16);
 
-            ui->label_protraction->setGeometry(270,250,61,16);
-            ui->label_retraction->setGeometry(430,250,61,16);
-
-
-
-            //ui->label_vertical->setStyleSheet("{color: #C0BBFE}");
-            //ui->label_vertical->setText("<font color='red'>---------</font>");
-
-           // ui->label_v->setGeometry(115, spinbox_vertical100-8,61,16);
-             ui->label_v->setGeometry(115, 242,61,16);
-           // ui->label_v->setText(QString::number(ui->doubleSpinBox_vertical->value(), 'f',2 )+"g");
-             ui->label_v->setText(QString::number(threshold_vertical, 'f',2 )+"g");
-         //   ui->label_p->setGeometry(275, spinbox_protraction100-8,61,16);
-             ui->label_p->setGeometry(275, 242,61,16);
-           // ui->label_p->setText(QString::number(ui->doubleSpinBox_protraction->value(), 'f',2 )+"g");
+            ui->label_v->setGeometry(115, yCoorVer-8,61,16);
+            ui->label_v->setText(QString::number(threshold_vertical, 'f',2 )+"g");
+            ui->label_p->setGeometry(275, yCoorPro-8,61,16);
             ui->label_p->setText(QString::number(threshold_protraction, 'f',2 )+"g");
-         //   ui->label_r->setGeometry(435, spinbox_retraction100-8,61,16);
-            ui->label_r->setGeometry(435, 242,61,16);
-           // ui->label_r->setText(QString::number(ui->doubleSpinBox_retraction->value(), 'f',2 )+"g");
+            ui->label_r->setGeometry(435, yCoorRet-8,61,16);
             ui->label_r->setText(QString::number(threshold_retraction, 'f',2 )+"g");
         }
 }
@@ -146,8 +138,9 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
     double a_vertical = aV; //aV;
     double a_retraction = axS; //aV;
 
-    ui->progressBar_vertical->setValue(a_vertical*100);
-    ui->progressBar_protraction->setValue(a_protraction*100);
+    ui->progressBar_vertical->setValue(a_vertical*100.0);
+    //ui->progressBar_protraction->setValue(a_protraction*100);
+   // ui->progressBar_protraction->setValue((a_protraction*0.5)/100.0);
     ui->progressBar_retraction->setValue(a_retraction*100);
 
     if (axS<0){
@@ -160,7 +153,19 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
 
     }
 
+    if(a_vertical>0){
 
+       ui->progressBar_vertical->setValue(a_vertical*100);
+    }
+    else{
+       ui->progressBar_vertical->setValue(0);
+    }
+
+   ui->label_11->setText(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+   ui->label_12->setText(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
+   ui->label_13->setText(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+
+   // ui->label->setText(QString::number(sampThres,'g',4));
 
 //    QString StyleSheetOn1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: lime; border: 2px solid gray;}");
 //    QString StyleSheetOff1("QRadioButton::indicator {width: 25px; height: 25px; border-radius: 12px;} QRadioButton::indicator:unchecked { background-color: red; border: 2px solid gray;}");
@@ -192,7 +197,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
 
 
     // if(a_vertical> onVThreshold && onVThreshold > 0.15 && key-lastVTwitchKey >1 )
-     if(a_vertical> onVThreshold && onVThreshold > 0.08  && !twitchtimer.isActive())
+     if(a_vertical> onVThreshold && onVThreshold > 0.04  && !twitchtimer.isActive())
        {
          //QThread::msleep(1000);
            emit startTimer();
@@ -205,8 +210,6 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
            }
            //lastVTwitchKey = key;
 
-
-
        }
        else
        {
@@ -216,7 +219,9 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
      if(!twoTwitchtimer.isActive()){
          if(countCrossings >= 2){
              ui->rdo_btn_vertical->setStyleSheet(StyleSheetTwoTwitchOn);
+             if(!soundBtnStatus){
              QSound::play(":/resources/beep4.wav");
+             }
          }
          countCrossings = 0;
 
@@ -303,6 +308,8 @@ void ShoulderControl::noSoundBtn()
 
     soundBtnStatus = !soundBtnStatus;
 }
+
+
 
 void ShoulderControl::on_pushButton_back_clicked()
 {
@@ -560,3 +567,92 @@ void ShoulderControl::on_pushButton_settings_clicked()
     filterw -> show();
 }
 
+
+
+void ShoulderControl::on_pushButton_3_clicked()
+{
+    QString filename = pLabel;
+    QString path = QCoreApplication::applicationDirPath()+"/data/"+filename+".xml";
+    QFile file(path);
+
+    /* QT Append wont work!
+     * Open the file read-only, read it all in, close it.
+     * Make changes in-memory document.
+     * Then open the file for overwrite, write all content, close file. */
+
+    if(!file.open(QIODevice::ReadOnly  | QIODevice::Text))
+    {
+
+        QMessageBox::information(this, "Unable to open XML file to read", file.errorString());
+        return;
+    }
+
+     QDomDocument document;
+     document.setContent(&file);
+     QDomElement root = document.documentElement();
+
+
+    file.close();
+
+    QDomElement newSensorTag = document.createElement(QString("Sensor_Settings"));
+
+    QDomNode SensorNode = root.elementsByTagName("Sensor_Settings").at(0).firstChild();
+    QDomElement SensorNodeVal = SensorNode.toElement();
+
+    if (SensorNodeVal.isNull())
+    {
+        QDomElement verTag = document.createElement(QString("vertical_threshold"));
+        QDomText verVal = document.createTextNode(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+        verTag.appendChild(verVal);
+        newSensorTag.appendChild(verTag);
+
+        QDomElement proTag = document.createElement(QString("protraction_threshold"));
+        QDomText proVal = document.createTextNode(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
+        proTag.appendChild(proVal);
+        newSensorTag.appendChild(proTag);
+
+        QDomElement retTag = document.createElement(QString("retraction_treshold"));
+        QDomText retVal = document.createTextNode(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+        retTag.appendChild(retVal);
+        newSensorTag.appendChild(retTag);
+
+        QDomElement timeTag = document.createElement(QString("two_twith_time"));
+        QDomText timeVal = document.createTextNode(QString::number( ui->spinBox_twotwitch->value() ));
+        timeTag.appendChild(timeVal);
+        newSensorTag.appendChild(timeTag);
+
+
+        root.appendChild(newSensorTag);
+    }
+
+    else
+    {
+          QDomElement root = document.documentElement();
+          QDomNode SettingsNode = root.namedItem("Sensor_Settings");
+
+          QDomNode a1 = SettingsNode.namedItem("vertical_threshold");
+          a1.firstChild().setNodeValue(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+          QDomNode a2 = SettingsNode.namedItem("protraction_threshold");
+          a2.firstChild().setNodeValue(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
+          QDomNode b0 = SettingsNode.namedItem("retraction_treshold");
+          b0.firstChild().setNodeValue(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+          QDomNode b1 = SettingsNode.namedItem("two_twith_time");
+          b1.firstChild().setNodeValue(QString::number( ui->spinBox_twotwitch->value() ));
+
+
+    }
+
+
+    if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
+    {
+        qDebug () << "Error saving XML file....";
+        QMessageBox::information(this, "Unable to open XML file to write", file.errorString());
+        return;
+    }
+
+    QTextStream output(&file);
+    output << document.toString();
+    file.close();
+
+    qDebug()<< "Finished";
+}
