@@ -706,7 +706,7 @@ QPushButton:checked {
        <widget class="QLabel" name="label_7">
         <property name="geometry">
          <rect>
-          <x>320</x>
+          <x>310</x>
           <y>310</y>
           <width>61</width>
           <height>16</height>
@@ -725,7 +725,7 @@ QPushButton:checked {
        <widget class="QLabel" name="label_8">
         <property name="geometry">
          <rect>
-          <x>410</x>
+          <x>400</x>
           <y>310</y>
           <width>47</width>
           <height>13</height>
@@ -738,7 +738,7 @@ QPushButton:checked {
          </font>
         </property>
         <property name="text">
-         <string>AbPB</string>
+         <string>Opp P</string>
         </property>
        </widget>
        <widget class="QTextEdit" name="minutesText">
@@ -1687,7 +1687,7 @@ QPushButton:disabled {
 }</string>
           </property>
           <property name="text">
-           <string>Palmer Grasp</string>
+           <string>Palmar Grasp</string>
           </property>
          </widget>
         </widget>

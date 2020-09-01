@@ -386,7 +386,7 @@ QPushButton:disabled {
      </rect>
     </property>
     <property name="title">
-     <string>Intensity level specific to Palmer Grasp program</string>
+     <string>Intensity level specific to Palmar Grasp program</string>
     </property>
     <widget class="QComboBox" name="comboBox_3">
      <property name="enabled">
@@ -817,7 +817,7 @@ QComboBox:disabled {
      </font>
     </property>
     <property name="text">
-     <string>Palmer Grasp</string>
+     <string>Palmar Grasp</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_seven">

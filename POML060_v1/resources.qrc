@@ -24,5 +24,8 @@
         <file>resources/GraspStateDiagram_nobox.png</file>
         <file>resources/beep4.wav</file>
         <file>resources/settings.png</file>
+        <file>resources/tetragrip_logo.png</file>
+        <file>resources/tetragrip_logo2.png</file>
+        <file>resources/tetragrip_title.png</file>
     </qresource>
 </RCC>

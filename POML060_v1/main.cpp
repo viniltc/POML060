@@ -12,6 +12,14 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+
+    // splash screen
+    QPixmap pixmap(":/resources/tetragrip_logo2.png");
+    QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
+    splash.show();
+    //splash.showMessage("Loaded modules");
+    QTimer::singleShot(5000, &splash, &QWidget::close); // keep displayed for 5 seconds
+
     api.openSerialPort();
 
     QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));

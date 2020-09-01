@@ -54,8 +54,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
           {
               QByteArray config = f.readAll();
               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
-              statusConfig->setText("Config file sent");
-             // statusBar()->showMessage("Config file sent", 3000);
+            //  statusConfig->setText("Config file sent");
 
           }
 

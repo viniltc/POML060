@@ -55,10 +55,10 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
 
 
         ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
-        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currOneStored));
+        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
         ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
         ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
-        ui->label_currFive->setText(QString("Ch 5 (AdPB): %1 mA").arg(currFiveStored));
+        ui->label_currFive->setText(QString("Ch 5 (Opp P): %1 mA").arg(currFiveStored));
 
 
     }

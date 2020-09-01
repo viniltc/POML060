@@ -699,7 +699,7 @@
     <enum>QFrame::Raised</enum>
    </property>
    <property name="text">
-    <string>Palmer Grasp</string>
+    <string>Palmar Grasp</string>
    </property>
    <property name="textFormat">
     <enum>Qt::PlainText</enum>

@@ -46,6 +46,10 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
+//    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+//    QDomElement PWNodeVal = PWNode.toElement();
+    QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
+    QDomElement YCoorNodeVal = YCoorNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -55,15 +59,53 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
         currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
         currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
         currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
-
-
         ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
-       // ui->label_currOne->setText(QString::number(currOneStored, 'f',2));
         ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
         ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
         ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
-        ui->label_currFive->setText(QString("Ch 5 (---): %1 mA").arg(currFiveStored));
+        ui->label_currFive->setText(QString("Ch 5 (Opp P): %1 mA").arg(currFiveStored));
 
+    }
+
+    if(!YCoorNodeVal.isNull())
+    {
+        //EDC segments
+        int Y_EDC1 = root.elementsByTagName("YCoor_EDC1").at(0).firstChild().nodeValue().toInt();
+        int Y_EDC2 = root.elementsByTagName("YCoor_EDC2").at(0).firstChild().nodeValue().toInt();
+        int Y_EDC3 = root.elementsByTagName("YCoor_EDC4").at(0).firstChild().nodeValue().toInt();
+        // p41 = QPoint(150,350);
+         p42 = QPoint(170,Y_EDC1);
+         p43 = QPoint(250,Y_EDC1);
+         p44 = QPoint(270,Y_EDC2);
+         p45 = QPoint(450,Y_EDC2);
+         p46 = QPoint(470,Y_EDC3);
+         p47 = QPoint(550,Y_EDC3);
+         //p48 = QPoint(570,350);
+
+        //FDS segments
+         int Y_FDS = root.elementsByTagName("YCoor_FDS").at(0).firstChild().nodeValue().toInt();
+         //p11 = QPoint(230,320);
+         p12 = QPoint(280,Y_FDS);
+         p13 = QPoint(450,Y_FDS);
+         //p14 = QPoint(500,320);
+
+        //Ulna segments
+         int Y_Ulna = root.elementsByTagName("YCoor_Ulna").at(0).firstChild().nodeValue().toInt();
+         //p31 = QPoint(300,310);
+         p32 = QPoint(320,Y_Ulna);
+         p33 = QPoint(450,Y_Ulna);
+         //p34 = QPoint(470,320);
+
+        //ADP segments
+         int Y_ADP = root.elementsByTagName("YCoor_EDC1").at(0).firstChild().nodeValue().toInt();
+         //p21 = QPoint(300,310);
+         p22 = QPoint(320,Y_ADP);
+         p23 = QPoint(450,Y_ADP);
+         //p24 = QPoint(470,320);
+    }
+
+    else
+    {
 
     }
 
@@ -136,13 +178,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
     connect(this, &ProgramKeyGripV2::lastPhase, this, &ProgramKeyGripV2::sendConfigFile);
 
-    //slot
-//    connect(ui->pushButton_stimStart, &QPushButton::clicked, this, &ProgramKeyGripV2::startStopTimer);
-//    connect(ui->pushButton_stimStop, &QPushButton::clicked, this, &ProgramKeyGripV2::resetTimer);
 
-//    QTimer *timer2 = new QTimer(this);
-//    connect(timer2, SIGNAL(timeout()), this, SLOT(onTimeout()));
-//    timer2->start(10);
 
 
     //QString configfilename1 = "config_keygrip_test_"+pLabel;
@@ -981,12 +1017,16 @@ void ProgramKeyGripV2::saveToXMLFile()
 
     QDomElement newPWTag = document.createElement(QString("PW_KeyGrip"));
     QDomElement newRmpTag = document.createElement(QString("Ramp_KeyGrip"));
+    QDomElement newYCoorTag = document.createElement(QString("YCoordinates_KeyGrip"));
 
 
     QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
     QDomNode RmpNode = root.elementsByTagName("Ramp_KeyGrip").at(0).firstChild();
     QDomElement RmpNodeVal = RmpNode.toElement();
+    QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
+    QDomElement YCoorNodeVal = YCoorNode.toElement();
+
 
     if (PWNodeVal.isNull())
     {
@@ -1129,6 +1169,61 @@ void ProgramKeyGripV2::saveToXMLFile()
           rmp8.firstChild().setNodeValue(QString::number(ramp_stepsize_phase4_EDC));
 
     }
+
+     if( YCoorNodeVal.isNull())
+     {
+         QDomElement P1_YCoor_EDCTag = document.createElement(QString("YCoor_EDC1"));
+         QDomText P1_YCoor_EDCVal = document.createTextNode(QString::number(Y_coordinates_EDC1));
+         P1_YCoor_EDCTag.appendChild(P1_YCoor_EDCVal);
+         newYCoorTag.appendChild(P1_YCoor_EDCTag);
+
+         QDomElement P2_YCoor_EDCTag = document.createElement(QString("YCoor_EDC2"));
+         QDomText P2_YCoor_EDCVal = document.createTextNode(QString::number(Y_coordinates_EDC2));
+         P2_YCoor_EDCTag.appendChild(P2_YCoor_EDCVal);
+         newYCoorTag.appendChild(P2_YCoor_EDCTag);
+
+         QDomElement P4_YCoor_EDCTag = document.createElement(QString("YCoor_EDC4"));
+         QDomText P4_YCoor_EDCVal = document.createTextNode(QString::number(Y_coordinates_EDC3));
+         P4_YCoor_EDCTag.appendChild(P4_YCoor_EDCVal);
+         newYCoorTag.appendChild(P4_YCoor_EDCTag);
+
+         QDomElement P2_YCoor_FDSTag = document.createElement(QString("YCoor_FDS"));
+         QDomText P2_YCoor_FDSVal = document.createTextNode(QString::number(Y_coordinates_FDS));
+         P2_YCoor_FDSTag.appendChild(P2_YCoor_FDSVal);
+         newYCoorTag.appendChild(P2_YCoor_FDSTag);
+
+         QDomElement P3_YCoor_UlnaTag = document.createElement(QString("YCoor_Ulna"));
+         QDomText P3_YCoor_UlnaVal = document.createTextNode(QString::number(Y_coordinates_Ulna));
+         P3_YCoor_UlnaTag.appendChild(P3_YCoor_UlnaVal);
+         newYCoorTag.appendChild(P3_YCoor_UlnaTag);
+
+         QDomElement P3_YCoor_ADPTag = document.createElement(QString("YCoor_ADP"));
+         QDomText P3_YCoor_ADPVal = document.createTextNode(QString::number(Y_coordinates_ADP));
+         P3_YCoor_ADPTag.appendChild(P3_YCoor_ADPVal);
+         newYCoorTag.appendChild(P3_YCoor_ADPTag);
+
+         root.appendChild(newYCoorTag);
+
+
+     }
+     else
+     {
+         QDomElement root = document.documentElement();
+         QDomNode YCoorSettingsNode = root.namedItem("YCoordinates_KeyGrip");
+
+         QDomNode EDC1 = YCoorSettingsNode.namedItem("YCoor_EDC1");
+         EDC1.firstChild().setNodeValue(QString::number(Y_coordinates_EDC1));
+         QDomNode EDC2 = YCoorSettingsNode.namedItem("YCoor_EDC2");
+         EDC2.firstChild().setNodeValue(QString::number(Y_coordinates_EDC2));
+         QDomNode FDS = YCoorSettingsNode.namedItem("YCoor_FDS");
+         FDS.firstChild().setNodeValue(QString::number(Y_coordinates_FDS));
+         QDomNode Ulna = YCoorSettingsNode.namedItem("YCoor_Ulna");
+         Ulna.firstChild().setNodeValue(QString::number(Y_coordinates_Ulna));
+         QDomNode ADP = YCoorSettingsNode.namedItem("YCoor_ADP");
+         ADP.firstChild().setNodeValue(QString::number(Y_coordinates_ADP));
+         QDomNode EDC4 = YCoorSettingsNode.namedItem("YCoor_EDC4");
+         EDC4.firstChild().setNodeValue(QString::number(Y_coordinates_EDC3));
+     }
 
 
     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
