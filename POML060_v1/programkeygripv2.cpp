@@ -26,13 +26,11 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
     QDomDocument document;
 
-    QString configfilename = "config_keygrip_test_"+pLabel;
+    QString test_config_file_name = "config_keygrip_test_"+pLabel;
+    QString config_file_name = "config_keygrip_"+pLabel;
+
     QString xmlName = pLabel;
-
     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
-   // QString txtWritePath = ":/resources/"+configfilename+".txt";
-    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
-
     QFile xmlfile(xmlReadPath);
 
     if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -46,8 +44,8 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
-//    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
-//    QDomElement PWNodeVal = PWNode.toElement();
+    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+    QDomElement PWNodeVal = PWNode.toElement();
     QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
     QDomElement YCoorNodeVal = YCoorNode.toElement();
 
@@ -70,9 +68,9 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     if(!YCoorNodeVal.isNull())
     {
         //EDC segments
-        int Y_EDC1 = root.elementsByTagName("YCoor_EDC1").at(0).firstChild().nodeValue().toInt();
-        int Y_EDC2 = root.elementsByTagName("YCoor_EDC2").at(0).firstChild().nodeValue().toInt();
-        int Y_EDC3 = root.elementsByTagName("YCoor_EDC4").at(0).firstChild().nodeValue().toInt();
+         Y_EDC1 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC1").toInt();
+         Y_EDC2 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC2").toInt();
+         Y_EDC3 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC4").toInt();
         // p41 = QPoint(150,350);
          p42 = QPoint(170,Y_EDC1);
          p43 = QPoint(250,Y_EDC1);
@@ -81,34 +79,92 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
          p46 = QPoint(470,Y_EDC3);
          p47 = QPoint(550,Y_EDC3);
          //p48 = QPoint(570,350);
+         PW_EDC1 = adjust_PW_range(Y_EDC1);
+         PW_phase1_EDC = PW_EDC1;
+         Y_coordinates_EDC1 = Y_EDC1;
+         PW_EDC2 = adjust_PW_range(Y_EDC2);
+         PW_phase2_EDC = PW_EDC2;
+         PW_phase3_EDC = PW_EDC2;
+         Y_coordinates_EDC2 = Y_EDC2;
+         PW_EDC3 = adjust_PW_range(Y_EDC3);
+         PW_phase4_EDC = PW_EDC3;
+         Y_coordinates_EDC3 = Y_EDC3;
+         ui->label_EDC1->setGeometry(170,Y_EDC1-15,47,13);
+         ui->label_EDC1->setText(QString::number(adjust_PW_range(Y_EDC1))+"us");
+         ui->label_EDC2->setGeometry(270+50,Y_EDC2-15,47,13);
+         ui->label_EDC2->setText(QString::number(adjust_PW_range(Y_EDC2))+"us");
+         ui->label_EDC3->setGeometry(470+50,Y_EDC3-15,47,13);
+         ui->label_EDC3->setText(QString::number(adjust_PW_range(Y_EDC3))+"us");
 
         //FDS segments
-         int Y_FDS = root.elementsByTagName("YCoor_FDS").at(0).firstChild().nodeValue().toInt();
+         Y_FDS = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_FDS").toInt();
          //p11 = QPoint(230,320);
          p12 = QPoint(280,Y_FDS);
          p13 = QPoint(450,Y_FDS);
+         PW_FDS = adjust_PW_range(Y_FDS);
+         PW_phase2_FDS = PW_FDS;
+         PW_phase3_FDS = PW_FDS;
+         Y_coordinates_FDS = Y_FDS;
          //p14 = QPoint(500,320);
+         ui->label_FDS->setGeometry(280,Y_FDS-15,47,13);
+         ui->label_FDS->setText(QString::number(adjust_PW_range(Y_FDS))+"us");
 
         //Ulna segments
-         int Y_Ulna = root.elementsByTagName("YCoor_Ulna").at(0).firstChild().nodeValue().toInt();
+         Y_Ulna = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_Ulna").toInt();
          //p31 = QPoint(300,310);
          p32 = QPoint(320,Y_Ulna);
          p33 = QPoint(450,Y_Ulna);
          //p34 = QPoint(470,320);
+         PW_Ulna = adjust_PW_range(Y_Ulna);
+         PW_phase3_Ulna = PW_Ulna;
+         Y_coordinates_Ulna = Y_Ulna;
+         ui->label_Ulna->setGeometry(320+20,Y_Ulna-15,47,13);
+         ui->label_Ulna->setText(QString::number(adjust_PW_range(Y_Ulna))+"us");
 
         //ADP segments
-         int Y_ADP = root.elementsByTagName("YCoor_EDC1").at(0).firstChild().nodeValue().toInt();
+         Y_ADP = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_ADP").toInt();
          //p21 = QPoint(300,310);
          p22 = QPoint(320,Y_ADP);
          p23 = QPoint(450,Y_ADP);
          //p24 = QPoint(470,320);
+         PW_ADP = adjust_PW_range(Y_ADP);
+         PW_phase3_ADP = PW_ADP;
+         Y_coordinates_ADP = Y_ADP;
+         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
+         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
+    }
+
+    if(!PWNode.isNull())
+    {
+      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+config_file_name+".txt";
+      QFile f(txtWritePath);
+      if(!f.open(QFile::ReadOnly))
+           {
+               QMessageBox::information(0, "config file error", f.errorString());
+           }
+      else
+           {
+               QByteArray config = f.readAll();
+               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+           }
     }
 
     else
     {
+      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+test_config_file_name+".txt";
+      QFile f(txtWritePath);
+      if(!f.open(QFile::ReadOnly))
+           {
+               QMessageBox::information(0, "config file error", f.errorString());
+           }
+      else
+           {
+               QByteArray config = f.readAll();
+               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
 
+           }
     }
-
 
 
 
@@ -184,17 +240,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     //QString configfilename1 = "config_keygrip_test_"+pLabel;
   //  QString txtWritePath1 = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename1 + ".txt";
     //QFile f(":/resources/config_keygrip_v2.txt");
-    QFile f(txtWritePath);
-    if(!f.open(QFile::ReadOnly))
-         {
-             QMessageBox::information(0, "config file error", f.errorString());
-         }
-    else
-         {
-             QByteArray config = f.readAll();
-             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
 
-         }
 
 
 }
@@ -392,9 +438,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
            PW_FDS = adjust_PW_range(CurPoint1->y());
            PW_phase2_FDS = PW_FDS;
            PW_phase3_FDS = PW_FDS;
-
-           Y_coordinates_FDS = CurPoint1->y();
-           //ui->label_dragimg->setGeometry(QString::number(CurPoint1->x()).toInt()+80,QString::number(CurPoint1->y()).toInt()-10,31,21);
+           Y_coordinates_FDS = CurPoint1->y();        
           }
     }
     else if(Ulna_dragging && Ulna_checked)
@@ -409,7 +453,6 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       ui->label_Ulna->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       PW_Ulna = adjust_PW_range(CurPoint1->y());
       PW_phase3_Ulna = PW_Ulna;
-
       Y_coordinates_Ulna = CurPoint1->y();
       }
     }
@@ -441,11 +484,6 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       ui->label_EDC1->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
       PW_EDC1 = adjust_PW_range(CurPoint1->y());
       PW_phase1_EDC = PW_EDC1;
-    // PW_EDC3 = adjust_PW_range(CurPoint1->y());
-
-//      ui->label_EDC3->setGeometry(QString::number(CurPoint3->x()).toInt(),QString::number(CurPoint3->y()).toInt()-15,47,13);
-//      ui->label_EDC3->setText(QString::number(adjust_PW_range(CurPoint3->y()))+"us");
-      //ui->label_7->setText(QString::number(adjust_Ramp_Step_size(CurPoint1->y(),ramp_phase1)));
       Y_coordinates_EDC1 = CurPoint1->y();
       }
     }
@@ -990,6 +1028,12 @@ void ProgramKeyGripV2::closeEvent(QCloseEvent *event)
     tetra_grip_api::stimulation_pause(true);
 }
 
+QString ProgramKeyGripV2::findXMLNodeValue(const QDomElement &root, const QString &parentname, const QString &childname)
+{
+    QDomElement element = root.firstChildElement(parentname);
+    return element.firstChildElement(childname).firstChild().nodeValue();
+}
+
 void ProgramKeyGripV2::saveToXMLFile()
 {
     QString filename = pLabel;
@@ -1148,7 +1192,6 @@ void ProgramKeyGripV2::saveToXMLFile()
     else
     {
           QDomElement root = document.documentElement();
-
           QDomNode RampSettingsNode = root.namedItem("Ramp_KeyGrip");
 
           QDomNode rmp1 = RampSettingsNode.namedItem("Rmp_p1_EDC");

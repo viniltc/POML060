@@ -9,6 +9,7 @@
 #include <QButtonGroup>
 #include <QPushButton>
 #include "tetra_grip_api.h"
+#include <QtXml/QDomDocument>
 #include "stopwatch.h"
 
 QT_BEGIN_NAMESPACE
@@ -148,6 +149,13 @@ private:
          int PW_Ulna = 0;
          int PW_ADP = 0;
 
+         int Y_EDC1 ;
+         int Y_EDC2 ;
+         int Y_EDC3 ;
+         int Y_FDS ;
+         int Y_Ulna ;
+         int Y_ADP ;
+
          int Y_coordinates_EDC1 = 0;
          int Y_coordinates_EDC2 = 0;
          int Y_coordinates_EDC3 = 0;
@@ -181,6 +189,8 @@ private:
 
          QString StyleSheetOn;
          QString StyleSheetOff;
+
+          QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
 
 
 

@@ -392,7 +392,7 @@ void ManageConfigFile::palmerGraspFinal(QString patientLabel)
         << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_Ulna")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_Ulna")<<"us "<<" RATE"<< '\n' // 180
-        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_ADP")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_ADP")<<"us "<<" RATE"<< '\n' // 180
+        << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n' // 180
         << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p4_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_APB")<<"us "<<" RATE"<< "\n\n"
 
         << "  P P4 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
@@ -601,8 +601,11 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "  `  double twitch to turn off single twitch to grip phase"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P0" <<"\n\n"
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
+        << "    X X1_2 '= :c 2' GOTO P0" << '\n'
+        << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P3"<<"\n\n"
 
         << "  P P5 \"PalmerGrasp:Hand open\" 2000ms P6 2000ms STOP STOP P6" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -640,8 +643,11 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
+        << "  `  double twitch to turn off single twitch to grip phase"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P0" <<"\n\n"
+        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
+        << "    X X1_2 '= :c 2' GOTO P0" << '\n'
+        << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P7"<<"\n\n"
 
         << "  P P9 \"KeyGrip:Adjust grip\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'

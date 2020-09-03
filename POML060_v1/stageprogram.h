@@ -118,6 +118,9 @@ private:
     float currFiveStored;
     bool timerLabel = false;
 
+    QString StyleSheetOn;
+    QString StyleSheetOff;
+
     Stopwatch* watch;
 };
 

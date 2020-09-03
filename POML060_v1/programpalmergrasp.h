@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QButtonGroup>
 #include <QPushButton>
+#include <QtXml/QDomDocument>
 #include "tetra_grip_api.h"
 
 QT_BEGIN_NAMESPACE
@@ -156,6 +157,22 @@ private:
          int PW_Ulna = 0;
          int PW_ADP = 0;
 
+         int Y_EDC1 ;
+         int Y_EDC2 ;
+         int Y_EDC3 ;
+         int Y_FDS ;
+         int Y_Ulna ;
+         int Y_ADP ;
+         int Y_APB ;
+
+         int Y_coordinates_EDC1 = 0;
+         int Y_coordinates_EDC2 = 0;
+         int Y_coordinates_EDC3 = 0;
+         int Y_coordinates_FDS = 0;
+         int Y_coordinates_Ulna = 0;
+         int Y_coordinates_ADP = 0;
+         int Y_coordinates_APB = 0;
+
          float ramp_phase1 = 0;
          float ramp_phase2 = 0;
          float ramp_phase3 = 0;
@@ -186,6 +203,9 @@ private:
 
          QString StyleSheetOn;
          QString StyleSheetOff;
+
+         QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
+
 
 
 protected:

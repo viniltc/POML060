@@ -46,6 +46,14 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->doubleSpinBox_thresold->setMinimum(0);
     ui->doubleSpinBox_thresold->setMaximum(1);
 
+    StyleSheetOn = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                   "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
+                         "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)";
+    StyleSheetOff = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+                          "color: #0000;";
+
 
     pLabel = patientLabel;
 
@@ -75,6 +83,10 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
+    QDomNode Key_PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+    QDomElement Key_PWNodeVal = Key_PWNode.toElement();
+    QDomNode Palmer_PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
+    QDomElement Palmer_PWNodeVal = Palmer_PWNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -122,6 +134,24 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         currentThreeSetVal = smallCurrent;
         currentFourSetVal = smallCurrent;
         currentFiveSetVal = smallCurrent;
+    }
+
+    if(!Key_PWNodeVal.isNull())
+    {
+        ui->pushButton->setStyleSheet(StyleSheetOn);
+    }
+    else
+    {
+        ui->pushButton->setStyleSheet(StyleSheetOff);
+    }
+
+    if(!Palmer_PWNodeVal.isNull())
+    {
+        ui->pushButton_2->setStyleSheet(StyleSheetOn);
+    }
+    else
+    {
+         ui->pushButton_2->setStyleSheet(StyleSheetOff);
     }
 
 
@@ -583,9 +613,35 @@ void stageProgram::onTimeout()
 void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
 
+   QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   QFile xmlfile(xmlReadPath);
 
-   ManageConfigFile configFile;
-   configFile.keyGripTest(pLabel);
+   if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+   {
+       qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+   }
+   QDomDocument document;
+   document.setContent(&xmlfile);
+   QDomElement root = document.documentElement();
+   xmlfile.close();
+   QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+   QDomElement PWNodeVal = PWNode.toElement();
+   if(!PWNode.isNull())
+   {
+       ManageConfigFile configFile;
+       configFile.keyGripFinal(pLabel);
+   }
+
+   else
+   {
+       ManageConfigFile configFile;
+       configFile.keyGripTest(pLabel);
+   }
+
+
+
    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
    //disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
