@@ -51,8 +51,6 @@ public slots:
     void setZeroCurrOnChannelFour();
     void setZeroCurrOnChannelFive();
     void stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);
-    void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
-    void realtimeDataSlot(double x_acceleration_g, double y_acceleration_g, double z_acceleration_g, double threshold);
     void onTimeout();
     void startStopTimer();
     void resetTimer();
@@ -73,7 +71,6 @@ private slots:
     void on_pushButton_programSwitchGrasp_clicked();
     void on_pushButton_stimSave_clicked();
     void saveToXMLFile();
-    void on_pushButton_setThreshold_clicked();
     void on_tabWidget_currentChanged(int index);
     void on_tabWidget_tabCloseRequested(int index);
 
@@ -95,6 +92,7 @@ private:
     float m_currentDiv = 1000.0;
     int zeroCurrent = 0;
     int smallCurrent = 7000; // 7mA -> minimum set to stim engine
+
 
     uint8_t m_channelOne = 0;
     uint8_t m_channelTwo = 1;

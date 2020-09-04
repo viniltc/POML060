@@ -16,7 +16,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
-     ui->btn0->setVisible(false); // to make phase0 button invisible
+    ui->btn0->setVisible(false); // to make phase0 button invisible
 
     pLabel = patientLabel;
 
@@ -114,8 +114,8 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
         //Ulna segments
          Y_Ulna = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_Ulna").toInt();
          //p31 = QPoint(300,310);
-         p32 = QPoint(320,Y_Ulna);
-         p33 = QPoint(450,Y_Ulna);
+         p22 = QPoint(320,Y_Ulna);
+         p23 = QPoint(450,Y_Ulna);
          //p34 = QPoint(470,320);
          PW_Ulna = adjust_PW_range(Y_Ulna);
          PW_phase3_Ulna = PW_Ulna;
@@ -123,17 +123,17 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
          ui->label_Ulna->setGeometry(320+20,Y_Ulna-15,47,13);
          ui->label_Ulna->setText(QString::number(adjust_PW_range(Y_Ulna))+"us");
 
-        //ADP segments
-         Y_ADP = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_ADP").toInt();
-         //p21 = QPoint(300,310);
-         p22 = QPoint(320,Y_ADP);
-         p23 = QPoint(450,Y_ADP);
-         //p24 = QPoint(470,320);
-         PW_ADP = adjust_PW_range(Y_ADP);
-         PW_phase3_ADP = PW_ADP;
-         Y_coordinates_ADP = Y_ADP;
-         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
-         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
+//        //ADP segments
+//         Y_ADP = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_ADP").toInt();
+//         //p21 = QPoint(300,310);
+//         p22 = QPoint(320,Y_ADP);
+//         p23 = QPoint(450,Y_ADP);
+//         //p24 = QPoint(470,320);
+//         PW_ADP = adjust_PW_range(Y_ADP);
+//         PW_phase3_ADP = PW_ADP;
+//         Y_coordinates_ADP = Y_ADP;
+//         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
+//         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
 
          //ADP segments
           Y_APB = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_APB").toInt();
@@ -201,6 +201,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
    ui->radioButton_one->setEnabled(false); // FPS
    ui->radioButton_two->setEnabled(false); // Ulna
    ui->radioButton_three->setEnabled(false); // ADP
+   ui->radioButton_three->setVisible(false); // ADP NOT VISIBLE
    ui->radioButton_four->setEnabled(false); // EDC seg 1
    ui->radioButton_five->setEnabled(false); // EDC seg 3
    ui->radioButton_six->setEnabled(false); // EDC seg 2
@@ -313,15 +314,15 @@ void ProgramPalmerGrasp::paintEvent(QPaintEvent *e)
     painter1.drawLine(handOpen11, handOpen22);
     painter1.drawLine(handOpen111, handOpen222);
 
-    painter1.setPen(linepen3);
-    painter1.drawLine(p31,p32);
-    painter1.drawLine(p32,p33);
-    painter1.drawLine(p33,p34);
-    painter1.setPen(pointpen);
-    painter1.drawPoint(p31);
-    painter1.drawPoint(p32);
-    painter1.drawPoint(p33);
-    painter1.drawPoint(p34);
+//    painter1.setPen(linepen3);
+//    painter1.drawLine(p31,p32);
+//    painter1.drawLine(p32,p33);
+//    painter1.drawLine(p33,p34);
+//    painter1.setPen(pointpen);
+//    painter1.drawPoint(p31);
+//    painter1.drawPoint(p32);
+//    painter1.drawPoint(p33);
+//    painter1.drawPoint(p34);
 
     painter1.setPen(linepen4);
     painter1.drawLine(p41,p42);
@@ -390,13 +391,13 @@ void ProgramPalmerGrasp::mousePressEvent(QMouseEvent *event)
        this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
    }
-   else if (distance ( mp, p32) < 20 && ( mp.x() > p32.x() && mp.x() < p33.x() ) && ADP_checked) {
-       ADP_dragging = true;
-       CurPoint1 = &p32;
-       CurPoint2 = &p33;
-       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
+//   else if (distance ( mp, p32) < 20 && ( mp.x() > p32.x() && mp.x() < p33.x() ) && ADP_checked) {
+//       ADP_dragging = true;
+//       CurPoint1 = &p32;
+//       CurPoint2 = &p33;
+//       this->setCursor(QCursor(Qt::CursorShape::ClosedHandCursor));
 
-   }
+//   }
 
    else if (distance ( mp, p42) < 20 && ( mp.x() > p42.x() && mp.x() < p43.x() ) && EDC_Seg1_checked) {
        EDC_Seg1_dragging = true;
@@ -485,21 +486,21 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
       Y_coordinates_Ulna = CurPoint1->y();
       }
     }
-    else if(ADP_dragging && ADP_checked)
-    {
-      if(event->y() > 150 && event->y() < 280){
-        changeP1value(event->y());
-       }
+//    else if(ADP_dragging && ADP_checked)
+//    {
+//      if(event->y() > 150 && event->y() < 280){
+//        changeP1value(event->y());
+//       }
 
-      if(ADP_checked){
-     // ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
-      ui->label_ADP->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
-      ui->label_ADP->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
-      PW_ADP = adjust_PW_range(CurPoint1->y());
-      PW_phase3_ADP = PW_ADP;
-      Y_coordinates_ADP = CurPoint1->y();
-      }
-    }
+//      if(ADP_checked){
+//     // ui->radioButton_three->setText("FPL or ADP Val:"+QString::number(CurPoint1->y()));
+//      ui->label_ADP->setGeometry(QString::number(CurPoint1->x()).toInt()+40,QString::number(CurPoint1->y()).toInt()-15,47,13);
+//      ui->label_ADP->setText(QString::number(adjust_PW_range(CurPoint1->y()))+"us");
+//      PW_ADP = adjust_PW_range(CurPoint1->y());
+//      PW_phase3_ADP = PW_ADP;
+//      Y_coordinates_ADP = CurPoint1->y();
+//      }
+//    }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
       if(event->y() > 150 && event->y() < 280){
@@ -722,14 +723,14 @@ void ProgramPalmerGrasp::paintBtn(int id, int pwvalue)
 
        }
 
-       else if(ADP_checked)
-       {
-         // PW_ADP = pwvalue;
-      //    ui->label_16->setText("ADP: "+QString::number(PW_ADP));
-          tetra_grip_api::set_stimulation_target_pulse_width( m_channelFour, 3, PW_ADP);
+//       else if(ADP_checked)
+//       {
+//         // PW_ADP = pwvalue;
+//      //    ui->label_16->setText("ADP: "+QString::number(PW_ADP));
+//          tetra_grip_api::set_stimulation_target_pulse_width( m_channelFour, 3, PW_ADP);
 
-          tetra_grip_api::set_stimulation_ramp_rate( m_channelFour, 3, adjust_Ramp_Step_size(PW_ADP,ramp_phase3));
-       }
+//          tetra_grip_api::set_stimulation_ramp_rate( m_channelFour, 3, adjust_Ramp_Step_size(PW_ADP,ramp_phase3));
+//       }
     }
 
 

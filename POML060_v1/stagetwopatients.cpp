@@ -186,7 +186,7 @@ void StageTwoPatients::on_pushButton_Open_clicked()
 void StageTwoPatients::on_pushButton_New_clicked()
 {
     this->close();
-    stagetwonew = new StageTwoNew(this);
+    stagetwonew = new StageTwoNew("", this);
     stagetwonew -> setWindowTitle("New details");
     stagetwonew -> show();
 }
@@ -198,6 +198,11 @@ void StageTwoPatients::on_pushButton_Modify_clicked()
 
 void StageTwoPatients::on_pushButton_Remove_clicked()
 {
+  QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
+  QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+selection[0].data().toString()+".xml";
+  QFile xmlfile(xmlReadPath);
+  xmlfile.remove();
+  ui->tableWidget->removeRow(selection[0].row());
 
 }
 

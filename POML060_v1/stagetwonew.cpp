@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QtXml>
 
-StageTwoNew::StageTwoNew(QWidget *parent) :
+StageTwoNew::StageTwoNew(QString patientLabel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::StageTwoNew)
 {
@@ -19,6 +19,7 @@ StageTwoNew::StageTwoNew(QWidget *parent) :
     // qDebug()<<"This is the location::"<<location;
     //QString path = location+"/"+filename+".xml";
     // connect(, SIGNAL(editdetails(QString, QString, QString)),this,SLOT(editdetails(QString, QString, QString)));
+   pLabel = patientLabel;
 
 }
 
