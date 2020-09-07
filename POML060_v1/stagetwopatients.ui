@@ -77,8 +77,8 @@
         <property name="font">
          <font>
           <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </column>
@@ -90,8 +90,8 @@
          <font>
           <family>MS Shell Dlg 2</family>
           <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </column>
@@ -103,8 +103,8 @@
          <font>
           <family>MS Shell Dlg 2</family>
           <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </column>
@@ -116,8 +116,8 @@
          <font>
           <family>MS Shell Dlg 2</family>
           <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </column>
@@ -129,8 +129,8 @@
          <font>
           <family>MS Shell Dlg 2</family>
           <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <weight>75</weight>
+          <bold>true</bold>
          </font>
         </property>
        </column>
@@ -320,7 +320,7 @@ QPushButton:disabled {
 }</string>
          </property>
          <property name="text">
-          <string>Modify</string>
+          <string>Read/Modify</string>
          </property>
         </widget>
        </item>

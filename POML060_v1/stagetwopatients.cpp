@@ -16,12 +16,8 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    api->openSerialPort();
-//    connect(api, SIGNAL(readyRead()), api, SLOT(readData()));
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
-
-
 
   connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
 
@@ -32,29 +28,16 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
 
-
-  //  connect(ui->pushButton_4, SIGNAL(clicked()), ui->tableWidget,SLOT(cellClicked()));
-
-
-
     QString path = QCoreApplication::applicationDirPath()+"/data/";
-
-
 
     QStringList qdiFilter("*.xml");
 
-  //  patientData data;
 
     QDirIterator qdi( path, qdiFilter, QDir::Files);
     while (qdi.hasNext())
     {
         parseDataEntry(qdi.next());
-        //data.parseDataEntry(qdi.next());
-
-
     }
-
-
 
     tetra_grip_api::get_battery_percentage();
     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
@@ -185,7 +168,7 @@ void StageTwoPatients::on_pushButton_Open_clicked()
 
 void StageTwoPatients::on_pushButton_New_clicked()
 {
-    this->close();
+    this->hide();
     stagetwonew = new StageTwoNew("", this);
     stagetwonew -> setWindowTitle("New details");
     stagetwonew -> show();
@@ -194,15 +177,40 @@ void StageTwoPatients::on_pushButton_New_clicked()
 void StageTwoPatients::on_pushButton_Modify_clicked()
 {
 
+ QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
+
+ if(selection.empty())
+ {
+     QMessageBox::warning(this,"TetraGrip","Select a patient to modify details"
+                          ,QMessageBox::Ok	,QMessageBox::NoButton);
+     return;
+ }
+
+ else {
+    this-> close();
+    StageTwoNew *modifyPatient = new StageTwoNew(selection[0].data().toString(),this);
+    modifyPatient-> show();
+ }
+
 }
 
 void StageTwoPatients::on_pushButton_Remove_clicked()
 {
-  QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
-  QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+selection[0].data().toString()+".xml";
-  QFile xmlfile(xmlReadPath);
-  xmlfile.remove();
-  ui->tableWidget->removeRow(selection[0].row());
+
+    QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(this, "TetraGrip", "Are you sure want to delete this patient?",
+                                    QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+        QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
+        QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+selection[0].data().toString()+".xml";
+        QFile xmlfile(xmlReadPath);
+        xmlfile.remove();
+        ui->tableWidget->removeRow(selection[0].row());
+      }
+
+      else if(reply == QMessageBox::No) {
+          return;
+      }
 
 }
 
