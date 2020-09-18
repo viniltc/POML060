@@ -1027,6 +1027,9 @@ QPushButton:disabled {
           <enum>Qt::Vertical</enum>
          </property>
          <widget class="QPushButton" name="pushButton_programOpenHand">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,
@@ -1074,6 +1077,9 @@ QPushButton:disabled {
           </property>
          </widget>
          <widget class="QPushButton" name="pushButton_programSwitchGrasp">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="styleSheet">
            <string notr="true">QPushButton:hover{
         background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #ffd9aa,

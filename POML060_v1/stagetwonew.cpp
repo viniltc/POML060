@@ -100,7 +100,7 @@ void StageTwoNew::on_pushButton_clicked()
     QDomNode DateNode = root.namedItem("Date");
     DateNode.firstChild().setNodeValue(ui->dateTimeEdit->text());
     QDomNode NoteNode = root.namedItem("Clinician_Note");
-    NoteNode.firstChild().setNodeValue(ui->textEdit->toPlainText());
+    NoteNode.firstChild().setNodeValue(ui->textEdit->toPlainText()+"("+ui->dateTimeEdit->text()+")");
 
     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
     {
@@ -169,7 +169,7 @@ void StageTwoNew::on_pushButton_clicked()
 
             QDomElement tagNote = xml.createElement("Clinician_Note");
             root.appendChild(tagNote);
-            QDomText textNote = xml.createTextNode(ui->textEdit->toPlainText());
+            QDomText textNote = xml.createTextNode(ui->textEdit->toPlainText()+"("+ui->dateTimeEdit->text()+")");
             tagNote.appendChild(textNote);
 
 

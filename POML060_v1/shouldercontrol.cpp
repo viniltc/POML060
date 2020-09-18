@@ -23,9 +23,9 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     //connect(&api, &tetra_grip_api::tetraGripEvent,this, &ShoulderControl::eventHandler);
     //connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &ShoulderControl::sensorEventHandler);
     connect(&api, &tetra_grip_api::tetraGripSensorFilteredEvent,this, &ShoulderControl::sensorFilteredEventHandler);
-    ui->doubleSpinBox_vertical->setSingleStep(0.02);
-    ui->doubleSpinBox_protraction->setSingleStep(0.02);
-    ui->doubleSpinBox_retraction->setSingleStep(0.02);
+    ui->doubleSpinBox_vertical->setSingleStep(0.01);
+    ui->doubleSpinBox_protraction->setSingleStep(0.01);
+    ui->doubleSpinBox_retraction->setSingleStep(0.01);
     ui->spinBox_twotwitch->setValue(2000);
 
     ui->textBrowser->setVisible(false);
@@ -440,6 +440,32 @@ void ShoulderControl::on_pushButton_2_clicked()
 
     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
    // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QFile file(xmlReadPath);
+    if(!file.open(QIODevice::ReadOnly  | QIODevice::Text))
+    {
+
+        QMessageBox::information(this, "Unable to open XML file to read", file.errorString());
+        return;
+    }
+
+     QDomDocument document;
+     document.setContent(&file);
+     QDomElement root = document.documentElement();
+
+
+    file.close();
+    QDomNode FiltNode = root.elementsByTagName("Filter_Coeffs").at(0).firstChild();
+    QDomElement FiltNodeVal = FiltNode.toElement();
+
+    if (FiltNodeVal.isNull())
+    {
+        QMessageBox::information(this, "TetraGrip", "Goto Settings and tune filter");
+        return;
+    }
+
+    else
+    {
+
     QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
 
     QFile f(txtWritePath);
@@ -454,6 +480,7 @@ void ShoulderControl::on_pushButton_2_clicked()
 
 
          }
+    }
 
     tetra_grip_api::stimulation_start(true);
 }

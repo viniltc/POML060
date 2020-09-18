@@ -538,9 +538,8 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         <<   "V x2 "<<findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_APB")<<" 0   360 TRUE ` PW adjust for PalmrGrasp"<< '\n'
         <<   "V stepsize 10 10 50 FALSE ` stepsize"<< "\n\n"
 
-
-        <<   "F LP1 2 1 -1.14293 0.412739 0.0674523 0.134905 0.0674523 ` lp Fs=100Hz Fc=3Hz" << "\n\n"
-        <<   "F HP1 2 1 -1.14293 0.412739 0.0674523 0.134905 0.0674523 ` hp Fs=100Hz Fc=3Hz" << "\n\n"
+        << "  F LP1 2 1 " << findXMLNodeValue(root, "Filter_Coeffs", "a1l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "a2l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b0l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b1l")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b2l")<<" ` lp Fs=30Hz Fc=3Hz" << '\n' //a1 a2 bo b1 b2
+        << "  F HP1 2 1 " << findXMLNodeValue(root, "Filter_Coeffs", "a1h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "a2h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b0h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b1h")<<" "<< findXMLNodeValue(root, "Filter_Coeffs", "b2h")<<" ` lp Fs=30Hz Fc=3Hz" << "\n\n" //a1 a2 bo b1 b2
 
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
