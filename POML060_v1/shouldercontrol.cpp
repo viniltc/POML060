@@ -161,7 +161,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        ui->progressBar_vertical->setValue(0);
     }
 
-   ui->label_11->setText(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+   ui->label_11->setText(QString::number((int)(threshold_vertical*ACCELEROMETER_1G_COUNT)));
    ui->label_12->setText(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
    ui->label_13->setText(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
 
@@ -629,17 +629,17 @@ void ShoulderControl::on_pushButton_3_clicked()
     if (SensorNodeVal.isNull())
     {
         QDomElement verTag = document.createElement(QString("vertical_threshold"));
-        QDomText verVal = document.createTextNode(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+        QDomText verVal = document.createTextNode(QString::number((int)(threshold_vertical*ACCELEROMETER_1G_COUNT)));
         verTag.appendChild(verVal);
         newSensorTag.appendChild(verTag);
 
         QDomElement proTag = document.createElement(QString("protraction_threshold"));
-        QDomText proVal = document.createTextNode(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
+        QDomText proVal = document.createTextNode(QString::number((int)(threshold_protraction*ACCELEROMETER_1G_COUNT)));
         proTag.appendChild(proVal);
         newSensorTag.appendChild(proTag);
 
         QDomElement retTag = document.createElement(QString("retraction_treshold"));
-        QDomText retVal = document.createTextNode(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+        QDomText retVal = document.createTextNode(QString::number((int)(-1*threshold_retraction*ACCELEROMETER_1G_COUNT)));
         retTag.appendChild(retVal);
         newSensorTag.appendChild(retTag);
 
@@ -658,11 +658,11 @@ void ShoulderControl::on_pushButton_3_clicked()
           QDomNode SettingsNode = root.namedItem("Sensor_Settings");
 
           QDomNode a1 = SettingsNode.namedItem("vertical_threshold");
-          a1.firstChild().setNodeValue(QString::number(threshold_vertical*ACCELEROMETER_1G_COUNT));
+          a1.firstChild().setNodeValue(QString::number((int)(threshold_vertical*ACCELEROMETER_1G_COUNT)));
           QDomNode a2 = SettingsNode.namedItem("protraction_threshold");
-          a2.firstChild().setNodeValue(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
+          a2.firstChild().setNodeValue(QString::number((int)(threshold_protraction*ACCELEROMETER_1G_COUNT)));
           QDomNode b0 = SettingsNode.namedItem("retraction_treshold");
-          b0.firstChild().setNodeValue(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+          b0.firstChild().setNodeValue(QString::number((int)(-1*threshold_retraction*ACCELEROMETER_1G_COUNT)));
           QDomNode b1 = SettingsNode.namedItem("two_twith_time");
           b1.firstChild().setNodeValue(QString::number( ui->spinBox_twotwitch->value() ));
 

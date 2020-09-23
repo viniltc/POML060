@@ -21,7 +21,7 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
 
     ui->btn00->setVisible(false); // to make phase0 button invisible
 
-    QPixmap pix(":/resources/GraspStateDiagram_nobox.png"); // this is the code to add image to the form
+    QPixmap pix(":/resources/GraspStateDiagram_nobox_v3.png"); // this is the code to add image to the form
     int w = ui->label_bg->width();
     int h = ui->label_bg->height();
     ui->label_bg->setPixmap(pix.scaled(w,h,Qt::KeepAspectRatio));

@@ -550,8 +550,8 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  M C4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M C5 1 5 120mA 10us 450us 40Hz ASYM \"Opp\" "<< "\n\n"
 
-        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor X\" 30Hz 30Hz \\LP1" <<'\n'
-        << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 30Hz 30Hz \\LP1" << "\n\n"
+        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor X\" 30Hz 30Hz \\LP1 \\HP1" <<'\n'
+        << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 30Hz 30Hz \\LP1 \\HP1" << "\n\n"
 
         << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms STOP STOP P1" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -561,7 +561,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P5"<<'\n'
+        << "    X X1_1 'AND AND AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' GOTO P5"<<'\n'
         << "    X X1_2 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P1"<<"\n\n"
 
         << "  P P1 \"KeyGrip:Hand open\" 2000ms P2 2000ms STOP STOP P2" << '\n'
@@ -589,7 +589,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<<'\n'
         << "  `  double twitch to the KeyGrip intensity adjust phase P9"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
+        << "    X X1_1 'AND AND AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
         << "    X X1_2 '= :c 2' GOTO P9" << '\n'
         << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P4"<<"\n\n"
 
@@ -602,7 +602,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "  `  double twitch to turn off single twitch to grip phase"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
+        << "    X X1_1 'AND AND AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
         << "    X X1_2 '= :c 2' GOTO P0" << '\n'
         << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P3"<<"\n\n"
 
@@ -631,7 +631,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_APB")<<"ns "<<"x2"<<" RATE"<< "\n\n"
         << "  `  double twitch to the palmrGrsp intensity adjust phase P10"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
+        << "    X X1_1 'AND AND AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 3" << '\n'
         << "    X X1_2 '= :c 2' GOTO P10"<<'\n'
         << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P8"<<"\n\n"
 
@@ -644,7 +644,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   600000ns 0us RATE"<< '\n'
         << "  `  double twitch to turn off single twitch to grip phase"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t ;c 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SV 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
+        << "    X X1_1 'AND AND AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;c + :c 1 1' SOUND 0.1s 50ms 1000Hz 1" << '\n'
         << "    X X1_2 '= :c 2' GOTO P0" << '\n'
         << "    X X1_3 'AND = :c 1 > PHASE_MS + :t 2000' GOTO P7"<<"\n\n"
 
@@ -659,9 +659,9 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  ` retraction twitch to decrement C4 PW in steps of 10us"<<'\n'
         << "  ` single shoulder twitch to back to P3"<<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t 0 0' GOTO NONE"<<'\n'
-        << "    X X1_1 'AND AND AND > @SX 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 + :x1 :stepsize 1' GOTO P11"<<'\n'
-        << "    X X1_2 'AND AND AND < @SX -2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 - :x1 :stepsize 1' GOTO P12"<<'\n'
-        << "    X X1_3 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P3"<<"\n\n"
+        << "    X X1_1 'AND AND AND > @SX "<<findXMLNodeValue(root, "Sensor_Settings", "protraction_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 + :x1 :stepsize 1' GOTO P11"<<'\n'
+        << "    X X1_2 'AND AND AND < @SX "<<findXMLNodeValue(root, "Sensor_Settings", "retraction_treshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x1 - :x1 :stepsize 1' GOTO P12"<<'\n'
+        << "    X X1_3 'AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 ' GOTO P3"<<"\n\n"
 
         << "  P P10 \"PalmerGrasp:Adjust grip\" 0ms NONE 2000ms STOP STOP P8" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -674,9 +674,9 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  ` retraction twitch to decrement C5 PW in steps of 10us" <<'\n'
         << "  ` single shoulder twitch to back to P7" <<'\n'
         << "    X X1_0 'AND < PHASE_MS 50 = ;t 0 0' GOTO NONE" <<'\n'
-        << "    X X1_1 'AND AND AND > @SX 2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 + :x2 :stepsize 1' GOTO P13" <<'\n'
-        << "    X X1_2 'AND AND AND < @SX -2000 > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 - :x2 :stepsize 1' GOTO P14" <<'\n'
-        << "    X X1_3 'AND > @SV 2000 > - PHASE_MS :t 1000 ' GOTO P7" <<"\n\n"
+        << "    X X1_1 'AND AND AND > @SX "<<findXMLNodeValue(root, "Sensor_Settings", "protraction_threshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 + :x2 :stepsize 1' GOTO P13" <<'\n'
+        << "    X X1_2 'AND AND AND < @SX "<<findXMLNodeValue(root, "Sensor_Settings", "retraction_treshold")<<" > - PHASE_MS :t 1000 > ;t PHASE_MS 0 > ;x2 - :x2 :stepsize 1' GOTO P14" <<'\n'
+        << "    X X1_3 'AND > @SV "<<findXMLNodeValue(root, "Sensor_Settings", "vertical_threshold")<<" > - PHASE_MS :t 1000 ' GOTO P7" <<"\n\n"
 
         << "  P P11 \"KeyGrip:increment\" 0ms NONE 2000ms STOP STOP NONE" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'

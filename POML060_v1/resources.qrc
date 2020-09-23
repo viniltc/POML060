@@ -27,5 +27,6 @@
         <file>resources/tetragrip_logo.png</file>
         <file>resources/tetragrip_logo2.png</file>
         <file>resources/tetragrip_title.png</file>
+        <file>resources/GraspStateDiagram_nobox_v3.png</file>
     </qresource>
 </RCC>
