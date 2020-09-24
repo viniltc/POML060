@@ -109,11 +109,11 @@ private:
     bool setThreshold = false;
     bool saveClicked = false;
 
-    float currOneStored;
-    float currTwoStored;
-    float currThreeStored;
-    float currFourStored;
-    float currFiveStored;
+    float currOneStored = 0;
+    float currTwoStored = 0;
+    float currThreeStored = 0;
+    float currFourStored = 0;
+    float currFiveStored = 0;
     bool timerLabel = false;
 
     QString StyleSheetOn;

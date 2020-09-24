@@ -417,8 +417,8 @@ QPushButton:disabled {
   <widget class="QPushButton" name="pushButton_nosound">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>60</y>
+     <x>580</x>
+     <y>50</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -511,65 +511,11 @@ QPushButton:disabled {
     <string>Two twitch interval</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>430</y>
-     <width>61</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Threshold</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_12">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>430</y>
-     <width>71</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Threshold</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_13">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>430</y>
-     <width>61</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Threshold</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_settings">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>60</y>
+     <x>510</x>
+     <y>50</y>
      <width>41</width>
      <height>41</height>
     </rect>
@@ -761,38 +707,6 @@ QPushButton:disabled {
     </rect>
    </property>
   </widget>
-  <zorder>progressBar_vertical</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_vertical</zorder>
-  <zorder>label_2</zorder>
-  <zorder>progressBar_protraction</zorder>
-  <zorder>doubleSpinBox_vertical</zorder>
-  <zorder>label_protraction</zorder>
-  <zorder>doubleSpinBox_protraction</zorder>
-  <zorder>pushButton_back</zorder>
-  <zorder>rdo_btn_vertical</zorder>
-  <zorder>rdo_btn_protraction</zorder>
-  <zorder>label_4</zorder>
-  <zorder>label_v</zorder>
-  <zorder>label_p</zorder>
-  <zorder>pushButton_2</zorder>
-  <zorder>progressBar_retraction</zorder>
-  <zorder>doubleSpinBox_retraction</zorder>
-  <zorder>rdo_btn_retraction</zorder>
-  <zorder>label_retraction</zorder>
-  <zorder>label_r</zorder>
-  <zorder>label_8</zorder>
-  <zorder>pushButton_nosound</zorder>
-  <zorder>spinBox_twotwitch</zorder>
-  <zorder>label_10</zorder>
-  <zorder>pushButton_settings</zorder>
-  <zorder>label_pid</zorder>
-  <zorder>pushButton_4</zorder>
-  <zorder>pushButton_3</zorder>
-  <zorder>textBrowser</zorder>
-  <zorder>label_11</zorder>
-  <zorder>label_12</zorder>
-  <zorder>label_13</zorder>
  </widget>
  <resources/>
  <connections/>

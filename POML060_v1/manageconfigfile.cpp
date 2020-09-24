@@ -472,12 +472,12 @@ void ManageConfigFile::filterTest(QString patientLabel)
         << "    X X1_2 '> @ShoulderP 2000' GOTO P3"<< "\n\n"
 
         << "   P P2 \"Elev/dep. twitch!\" 1000ms P1 500ms P1 STOP P1" << '\n'
-        << "    O Extensors 20mA  0ms 0ms 18000ns 180us RATE"<< '\n'
+        << "    O Extensors 20mA  0ms 0ms 18000ns 0us RATE"<< '\n'
         << "    O Flexors   20mA  0ms 0ms 18000ns 0us RATE"<< "\n\n"
 
         << "   P P3 \"Pro/retract twitch!\" 1000ms P1 500ms P1 STOP P1" << '\n'
         << "    O Extensors 20mA  0ms 0ms 18000ns 0us RATE"<< '\n'
-        << "    O Flexors   20mA  0ms 0ms 18000ns 180us RATE"<< "\n\n"
+        << "    O Flexors   20mA  0ms 0ms 18000ns 0us RATE"<< "\n\n"
 
         <<"@--------" << '\n' ;
 

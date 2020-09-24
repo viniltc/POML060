@@ -126,11 +126,11 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         ui->label_curr_four->setText(QString("%1 mA").arg(ui->widget_currentFour->value/m_currentDiv));
         ui->label_curr_five->setText(QString("%1 mA").arg(ui->widget_currentFive->value/m_currentDiv));
 
-        currentOneSetVal = smallCurrent;
-        currentTwoSetVal = smallCurrent;
-        currentThreeSetVal = smallCurrent;
-        currentFourSetVal = smallCurrent;
-        currentFiveSetVal = smallCurrent;
+        currentOneSetVal = smallCurrent/m_currentDiv;
+        currentTwoSetVal = smallCurrent/m_currentDiv;
+        currentThreeSetVal = smallCurrent/m_currentDiv;
+        currentFourSetVal = smallCurrent/m_currentDiv;
+        currentFiveSetVal = smallCurrent/m_currentDiv;
     }
 
     if(!Key_PWNodeVal.isNull())

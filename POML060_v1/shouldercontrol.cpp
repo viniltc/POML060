@@ -161,9 +161,7 @@ void ShoulderControl::realtimeDataSlot(double axS, double ayS, double azS, doubl
        ui->progressBar_vertical->setValue(0);
     }
 
-   ui->label_11->setText(QString::number((int)(threshold_vertical*ACCELEROMETER_1G_COUNT)));
-   ui->label_12->setText(QString::number(threshold_protraction*ACCELEROMETER_1G_COUNT));
-   ui->label_13->setText(QString::number(threshold_retraction*ACCELEROMETER_1G_COUNT));
+
 
    // ui->label->setText(QString::number(sampThres,'g',4));
 
