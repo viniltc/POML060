@@ -938,8 +938,8 @@ void ProgramKeyGripV2::on_pushButton_stimStop_clicked()
      ui->radioButton_five->setAutoExclusive(true);
      ui->radioButton_six->setAutoExclusive(true);
 
-     ui->pushButton_keyGrip->setEnabled(false);
-     ui->pushButton_save->setEnabled(false);
+//     ui->pushButton_keyGrip->setEnabled(false);
+//     ui->pushButton_save->setEnabled(false);
 
 //     QString StyleSheetOff("border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
 //                           "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"

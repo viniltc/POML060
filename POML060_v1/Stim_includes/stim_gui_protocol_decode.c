@@ -95,6 +95,26 @@ const char *const MENU_ButtonNameStrings[NUM_MENU_BUTTONS]={
     "POWER",
 };
 
+// This array of strings describes the content of the long registers (most are not implemented yet)
+const char *STIM_GUI_LONG_REG_ID_T_strings[STIM_LONG_REG_UNUSED_ADDRESS] = {
+    "ERROR_CODE",
+    "NOTIFICATION_TEXT",
+    "STIM_CONFIG_FILE",
+    "GUI_CONFIG_FILE",
+    "STIM_LOCAL_INFO",
+    "SESSION_NAME",
+    "SESSION_NOTE",
+    "ACTIVITY_NOTE",
+    "TASK_SETUP_NOTE",
+    "ITERATION_NOTE",
+    "ETRX_COMMS",
+    "MAINTENANCE_LOG",
+    "NV_STIM_CONFIG_FILE",
+    "LOG_FILE",
+};
+
+
+
 
 /**
  * Get a signed 32-bit integer from four little-endian bytes
@@ -1057,7 +1077,49 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessStimShortBlock(STIM_GUI_MESSAGE_S_BL
                 break;
             case STIM_REG_BEEP_COUNTS:
                 DEBUG_Print("Beep counts: %d.\n", *data);
+                tetra_grip_reporter(TOPIC_STIMULATOR,b->index,STIM_REG_BEEP_COUNTS, *data);
                 bytes_used=1;
+                break;
+            case STIM_REG_FOOTSWITCH1_CONNECTED:
+            case STIM_REG_FOOTSWITCH2_CONNECTED:
+                DEBUG_Print("Footswitch %d %sconnected.\n", ((addr-STIM_REG_FOOTSWITCH1_CONNECTED)>>2) + 1, *data?"":"dis");
+                bytes_used=1;
+                break;
+            case STIM_REG_FOOTSWITCH1_MODE:
+            case STIM_REG_FOOTSWITCH2_MODE:
+                DEBUG_Print("Footswitch %d mode: %d.\n", ((addr-STIM_REG_FOOTSWITCH1_CONNECTED)>>2) + 1, *data);
+                bytes_used=1;
+                break;
+            case STIM_REG_FOOTSWITCH1_VALUE:
+            case STIM_REG_FOOTSWITCH2_VALUE:
+                DEBUG_Print("Footswitch %d value: %d.\n", ((addr-STIM_REG_FOOTSWITCH1_CONNECTED)>>2) + 1, *data);
+                bytes_used=1;
+                break;
+            case STIM_REG_FOOTSWITCH1_UPDATE_RATE:
+            case STIM_REG_FOOTSWITCH2_UPDATE_RATE:
+                DEBUG_Print("Footswitch %d update rate: %dHz.\n", ((addr-STIM_REG_FOOTSWITCH1_CONNECTED)>>2) + 1, *data);
+                bytes_used=1;
+                break;
+            case STIM_REG_NUMBER_OF_UNPAUSE_EVENTS:
+                if(len>=4)
+                {
+                    DEBUG_Print("Unpause events: %u\n", get_uint32(data));
+                    bytes_used=4;
+                }
+                break;
+            case STIM_REG_TOTAL_POWER_ON_TIME_S:
+                if(len>=4)
+                {
+                    DEBUG_Print("Total power-on time: %us\n", get_uint32(data));
+                    bytes_used=4;
+                }
+                break;
+            case STIM_REG_TOTAL_UNPAUSED_TIME_S:
+                if(len>=4)
+                {
+                    DEBUG_Print("Total unpaused time: %us\n", get_uint32(data));
+                    bytes_used=4;
+                }
                 break;
         }
 
@@ -1476,6 +1538,157 @@ void STIM_GUI_PROTOCOL_DECODE_DecodeShortBlock(STIM_GUI_MESSAGE_S_BLOCK_T *b)
             break;
     }
 }
+
+#define LOG_HEADER_LENGTH (16)
+#define LOG_ENTRY_LENGTH (16)
+static void decode_log(uint8_t *data, uint32_t len)
+{
+    FILE *log_file= NULL;
+    log_file = fopen("logfilename.txt", "w+");
+
+    if (log_file == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    if(len<LOG_HEADER_LENGTH)
+    {
+        DEBUG_Print("Log header missing!\n");
+        fprintf(log_file,"Log header missing!\n");
+    }
+    else
+    {
+        DEBUG_Print("\n=== USAGE_LOG ===\n"
+            "Power cycles: %u\n"
+            "Unpause events: %u\n"
+            "Power-on time: %us\n"
+            "Unpaused time: %us\n",
+            get_uint32(data+0),
+            get_uint32(data+4),
+            get_uint32(data+8),
+            get_uint32(data+12));
+    }
+
+    fprintf(log_file,"\n=== USAGE_LOG ===\n"
+                     "Power cycles: %u\n"
+                     "Unpause events: %u\n"
+                     "Power-on time: %us\n"
+                     "Unpaused time: %us\n",
+                     get_uint32(data+0),
+                     get_uint32(data+4),
+                     get_uint32(data+8),
+                     get_uint32(data+12));
+
+    data+=LOG_HEADER_LENGTH;
+    len-=LOG_HEADER_LENGTH;
+
+    if(!len)
+    {
+        DEBUG_Print("No phase entries\n");
+        fprintf(log_file,"No phase entries\n");
+        return;
+    }
+
+    DEBUG_Print("Phase\tcount\tmin ms\tmax ms\ttotal ms\n");
+    fprintf(log_file,"Phase\tcount\tmin ms\tmax ms\ttotal ms\n");
+
+    int phase_num=0;
+    while(len>=LOG_ENTRY_LENGTH)
+    {
+        DEBUG_Print("%u\t%u\t%u\t%u\t%u\n", phase_num,
+            get_uint32(data+0),
+            get_uint32(data+4),
+            get_uint32(data+8),
+            get_uint32(data+12));
+
+        fprintf(log_file,"%u\t%u\t%u\t%u\t%u\n", phase_num,
+                get_uint32(data+0),
+                get_uint32(data+4),
+                get_uint32(data+8),
+                get_uint32(data+12));
+
+        phase_num++;
+        data+=LOG_ENTRY_LENGTH;
+        len-=LOG_ENTRY_LENGTH;
+
+    }
+    if(len)
+    {
+        DEBUG_Print("Incomplete entry for phase %d\n", phase_num);
+        fprintf(log_file,"Incomplete entry for phase %d\n", phase_num);
+    }
+
+ fclose(log_file);
+
+}
+
+
+/**
+* Decode and print a long data block
+* @param b Pointer to the block
+*/
+void STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock(STIM_GUI_MESSAGE_L_BLOCK_T *b)
+{
+    if(!b)
+    {
+        DEBUG_Print("Null pointer to STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock.\n");
+        return;
+    }
+
+    uint32_t len=b->data_length;
+    uint8_t addr=b->reg_address;
+    uint8_t *data=b->data;
+
+    if(addr>=STIM_LONG_REG_UNUSED_ADDRESS)
+    {
+        DEBUG_Print("Bad address to STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock.\n");
+        return;
+    }
+
+    if(debugOptions.print_message_headers)
+        DEBUG_Print("Long block \"%s\" %s (%d bytes)\n", STIM_GUI_LONG_REG_ID_T_strings[addr], STIM_GUI_MSG_TYPE_T_strings[b->msg_type], len);
+
+    if(b->msg_type==READ_COMMAND)
+    {
+        return;
+    }
+    else
+    {   // All others must supply data.
+        if(!len || !data)
+        {
+            DEBUG_Print("Decoding long block: Error: data missing!\n");
+            return;
+        }
+    }
+
+    switch(addr)
+    {
+        case STIM_LONG_REG_ERROR_CODE:
+        case STIM_LONG_REG_NOTIFICATION_TEXT:
+        case STIM_LONG_REG_NV_STIM_CONFIG_FILE:
+        case STIM_LONG_REG_STIM_CONFIG_FILE:
+        case STIM_LONG_REG_GUI_CONFIG_FILE:
+            DEBUG_Print("%*s\n", len, data);
+            break;
+        case STIM_LONG_REG_LOG_FILE:
+            decode_log(data, len);
+            break;
+        case STIM_LONG_REG_STIM_LOCAL_INFO:
+        case STIM_LONG_REG_SESSION_NAME:
+        case STIM_LONG_REG_SESSION_NOTE:
+        case STIM_LONG_REG_ACTIVITY_NOTE:
+        case STIM_LONG_REG_TASK_SETUP_NOTE:
+        case STIM_LONG_REG_ITERATION_NOTE:
+        case STIM_LONG_REG_ETRX_COMMS:
+        case STIM_LONG_REG_MAINTENANCE_LOG:
+        case STIM_LONG_REG_UNUSED_ADDRESS:
+            DEBUG_Print("STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock Cannot decode this message type.\n");
+            break;
+    }
+}
+
+
 
 #ifdef __cplusplus
 }

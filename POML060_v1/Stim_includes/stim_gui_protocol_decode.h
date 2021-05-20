@@ -15,6 +15,11 @@ extern uint32_t seconds;
  * @param b Pointer to the block
  */
 void STIM_GUI_PROTOCOL_DECODE_DecodeShortBlock(STIM_GUI_MESSAGE_S_BLOCK_T *b);
+/**
+* Decode and print a long data block
+* @param b Pointer to the block
+*/
+void STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock(STIM_GUI_MESSAGE_L_BLOCK_T *b);
 
 #ifdef __cplusplus
 }

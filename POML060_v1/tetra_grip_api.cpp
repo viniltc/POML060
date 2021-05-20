@@ -459,6 +459,41 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
         qDebug("Failed to send jump to phase %d command to sub-activity %d.\n", phase, sub_activity_id);
 }
 
+ void tetra_grip_api::read_long_register(uint8_t reg, uint32_t data_len)
+ {
+     STIM_GUI_MESSAGE_L_BLOCK_T block={};
+
+         block.msg_type=READ_COMMAND;
+         block.reg_address=reg;
+         block.data_length=data_len;
+         block.data=NULL;
+         printf("Reading %d bytes from long register %d...\n", data_len, reg);
+         if(STIM_GUI_Send_long_message(STIMULATOR_ADDRESS1, GUI_ADDRESS, &block))
+         {
+             printf("Read sent OK\n");
+         }
+         else
+         {
+             printf("Read Failed.\n");
+         }
+
+ }
+
+ void tetra_grip_api::do_stimulator_command(uint8_t command)
+ {
+     STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+         block.msg_type=WRITE_COMMAND;
+         block.topic=TOPIC_STIMULATOR;
+         block.index=0;
+         block.reg_address=STIM_REG_COMMAND;
+         block.data_length=1;
+         block.data=&command;
+         if(!send_short_block(&block))
+             printf("Failed to send the stimulator command.\n");
+
+ }
+
  void  tetra_grip_api::reset_sensors(uint8_t sensor_address)
 {
     uint8_t command=SENSOR_CMD_RESET;

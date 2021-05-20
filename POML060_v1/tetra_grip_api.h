@@ -49,6 +49,9 @@ public:
      void static jump_to_phase(uint8_t sub_activity_id, uint8_t phase);
      void static set_stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us);
      void static set_stimulation_ramp_rate(unsigned int channel_number, unsigned int phase_number, unsigned int ramp_rate_ns);
+     void static read_long_register(uint8_t reg, uint32_t data_len);
+     void static do_stimulator_command(uint8_t command);
+
      //for sensors
      void static reset_sensors(uint8_t sensor_address);
      void static set_sensor_data_rate(uint8_t sensor_address, uint8_t Hz);

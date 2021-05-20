@@ -194,8 +194,6 @@ private:
 
 
 
-
-
 protected:
    // we then override / make our own of these function to track mouse movement and clicks
          void mousePressEvent(QMouseEvent *event) ;

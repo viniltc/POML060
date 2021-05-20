@@ -28,5 +28,8 @@
         <file>resources/tetragrip_logo2.png</file>
         <file>resources/tetragrip_title.png</file>
         <file>resources/GraspStateDiagram_nobox_v3.png</file>
+        <file>resources/GraspStateDiagram_v2.png</file>
+        <file>resources/GraspStateDiagram_nobox_v23.png</file>
+        <file>resources/GraspStateDiagram_nobox_v24.png</file>
     </qresource>
 </RCC>
