@@ -9,7 +9,7 @@ extern "C" {
 #include "stim_engine.h"
 #include "tetra_grip_reporter.h"
 
-FILE* logfile=NULL;
+FILE* logfile;
 
 const STIM_ENGINE_REG_T reg_data[NUM_STIM_ENGINE_REGS]={
 /* Firmware version */          {0,     1,	0,	0,          RD_REG	},

@@ -58,7 +58,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 
           }
 
-
+      tetra_grip_api::read_long_register(STIM_LONG_REG_LOG_FILE, 0);
       tetra_grip_api::get_battery_percentage();
       tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 }
@@ -141,6 +141,37 @@ void StageOneMain::on_pushButton_help_clicked()
     emit textToChange("text updated");
     emit setPushButton(true);
    // emit deviceError(true);
+
+
+
+    QString filename = "logfilename.txt";
+    QString newfilename = "logfilename_old.txt";
+
+    QFile originalFile(filename), newFile(newfilename);
+
+    originalFile.open(QIODevice::ReadOnly|QIODevice::Text);
+    newFile.open(QIODevice::WriteOnly|QIODevice::Text);
+
+    QTextStream instream(& originalFile);
+    QTextStream outstream(& newFile);
+
+    outstream<<"Date and Time: "<<QDateTime::currentDateTime().toString()<<'\n'; // to add date and time
+    outstream<<"Stimulator ID"<<'\n';
+
+    while(!instream.atEnd())
+    {
+
+        QString line = instream.readLine();
+        qDebug()<<line;
+        outstream<<line<<'\n';
+
+    }
+
+
+      originalFile.close();
+      newFile.close();
+      originalFile.remove();
+
 }
 
 void StageOneMain::on_pushButton_logs_clicked()

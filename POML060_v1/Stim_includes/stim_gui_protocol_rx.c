@@ -195,35 +195,84 @@ static size_t process_stim_gui_short_block(const size_t block_no, uint8_t *const
 
 static size_t process_stimulator_long_block(const size_t block_no, uint8_t *const start, uint8_t *const limit)
 {
+//    if(limit<start+STIM_GUI_PROTOCOL_L_BLOCK_HEADER_SIZE)
+//    {
+//        DEBUG_Print("Block %d (long type) is impossibly short.\n", block_no);
+//        return limit-start; // consume all bytes as this message is broken.
+//    }
+    
+//    STIM_GUI_MESSAGE_L_BLOCK_T block;
+//    size_t bytes_used;
+
+//    bytes_used=get_long_block_fields(&block, start);
+//    if(limit-start<bytes_used)
+//    {
+//        DEBUG_Print("Block %d (long) claims to have %d bytes but the message doesn't have this many left.\n", block_no, block.data_length);
+//        return limit-start; // say we used all available bytes.
+//    }
+
+//    if(block.data)
+//    {
+//        DEBUG_Print("Long block data:  (%s of %d bytes, register %d)\n", stim_gui_msg_type_strings[block.msg_type], block.data_length, block.reg_address);
+//        DEBUG_WriteBytes(block.data, block.data_length, true);
+//        DEBUG_Print("\n");
+//    }
+    
+//#ifdef PIC32
+//    STIM_GUI_PIC_ACTION_stimulator_long_block(&block);
+//#endif
+
+//    return bytes_used;
+//}
+
     if(limit<start+STIM_GUI_PROTOCOL_L_BLOCK_HEADER_SIZE)
-    {
-        DEBUG_Print("Block %d (long type) is impossibly short.\n", block_no);
-        return limit-start; // consume all bytes as this message is broken.
-    }
-    
-    STIM_GUI_MESSAGE_L_BLOCK_T block;
-    size_t bytes_used;
+        {
+            DEBUG_Print("Block %d (long type) is impossibly short.\n", block_no);
+           return limit-start; // consume all bytes as this message is broken.
+        }
 
-    bytes_used=get_long_block_fields(&block, start);
-    if(limit-start<bytes_used)
-    {
-        DEBUG_Print("Block %d (long) claims to have %d bytes but the message doesn't have this many left.\n", block_no, block.data_length);
-        return limit-start; // say we used all available bytes.
-    }
+        STIM_GUI_MESSAGE_L_BLOCK_T block;
+        size_t bytes_used;
 
-    if(block.data)
-    {
-        DEBUG_Print("Long block data:  (%s of %d bytes, register %d)\n", stim_gui_msg_type_strings[block.msg_type], block.data_length, block.reg_address);
-        DEBUG_WriteBytes(block.data, block.data_length, true);
-        DEBUG_Print("\n");
-    }
-    
-#ifdef PIC32
-    STIM_GUI_PIC_ACTION_stimulator_long_block(&block);
-#endif
+        bytes_used=get_long_block_fields(&block, start);
+        if(limit-start<bytes_used)
+        {
+            DEBUG_Print("Block %d (long) claims to have %d bytes but the message doesn't have this many left.\n", block_no, block.data_length);
+            return limit-start; // say we used all available bytes.
+        }
 
-    return bytes_used;
-}
+        switch(block.msg_type)
+        {
+    #ifdef PIC32
+            case READ_COMMAND:
+                // These messages will be received on the stim
+                STIM_GUI_PIC_ACTION_stimulator_long_block_read(&block);
+                break;
+            case WRITE_COMMAND:
+                STIM_GUI_PIC_ACTION_stimulator_long_block_write(&block);
+                break;
+            case READ_RESPONSE:
+            case WRITE_RESPONSE:
+                DEBUG_Print("Stimulator responses are not expected to be received on the stim.\n");
+                INDICATE_GUI_COMMS_ERROR;
+                break;
+    #else
+            case READ_COMMAND:
+                DEBUG_Print("Stimulator read commands are not expected to be received at the PC.\n");
+                break;
+            case WRITE_COMMAND:
+                DEBUG_Print("Stimulator write commands are not expected to be received at the PC.\n");
+                break;
+            case READ_RESPONSE:
+            case WRITE_RESPONSE:
+                // These messages will be received on the PC.
+                STIM_GUI_PROTOCOL_DECODE_DecodeLongBlock(&block);
+                break;
+    #endif
+        }
+
+        return bytes_used;
+    }
 
 bool skip_this_message(const uint8_t *msg, const size_t len)
 {
