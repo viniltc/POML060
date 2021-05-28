@@ -28,7 +28,8 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
     // initial appearnece of main window
     if(patientLabel.isEmpty()){
         ui->pushButton_programs->setEnabled(false);
-        ui->pushButton_logs->setEnabled(false);
+        ui->pushButton_logs->setEnabled(false); // shoulder control
+        ui->pushButton_help->setEnabled(false); // stimultor logs
 
     }
 
@@ -143,9 +144,10 @@ void StageOneMain::on_pushButton_help_clicked()
    // emit deviceError(true);
 
 
-
+    QString namestring = "log_file_"+pLabel;
     QString filename = "logfilename.txt";
-    QString newfilename = "logfilename_old.txt";
+    QString newfilename = "log_file_"+pLabel+".txt";
+   // QString newfilename = QCoreApplication::applicationDirPath()+"/data/log_file/"+namestring+".txt";
 
     QFile originalFile(filename), newFile(newfilename);
 
@@ -155,8 +157,19 @@ void StageOneMain::on_pushButton_help_clicked()
     QTextStream instream(& originalFile);
     QTextStream outstream(& newFile);
 
-    outstream<<"Date and Time: "<<QDateTime::currentDateTime().toString()<<'\n'; // to add date and time
-    outstream<<"Stimulator ID"<<'\n';
+    outstream<<"Date and Time: "<<QDateTime::currentDateTime().toString()<<"\n\n"; // to add date and time
+    outstream<<"Stimulator serial port details: "<<"\n\n";
+
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
+        QString s = QObject::tr("Port: ") + info.portName() + "\n"
+                + QObject::tr("Location: ") + info.systemLocation() + "\n"
+                + QObject::tr("Description: ") + info.description() + "\n"
+                + QObject::tr("Manufacturer: ") + info.manufacturer() + "\n"
+                + QObject::tr("Vendor Identifier: ") + (info.hasVendorIdentifier() ? QString::number(info.vendorIdentifier(), 16) : QString()) + "\n"
+                + QObject::tr("Product Identifier: ") + (info.hasProductIdentifier() ? QString::number(info.productIdentifier(), 16) : QString()) + "\n"
+                + QObject::tr("Busy: ") + (info.isBusy() ? QObject::tr("Yes") : QObject::tr("No")) + "\n";
+          outstream<<s<<'\n';}
+
 
     while(!instream.atEnd())
     {

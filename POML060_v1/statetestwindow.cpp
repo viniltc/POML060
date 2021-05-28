@@ -104,7 +104,6 @@ void StateTestWindow::on_pushButton_loadConfig_clicked()
 {
 
     // to load config file as non volatile
-
     QString txtfilename = "config_tetraGrip_"+pLabel;
     QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
     QFile f(configFileName);
