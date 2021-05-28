@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>497</height>
+    <width>793</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -958,6 +958,32 @@
     <string>Single vertical twitch</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_loadConfig">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>370</y>
+     <width>101</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Load to Stimulator</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_logReset">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>430</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset Log</string>
+   </property>
+  </widget>
   <zorder>label_bg</zorder>
   <zorder>pushButton_back</zorder>
   <zorder>btn5</zorder>
@@ -997,6 +1023,8 @@
   <zorder>btn00</zorder>
   <zorder>label_20</zorder>
   <zorder>label_21</zorder>
+  <zorder>pushButton_loadConfig</zorder>
+  <zorder>pushButton_logReset</zorder>
  </widget>
  <resources>
   <include location="resources.qrc"/>

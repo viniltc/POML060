@@ -99,3 +99,40 @@ void StateTestWindow::on_pushButton_back_clicked()
     backprogram = new stageProgram(pLabel,this);
     backprogram -> show();
 }
+
+void StateTestWindow::on_pushButton_loadConfig_clicked()
+{
+
+    // to load config file as non volatile
+
+    QString txtfilename = "config_tetraGrip_"+pLabel;
+    QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
+    QFile f(configFileName);
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_config_file(config, true); // send config file as non volatile
+
+         }
+
+}
+
+void StateTestWindow::on_pushButton_logReset_clicked()
+{
+    // to reset stimulator log
+    QMessageBox::StandardButton reply;
+      reply = QMessageBox::question(this, "TetraGrip", "Are you sure want to reset the stimulator log?",
+                                    QMessageBox::Yes|QMessageBox::No);
+      if (reply == QMessageBox::Yes) {
+          tetra_grip_api::do_stimulator_command(STIM_COMMAND_RESET_LOG_HEADER);
+          tetra_grip_api::do_stimulator_command(STIM_COMMAND_RESET_LOG_PHASE_DATA);
+      }
+
+      else if(reply == QMessageBox::No) {
+          return;
+      }
+}

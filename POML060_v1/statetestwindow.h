@@ -21,6 +21,10 @@ public:
 private slots:
     void on_pushButton_back_clicked();
 
+    void on_pushButton_loadConfig_clicked();
+
+    void on_pushButton_logReset_clicked();
+
 private:
     Ui::StateTestWindow *ui;
     QString pLabel;
