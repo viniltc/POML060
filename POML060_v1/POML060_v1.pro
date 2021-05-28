@@ -29,6 +29,7 @@ SOURCES += \
     currentbuttonone.cpp \
     filtersettings.cpp \
     incdecbutton.cpp \
+    logwindow.cpp \
     main.cpp \
     manageconfigfile.cpp \
     programkeygripv2.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     currentbuttonone.h \
     filtersettings.h \
     incdecbutton.h \
+    logwindow.h \
     manageconfigfile.h \
     programkeygripv2.h \
     programopenhand.h \
@@ -85,6 +87,7 @@ FORMS += \
     currentbuttonone.ui \
     filtersettings.ui \
     incdecbutton.ui \
+    logwindow.ui \
     programkeygripv2.ui \
     programopenhand.ui \
     programpalmergrasp.ui \
