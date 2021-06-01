@@ -29,7 +29,6 @@ SOURCES += \
     currentbuttonone.cpp \
     filtersettings.cpp \
     incdecbutton.cpp \
-    logwindow.cpp \
     main.cpp \
     manageconfigfile.cpp \
     programkeygripv2.cpp \
@@ -43,6 +42,7 @@ SOURCES += \
     stagetwonew.cpp \
     stagetwopatients.cpp \
     statetestwindow.cpp \
+    stimulatorlogwindow.cpp \
     stopwatch.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
@@ -65,7 +65,6 @@ HEADERS += \
     currentbuttonone.h \
     filtersettings.h \
     incdecbutton.h \
-    logwindow.h \
     manageconfigfile.h \
     programkeygripv2.h \
     programopenhand.h \
@@ -78,6 +77,7 @@ HEADERS += \
     stagetwonew.h \
     stagetwopatients.h \
     statetestwindow.h \
+    stimulatorlogwindow.h \
     stopwatch.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
@@ -87,7 +87,6 @@ FORMS += \
     currentbuttonone.ui \
     filtersettings.ui \
     incdecbutton.ui \
-    logwindow.ui \
     programkeygripv2.ui \
     programopenhand.ui \
     programpalmergrasp.ui \
@@ -97,7 +96,8 @@ FORMS += \
     stageprogram.ui \
     stagetwonew.ui \
     stagetwopatients.ui \
-    statetestwindow.ui
+    statetestwindow.ui \
+    stimulatorlogwindow.ui
 
 INCLUDEPATH += ./leds
 include($$PWD/leds/qled.pri)

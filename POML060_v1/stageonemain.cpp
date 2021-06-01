@@ -9,6 +9,7 @@
 #include <QCloseEvent>
 
 
+
 StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
 //  StageOneMain::StageOneMain( tetra_grip_api *api, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
@@ -184,6 +185,12 @@ void StageOneMain::on_pushButton_help_clicked()
       originalFile.close();
       newFile.close();
       originalFile.remove();
+
+
+      this->close();
+     // hide();
+      logwindow = new StimulatorLogWindow(pLabel);
+      logwindow -> show();
 
 }
 

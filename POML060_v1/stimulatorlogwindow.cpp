@@ -1,16 +1,14 @@
-#include "logwindow.h"
-#include "ui_logwindow.h"
+#include "stimulatorlogwindow.h"
+#include "ui_stimulatorlogwindow.h"
 #include <QFile>
 #include <QTextStream>
 
-logwindow::logwindow(QString patientLabel,QWidget *parent) :
+StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::logwindow)
+    ui(new Ui::StimulatorLogWindow)
 {
     ui->setupUi(this);
     pLabel = patientLabel;
-
-
 
     QString name = "log_file_"+pLabel+".txt";
    // QString newfilename = QCoreApplication::applicationDirPath()+"/data/log_file/"+namestring+".txt";
@@ -29,10 +27,9 @@ logwindow::logwindow(QString patientLabel,QWidget *parent) :
 
 
      file.close();
-
 }
 
-logwindow::~logwindow()
+StimulatorLogWindow::~StimulatorLogWindow()
 {
     delete ui;
 }

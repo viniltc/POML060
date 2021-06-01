@@ -8,6 +8,7 @@
 #include "tetra_grip_api.h"
 #include <QDebug>
 #include "shouldercontrol.h"
+#include "stimulatorlogwindow.h"
 
 
 
@@ -25,6 +26,7 @@ public:
      StageTwoPatients *stagetwopatients;
      stageProgram *stageprogram;
      ShoulderControl *window;
+     StimulatorLogWindow *logwindow;
      QString pLabel;
 
 
