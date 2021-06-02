@@ -2,6 +2,7 @@
 #include "ui_stimulatorlogwindow.h"
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) :
     QWidget(parent),
@@ -18,11 +19,11 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
     file.open(QIODevice::ReadOnly|QIODevice::Text);
 
     QTextStream instream(& file);
-    QString line;
 
     while (!instream.atEnd()){
-            line = instream.readLine();
-            ui->textBrowser->setText(line+"\n");
+            QString line = instream.readLine();
+            qDebug()<<line;
+            ui->textBrowser->append(line); // append or setText (use readAll when setText is used)
         }
 
 
