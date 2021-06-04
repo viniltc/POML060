@@ -119,6 +119,7 @@ void StateTestWindow::on_pushButton_loadConfig_clicked()
                                              QMessageBox::Yes|QMessageBox::No);
                if (reply == QMessageBox::Yes) {
                     tetra_grip_api::send_long_register(STIM_LONG_REG_NV_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());// send config file as non volatile
+                                                       //STIM_LONG_REG_STIM_CONFIG_FILE or STIM_LONG_REG_NV_STIM_CONFIG_FILE
                }
 
                else if(reply == QMessageBox::No) {
