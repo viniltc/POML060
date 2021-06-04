@@ -233,7 +233,7 @@ void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t 
 void tetra_grip_api::send_config_file(QByteArray config, bool nonvolatile)
 
 {
-      //  clear_stim_config(); >>>>>>>>>>>   check this
+        clear_stim_config();
 
         if(config.length())
         {
@@ -467,14 +467,14 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
          block.reg_address=reg;
          block.data_length=data_len;
          block.data=NULL;
-         printf("Reading %d bytes from long register %d...\n", data_len, reg);
+         qDebug("Reading %d bytes from long register %d...\n", data_len, reg);
          if(STIM_GUI_Send_long_message(STIMULATOR_ADDRESS1, GUI_ADDRESS, &block))
          {
-             printf("Read sent OK\n");
+             qDebug("Read sent OK\n");
          }
          else
          {
-             printf("Read Failed.\n");
+             qDebug("Read Failed.\n");
          }
 
  }
@@ -490,7 +490,7 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
          block.data_length=1;
          block.data=&command;
          if(!send_short_block(&block))
-             printf("Failed to send the stimulator command.\n");
+             qDebug("Failed to send the stimulator command.\n");
 
  }
 
@@ -508,7 +508,7 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
     block.data=&command;
     if(!send_short_block(&block))
     {
-        printf("Failed to send reset command to sensor %d.\n", sensor_address);
+        qDebug("Failed to send reset command to sensor %d.\n", sensor_address);
     }
 }
 
@@ -524,7 +524,7 @@ void tetra_grip_api::send_event(uint8_t sub_activity_id, uint8_t event)
      block.data=&Hz;
      if(!send_short_block(&block))
      {
-         printf("Failed to send data rate to sensor %d.\n", sensor_address);
+         qDebug("Failed to send data rate to sensor %d.\n", sensor_address);
      }
  }
 
@@ -542,7 +542,7 @@ void tetra_grip_api::sensor_led(uint8_t sensor_address, bool on)
      block.data=&command;
      if(!send_short_block(&block))
      {
-         printf("Failed to send LED %s command to sensor %d.\n", (on?"ON":"OFF"), sensor_address);
+         qDebug("Failed to send LED %s command to sensor %d.\n", (on?"ON":"OFF"), sensor_address);
      }
  }
 

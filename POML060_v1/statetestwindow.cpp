@@ -35,8 +35,8 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
      ui->btn0->setStyleSheet(StyleSheetOn);
 
    // QString txtfilename = "config_tetraGrip_v7";
-      QString txtfilename = "config_tetraGrip_TEST1_v1";
-     //QString txtfilename = "config_tetraGrip_"+pLabel;
+    //  QString txtfilename = "config_tetraGrip_TEST1_v1";
+     QString txtfilename = "config_tetraGrip_"+pLabel;
      QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
      QFile f(configFileName);
      if(!f.open(QFile::ReadOnly))
@@ -114,8 +114,16 @@ void StateTestWindow::on_pushButton_loadConfig_clicked()
     else
          {
              QByteArray config = f.readAll();
-             tetra_grip_api::send_config_file(config, true); // send config file as non volatile
+             QMessageBox::StandardButton reply;
+               reply = QMessageBox::question(this, "TetraGrip", "Are you sure want to load settings to the stimulator?",
+                                             QMessageBox::Yes|QMessageBox::No);
+               if (reply == QMessageBox::Yes) {
+                    tetra_grip_api::send_long_register(STIM_LONG_REG_NV_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());// send config file as non volatile
+               }
 
+               else if(reply == QMessageBox::No) {
+                   return;
+               }
          }
 
 }
