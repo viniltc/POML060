@@ -111,7 +111,7 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
              statusBat->setText("Battery remaining: "+QString::number(value)+"%");
              //QTimer::singleShot(3000, ui->statusbar, &QLabel::hide);
 
-            if(value<86)
+            if(value<60)
                 ui->qLed->setOnColor(QLed::Red);
             else
                 ui->qLed->setOnColor(QLed::Green);
@@ -186,7 +186,7 @@ void StageOneMain::on_pushButton_help_clicked()
 
 
       this->close();
-     // hide();
+    //  hide();
       logwindow = new StimulatorLogWindow(pLabel);
       logwindow -> show();
 

@@ -222,7 +222,7 @@ void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, ui
         {
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
 
-            if(value<86)
+            if(value<60)
                 ui->qLed_p2->setOnColor(QLed::Red);
             else
                 ui->qLed_p2->setOnColor(QLed::Green);

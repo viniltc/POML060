@@ -16,6 +16,9 @@ public:
     ~StimulatorLogWindow();
     QString pLabel;
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::StimulatorLogWindow *ui;
 };

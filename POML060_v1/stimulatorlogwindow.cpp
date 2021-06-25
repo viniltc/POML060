@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
+#include "stageonemain.h"
 
 StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) :
     QWidget(parent),
@@ -33,4 +34,12 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
 StimulatorLogWindow::~StimulatorLogWindow()
 {
     delete ui;
+}
+
+void StimulatorLogWindow::on_pushButton_clicked()
+{
+    StageOneMain *back;
+    this->close();
+    back = new StageOneMain(pLabel,this);
+    back -> show();
 }
