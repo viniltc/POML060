@@ -201,6 +201,22 @@ void tetra_grip_api::clear_stim_config(void)
         qDebug("Failed to send the command to clear stim config.\n");
 }
 
+void tetra_grip_api::set_stim_mode_options(uint8_t options)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+
+
+    block.msg_type=WRITE_COMMAND;
+    block.topic=TOPIC_STIMULATOR;
+    block.index=0;
+    block.reg_address=STIM_REG_ACTIVITY_OPTIONS;
+    block.data_length=1;
+    block.data=&options;
+    if(!send_short_block(&block))
+        qDebug("Failed to send the command to clear stim config.\n");
+}
+
 void tetra_grip_api::send_long_register(uint8_t reg, uint32_t data_len, uint8_t *data)
 
 {

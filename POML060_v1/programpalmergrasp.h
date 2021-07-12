@@ -52,6 +52,7 @@ signals:
         void buttonChanged(int id, int pwvalue);
         //void buttonChanged(int);
         void pulseWidthValue(int);
+         void lastPhase(int id);
 
 
 private:
@@ -226,6 +227,8 @@ private slots:
          void on_comboBox_3_currentIndexChanged(int index);
          void on_comboBox_4_currentIndexChanged(int index);
          void saveToXMLFile();
+         void loadConfigFile(QString fileName);
+         void sendConfigFile(int id);
 };
 
 #endif // PROGRAMPALMERGRASP_H

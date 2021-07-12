@@ -25,12 +25,9 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
 
     QString test_config_file_name = "config_palmergrasp_test_"+pLabel;
     QString config_file_name = "config_palmergrasp_"+pLabel;
+
     QString xmlName = pLabel;
-
     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
-   // QString txtWritePath = ":/resources/"+configfilename+".txt";
-  //  QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
-
     QFile xmlfile(xmlReadPath);
 
     if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -44,7 +41,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
 
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
-    QDomNode PWNode = root.elementsByTagName("<PW_PalmerGrasp").at(0).firstChild();
+    QDomNode PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
     QDomNode YCoorNode = root.elementsByTagName("YCoordinates_PalmerGrasp").at(0).firstChild();
     QDomElement YCoorNodeVal = YCoorNode.toElement();
@@ -167,6 +164,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
 
     else
     {
+
       QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+test_config_file_name+".txt";
       QFile f(txtWritePath);
       if(!f.open(QFile::ReadOnly))
@@ -249,13 +247,14 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::getPWValue);
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::nextBtn);
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::prevBtn);
-
+    connect(this, &ProgramPalmerGrasp::lastPhase, this, &ProgramPalmerGrasp::sendConfigFile);
 
 
 
 }
 ProgramPalmerGrasp::~ProgramPalmerGrasp()
 {
+    tetra_grip_api::stimulation_pause(true);
     delete ui;
 }
 
@@ -1408,4 +1407,30 @@ void ProgramPalmerGrasp::saveToXMLFile()
 
     qDebug()<< "Finished";
 
+}
+
+void ProgramPalmerGrasp::loadConfigFile(QString configfilename)
+{
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
+
+    QFile f(txtWritePath);
+    if(!f.open(QFile::ReadOnly))
+         {
+             QMessageBox::information(0, "config file error", f.errorString());
+         }
+    else
+         {
+             QByteArray config = f.readAll();
+             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+         }
+}
+
+void ProgramPalmerGrasp::sendConfigFile(int id)
+{
+    ManageConfigFile newFile;
+    newFile.palmerGraspFinal(pLabel);
+             //resetTimer();
+    loadConfigFile("config_palmargrasp_"+pLabel);
+   // ui->label_7->setText("c file sent at phase no " + QString::number(id));
 }

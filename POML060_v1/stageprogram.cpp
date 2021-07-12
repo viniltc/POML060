@@ -84,6 +84,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QDomElement Key_PWNodeVal = Key_PWNode.toElement();
     QDomNode Palmer_PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
     QDomElement Palmer_PWNodeVal = Palmer_PWNode.toElement();
+    QDomNode Sensor_SettNode = root.elementsByTagName("Sensor_Settings").at(0).firstChild();
+    QDomElement Sensor_SettNodeVal = Sensor_SettNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -149,6 +151,14 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     else
     {
          ui->pushButton_2->setStyleSheet(StyleSheetOff);
+    }
+    if(!Sensor_SettNodeVal.isNull())
+    {
+        ui->pushButton_3->setStyleSheet(StyleSheetOn);
+    }
+    else
+    {
+         ui->pushButton_3->setStyleSheet(StyleSheetOff);
     }
 
 
@@ -221,6 +231,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
          }
 
+    // reset all user intensity to 50%
+     tetra_grip_api::do_stimulator_command( STIM_COMMAND_RESET_USER_INTENSITIES);
 }
 
 stageProgram::~stageProgram()
@@ -496,11 +508,35 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 
 void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 {
-    ManageConfigFile configFile;
-    configFile.palmerGraspTest(pLabel);
+    QString xmlName = pLabel;
+     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    QDomDocument document;
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+    QDomNode PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
+    QDomElement PWNodeVal = PWNode.toElement();
+    if(!PWNode.isNull())
+    {
+        ManageConfigFile configFile;
+        configFile.palmerGraspFinal(pLabel);
+    }
+    else
+    {
+        ManageConfigFile configFile;
+        configFile.palmerGraspTest(pLabel);
+    }
+
     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
-    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
+   // disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
   //  disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
     this->close();

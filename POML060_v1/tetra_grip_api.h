@@ -33,10 +33,10 @@ public:
 
     #define MAX_CONFIG_FILE_LENGTH (10000)
 
-
      void static send_config_file(QByteArray config, bool nonvolatile);
      void static send_long_register(uint8_t, uint32_t, uint8_t *);
      void static clear_stim_config(void);
+     void static set_stim_mode_options(uint8_t options);
      bool static send_short_block(STIM_GUI_MESSAGE_S_BLOCK_T *pblock);
      void static stimulation_pause(bool);
      void static stimulation_start(bool);
@@ -57,12 +57,25 @@ public:
      void static set_sensor_data_rate(uint8_t sensor_address, uint8_t Hz);
      void static sensor_led(uint8_t sensor_address, bool on);
 
-
-
      QSerialPort *serial = nullptr;
 
      QTimer autoConnectionTimer;
      bool tryToAutoconnect;
+
+     enum ModeOptions
+     {
+        STIM_MODE_NO_STIMULATION        =(0<<0),
+        STIM_MODE_NORMAL_STIMULATION    =(1<<0),
+
+        STIM_MODE_MANUAL_TRANSITIONS    =(0<<1),
+        STIM_MODE_AUTOMATIC_TRANSITIONS =(1<<1),
+
+        STIM_MODE_USE_SENSORS           =(0<<2),
+        STIM_MODE_USE_EXERCISE_TIMING   =(1<<2),
+
+        STIM_MODE_NO_LOGGING            =(0<<3),
+        STIM_MODE_LOGGING_PER_CONFIG    =(1<<3),
+     };
 
 signals:
 

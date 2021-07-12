@@ -20,6 +20,7 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
                           "color: #0000;";
 
     ui->btn00->setVisible(false); // to make phase0 button invisible
+    ui->btn15->setVisible(false); // to make phase15 button invisible
 
     QPixmap pix(":/resources/GraspStateDiagram_nobox_v24.png"); // this is the code to add image to the form
     int w = ui->label_bg->width();
@@ -35,8 +36,8 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
      ui->btn0->setStyleSheet(StyleSheetOn);
 
 
-      QString txtfilename = "config_tetraGrip_test_v1";
-    // QString txtfilename = "config_tetraGrip_"+pLabel;
+    //  QString txtfilename = "config_tetraGrip_test_v1";
+     QString txtfilename = "config_tetraGrip_"+pLabel;
      QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
      QFile f(configFileName);
      if(!f.open(QFile::ReadOnly))
@@ -52,6 +53,9 @@ StateTestWindow::StateTestWindow(QString patientLabel, QWidget *parent) :
 
 
      connect(&api, &tetra_grip_api::tetraGripEvent,this, &StateTestWindow::phaseEventHandler);
+
+
+     tetra_grip_api::set_stim_mode_options( tetra_grip_api::STIM_MODE_NORMAL_STIMULATION| tetra_grip_api::STIM_MODE_AUTOMATIC_TRANSITIONS| tetra_grip_api::STIM_MODE_USE_SENSORS);
 
 
 }
@@ -104,8 +108,8 @@ void StateTestWindow::on_pushButton_loadConfig_clicked()
 {
 
     // to load config file as non volatile
-    QString txtfilename = "config_tetraGrip_test_v1";
-   // QString txtfilename = "config_tetraGrip_"+pLabel;
+   // QString txtfilename = "config_tetraGrip_test_v1";
+    QString txtfilename = "config_tetraGrip_"+pLabel;
     QString configFileName = QCoreApplication::applicationDirPath()+"/data/config_file/"+txtfilename+".txt";
     QFile f(configFileName);
     if(!f.open(QFile::ReadOnly))
