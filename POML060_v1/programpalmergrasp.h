@@ -204,6 +204,8 @@ private:
 
          QString StyleSheetOn;
          QString StyleSheetOff;
+         QString test_config_file_name;
+         QString config_file_name;
 
          QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
 

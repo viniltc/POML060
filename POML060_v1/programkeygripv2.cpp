@@ -111,6 +111,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
         currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
         currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
         currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
+
         ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
         ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
         ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
@@ -236,27 +237,13 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
 
 
-
-
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
-
-
     connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramKeyGripV2::nextBtn);
-
     connect(this, &ProgramKeyGripV2::buttonChanged, this, &ProgramKeyGripV2::paintBtn);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::getPWValue);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::nextBtn);
     connect(this, &ProgramKeyGripV2::pulseWidthValue, this, &ProgramKeyGripV2::prevBtn);
     connect(this, &ProgramKeyGripV2::lastPhase, this, &ProgramKeyGripV2::sendConfigFile);
-
-
-
-
-    //QString configfilename1 = "config_keygrip_test_"+pLabel;
-  //  QString txtWritePath1 = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename1 + ".txt";
-    //QFile f(":/resources/config_keygrip_v2.txt");
-
-
 
 }
 ProgramKeyGripV2::~ProgramKeyGripV2()

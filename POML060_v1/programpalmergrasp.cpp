@@ -18,13 +18,70 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     ui->label_pLabel->setStyleSheet("color: blue;");
     ui->btn0->setVisible(false); // to make phase0 button invisible
 
+    btnGrp = new QButtonGroup(this);
+
+    btnGrp->addButton(ui->btn1, 1);
+    btnGrp->addButton(ui->btn2, 2);
+    btnGrp->addButton(ui->btn3, 3);
+    btnGrp->addButton(ui->btn4, 4);
+
+   ui->btn_nextPhase->setEnabled(false);
+   ui->comboBox_1->setEnabled(false);
+   ui->comboBox_2->setEnabled(false);
+   ui->comboBox_3->setEnabled(false);
+   ui->comboBox_4->setEnabled(false);
+   ui->pushButton_keyGrip->setEnabled(true);
+
+   ui->radioButton_one->setEnabled(false); // FPS
+   ui->radioButton_two->setEnabled(false); // Ulna
+   ui->radioButton_three->setEnabled(false); // ADP
+   ui->radioButton_three->setVisible(false); // ADP NOT VISIBLE
+   ui->radioButton_four->setEnabled(false); // EDC seg 1
+   ui->radioButton_five->setEnabled(false); // EDC seg 3
+   ui->radioButton_six->setEnabled(false); // EDC seg 2
+   ui->radioButton_seven->setEnabled(false); // APB
+
+
+   ui->comboBox_1->addItem("200ms", QVariant(0.2));
+   ui->comboBox_1->addItem("500ms", QVariant(0.5));
+   ui->comboBox_1->addItem("1000ms", QVariant(1));
+   ui->comboBox_1->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_1->addItem("2000ms", QVariant(2));
+
+   ui->comboBox_2->addItem("200ms", QVariant(0.2));
+   ui->comboBox_2->addItem("500ms", QVariant(0.5));
+   ui->comboBox_2->addItem("1000ms", QVariant(1));
+   ui->comboBox_2->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_2->addItem("2000ms", QVariant(2));
+
+   ui->comboBox_3->addItem("200ms", QVariant(0.2));
+   ui->comboBox_3->addItem("500ms", QVariant(0.5));
+   ui->comboBox_3->addItem("1000ms", QVariant(1));
+   ui->comboBox_3->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_3->addItem("2000ms", QVariant(2));
+
+   ui->comboBox_4->addItem("200ms", QVariant(0.2));
+   ui->comboBox_4->addItem("500ms", QVariant(0.5));
+   ui->comboBox_4->addItem("1000ms", QVariant(1));
+   ui->comboBox_4->addItem("1500ms", QVariant(1.5));
+   ui->comboBox_4->addItem("2000ms", QVariant(2));
+
+   m_currentBtn = 0;
+
+   StyleSheetOn = "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
+                        "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)";
+   StyleSheetOff = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
+                         "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
+                                 "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
+                         "color: #0000;";
+
     pLabel = patientLabel;
 
 
     QDomDocument document;
 
-    QString test_config_file_name = "config_palmergrasp_test_"+pLabel;
-    QString config_file_name = "config_palmergrasp_"+pLabel;
+    test_config_file_name = "config_palmergrasp_test_"+pLabel;
+    config_file_name = "config_palmergrasp_"+pLabel;
 
     QString xmlName = pLabel;
     QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
@@ -120,18 +177,6 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
          ui->label_Ulna->setGeometry(320+20,Y_Ulna-15,47,13);
          ui->label_Ulna->setText(QString::number(adjust_PW_range(Y_Ulna))+"us");
 
-//        //ADP segments
-//         Y_ADP = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_ADP").toInt();
-//         //p21 = QPoint(300,310);
-//         p22 = QPoint(320,Y_ADP);
-//         p23 = QPoint(450,Y_ADP);
-//         //p24 = QPoint(470,320);
-//         PW_ADP = adjust_PW_range(Y_ADP);
-//         PW_phase3_ADP = PW_ADP;
-//         Y_coordinates_ADP = Y_ADP;
-//         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
-//         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
-
          //ADP segments
           Y_APB = findXMLNodeValue(root, "YCoordinates_PalmerGrasp", "YCoor_APB").toInt();
           p52 = QPoint(170,Y_APB);
@@ -144,6 +189,18 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
           Y_coordinates_APB = Y_APB;
           ui->label_APB->setGeometry(170+50,Y_APB-15,47,13);
           ui->label_APB->setText(QString::number(adjust_PW_range(Y_APB))+"us");
+
+
+          //Ramp index values
+          ui->comboBox_1->setCurrentIndex(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P1").toInt());
+          ui->comboBox_2->setCurrentIndex(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P2").toInt());
+          ui->comboBox_3->setCurrentIndex(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P3").toInt());
+          ui->comboBox_4->setCurrentIndex(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P4").toInt());
+          ramp_phase1 = ui->comboBox_1->itemData(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P1").toInt()).toFloat();
+          ramp_phase2 = ui->comboBox_2->itemData(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P2").toInt()).toFloat();
+          ramp_phase3 = ui->comboBox_3->itemData(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P3").toInt()).toFloat();
+          ramp_phase4 = ui->comboBox_4->itemData(findXMLNodeValue(root, "RampIndex_PalmerGrasp", "RmpIdx_P4").toInt()).toFloat();
+
     }
 
     if(!PWNode.isNull())
@@ -181,74 +238,13 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
 
 
 
-
-    btnGrp = new QButtonGroup(this);
-
-    btnGrp->addButton(ui->btn1, 1);
-    btnGrp->addButton(ui->btn2, 2);
-    btnGrp->addButton(ui->btn3, 3);
-    btnGrp->addButton(ui->btn4, 4);
-
-   ui->btn_nextPhase->setEnabled(false);
-   ui->comboBox_1->setEnabled(false);
-   ui->comboBox_2->setEnabled(false);
-   ui->comboBox_3->setEnabled(false);
-   ui->comboBox_4->setEnabled(false);
-   ui->pushButton_keyGrip->setEnabled(true);
-
-   ui->radioButton_one->setEnabled(false); // FPS
-   ui->radioButton_two->setEnabled(false); // Ulna
-   ui->radioButton_three->setEnabled(false); // ADP
-   ui->radioButton_three->setVisible(false); // ADP NOT VISIBLE
-   ui->radioButton_four->setEnabled(false); // EDC seg 1
-   ui->radioButton_five->setEnabled(false); // EDC seg 3
-   ui->radioButton_six->setEnabled(false); // EDC seg 2
-   ui->radioButton_seven->setEnabled(false); // APB
-
-
-   ui->comboBox_1->addItem("200ms", QVariant(0.2));
-   ui->comboBox_1->addItem("500ms", QVariant(0.5));
-   ui->comboBox_1->addItem("1000ms", QVariant(1));
-   ui->comboBox_1->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_1->addItem("2000ms", QVariant(2));
-
-   ui->comboBox_2->addItem("200ms", QVariant(0.2));
-   ui->comboBox_2->addItem("500ms", QVariant(0.5));
-   ui->comboBox_2->addItem("1000ms", QVariant(1));
-   ui->comboBox_2->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_2->addItem("2000ms", QVariant(2));
-
-   ui->comboBox_3->addItem("200ms", QVariant(0.2));
-   ui->comboBox_3->addItem("500ms", QVariant(0.5));
-   ui->comboBox_3->addItem("1000ms", QVariant(1));
-   ui->comboBox_3->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_3->addItem("2000ms", QVariant(2));
-
-   ui->comboBox_4->addItem("200ms", QVariant(0.2));
-   ui->comboBox_4->addItem("500ms", QVariant(0.5));
-   ui->comboBox_4->addItem("1000ms", QVariant(1));
-   ui->comboBox_4->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_4->addItem("2000ms", QVariant(2));
-
-   m_currentBtn = 0;
-
-   StyleSheetOn = "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 : 1, "
-                        "stop : 0.0 #32cd32,stop : 0.5 #1e7b1e, stop : 0.55 #28a428, stop : 1.0 #46d246)";
-   StyleSheetOff = "border: 1px solid #6593cf; border-radius: 2px; padding: 5px 15px 2px 5px;"
-                         "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
-                                 "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
-                         "color: #0000;";
-
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramPalmerGrasp::keyGripPhaseEventHandler);
-
     connect(ui->btn_nextPhase, &QPushButton::clicked, this, &ProgramPalmerGrasp::nextBtn);
-
     connect(this, &ProgramPalmerGrasp::buttonChanged, this, &ProgramPalmerGrasp::paintBtn);
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::getPWValue);
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::nextBtn);
     connect(this, &ProgramPalmerGrasp::pulseWidthValue, this, &ProgramPalmerGrasp::prevBtn);
     connect(this, &ProgramPalmerGrasp::lastPhase, this, &ProgramPalmerGrasp::sendConfigFile);
-
 
 
 }
@@ -1126,6 +1122,7 @@ void ProgramPalmerGrasp::saveToXMLFile()
     QDomElement newPWTag = document.createElement(QString("PW_PalmerGrasp"));
     QDomElement newRmpTag = document.createElement(QString("Ramp_PalmerGrasp"));
     QDomElement newYCoorTag = document.createElement(QString("YCoordinates_PalmerGrasp"));
+    QDomElement newRmpIdxTag = document.createElement(QString("RampIndex_PalmerGrasp"));
 
     QDomNode PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
@@ -1133,6 +1130,8 @@ void ProgramPalmerGrasp::saveToXMLFile()
     QDomElement RmpNodeVal = RmpNode.toElement();
     QDomNode YCoorNode = root.elementsByTagName("YCoordinates_PalmerGrasp").at(0).firstChild();
     QDomElement YCoorNodeVal = YCoorNode.toElement();
+    QDomNode RmpIdxNode = root.elementsByTagName("RampIndex_PalmerGrasp").at(0).firstChild();
+    QDomElement RmpIdxNodeVal = RmpIdxNode.toElement();
 
     if (PWNodeVal.isNull())
     {
@@ -1391,6 +1390,45 @@ void ProgramPalmerGrasp::saveToXMLFile()
          EDC4.firstChild().setNodeValue(QString::number(Y_coordinates_EDC3));
          QDomNode APB = YCoorSettingsNode.namedItem("YCoor_APB");
          APB.firstChild().setNodeValue(QString::number(Y_coordinates_APB));
+     }
+     if( RmpIdxNodeVal.isNull())
+     {
+         QDomElement P1_RmpIdxTag = document.createElement(QString("RmpIdx_P1"));
+         QDomText P1_RmpIdxVal = document.createTextNode(QString::number(ramp_phase1));
+         P1_RmpIdxTag.appendChild(P1_RmpIdxVal);
+         newRmpIdxTag.appendChild(P1_RmpIdxTag);
+
+         QDomElement P2_RmpIdxTag = document.createElement(QString("RmpIdx_P2"));
+         QDomText P2_RmpIdxVal = document.createTextNode(QString::number(ramp_phase2));
+         P2_RmpIdxTag.appendChild(P2_RmpIdxVal);
+         newRmpIdxTag.appendChild(P2_RmpIdxTag);
+
+         QDomElement P3_RmpIdxTag = document.createElement(QString("RmpIdx_P3"));
+         QDomText P3_RmpIdxVal = document.createTextNode(QString::number(ramp_phase3));
+         P3_RmpIdxTag.appendChild(P3_RmpIdxVal);
+         newRmpIdxTag.appendChild(P3_RmpIdxTag);
+
+         QDomElement P4_RmpIdxTag = document.createElement(QString("RmpIdx_P4"));
+         QDomText P4_RmpIdxVal = document.createTextNode(QString::number(ramp_phase4));
+         P4_RmpIdxTag.appendChild(P4_RmpIdxVal);
+         newRmpIdxTag.appendChild(P4_RmpIdxTag);
+
+         root.appendChild(newRmpIdxTag);
+     }
+     else
+     {
+         QDomElement root = document.documentElement();
+         QDomNode RmpIdxSettingsNode = root.namedItem("RampIndex_PalmerGrasp");
+
+         QDomNode P1 = RmpIdxSettingsNode.namedItem("RmpIdx_P1");
+         P1.firstChild().setNodeValue(QString::number(ui->comboBox_1->currentIndex()));
+         QDomNode P2 = RmpIdxSettingsNode.namedItem("RmpIdx_P2");
+         P2.firstChild().setNodeValue(QString::number(ui->comboBox_2->currentIndex()));
+         QDomNode P3 = RmpIdxSettingsNode.namedItem("RmpIdx_P3");
+         P3.firstChild().setNodeValue(QString::number(ui->comboBox_3->currentIndex()));
+         QDomNode P4 = RmpIdxSettingsNode.namedItem("RmpIdx_P4");
+         P4.firstChild().setNodeValue(QString::number(ui->comboBox_4->currentIndex()));
+
      }
 
 
