@@ -190,7 +190,10 @@ private:
          QString StyleSheetOn;
          QString StyleSheetOff;
 
-          QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
+         QString findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname);
+         QString config_file_name;
+         QString test_config_file_name;
+
 
 
 

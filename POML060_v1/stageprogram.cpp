@@ -468,7 +468,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 {
 
    QString xmlName = pLabel;
-    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
    QFile xmlfile(xmlReadPath);
 
    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))

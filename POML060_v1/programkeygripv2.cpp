@@ -21,153 +21,6 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     ui->btn0->setVisible(false); // to make phase0 button invisible
 
    // ui->radioButton ->setChecked(true);
-
-    pLabel = patientLabel;
-
-    QDomDocument document;
-
-    QString test_config_file_name = "config_keygrip_test_"+pLabel;
-    QString config_file_name = "config_keygrip_"+pLabel;
-
-    QString xmlName = pLabel;
-    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
-    QFile xmlfile(xmlReadPath);
-
-    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
-
-    }
-    document.setContent(&xmlfile);
-    QDomElement root = document.documentElement();
-    xmlfile.close();
-
-    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
-    QDomElement CurrentNodeVal = CurrentNode.toElement();
-    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
-    QDomElement PWNodeVal = PWNode.toElement();
-    QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
-    QDomElement YCoorNodeVal = YCoorNode.toElement();
-
-    if (!CurrentNodeVal.isNull())
-    {
-
-        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat();
-        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat();
-        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
-        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
-        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
-        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
-        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
-        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
-        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
-        ui->label_currFive->setText(QString("Ch 5 (Opp P): %1 mA").arg(currFiveStored));
-
-    }
-
-    if(!YCoorNodeVal.isNull())
-    {
-        //EDC segments
-         Y_EDC1 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC1").toInt();
-         Y_EDC2 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC2").toInt();
-         Y_EDC3 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC4").toInt();
-        // p41 = QPoint(150,350);
-         p42 = QPoint(170,Y_EDC1);
-         p43 = QPoint(250,Y_EDC1);
-         p44 = QPoint(270,Y_EDC2);
-         p45 = QPoint(450,Y_EDC2);
-         p46 = QPoint(470,Y_EDC3);
-         p47 = QPoint(550,Y_EDC3);
-         //p48 = QPoint(570,350);
-         PW_EDC1 = adjust_PW_range(Y_EDC1);
-         PW_phase1_EDC = PW_EDC1;
-         Y_coordinates_EDC1 = Y_EDC1;
-         PW_EDC2 = adjust_PW_range(Y_EDC2);
-         PW_phase2_EDC = PW_EDC2;
-         PW_phase3_EDC = PW_EDC2;
-         Y_coordinates_EDC2 = Y_EDC2;
-         PW_EDC3 = adjust_PW_range(Y_EDC3);
-         PW_phase4_EDC = PW_EDC3;
-         Y_coordinates_EDC3 = Y_EDC3;
-         ui->label_EDC1->setGeometry(170,Y_EDC1-15,47,13);
-         ui->label_EDC1->setText(QString::number(adjust_PW_range(Y_EDC1))+"us");
-         ui->label_EDC2->setGeometry(270+50,Y_EDC2-15,47,13);
-         ui->label_EDC2->setText(QString::number(adjust_PW_range(Y_EDC2))+"us");
-         ui->label_EDC3->setGeometry(470+50,Y_EDC3-15,47,13);
-         ui->label_EDC3->setText(QString::number(adjust_PW_range(Y_EDC3))+"us");
-
-        //FDS segments
-         Y_FDS = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_FDS").toInt();
-         //p11 = QPoint(230,320);
-         p12 = QPoint(280,Y_FDS);
-         p13 = QPoint(450,Y_FDS);
-         PW_FDS = adjust_PW_range(Y_FDS);
-         PW_phase2_FDS = PW_FDS;
-         PW_phase3_FDS = PW_FDS;
-         Y_coordinates_FDS = Y_FDS;
-         //p14 = QPoint(500,320);
-         ui->label_FDS->setGeometry(280,Y_FDS-15,47,13);
-         ui->label_FDS->setText(QString::number(adjust_PW_range(Y_FDS))+"us");
-
-        //Ulna segments
-         Y_Ulna = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_Ulna").toInt();
-         //p31 = QPoint(300,310);
-         p32 = QPoint(320,Y_Ulna);
-         p33 = QPoint(450,Y_Ulna);
-         //p34 = QPoint(470,320);
-         PW_Ulna = adjust_PW_range(Y_Ulna);
-         PW_phase3_Ulna = PW_Ulna;
-         Y_coordinates_Ulna = Y_Ulna;
-         ui->label_Ulna->setGeometry(320+20,Y_Ulna-15,47,13);
-         ui->label_Ulna->setText(QString::number(adjust_PW_range(Y_Ulna))+"us");
-
-        //ADP segments
-         Y_ADP = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_ADP").toInt();
-         //p21 = QPoint(300,310);
-         p22 = QPoint(320,Y_ADP);
-         p23 = QPoint(450,Y_ADP);
-         //p24 = QPoint(470,320);
-         PW_ADP = adjust_PW_range(Y_ADP);
-         PW_phase3_ADP = PW_ADP;
-         Y_coordinates_ADP = Y_ADP;
-         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
-         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
-    }
-
-    if(!PWNode.isNull())
-    {
-      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+config_file_name+".txt";
-      QFile f(txtWritePath);
-      if(!f.open(QFile::ReadOnly))
-           {
-               QMessageBox::information(0, "config file error", f.errorString());
-           }
-      else
-           {
-               QByteArray config = f.readAll();
-               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
-
-           }
-    }
-
-    else
-    {
-      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+test_config_file_name+".txt";
-      QFile f(txtWritePath);
-      if(!f.open(QFile::ReadOnly))
-           {
-               QMessageBox::information(0, "config file error", f.errorString());
-           }
-      else
-           {
-               QByteArray config = f.readAll();
-               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
-
-           }
-    }
-
-
-
     btnGrp = new QButtonGroup(this);
 
     btnGrp->addButton(ui->btn1, 1);
@@ -222,6 +75,168 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
                          "background: qlineargradient(x1 : 0, y1 : 0, x2 : 0, y2 :   1, stop :   0.0 #f5f9ff,"
                                  "stop :   0.5 #c7dfff, stop :   0.55 #afd2ff, stop :   1.0 #c0dbff);"
                          "color: #0000;";
+
+    pLabel = patientLabel;
+
+    QDomDocument document;
+
+    test_config_file_name = "config_keygrip_test_"+pLabel;
+    config_file_name = "config_keygrip_"+pLabel;
+
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+    QDomElement CurrentNodeVal = CurrentNode.toElement();
+    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+    QDomElement PWNodeVal = PWNode.toElement();
+    QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
+    QDomElement YCoorNodeVal = YCoorNode.toElement();
+
+    if (!CurrentNodeVal.isNull())
+    {
+
+        currOneStored = root.elementsByTagName("CH1").at(0).firstChild().nodeValue().toFloat();
+        currTwoStored = root.elementsByTagName("CH2").at(0).firstChild().nodeValue().toFloat();
+        currThreeStored = root.elementsByTagName("CH3").at(0).firstChild().nodeValue().toFloat();
+        currFourStored = root.elementsByTagName("CH4").at(0).firstChild().nodeValue().toFloat();
+        currFiveStored = root.elementsByTagName("CH5").at(0).firstChild().nodeValue().toFloat();
+        ui->label_currOne->setText(QString("Ch 1 (EDC): %1 mA").arg(currOneStored));
+        ui->label_currTwo->setText(QString("Ch 2 (FDS): %1 mA").arg(currTwoStored));
+        ui->label_currThree->setText(QString("Ch 3 (Ulna): %1 mA").arg( currThreeStored));
+        ui->label_currFour->setText(QString("Ch 4 (ADP): %1 mA").arg(currFourStored));
+        ui->label_currFive->setText(QString("Ch 5 (Opp P): %1 mA").arg(currFiveStored));
+
+    }
+
+    if(!YCoorNodeVal.isNull())
+    {
+        //EDC segments
+         Y_EDC1 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC1").toInt();
+         Y_EDC2 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC2").toInt();
+         Y_EDC3 = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_EDC4").toInt();
+        // p41 = QPoint(150,350);
+
+
+         p42 = QPoint(170,Y_EDC1);
+         p43 = QPoint(250,Y_EDC1);
+         p44 = QPoint(270,Y_EDC2);
+         p45 = QPoint(450,Y_EDC2);
+         p46 = QPoint(470,Y_EDC3);
+         p47 = QPoint(550,Y_EDC3);
+         //p48 = QPoint(570,350);
+         PW_EDC1 = adjust_PW_range(Y_EDC1);
+         PW_phase1_EDC = PW_EDC1;
+         Y_coordinates_EDC1 = Y_EDC1;
+      //   ramp_stepsize_phase1_EDC = findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p1_EDC").toInt();
+         PW_EDC2 = adjust_PW_range(Y_EDC2);
+         PW_phase2_EDC = PW_EDC2;
+         PW_phase3_EDC = PW_EDC2;
+         Y_coordinates_EDC2 = Y_EDC2;
+         PW_EDC3 = adjust_PW_range(Y_EDC3);
+         PW_phase4_EDC = PW_EDC3;
+         Y_coordinates_EDC3 = Y_EDC3;
+         ui->label_EDC1->setGeometry(170,Y_EDC1-15,47,13);
+         ui->label_EDC1->setText(QString::number(adjust_PW_range(Y_EDC1))+"us");
+         ui->label_EDC2->setGeometry(270+50,Y_EDC2-15,47,13);
+         ui->label_EDC2->setText(QString::number(adjust_PW_range(Y_EDC2))+"us");
+         ui->label_EDC3->setGeometry(470+50,Y_EDC3-15,47,13);
+         ui->label_EDC3->setText(QString::number(adjust_PW_range(Y_EDC3))+"us");
+
+        //FDS segments
+         Y_FDS = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_FDS").toInt();
+         //p11 = QPoint(230,320);
+         p12 = QPoint(280,Y_FDS);
+         p13 = QPoint(450,Y_FDS);
+         PW_FDS = adjust_PW_range(Y_FDS);
+         PW_phase2_FDS = PW_FDS;
+         PW_phase3_FDS = PW_FDS;
+         Y_coordinates_FDS = Y_FDS;
+         //p14 = QPoint(500,320);
+         ui->label_FDS->setGeometry(280,Y_FDS-15,47,13);
+         ui->label_FDS->setText(QString::number(adjust_PW_range(Y_FDS))+"us");
+
+        //Ulna segments
+         Y_Ulna = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_Ulna").toInt();
+         //p31 = QPoint(300,310);
+         p32 = QPoint(320,Y_Ulna);
+         p33 = QPoint(450,Y_Ulna);
+         //p34 = QPoint(470,320);
+         PW_Ulna = adjust_PW_range(Y_Ulna);
+         PW_phase3_Ulna = PW_Ulna;
+         Y_coordinates_Ulna = Y_Ulna;
+         ui->label_Ulna->setGeometry(320+20,Y_Ulna-15,47,13);
+         ui->label_Ulna->setText(QString::number(adjust_PW_range(Y_Ulna))+"us");
+
+        //ADP segments
+         Y_ADP = findXMLNodeValue(root, "YCoordinates_KeyGrip", "YCoor_ADP").toInt();
+         //p21 = QPoint(300,310);
+         p22 = QPoint(320,Y_ADP);
+         p23 = QPoint(450,Y_ADP);
+         //p24 = QPoint(470,320);
+         PW_ADP = adjust_PW_range(Y_ADP);
+         PW_phase3_ADP = PW_ADP;
+         Y_coordinates_ADP = Y_ADP;
+         ui->label_ADP->setGeometry(320+40,Y_ADP-15,47,13);
+         ui->label_ADP->setText(QString::number(adjust_PW_range(Y_ADP))+"us");
+
+
+         //Ramp index values
+         ui->comboBox_1->setCurrentIndex(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P1").toInt());
+         ui->comboBox_2->setCurrentIndex(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P2").toInt());
+         ui->comboBox_3->setCurrentIndex(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P3").toInt());
+         ui->comboBox_4->setCurrentIndex(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P4").toInt());
+         ramp_phase1 = ui->comboBox_1->itemData(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P1").toInt()).toFloat();
+         ramp_phase2 = ui->comboBox_2->itemData(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P2").toInt()).toFloat();
+         ramp_phase3 = ui->comboBox_3->itemData(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P3").toInt()).toFloat();
+         ramp_phase4 = ui->comboBox_4->itemData(findXMLNodeValue(root, "RampIndex_KeyGrip", "RmpIdx_P4").toInt()).toFloat();
+    }
+
+    if(!PWNode.isNull())
+    {
+      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+config_file_name+".txt";
+      QFile f(txtWritePath);
+      if(!f.open(QFile::ReadOnly))
+           {
+               QMessageBox::information(0, "config file error", f.errorString());
+           }
+      else
+           {
+               QByteArray config = f.readAll();
+               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+           }
+    }
+
+    else
+    {
+      QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+test_config_file_name+".txt";
+      QFile f(txtWritePath);
+      if(!f.open(QFile::ReadOnly))
+           {
+               QMessageBox::information(0, "config file error", f.errorString());
+           }
+      else
+           {
+               QByteArray config = f.readAll();
+               tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+           }
+    }
+
+
+
+
 
     connect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
 
@@ -880,7 +895,10 @@ void ProgramKeyGripV2::on_pushButton_nextPhase_clicked()
 
 void ProgramKeyGripV2::on_pushButton_stimStart_clicked()
 {
+
+
     tetra_grip_api::stimulation_start(true);
+
     ui->btn_nextPhase->setEnabled(true);
     ui->comboBox_1->setEnabled(true);
     ui->comboBox_2->setEnabled(true);
@@ -979,12 +997,14 @@ void ProgramKeyGripV2::on_comboBox_1_currentIndexChanged(int index)
 {
     float value = ui->comboBox_1->itemData(index).toFloat();
     ramp_phase1 = value;
+
 }
 
 void ProgramKeyGripV2::on_comboBox_2_currentIndexChanged(int index)
 {
     float value = ui->comboBox_2->itemData(index).toFloat();
     ramp_phase2 = value;
+
 
 }
 
@@ -999,6 +1019,7 @@ void ProgramKeyGripV2::on_comboBox_4_currentIndexChanged(int index)
 {
     float value = ui->comboBox_4->itemData(index).toFloat();
     ramp_phase4 = value;
+
 
 }
 
@@ -1062,6 +1083,7 @@ void ProgramKeyGripV2::saveToXMLFile()
     QDomElement newPWTag = document.createElement(QString("PW_KeyGrip"));
     QDomElement newRmpTag = document.createElement(QString("Ramp_KeyGrip"));
     QDomElement newYCoorTag = document.createElement(QString("YCoordinates_KeyGrip"));
+    QDomElement newRmpIdxTag = document.createElement(QString("RampIndex_KeyGrip"));
 
 
     QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
@@ -1070,6 +1092,8 @@ void ProgramKeyGripV2::saveToXMLFile()
     QDomElement RmpNodeVal = RmpNode.toElement();
     QDomNode YCoorNode = root.elementsByTagName("YCoordinates_KeyGrip").at(0).firstChild();
     QDomElement YCoorNodeVal = YCoorNode.toElement();
+    QDomNode RmpIdxNode = root.elementsByTagName("RampIndex_KeyGrip").at(0).firstChild();
+    QDomElement RmpIdxNodeVal = RmpIdxNode.toElement();
 
 
     if (PWNodeVal.isNull())
@@ -1268,6 +1292,46 @@ void ProgramKeyGripV2::saveToXMLFile()
          EDC4.firstChild().setNodeValue(QString::number(Y_coordinates_EDC3));
      }
 
+     if( RmpIdxNodeVal.isNull())
+     {
+         QDomElement P1_RmpIdxTag = document.createElement(QString("RmpIdx_P1"));
+         QDomText P1_RmpIdxVal = document.createTextNode(QString::number(ramp_phase1));
+         P1_RmpIdxTag.appendChild(P1_RmpIdxVal);
+         newRmpIdxTag.appendChild(P1_RmpIdxTag);
+
+         QDomElement P2_RmpIdxTag = document.createElement(QString("RmpIdx_P2"));
+         QDomText P2_RmpIdxVal = document.createTextNode(QString::number(ramp_phase2));
+         P2_RmpIdxTag.appendChild(P2_RmpIdxVal);
+         newRmpIdxTag.appendChild(P2_RmpIdxTag);
+
+         QDomElement P3_RmpIdxTag = document.createElement(QString("RmpIdx_P3"));
+         QDomText P3_RmpIdxVal = document.createTextNode(QString::number(ramp_phase3));
+         P3_RmpIdxTag.appendChild(P3_RmpIdxVal);
+         newRmpIdxTag.appendChild(P3_RmpIdxTag);
+
+         QDomElement P4_RmpIdxTag = document.createElement(QString("RmpIdx_P4"));
+         QDomText P4_RmpIdxVal = document.createTextNode(QString::number(ramp_phase4));
+         P4_RmpIdxTag.appendChild(P4_RmpIdxVal);
+         newRmpIdxTag.appendChild(P4_RmpIdxTag);
+
+         root.appendChild(newRmpIdxTag);
+     }
+     else
+     {
+         QDomElement root = document.documentElement();
+         QDomNode RmpIdxSettingsNode = root.namedItem("RampIndex_KeyGrip");
+
+         QDomNode P1 = RmpIdxSettingsNode.namedItem("RmpIdx_P1");
+         P1.firstChild().setNodeValue(QString::number(ui->comboBox_1->currentIndex()));
+         QDomNode P2 = RmpIdxSettingsNode.namedItem("RmpIdx_P2");
+         P2.firstChild().setNodeValue(QString::number(ui->comboBox_2->currentIndex()));
+         QDomNode P3 = RmpIdxSettingsNode.namedItem("RmpIdx_P3");
+         P3.firstChild().setNodeValue(QString::number(ui->comboBox_3->currentIndex()));
+         QDomNode P4 = RmpIdxSettingsNode.namedItem("RmpIdx_P4");
+         P4.firstChild().setNodeValue(QString::number(ui->comboBox_4->currentIndex()));
+
+     }
+
 
     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
     {
@@ -1303,7 +1367,64 @@ void ProgramKeyGripV2::loadConfigFile(QString configfilename)
 
          }
 
-  //  ui->label_9->setText("c loaded");
+
+
+
+
+
+
+
+
+//    QString xmlName = pLabel;
+//    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+//    QFile xmlfile(xmlReadPath);
+
+//    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+//    {
+//        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+//    }
+//    QDomDocument document;
+//    document.setContent(&xmlfile);
+//    QDomElement root = document.documentElement();
+//    xmlfile.close();
+//    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
+//    QDomElement PWNodeVal = PWNode.toElement();
+//    if(!PWNode.isNull())
+//    {
+//        ManageConfigFile configFile;
+//        configFile.keyGripFinal(pLabel);
+//        QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+config_file_name+".txt";
+//        QFile f(txtWritePath);
+//        if(!f.open(QFile::ReadOnly))
+//             {
+//                 QMessageBox::information(0, "config file error", f.errorString());
+//             }
+//        else
+//             {
+//                 QByteArray config = f.readAll();
+//                 tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+//             }
+//    }
+
+//    else
+//    {
+//        ManageConfigFile configFile;
+//        configFile.keyGripTest(pLabel);
+//        QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+test_config_file_name+".txt";
+//        QFile f(txtWritePath);
+//        if(!f.open(QFile::ReadOnly))
+//             {
+//                 QMessageBox::information(0, "config file error", f.errorString());
+//             }
+//        else
+//             {
+//                 QByteArray config = f.readAll();
+//                 tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+//             }
+//    }
 
 }
 
@@ -1335,6 +1456,7 @@ void ProgramKeyGripV2::on_pushButton_keyGrip_clicked()
 
 void ProgramKeyGripV2::on_pushButton_save_clicked()
 {
+    saveToXMLFile();
     ManageConfigFile configFile;
     configFile.keyGripFinal(pLabel);
 }
