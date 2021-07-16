@@ -133,14 +133,14 @@ private:
          bool phaseOver = false;
          bool stimStopped = false;
 
-         int PW_phase1_EDC = 0;
-         int PW_phase2_EDC = 0;
-         int PW_phase2_FDS = 0;
-         int PW_phase3_EDC = 0;
-         int PW_phase3_FDS = 0;
-         int PW_phase3_Ulna = 0;
-         int PW_phase3_ADP = 0;
-         int PW_phase4_EDC = 0;
+         int PW_phase1_EDC = 180;
+         int PW_phase2_EDC = 57;
+         int PW_phase2_FDS = 180;
+         int PW_phase3_EDC = 57;
+         int PW_phase3_FDS = 180;
+         int PW_phase3_Ulna = 180;
+         int PW_phase3_ADP = 180;
+         int PW_phase4_EDC = 180;
 
          int PW_EDC1 = 0;
          int PW_EDC2 = 0;
@@ -156,12 +156,12 @@ private:
          int Y_Ulna ;
          int Y_ADP ;
 
-         int Y_coordinates_EDC1 = 0;
-         int Y_coordinates_EDC2 = 0;
-         int Y_coordinates_EDC3 = 0;
-         int Y_coordinates_FDS = 0;
-         int Y_coordinates_Ulna = 0;
-         int Y_coordinates_ADP = 0;
+         int Y_coordinates_EDC1 = 217;
+         int Y_coordinates_EDC2 = 279;
+         int Y_coordinates_EDC3 = 215;
+         int Y_coordinates_FDS = 217;
+         int Y_coordinates_Ulna = 215;
+         int Y_coordinates_ADP = 215;
          int X_coordinate_Common = 0;
 
          float ramp_phase1 = 0;

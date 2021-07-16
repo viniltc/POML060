@@ -17,6 +17,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
     ui->btn0->setVisible(false); // to make phase0 button invisible
+    ui->pushButton_save->setVisible(false);
 
     btnGrp = new QButtonGroup(this);
 
@@ -632,6 +633,8 @@ void ProgramPalmerGrasp::nextBtn(int pwvalue)
         phaseOver = true;
         getRampStepSize();
         saveToXMLFile();
+        ManageConfigFile configFile;
+        configFile.palmerGraspFinal(pLabel);
         //resetTimer();
     }
 
@@ -1048,8 +1051,8 @@ void ProgramPalmerGrasp::on_pushButton_stimStop_clicked()
 
 void ProgramPalmerGrasp::on_pushButton_save_clicked()
 {
-    ManageConfigFile configFile;
-    configFile.palmerGraspFinal(pLabel);
+//    ManageConfigFile configFile;
+//    configFile.palmerGraspFinal(pLabel);
 }
 
 void ProgramPalmerGrasp::on_pushButton_keyGrip_clicked()
@@ -1363,7 +1366,7 @@ void ProgramPalmerGrasp::saveToXMLFile()
          newYCoorTag.appendChild(P3_YCoor_ADPTag);
 
          QDomElement P1_YCoor_APBTag = document.createElement(QString("YCoor_APB"));
-         QDomText P1_YCoor_APBVal = document.createTextNode(QString::number(Y_coordinates_ADP));
+         QDomText P1_YCoor_APBVal = document.createTextNode(QString::number(Y_coordinates_APB));
          P1_YCoor_APBTag.appendChild(P1_YCoor_APBVal);
          newYCoorTag.appendChild(P1_YCoor_APBTag);
 

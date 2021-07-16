@@ -47,10 +47,10 @@ void ManageConfigFile::keyGripTest(QString patientLabel)
             << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
 
         << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
-        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+        << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+        << " A A1   \"Key Grip Test\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
 
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
@@ -79,7 +79,7 @@ void ManageConfigFile::keyGripTest(QString patientLabel)
 
         << "  P P2 \"KeyGrip:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 57us RATE"<< '\n'
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
@@ -87,7 +87,7 @@ void ManageConfigFile::keyGripTest(QString patientLabel)
 
         << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 57us RATE"<< '\n'
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n'
@@ -148,10 +148,10 @@ void ManageConfigFile::keyGripFinal(QString patientLabel)
             << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
 
         << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
-        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+        << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+        << " A A1   \"Key Grip Final\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
 
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
@@ -248,10 +248,10 @@ void ManageConfigFile::palmerGraspTest(QString patientLabel)
             << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
 
         << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
-        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+        << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+        << " A A1   \"Palmar Grasp Test\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
 
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
@@ -276,23 +276,23 @@ void ManageConfigFile::palmerGraspTest(QString patientLabel)
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 92us RATE"<< "\n\n"
 
         << "  P P2 \"PalmerGrasp:Finger flexion\" 0ms NONE 2000ms STOP STOP P3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 57us RATE"<< '\n' //180
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' // 180
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n'
-        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 92us RATE"<< "\n\n"
 
         << "  P P3 \"PalmerGrasp:Thumb opposes\" 0ms NONE 2000ms STOP STOP P4" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
-        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
+        << "    O CH1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<"  0ms    0ms   6000ns 57us RATE"<< '\n' //180
         << "    O CH2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
         << "    O CH3 "<< findXMLNodeValue(root, "Current", "CH3")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< '\n' //180
         << "    O CH4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<"  0ms    0ms   6000ns 0us RATE"<< '\n' //180
-        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 180us RATE"<< "\n\n"
+        << "    O CH5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<"  0ms    0ms   6000ns 92us RATE"<< "\n\n"
 
         << "  P P4 \"PalmerGrasp:Hand open\" 0ms NONE 2000ms STOP STOP STOP" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
@@ -350,10 +350,10 @@ void ManageConfigFile::palmerGraspFinal(QString patientLabel)
             << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
 
         << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
-        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+        << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+        << " A A1   \"Palmar Grasp Final\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
 
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
@@ -523,17 +523,17 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
 
 
         stream_1 << "`R ref, version, \"config_ID\",                   menu language, Power timeout (hours), Number of users" <<'\n'
-            << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
+            << "R  R1   1  \""<<root.firstChildElement("Date").firstChild().nodeValue()<<"\"  ENGLISH        1                      1 " << "\n\n"
 
         << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
-        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+        << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE 0 0 0 FALSE 2000ms" << "\n\n"
+        << " A A1   \"TetraGrip "<<root.firstChildElement("Date").firstChild().nodeValue()<<"\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE 0 0 0 FALSE 2000ms" << "\n\n"
 
         <<  "`   Ref def min max NV" << '\n'
         <<   "V t   0   0   X FALSE ` time of last twitch" << '\n'
-        <<   "V c   0   0   X FALSE ` number of twitches"<< '\n'
+        <<   "V c   0   0   X FALSE ` no of twitches"<< '\n'
         <<   "V x1 "<<findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_ADP")<<" 0   360 TRUE ` PW adjust for KeyGrip"<< '\n'
         <<   "V x2 "<<findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_APB")<<" 0   360 TRUE ` PW adjust for PalmrGrasp"<< '\n'
         <<   "V stepsize 20 10 50 FALSE ` stepsize"<< "\n\n"
@@ -550,7 +550,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  M C4 1 4 120mA 10us 450us 40Hz ASYM \"ADP\" "<< '\n'
         << "  M C5 1 5 120mA 10us 450us 40Hz ASYM \"Opp\" "<< "\n\n"
 
-        << "  S SX 1 0 FALSE ACCEL_XS \"Sensor\" 30Hz 30Hz \\LP1 \\HP1" <<'\n'
+        << "  S SX 1 0 FALSE ACCEL_XS \"Shoulder Sensor\" 30Hz 30Hz \\LP1 \\HP1" <<'\n'
         << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 30Hz 30Hz \\LP1 \\HP1" << "\n\n"
 
         << "  P P0 \"KeyGrip:Test phase\" 0ms NONE 2000ms P1 STOP P1 0.2s 80ms 100Hz 0`" << '\n'

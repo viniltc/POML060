@@ -19,6 +19,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
     ui->btn0->setVisible(false); // to make phase0 button invisible
+    ui->pushButton_save->setVisible(false);
 
    // ui->radioButton ->setChecked(true);
     btnGrp = new QButtonGroup(this);
@@ -572,6 +573,8 @@ void ProgramKeyGripV2::nextBtn(int pwvalue)
         phaseOver = true;
         getRampStepSize();
         saveToXMLFile();
+        ManageConfigFile configFile;
+        configFile.keyGripFinal(pLabel);
 
     }
    emit buttonChanged(m_currentBtn, pwvalue);
@@ -1426,6 +1429,9 @@ void ProgramKeyGripV2::sendConfigFile(int id)
 
 void ProgramKeyGripV2::on_pushButton_keyGrip_clicked()
 {
+
+
+
     QString configfilename = "config_keygrip_"+pLabel;
     QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/" + configfilename + ".txt";
     QFile f(txtWritePath);
@@ -1443,7 +1449,7 @@ void ProgramKeyGripV2::on_pushButton_keyGrip_clicked()
 
 void ProgramKeyGripV2::on_pushButton_save_clicked()
 {
-    saveToXMLFile();
-    ManageConfigFile configFile;
-    configFile.keyGripFinal(pLabel);
+//    saveToXMLFile();
+//    ManageConfigFile configFile;
+//    configFile.keyGripFinal(pLabel);
 }

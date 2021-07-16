@@ -232,3 +232,10 @@ void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, ui
     }
 
  }
+
+void StageTwoPatients::on_pushButton_Home_clicked()
+{
+    this-> close();
+    StageOneMain *newPatient = new StageOneMain(nullptr);
+    newPatient-> show();
+}

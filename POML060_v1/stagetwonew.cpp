@@ -57,8 +57,11 @@ StageTwoNew::~StageTwoNew()
 void StageTwoNew::on_pushButton_2_clicked()
 {
 
-     hide();
-     StageTwoPatients().show();
+//     hide();
+//     StageTwoPatients().show();
+     this->close();
+     StageTwoPatients *back = new StageTwoPatients(this);
+     back->show();
 }
 
 void StageTwoNew::on_pushButton_clicked()

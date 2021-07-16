@@ -34,6 +34,9 @@ public slots:
 
 
 
+private slots:
+    void on_pushButton_Home_clicked();
+
 private:
     Ui::StageTwoPatients *ui;
 

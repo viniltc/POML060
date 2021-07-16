@@ -594,8 +594,10 @@ void stageProgram::saveToXMLFile()
 
     QDomElement newCurrentTag = document.createElement(QString("Current"));
 
+
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
+
 
     if (CurrentNodeVal.isNull())
     {
@@ -644,6 +646,7 @@ void stageProgram::saveToXMLFile()
           cur5.firstChild().setNodeValue(QString::number(currentFiveSetVal));
 
     }
+
 
 
     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
