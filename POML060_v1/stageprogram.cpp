@@ -482,6 +482,8 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
    xmlfile.close();
    QDomNode PWNode = root.elementsByTagName("PW_KeyGrip").at(0).firstChild();
    QDomElement PWNodeVal = PWNode.toElement();
+   QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+   QDomElement CurrentNodeVal = CurrentNode.toElement();
    if(!PWNode.isNull())
    {
        ManageConfigFile configFile;
@@ -492,6 +494,12 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
    {
        ManageConfigFile configFile;
        configFile.keyGripTest(pLabel);
+   }
+
+   if(CurrentNode.isNull())
+   {
+       QMessageBox::information(this, "Current not saved", "Please set the current levels in all the channels and save");
+       return;
    }
 
 
@@ -523,6 +531,8 @@ void stageProgram::on_pushButton_programPalmerGrasp_clicked()
     xmlfile.close();
     QDomNode PWNode = root.elementsByTagName("PW_PalmerGrasp").at(0).firstChild();
     QDomElement PWNodeVal = PWNode.toElement();
+    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+    QDomElement CurrentNodeVal = CurrentNode.toElement();
     if(!PWNode.isNull())
     {
         ManageConfigFile configFile;
@@ -532,6 +542,12 @@ void stageProgram::on_pushButton_programPalmerGrasp_clicked()
     {
         ManageConfigFile configFile;
         configFile.palmerGraspTest(pLabel);
+    }
+
+    if(CurrentNode.isNull())
+    {
+        QMessageBox::information(this, "Current not saved", "Please set the current levels in all the channels and save");
+        return;
     }
 
     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
