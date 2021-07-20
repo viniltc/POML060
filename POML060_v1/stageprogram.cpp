@@ -498,7 +498,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 
    if(CurrentNode.isNull())
    {
-       QMessageBox::information(this, "Current not saved", "Please set the current levels in all the channels and save");
+       QMessageBox::information(this, "Current not saved", "Please goto previous tab and set the current levels in all the channels and press save button");
        return;
    }
 
@@ -546,7 +546,7 @@ void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 
     if(CurrentNode.isNull())
     {
-        QMessageBox::information(this, "Current not saved", "Please set the current levels in all the channels and save");
+        QMessageBox::information(this, "Current not saved", "Please goto previous tab and set the current levels in all the channels and press save button");
         return;
     }
 
