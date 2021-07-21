@@ -529,7 +529,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "U U1    \""<< root.firstChildElement("Name").firstChild().nodeValue()<<"\"   ENGLISH   100%      1" << "\n\n"
 
         << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
-        << " A A1   \"TetraGrip "<<root.firstChildElement("Date").firstChild().nodeValue()<<"\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE 0 0 0 FALSE 2000ms" << "\n\n"
+        << " A A1   \"TetraGrip"<<root.firstChildElement("Date").firstChild().nodeValue()<<"\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE 0 0 0 FALSE 2000ms" << "\n\n"
 
         <<  "`   Ref def min max NV" << '\n'
         <<   "V t   0   0   X FALSE ` time of last twitch" << '\n'
@@ -553,7 +553,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "  S SX 1 0 FALSE ACCEL_XS \"Shoulder Sensor\" 30Hz 30Hz \\LP1 \\HP1" <<'\n'
         << "  S SV 1 0 FALSE ACCEL_V \"Ver twitch\" 30Hz 30Hz \\LP1 \\HP1" << "\n\n"
 
-        << "  P P0 \"TetraGrip:Test phase\" 0ms NONE 2000ms P1 STOP P1 0.2s 80ms 100Hz 0`" << '\n'
+        << "  P P0 \"Test phase\" 0ms NONE 2000ms P1 STOP P1 0.2s 80ms 100Hz 0`" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
@@ -580,7 +580,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< "\n\n"
 
-        << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 2000ms P4 STOP P4 0.2s 80ms 600Hz 3" << '\n'
+        << "  P P3 \"KeyGrip:Thumb adduct\" 0ms NONE 10000ms P4 STOP P4 0.2s 80ms 600Hz 3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_KeyGrip", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_KeyGrip", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
@@ -622,7 +622,7 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
         << "    O C4 "<< findXMLNodeValue(root, "Current", "CH4")<<"mA"<<" 0ms 0ms 600000ns 0us RATE"<< '\n'
         << "    O C5 "<< findXMLNodeValue(root, "Current", "CH5")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p2_APB")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p2_APB")<<"us "<<" RATE"<< "\n\n"
 
-        << "  P P7 \"PalmarGrasp:Thumb opposes\" 0ms NONE 2000ms P8 STOP P8 0.2s 80ms 200Hz 3" << '\n'
+        << "  P P7 \"PalmarGrasp:Thumb opposes\" 0ms NONE 10000ms P8 STOP P8 0.2s 80ms 200Hz 3" << '\n'
         << "`                Delay  RR    rate    PW" << '\n'
         << "    O C1 "<< findXMLNodeValue(root, "Current", "CH1")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_EDC")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_EDC")<<"us "<<" RATE"<< '\n' // 180
         << "    O C2 "<< findXMLNodeValue(root, "Current", "CH2")<<"mA"<<" 0ms 0ms "<<findXMLNodeValue(root, "Ramp_PalmerGrasp", "Rmp_p3_FDS")<<"ns "<< findXMLNodeValue(root, "PW_PalmerGrasp", "PW_p3_FDS")<<"us "<<" RATE"<< '\n' // 180
