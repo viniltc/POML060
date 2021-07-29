@@ -125,7 +125,10 @@ void StageTwoNew::on_pushButton_clicked()
     else
     {
             if(ui->lineEdit_3->text().isEmpty())
+            {
             QMessageBox::critical(this, "Warning", "Please enter a valid patient ID");
+            return;
+            }
             QString text = ui->textEdit->toPlainText();
             if(text.isEmpty())
             QMessageBox::warning(this, "Warning", "Notes area is empty");

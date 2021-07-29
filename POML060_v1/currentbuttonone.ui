@@ -129,6 +129,7 @@ QPushButton:disabled {
        <property name="font">
         <font>
          <family>MS Shell Dlg 2</family>
+         <pointsize>6</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>

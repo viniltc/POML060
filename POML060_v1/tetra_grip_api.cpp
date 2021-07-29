@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <stdio.h>
 #include <stdlib.h>
+#include <QApplication>
 
 
 #define _CRT_SECURE_NO_DEPRECATE
@@ -43,6 +44,14 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
     else
     {
         qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
+        QMessageBox::StandardButton reply;
+      //  reply = QMessageBox::critical(nullptr, QObject::tr("Open serial port error"), serial->errorString());
+        reply = QMessageBox::critical(nullptr, QObject::tr("Open serial port error"), serial->errorString()+"\n\n"+"Please make sure the stimulator is properly connected to the PC and restrat the application");
+        if(reply == QMessageBox::Ok)
+        {
+             //QApplication::exit();
+             exit(EXIT_FAILURE);
+        }
     }
 
 
@@ -426,6 +435,22 @@ void tetra_grip_api::get_battery_percentage(void)
     if(!send_short_block(&block))
     {
        qDebug("Failed to send the read command for the status register.\n");
+    }
+}
+
+void tetra_grip_api::get_sensor_status()
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block={};
+
+    block.msg_type=READ_COMMAND;
+    block.topic=TOPIC_STIMULATOR;
+    block.index=0;
+    block.reg_address=STIM_REG_NUM_SMART_SENSORS;
+    block.data_length=1;
+    block.data=nullptr;
+    if(!send_short_block(&block))
+    {
+         qDebug("Failed to send the read command for the sensor status register.\n");
     }
 }
 

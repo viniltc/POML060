@@ -43,6 +43,7 @@ public:
      void static toggle_pause(void);
      void static read_stim_status_reg(void);
      void static get_battery_percentage(void);
+     void static get_sensor_status(void);
      void static stimulation_set_current(unsigned int, unsigned int);
      void static get_target_current_channel(uint8_t);
      void static send_event(uint8_t sub_activity_id, uint8_t event);

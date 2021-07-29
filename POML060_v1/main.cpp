@@ -4,14 +4,33 @@
 #include "tetra_grip_reader.h"
 #include "tetra_grip_writer.h"
 #include <QApplication>
+#include <QMessageBox>
+#include <QSerialPort>
 
 
 tetra_grip_api api;
 
 int main(int argc, char *argv[])
 {
+
+   //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+   //qputenv("QT_SCALE_FACTOR", "1.5");
+   // qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", QByteArray("0"));
+    //QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+ //   QApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+
+
     QApplication a(argc, argv);
 
+    api.openSerialPort();
+
+
+   // QSerialPort serial_port;
+
+    QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
+    QObject::connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
+//    QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
 
     // splash screen
     QPixmap pixmap(":/resources/tetragrip_logo2.png");
@@ -19,18 +38,12 @@ int main(int argc, char *argv[])
     splash.show();
     //splash.showMessage("Loaded modules");
     QTimer::singleShot(5000, &splash, &QWidget::close); // keep displayed for 5 seconds
-
-    api.openSerialPort();
-
-    QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
-    QObject::connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
-//    QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
 //    api.tryToAutoconnect = false;
 
-      StageOneMain w(nullptr);
+
+     StageOneMain w(nullptr);
 
     w.show();
-
     return a.exec();
 }
 

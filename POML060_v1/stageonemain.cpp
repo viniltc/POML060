@@ -62,6 +62,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 
       tetra_grip_api::read_long_register(STIM_LONG_REG_LOG_FILE, 0);
       tetra_grip_api::get_battery_percentage();
+      tetra_grip_api::get_sensor_status();
       tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 }
 
@@ -104,6 +105,10 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
 
     if (topic==TOPIC_STIMULATOR)
     {
+        QMessageBox msgBox(QMessageBox::Critical, QObject::tr("Sensor Not Connected!"),
+                           QObject::tr("Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue"),
+                           QMessageBox::Ok,
+                           QApplication::desktop());
         switch(reg)
         {
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
@@ -116,6 +121,15 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
             else
                 ui->qLed->setOnColor(QLed::Green);
             ui->qLed->setValue(true);
+            break;
+
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               msgBox.exec();
+           }
+           else {
+              msgBox.close();
+           }
             break;
         }
     }

@@ -983,6 +983,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessStimShortBlock(STIM_GUI_MESSAGE_S_BL
                 break;
             case STIM_REG_NUM_SMART_SENSORS:
                 DEBUG_Print("Number of attached sensors: %d\n", *b->data);
+                tetra_grip_reporter(TOPIC_STIMULATOR,b->index,STIM_REG_NUM_SMART_SENSORS, *data);
                 bytes_used=1;
                 break;
             case STIM_REG_SD_CARD_ERROR_CODE:

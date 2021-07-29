@@ -118,6 +118,11 @@
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
 color: black;
@@ -159,6 +164,11 @@ height: 10px;
       <width>81</width>
       <height>17</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
@@ -203,6 +213,11 @@ height: 10px;
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
 color: black;
@@ -245,6 +260,11 @@ height: 10px;
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
 color: black;
@@ -286,6 +306,11 @@ height: 10px;
       <width>71</width>
       <height>17</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
@@ -829,6 +854,11 @@ QComboBox:disabled {
       <height>17</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
 
@@ -1004,6 +1034,11 @@ QPushButton:disabled {
       <width>71</width>
       <height>17</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>6</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QRadioButton {
@@ -1355,6 +1390,11 @@ QPushButton:disabled {
       <height>13</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -1367,6 +1407,11 @@ QPushButton:disabled {
       <width>47</width>
       <height>13</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
     </property>
     <property name="text">
      <string/>
@@ -1381,6 +1426,11 @@ QPushButton:disabled {
       <height>13</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -1393,6 +1443,11 @@ QPushButton:disabled {
       <width>47</width>
       <height>13</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
     </property>
     <property name="text">
      <string/>
@@ -1407,6 +1462,11 @@ QPushButton:disabled {
       <height>13</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string/>
     </property>
@@ -1419,6 +1479,11 @@ QPushButton:disabled {
       <width>47</width>
       <height>13</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>7</pointsize>
+     </font>
     </property>
     <property name="text">
      <string/>
