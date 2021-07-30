@@ -40,6 +40,7 @@ void StimulatorLogWindow::on_pushButton_clicked()
 {
     StageOneMain *back;
     this->close();
-    back = new StageOneMain(pLabel,this);
+    back = new StageOneMain(pLabel,nullptr);
+    back->setAttribute(Qt::WA_DeleteOnClose);
     back -> show();
 }

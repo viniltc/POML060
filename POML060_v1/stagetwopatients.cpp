@@ -170,7 +170,7 @@ void StageTwoPatients::on_pushButton_Open_clicked()
 void StageTwoPatients::on_pushButton_New_clicked()
 {
     this->hide();
-    stagetwonew = new StageTwoNew("", this);
+    stagetwonew = new StageTwoNew("", nullptr);
     stagetwonew -> setWindowTitle("New details");
     stagetwonew -> show();
 }
@@ -189,7 +189,7 @@ void StageTwoPatients::on_pushButton_Modify_clicked()
 
  else {
     this-> close();
-    StageTwoNew *modifyPatient = new StageTwoNew(selection[0].data().toString(),this);
+    StageTwoNew *modifyPatient = new StageTwoNew(selection[0].data().toString(),nullptr);
     modifyPatient-> show();
  }
 
