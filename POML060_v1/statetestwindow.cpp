@@ -72,8 +72,11 @@ void StateTestWindow::phaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, u
         switch(reg)
         {
 
-        case STIM_REG_BATTERY_CAPACITY_REMAINING:
-            //ui -> label_20 -> setText("Battery remaining: "+QString::number(value)+"%");
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
             break;
 
         case STIM_SUB_ACT_REG_CURRENT_PHASE:
@@ -100,7 +103,8 @@ void StateTestWindow::on_pushButton_back_clicked()
 
     this->close();
     stageProgram *backprogram;
-    backprogram = new stageProgram(pLabel,this);
+    backprogram = new stageProgram(pLabel,nullptr);
+    backprogram->setAttribute(Qt::WA_DeleteOnClose);
     backprogram -> show();
 }
 

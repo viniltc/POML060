@@ -40,6 +40,7 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     }
 
     tetra_grip_api::get_battery_percentage();
+    tetra_grip_api::get_sensor_status();
     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
 
 }
@@ -158,8 +159,8 @@ void StageTwoPatients::on_pushButton_Open_clicked()
 
  else {
     this-> close();
-    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),this);
-   // newPatient ->setAttribute(Qt::WA_DeleteOnClose);
+    StageOneMain *newPatient = new StageOneMain(selection[0].data().toString(),nullptr);
+    newPatient ->setAttribute(Qt::WA_DeleteOnClose);
     newPatient-> show();
  }
 
@@ -216,6 +217,8 @@ void StageTwoPatients::on_pushButton_Remove_clicked()
 
 void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
 {
+
+
     if (topic==TOPIC_STIMULATOR)
     {
         switch(reg)
@@ -228,6 +231,12 @@ void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, ui
                 ui->qLed_p2->setOnColor(QLed::Green);
                 ui->qLed_p2->setValue(true);
             break;
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
+            break;
         }
     }
 
@@ -236,6 +245,7 @@ void StageTwoPatients::eventHandlerTwo( STIM_GUI_TOPIC_T topic,uint8_t index, ui
 void StageTwoPatients::on_pushButton_Home_clicked()
 {
     this-> close();
-    StageOneMain *newPatient = new StageOneMain(nullptr);
-    newPatient-> show();
+    StageOneMain *newPatienth = new StageOneMain(nullptr);
+    newPatienth->setAttribute(Qt::WA_DeleteOnClose);
+    newPatienth-> show();
 }

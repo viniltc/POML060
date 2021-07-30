@@ -348,6 +348,12 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
                  ui->pushButton_stimStart->setText("Start");
             }
             break;
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
+            break;
         }
     }
    if (topic==TOPIC_CHANNEL && reg==STIM_ENGINE_REG_TARGET_CURRENT) // Line no: 1088,  stim_gui_protocol_decode.c
@@ -510,7 +516,8 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
    //disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
    this->close();
-   keygripv2 = new ProgramKeyGripV2(pLabel);
+   keygripv2 = new ProgramKeyGripV2(pLabel, nullptr);
+   keygripv2->setAttribute(Qt::WA_DeleteOnClose);
    keygripv2 -> show();
 }
 
@@ -556,7 +563,8 @@ void stageProgram::on_pushButton_programPalmerGrasp_clicked()
   //  disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
 
     this->close();
-    palmergrasp = new ProgramPalmerGrasp(pLabel);
+    palmergrasp = new ProgramPalmerGrasp(pLabel,nullptr);
+    palmergrasp->setAttribute(Qt::WA_DeleteOnClose);
     palmergrasp->show();
 }
 
@@ -740,6 +748,7 @@ void stageProgram::on_pushButton_5_clicked()
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &stageProgram::stimStatusEventHandler);
     //disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
     this->close();
-    statewindow = new StateTestWindow(pLabel);
+    statewindow = new StateTestWindow(pLabel,nullptr);
+    statewindow->setAttribute(Qt::WA_DeleteOnClose);
     statewindow -> show();
 }

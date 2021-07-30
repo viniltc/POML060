@@ -82,8 +82,9 @@ void StageOneMain::on_pushButton_exit_clicked()
 void StageOneMain::on_pushButton_patients_clicked()
 {
      this->close();
-     stagetwopatients = new StageTwoPatients(this);
-     //stagetwopatients->setAttribute(Qt::WA_DeleteOnClose);
+
+     stagetwopatients = new StageTwoPatients(nullptr);
+     stagetwopatients->setAttribute(Qt::WA_DeleteOnClose);
      stagetwopatients -> show();
 
 }
@@ -91,10 +92,10 @@ void StageOneMain::on_pushButton_patients_clicked()
 void StageOneMain::on_pushButton_programs_clicked()
 {
 
-    hide();
-    //this->close();
-    stageprogram = new stageProgram(pLabel, this);
-    //stageprogram->setAttribute(Qt::WA_DeleteOnClose);
+   // hide();
+    this->close();
+    stageprogram = new stageProgram(pLabel, nullptr);
+    stageprogram->setAttribute(Qt::WA_DeleteOnClose);
     stageprogram -> show();
 
 
@@ -103,12 +104,10 @@ void StageOneMain::on_pushButton_programs_clicked()
 void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t reg, uint32_t value)
 {
 
+
+
     if (topic==TOPIC_STIMULATOR)
-    {
-        QMessageBox msgBox(QMessageBox::Critical, QObject::tr("Sensor Not Connected!"),
-                           QObject::tr("Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue"),
-                           QMessageBox::Ok,
-                           QApplication::desktop());
+    {      
         switch(reg)
         {
         case STIM_REG_BATTERY_CAPACITY_REMAINING:
@@ -125,11 +124,10 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
 
         case STIM_REG_NUM_SMART_SENSORS:
            if(value==0){
-               msgBox.exec();
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+               return;
            }
-           else {
-              msgBox.close();
-           }
+
             break;
         }
     }
@@ -211,7 +209,7 @@ void StageOneMain::on_pushButton_logs_clicked()
     disconnect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
     this->close();
-    window = new ShoulderControl(pLabel);
-    //window->setAttribute(Qt::WA_DeleteOnClose);
+    window = new ShoulderControl(pLabel, nullptr);
+    window->setAttribute(Qt::WA_DeleteOnClose);
     window -> show();
 }

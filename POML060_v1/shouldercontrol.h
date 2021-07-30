@@ -21,7 +21,7 @@ public:
 
 public slots:
 
-// void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
+ void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
 // void sensorEventHandler(uint8_t index, SENSOR_DATA_T *sample);
  void sensorFilteredEventHandler(int16_t sensor_role, int16_t filter_output);
  void realtimeDataSlot(double axS, double ayS, double azS, double aV, double aH, double aP);

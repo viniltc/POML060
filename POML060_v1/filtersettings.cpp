@@ -48,6 +48,23 @@ FilterSettings::~FilterSettings()
     delete ui;
 }
 
+void FilterSettings::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+{
+    if (topic==TOPIC_STIMULATOR)
+    {
+        switch(reg)
+        {
+
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
+            break;
+        }
+    }
+}
+
 void FilterSettings::on_pushButton_save_clicked()
 {
 

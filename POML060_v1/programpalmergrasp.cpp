@@ -261,6 +261,23 @@ int ProgramPalmerGrasp::distance(QPoint x1, QPoint x2)
     return abs(x2.y() - x1.y());
 }
 
+void ProgramPalmerGrasp::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+{
+    if (topic==TOPIC_STIMULATOR)
+    {
+        switch(reg)
+        {
+
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
+            break;
+        }
+    }
+}
+
 
 void ProgramPalmerGrasp::paintEvent(QPaintEvent *e)
 {
@@ -971,7 +988,8 @@ void ProgramPalmerGrasp::on_pushButton_clicked()
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramPalmerGrasp::keyGripPhaseEventHandler);
     this->close();
     stageProgram *backprogram;
-    backprogram = new stageProgram(pLabel,this);
+    backprogram = new stageProgram(pLabel,nullptr);
+    backprogram->setAttribute(Qt::WA_DeleteOnClose);
     backprogram -> show();
 }
 

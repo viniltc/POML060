@@ -32,7 +32,7 @@ public:
 
 
 public slots:
-
+        void eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value);
         void changeP1value(int);
         void changeP2value(int);
         void keyGripPhaseEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value);

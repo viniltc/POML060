@@ -65,6 +65,23 @@ ShoulderControl::~ShoulderControl()
     delete ui;
 }
 
+void ShoulderControl::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t value)
+{
+    if (topic==TOPIC_STIMULATOR)
+    {
+        switch(reg)
+        {
+
+        case STIM_REG_NUM_SMART_SENSORS:
+           if(value==0){
+               QMessageBox::critical(this, "Sensor Not Connected!", "Shoulder sensor got disconnected \n\nReconnect the sensor and press Ok to continue");
+           }
+
+            break;
+        }
+    }
+}
+
 
 void ShoulderControl::sensorFilteredEventHandler(int16_t sensor_role, int16_t filter_output)
 {
@@ -318,7 +335,8 @@ void ShoulderControl::on_pushButton_back_clicked()
 
     StageOneMain *back;
     this->close();
-    back = new StageOneMain(pLabel,this);
+    back = new StageOneMain(pLabel,nullptr);
+    back->setAttribute(Qt::WA_DeleteOnClose);
     back -> show();
 }
 
@@ -588,7 +606,8 @@ void ShoulderControl::on_pushButton_settings_clicked()
 {
     FilterSettings *filterw;
     //this->hide();
-    filterw = new FilterSettings(pLabel);
+    filterw = new FilterSettings(pLabel, nullptr);
+    filterw->setAttribute(Qt::WA_DeleteOnClose);
     filterw -> show();
 }
 
