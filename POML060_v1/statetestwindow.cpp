@@ -80,7 +80,7 @@ void StateTestWindow::phaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, u
             break;
 
         case STIM_SUB_ACT_REG_CURRENT_PHASE:
-            QList<QPushButton *> List{ui->btn0,ui->btn1,ui->btn2,ui->btn3,ui->btn4,ui->btn5,ui->btn6,ui->btn7,ui->btn8,ui->btn9,ui->btn10,ui->btn11,ui->btn12,ui->btn13,ui->btn14};
+            QList<QPushButton *> List{ui->btn0,ui->btn1,ui->btn2,ui->btn3,ui->btn4,ui->btn5,ui->btn6,ui->btn7,ui->btn8,ui->btn9,ui->btn10,ui->btn11,ui->btn12,ui->btn13,ui->btn14,ui->btn15};
              for (QPushButton * button : List) {
                button->setStyleSheet(StyleSheetOff);
              }

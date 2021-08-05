@@ -199,7 +199,8 @@ void StageOneMain::on_pushButton_help_clicked()
 
       this->close();
     //  hide();
-      logwindow = new StimulatorLogWindow(pLabel);
+      logwindow = new StimulatorLogWindow(pLabel, nullptr);
+      logwindow -> setAttribute(Qt::WA_DeleteOnClose);
       logwindow -> show();
 
 }
