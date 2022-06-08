@@ -28,6 +28,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->label_curr_one->setText(QString("%1 mA").arg(0));
     ui->label_curr_two->setText(QString("%1 mA").arg(0));
     ui->label_curr_three->setText(QString("%1 mA").arg(0));
+
     ui->label_curr_four->setText(QString("%1 mA").arg(0));
     ui->label_curr_five->setText(QString("%1 mA").arg(0));
 
