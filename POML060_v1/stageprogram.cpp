@@ -39,6 +39,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->widget_currentFour->setEnabled(false);
     ui->widget_currentFive->setEnabled(false);
 
+    ui->radioButton_2->setChecked(true);
+
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
@@ -364,26 +366,54 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
         case 0: // channel 1
 
             ui->label_curr_one->setText(QString("%1 mA").arg(value/m_currentmA));
+
+            if(value/m_currentmA >= 120)
+            {
+              ui->label_curr_one->setText(QString("MAX"));
+            }
+
             currentOneSetVal = value/m_currentmA;
             break;
         case 1: // channel 2
 
             ui->label_curr_two->setText(QString("%1 mA").arg(value/m_currentmA));
+
+            if(value/m_currentmA >= 120)
+            {
+              ui->label_curr_two->setText(QString("MAX"));
+            }
             currentTwoSetVal = value/m_currentmA;
             break;
         case 2: //channel 3
 
             ui->label_curr_three->setText(QString("%1 mA").arg(value/m_currentmA));
+
+            if(value/m_currentmA >= 120)
+            {
+              ui->label_curr_three->setText(QString("MAX"));
+            }
+
             currentThreeSetVal = value/m_currentmA;
             break;
         case 3: // channel 4
 
             ui->label_curr_four->setText(QString("%1 mA").arg(value/m_currentmA));
+
+            if(value/m_currentmA >= 120)
+            {
+              ui->label_curr_four->setText(QString("MAX"));
+            }
+
             currentFourSetVal = value/m_currentmA;
             break;
         case 4: // channle 5
 
             ui->label_curr_five->setText(QString("%1 mA").arg(value/m_currentmA));
+
+            if(value/m_currentmA >= 120)
+            {
+              ui->label_curr_five->setText(QString("MAX"));
+            }
             currentFiveSetVal = value/m_currentmA;        
             break;
         }
@@ -752,4 +782,31 @@ void stageProgram::on_pushButton_5_clicked()
     statewindow = new StateTestWindow(pLabel,nullptr);
     statewindow->setAttribute(Qt::WA_DeleteOnClose);
     statewindow -> show();
+}
+
+void stageProgram::on_radioButton_3_clicked()
+{
+    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 10000);
+    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 10000);
+    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 10000);
+    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 10000);
+    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 10000);
+}
+
+void stageProgram::on_radioButton_clicked()
+{
+    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 3000);
+    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 3000);
+    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 3000);
+    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 3000);
+    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 3000);
+}
+
+void stageProgram::on_radioButton_2_clicked()
+{
+    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 1000);
+    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 1000);
+    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 1000);
+    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 1000);
+    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 1000);
 }

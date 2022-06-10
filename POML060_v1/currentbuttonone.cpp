@@ -130,6 +130,7 @@ timer_low->start(timerTimeout);
 void CurrentButtonOne::doMoreIncrement()
 {
 value=value+bigSteps;
+
 //ui->label_currentValue->setText(QString("%1").arg(value));
 emit getValue(value);
 if(timerTimeout > timeoutValue)
