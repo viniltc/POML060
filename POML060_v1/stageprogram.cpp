@@ -39,7 +39,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->widget_currentFour->setEnabled(false);
     ui->widget_currentFive->setEnabled(false);
 
-    ui->radioButton_2->setChecked(true);
+    ui->radioButton->setChecked(true);
 
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
@@ -786,27 +786,27 @@ void stageProgram::on_pushButton_5_clicked()
 
 void stageProgram::on_radioButton_3_clicked()
 {
-    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 10000);
-    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 10000);
-    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 10000);
-    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 10000);
-    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 10000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelOne, 0, 9000); // 0.5 seconds
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelTwo, 0, 9000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelThree , 0, 9000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFour, 0, 9000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFive, 0, 9000);
 }
 
 void stageProgram::on_radioButton_clicked()
 {
-    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 3000);
-    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 3000);
-    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 3000);
-    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 3000);
-    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 3000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelOne, 0, 4500); // 1 second ((180-0)/(40*1))*1000
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelTwo, 0, 4500);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelThree, 0, 4500);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFour, 0, 4500);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFive, 0, 4500);
 }
 
 void stageProgram::on_radioButton_2_clicked()
 {
-    tetra_grip_api::set_stimulation_ramp_rate( 0, 0, 1000);
-    tetra_grip_api::set_stimulation_ramp_rate( 1, 0, 1000);
-    tetra_grip_api::set_stimulation_ramp_rate( 2, 0, 1000);
-    tetra_grip_api::set_stimulation_ramp_rate( 3, 0, 1000);
-    tetra_grip_api::set_stimulation_ramp_rate( 4, 0, 1000);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelOne, 0, 2250); // 2seconds
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelTwo, 0, 2250);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelThree, 0, 2250);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFour, 0, 2250);
+    tetra_grip_api::set_stimulation_ramp_rate(m_channelFive, 0, 2250);
 }
