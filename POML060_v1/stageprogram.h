@@ -86,6 +86,18 @@ private slots:
 
     void on_radioButton_2_clicked();
 
+    void on_comboBox_frequency_currentIndexChanged(int index);
+
+    void on_comboBox_frequency_1_currentIndexChanged(int index);
+
+    void on_comboBox_frequency_2_currentIndexChanged(int index);
+
+    void on_comboBox_frequency_3_currentIndexChanged(int index);
+
+    void on_comboBox_frequency_4_currentIndexChanged(int index);
+
+    void on_comboBox_frequency_5_currentIndexChanged(int index);
+
 private:
     Ui::stageProgram *ui;
     float currentOneSetVal;
@@ -121,6 +133,13 @@ private:
     float currFourStored = 0;
     float currFiveStored = 0;
     bool timerLabel = false;
+
+    unsigned int freqStim = 0;
+    unsigned int oneFreqStim = 0;
+    unsigned int twoFreqStim = 0;
+    unsigned int threeFreqStim = 0;
+    unsigned int fourFreqStim = 0;
+    unsigned int fiveFreqStim = 0;
 
     QString StyleSheetOn;
     QString StyleSheetOff;

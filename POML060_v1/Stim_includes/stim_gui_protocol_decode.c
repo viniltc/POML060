@@ -1435,6 +1435,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessChannelShortBlock(STIM_GUI_MESSAGE_S
                 break;
             case STIM_ENGINE_REG_TARGET_FREQUENCY:
                 DEBUG_Print("Target frequency %dHz.\n", *data);
+                tetra_grip_reporter(TOPIC_CHANNEL,b->index, STIM_ENGINE_REG_TARGET_FREQUENCY, get_uint16(data));
                 break;
             case STIM_ENGINE_REG_DURATION:
                 DEBUG_Print("Duration: %dms\n", get_uint16(data));

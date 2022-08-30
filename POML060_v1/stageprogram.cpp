@@ -32,6 +32,33 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->label_curr_four->setText(QString("%1 mA").arg(0));
     ui->label_curr_five->setText(QString("%1 mA").arg(0));
 
+   // ui->comboBox_frequency->addItem("5Hz", QVariant(5));
+    ui->comboBox_frequency->addItem("10Hz", QVariant(100));
+    ui->comboBox_frequency->addItem("15Hz", QVariant(150));
+    ui->comboBox_frequency->addItem("20Hz", QVariant(200));
+    ui->comboBox_frequency->addItem("25Hz", QVariant(250));
+    ui->comboBox_frequency->addItem("30Hz", QVariant(300));
+    ui->comboBox_frequency->addItem("35Hz", QVariant(350));
+    ui->comboBox_frequency->addItem("40Hz", QVariant(400));
+    ui->comboBox_frequency->addItem("45Hz", QVariant(450));
+    ui->comboBox_frequency->setCurrentIndex(6); // Default 40Hz
+
+    QComboBox* boxes[] { ui->comboBox_frequency_1, ui->comboBox_frequency_2, ui->comboBox_frequency_3, ui->comboBox_frequency_4, ui->comboBox_frequency_5 };
+    const int values[] { 10, 15, 20, 25, 30, 35, 40, 45 };
+    for(auto* cb : boxes)
+    {
+        for(auto val : values)
+        {
+            cb->addItem(QString::number(val) + "Hz", QVariant(val*10));
+            cb->setCurrentIndex(6);
+        }
+    }
+
+
+
+
+    ui->comboBox_frequency->setCurrentIndex(6);
+
 
     ui->widget_currentOne->setEnabled(false);
     ui->widget_currentTwo->setEnabled(false);
@@ -417,6 +444,18 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             currentFiveSetVal = value/m_currentmA;        
             break;
         }
+
+//        if (topic==TOPIC_CHANNEL && reg==STIM_ENGINE_REG_TARGET_FREQUENCY)
+//        {
+//            switch(index)
+//            {
+//            case 0:
+
+//               ui->label_2->setText(QString("%1 Hz").arg(value));
+//               break;
+//            }
+//        }
+
 
     }
 }
@@ -809,4 +848,54 @@ void stageProgram::on_radioButton_2_clicked()
     tetra_grip_api::set_stimulation_ramp_rate(m_channelThree, 0, 2250);
     tetra_grip_api::set_stimulation_ramp_rate(m_channelFour, 0, 2250);
     tetra_grip_api::set_stimulation_ramp_rate(m_channelFive, 0, 2250);
+}
+
+void stageProgram::on_comboBox_frequency_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_frequency->itemData(index).toUInt();
+    freqStim = value;
+    tetra_grip_api::stimulation_set_frequency(m_channelOne, freqStim);
+    tetra_grip_api::stimulation_set_frequency(m_channelTwo, freqStim);
+    tetra_grip_api::stimulation_set_frequency(m_channelThree, freqStim);
+    tetra_grip_api::stimulation_set_frequency(m_channelFour, freqStim);
+    tetra_grip_api::stimulation_set_frequency(m_channelFive, freqStim);
+
+   //  ui->label_2->setText("Freq: "+QString::number(freqStim));
+
+
+}
+
+void stageProgram::on_comboBox_frequency_1_currentIndexChanged(int index)
+{
+      unsigned int value = ui->comboBox_frequency_1->itemData(index).toUInt();
+      oneFreqStim = value;
+      tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
+}
+
+void stageProgram::on_comboBox_frequency_2_currentIndexChanged(int index)
+{
+      unsigned int value = ui->comboBox_frequency_2->itemData(index).toUInt();
+      twoFreqStim = value;
+      tetra_grip_api::stimulation_set_frequency(m_channelTwo, twoFreqStim);
+}
+
+void stageProgram::on_comboBox_frequency_3_currentIndexChanged(int index)
+{
+      unsigned int value = ui->comboBox_frequency_3->itemData(index).toUInt();
+      threeFreqStim = value;
+      tetra_grip_api::stimulation_set_frequency(m_channelThree, threeFreqStim);
+}
+
+void stageProgram::on_comboBox_frequency_4_currentIndexChanged(int index)
+{
+      unsigned int value = ui->comboBox_frequency_4->itemData(index).toUInt();
+      fourFreqStim = value;
+      tetra_grip_api::stimulation_set_frequency(m_channelFour, fourFreqStim);
+}
+
+void stageProgram::on_comboBox_frequency_5_currentIndexChanged(int index)
+{
+      unsigned int value = ui->comboBox_frequency_5->itemData(index).toUInt();
+      fiveFreqStim = value;
+      tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
 }
