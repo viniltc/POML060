@@ -32,32 +32,17 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     ui->label_curr_four->setText(QString("%1 mA").arg(0));
     ui->label_curr_five->setText(QString("%1 mA").arg(0));
 
-   // ui->comboBox_frequency->addItem("5Hz", QVariant(5));
-    ui->comboBox_frequency->addItem("10Hz", QVariant(100));
-    ui->comboBox_frequency->addItem("15Hz", QVariant(150));
-    ui->comboBox_frequency->addItem("20Hz", QVariant(200));
-    ui->comboBox_frequency->addItem("25Hz", QVariant(250));
-    ui->comboBox_frequency->addItem("30Hz", QVariant(300));
-    ui->comboBox_frequency->addItem("35Hz", QVariant(350));
-    ui->comboBox_frequency->addItem("40Hz", QVariant(400));
-    ui->comboBox_frequency->addItem("45Hz", QVariant(450));
-    ui->comboBox_frequency->setCurrentIndex(6); // Default 40Hz
 
-    QComboBox* boxes[] { ui->comboBox_frequency_1, ui->comboBox_frequency_2, ui->comboBox_frequency_3, ui->comboBox_frequency_4, ui->comboBox_frequency_5 };
-    const int values[] { 10, 15, 20, 25, 30, 35, 40, 45 };
-    for(auto* cb : boxes)
+    QComboBox* freqComboBoxes[] { ui->comboBox_frequency_1, ui->comboBox_frequency_2, ui->comboBox_frequency_3, ui->comboBox_frequency_4, ui->comboBox_frequency_5 };
+    const int freqValues[] { 10, 15, 20, 25, 30, 35, 40, 45 };
+    for(auto* cb : freqComboBoxes)
     {
-        for(auto val : values)
+        for(auto val : freqValues)
         {
             cb->addItem(QString::number(val) + "Hz", QVariant(val*10));
-            cb->setCurrentIndex(6);
+            cb->setCurrentIndex(6); // default 40 Hz
         }
     }
-
-
-
-
-    ui->comboBox_frequency->setCurrentIndex(6);
 
 
     ui->widget_currentOne->setEnabled(false);
@@ -116,6 +101,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QDomElement Palmer_PWNodeVal = Palmer_PWNode.toElement();
     QDomNode Sensor_SettNode = root.elementsByTagName("Sensor_Settings").at(0).firstChild();
     QDomElement Sensor_SettNodeVal = Sensor_SettNode.toElement();
+    QDomNode Frequency_SettNode = root.elementsByTagName("FrequencyIndex").at(0).firstChild();
+    QDomElement Frequency_SettNodeVal = Frequency_SettNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -189,6 +176,48 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     else
     {
          ui->pushButton_3->setStyleSheet(StyleSheetOff);
+    }
+
+    if(!Frequency_SettNodeVal.isNull())
+    {
+        oneFreqIndex = root.elementsByTagName("F1").at(0).firstChild().nodeValue().toInt();
+        twoFreqIndex = root.elementsByTagName("F2").at(0).firstChild().nodeValue().toInt();
+        threeFreqIndex = root.elementsByTagName("F3").at(0).firstChild().nodeValue().toInt();
+        fourFreqIndex = root.elementsByTagName("F4").at(0).firstChild().nodeValue().toInt();
+        fiveFreqIndex = root.elementsByTagName("F5").at(0).firstChild().nodeValue().toInt();
+
+        ui->comboBox_frequency_1->setCurrentIndex(oneFreqIndex);
+        ui->comboBox_frequency_2->setCurrentIndex(twoFreqIndex);
+        ui->comboBox_frequency_3->setCurrentIndex(threeFreqIndex);
+        ui->comboBox_frequency_4->setCurrentIndex(fourFreqIndex);
+        ui->comboBox_frequency_5->setCurrentIndex(fiveFreqIndex);
+
+        oneFreqStim = ui->comboBox_frequency_1->itemData(oneFreqIndex).toUInt();
+        twoFreqStim = ui->comboBox_frequency_2->itemData(twoFreqIndex).toUInt();
+        threeFreqStim = ui->comboBox_frequency_3->itemData(threeFreqIndex).toUInt();
+        fourFreqStim = ui->comboBox_frequency_4->itemData(fourFreqIndex).toUInt();
+        fiveFreqStim = ui->comboBox_frequency_5->itemData(fiveFreqIndex).toUInt();
+
+
+    }
+
+
+   else
+
+    {
+        oneFreqIndex = ui->comboBox_frequency_1->currentIndex();
+        twoFreqIndex = ui->comboBox_frequency_2->currentIndex();
+        threeFreqIndex = ui->comboBox_frequency_3->currentIndex();
+        fourFreqIndex = ui->comboBox_frequency_4->currentIndex();
+        fiveFreqIndex = ui->comboBox_frequency_5->currentIndex();
+
+        ui->comboBox_frequency_1->setCurrentIndex(6);
+        ui->comboBox_frequency_2->setCurrentIndex(6);
+        ui->comboBox_frequency_3->setCurrentIndex(6);
+        ui->comboBox_frequency_4->setCurrentIndex(6);
+        ui->comboBox_frequency_5->setCurrentIndex(6);
+
+
     }
 
 
@@ -273,8 +302,11 @@ stageProgram::~stageProgram()
 
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
+
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
+    tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
+
 
 }
 
@@ -283,6 +315,7 @@ void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
     //currentTwoSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelTwo,0,180);
+    tetra_grip_api::stimulation_set_frequency(m_channelTwo, twoFreqStim);
 }
 
 
@@ -291,6 +324,7 @@ void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
     //currentThreeSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelThree, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelThree,0,180);
+    tetra_grip_api::stimulation_set_frequency(m_channelThree, threeFreqStim);
 }
 
 void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
@@ -299,6 +333,7 @@ void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
    // currentFourSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFour, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelFour,0,180);
+    tetra_grip_api::stimulation_set_frequency(m_channelFour, fourFreqStim);
 }
 
 void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
@@ -307,6 +342,7 @@ void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
    // currentFiveSetVal = current_uA;
     tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelFive,0,180);
+    tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
 }
 
 void stageProgram::setZeroCurrOnChannelOne()
@@ -396,7 +432,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             if(value/m_currentmA >= 120)
             {
-              ui->label_curr_one->setText(QString("MAX"));
+              //ui->label_curr_one->setText(QString("MAX"));
+              ui->label_curr_one->setStyleSheet("QLabel {  color : red; }");
             }
 
             currentOneSetVal = value/m_currentmA;
@@ -407,7 +444,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             if(value/m_currentmA >= 120)
             {
-              ui->label_curr_two->setText(QString("MAX"));
+             // ui->label_curr_two->setText(QString("MAX"));
+              ui->label_curr_two->setStyleSheet("QLabel {  color : red; }");
             }
             currentTwoSetVal = value/m_currentmA;
             break;
@@ -417,7 +455,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             if(value/m_currentmA >= 120)
             {
-              ui->label_curr_three->setText(QString("MAX"));
+            //  ui->label_curr_three->setText(QString("MAX"));
+              ui->label_curr_three->setStyleSheet("QLabel {  color : red; }");
             }
 
             currentThreeSetVal = value/m_currentmA;
@@ -428,7 +467,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             if(value/m_currentmA >= 120)
             {
-              ui->label_curr_four->setText(QString("MAX"));
+            // ui->label_curr_four->setText(QString("MAX"));
+              ui->label_curr_four->setStyleSheet("QLabel {  color : red; }");
             }
 
             currentFourSetVal = value/m_currentmA;
@@ -439,7 +479,8 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
 
             if(value/m_currentmA >= 120)
             {
-              ui->label_curr_five->setText(QString("MAX"));
+             // ui->label_curr_five->setText(QString("MAX"));
+              ui->label_curr_five->setStyleSheet("QLabel {  color : red; }");
             }
             currentFiveSetVal = value/m_currentmA;        
             break;
@@ -687,10 +728,12 @@ void stageProgram::saveToXMLFile()
     file.close();
 
     QDomElement newCurrentTag = document.createElement(QString("Current"));
-
-
     QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
     QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+    QDomElement newFrequencyTag = document.createElement(QString("FrequencyIndex"));
+    QDomNode FrequencyNode = root.elementsByTagName("FrequencyIndex").at(0).firstChild();
+    QDomElement FrequencyNodeVal = FrequencyNode.toElement();
 
 
     if (CurrentNodeVal.isNull())
@@ -738,6 +781,54 @@ void stageProgram::saveToXMLFile()
           cur4.firstChild().setNodeValue(QString::number(currentFourSetVal));
           QDomNode cur5 = SettingsNode.namedItem("CH5");
           cur5.firstChild().setNodeValue(QString::number(currentFiveSetVal));
+
+    }
+
+    if (FrequencyNodeVal.isNull())
+    {
+        QDomElement f1Tag = document.createElement(QString("F1"));
+        QDomText f1Val = document.createTextNode(QString::number(ui->comboBox_frequency_1->currentIndex()));
+        f1Tag.appendChild(f1Val);
+        newFrequencyTag.appendChild(f1Tag);
+
+        QDomElement f2Tag = document.createElement(QString("F2"));
+        QDomText f2Val = document.createTextNode(QString::number(ui->comboBox_frequency_2->currentIndex()));
+        f2Tag.appendChild(f2Val);
+        newFrequencyTag.appendChild(f2Tag);
+
+        QDomElement f3Tag = document.createElement(QString("F3"));
+        QDomText f3Val = document.createTextNode(QString::number(ui->comboBox_frequency_3->currentIndex()));
+        f3Tag.appendChild(f3Val);
+        newFrequencyTag.appendChild(f3Tag);
+
+        QDomElement f4Tag = document.createElement(QString("F4"));
+        QDomText f4Val = document.createTextNode(QString::number(ui->comboBox_frequency_4->currentIndex()));
+        f4Tag.appendChild(f4Val);
+        newFrequencyTag.appendChild(f4Tag);
+
+        QDomElement f5Tag = document.createElement(QString("F5"));
+        QDomText f5Val = document.createTextNode(QString::number(ui->comboBox_frequency_5->currentIndex()));
+        f5Tag.appendChild(f5Val);
+        newFrequencyTag.appendChild(f5Tag);
+
+        root.appendChild(newFrequencyTag);
+    }
+
+    else
+    {
+          QDomElement root = document.documentElement();
+          QDomNode SettingsNode = root.namedItem("FrequencyIndex");
+
+          QDomNode f1 = SettingsNode.namedItem("F1");
+          f1.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_1->currentIndex()));
+          QDomNode f2 = SettingsNode.namedItem("F2");
+          f2.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_2->currentIndex()));
+          QDomNode f3 = SettingsNode.namedItem("F3");
+          f3.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_3->currentIndex()));
+          QDomNode f4 = SettingsNode.namedItem("F4");
+          f4.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_4->currentIndex()));
+          QDomNode f5 = SettingsNode.namedItem("F5");
+          f5.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_5->currentIndex()));
 
     }
 
@@ -850,26 +941,13 @@ void stageProgram::on_radioButton_2_clicked()
     tetra_grip_api::set_stimulation_ramp_rate(m_channelFive, 0, 2250);
 }
 
-void stageProgram::on_comboBox_frequency_currentIndexChanged(int index)
-{
-    unsigned int value = ui->comboBox_frequency->itemData(index).toUInt();
-    freqStim = value;
-    tetra_grip_api::stimulation_set_frequency(m_channelOne, freqStim);
-    tetra_grip_api::stimulation_set_frequency(m_channelTwo, freqStim);
-    tetra_grip_api::stimulation_set_frequency(m_channelThree, freqStim);
-    tetra_grip_api::stimulation_set_frequency(m_channelFour, freqStim);
-    tetra_grip_api::stimulation_set_frequency(m_channelFive, freqStim);
-
-   //  ui->label_2->setText("Freq: "+QString::number(freqStim));
-
-
-}
 
 void stageProgram::on_comboBox_frequency_1_currentIndexChanged(int index)
 {
       unsigned int value = ui->comboBox_frequency_1->itemData(index).toUInt();
       oneFreqStim = value;
       tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
+      ui->label->setText(QString::number(oneFreqStim));
 }
 
 void stageProgram::on_comboBox_frequency_2_currentIndexChanged(int index)

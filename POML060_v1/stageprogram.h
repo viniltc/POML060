@@ -86,7 +86,7 @@ private slots:
 
     void on_radioButton_2_clicked();
 
-    void on_comboBox_frequency_currentIndexChanged(int index);
+
 
     void on_comboBox_frequency_1_currentIndexChanged(int index);
 
@@ -140,6 +140,12 @@ private:
     unsigned int threeFreqStim = 0;
     unsigned int fourFreqStim = 0;
     unsigned int fiveFreqStim = 0;
+
+     int oneFreqIndex = 0;
+     int twoFreqIndex = 0;
+     int threeFreqIndex = 0;
+     int fourFreqIndex = 0;
+     int fiveFreqIndex = 0;
 
     QString StyleSheetOn;
     QString StyleSheetOff;

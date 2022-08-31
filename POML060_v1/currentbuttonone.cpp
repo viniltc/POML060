@@ -105,6 +105,9 @@ timer_low->stop();
 void CurrentButtonOne::doIncrement()
 {
 value=value+smallSteps;
+
+if((value) >=120*1000)
+    value = 120*1000;
 //ui->label_currentValue->setText(QString("%1").arg(value));
 emit getValue(value);
 
@@ -130,6 +133,9 @@ timer_low->start(timerTimeout);
 void CurrentButtonOne::doMoreIncrement()
 {
 value=value+bigSteps;
+
+if((value) >=120*1000)
+    value = 120*1000;
 
 //ui->label_currentValue->setText(QString("%1").arg(value));
 emit getValue(value);
