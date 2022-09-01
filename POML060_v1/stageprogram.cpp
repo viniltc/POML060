@@ -34,7 +34,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
 
     QComboBox* freqComboBoxes[] { ui->comboBox_frequency_1, ui->comboBox_frequency_2, ui->comboBox_frequency_3, ui->comboBox_frequency_4, ui->comboBox_frequency_5 };
-    const int freqValues[] { 10, 15, 20, 25, 30, 35, 40, 45 };
+    const int freqValues[] { 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60 };
     for(auto* cb : freqComboBoxes)
     {
         for(auto val : freqValues)
@@ -222,6 +222,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
 
 
+
+
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
     //connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this](){ ui->widget_currentOne->setEnabled(!ui->widget_currentOne->isEnabled()); });
     connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
@@ -252,6 +254,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 //                qDebug() << "current_uA: " << current_uA;
 //                setCurrOnChannelOne(ui->widget_currentOne->isEnabled() ? current_uA : 0);
 //            } );
+
 
     //connect(ui->pushButton_currOnOne_2, &QPushButton::clicked, this,&stageProgram::setZeroCurrOnChannelOne);
     //slot
@@ -302,6 +305,9 @@ stageProgram::~stageProgram()
 
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
+
+
+
 
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
@@ -380,11 +386,32 @@ void stageProgram::on_pushButton_stimStart_clicked()
 {
     tetra_grip_api::stimulation_start(true);
 
+    ui->comboBox_frequency_1->setEnabled(false);
+    ui->comboBox_frequency_2->setEnabled(false);
+    ui->comboBox_frequency_3->setEnabled(false);
+    ui->comboBox_frequency_4->setEnabled(false);
+    ui->comboBox_frequency_5->setEnabled(false);
+
+    ui->radioButton->setEnabled(false);
+    ui->radioButton_2->setEnabled(false);
+    ui->radioButton_3->setEnabled(false);
+
+
 }
 
 void stageProgram::on_pushButton_stimStop_clicked()
 {
     tetra_grip_api::stimulation_pause(true);
+
+    ui->comboBox_frequency_1->setEnabled(true);
+    ui->comboBox_frequency_2->setEnabled(true);
+    ui->comboBox_frequency_3->setEnabled(true);
+    ui->comboBox_frequency_4->setEnabled(true);
+    ui->comboBox_frequency_5->setEnabled(true);
+
+    ui->radioButton->setEnabled(true);
+    ui->radioButton_2->setEnabled(true);
+    ui->radioButton_3->setEnabled(true);
 
 }
 

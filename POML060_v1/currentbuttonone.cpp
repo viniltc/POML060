@@ -39,6 +39,8 @@ CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
     connect(ui->pushButton_moreLow, &QPushButton::pressed, this, &CurrentButtonOne::buttonPressed_moreLow);
     connect(ui->pushButton_moreLow, &QPushButton::released, this, &CurrentButtonOne::buttonReleased_moreLow);
 
+//    if(this->isEnabled())
+//    emit getValue(value);
 
 
 
