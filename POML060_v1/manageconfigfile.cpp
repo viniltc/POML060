@@ -8,6 +8,73 @@ ManageConfigFile::ManageConfigFile()
 
 }
 
+void ManageConfigFile::currentTest(QString patientLabel)
+{
+    QDomDocument document;
+    pLabel = patientLabel;
+
+    QString configfilename = "config_current_test_"+pLabel;
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+   // QString txtWritePath = ":/resources/"+configfilename+".txt";
+    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+
+
+    QFile originalFile(txtWritePath);
+    if(originalFile.open(QIODevice::WriteOnly  | QIODevice::Text))
+    {
+        QTextStream stream_1(& originalFile);
+
+        stream_1 << "`R ref, version, \"config_ID\",                   menu language, Power timeout (hours), Number of users" <<'\n'
+            << "R  R1   1  \"Template for setting parameters\"  ENGLISH        1                      1 " << "\n\n"
+
+        << "`U ref, \"user name\", language, volume, number of activities"<< '\n'
+        << "U U1    \"Any user\"   ENGLISH   100%      1" << "\n\n"
+
+        << "`A ref, \"activity name\",    max duration, max cycles, startingPW%, available/hidden" << '\n'
+        << " A A1   \"Setup stim levels\" 0min          0           0%           AVAILABLE FALSE FALSE TRUE TRUE" << "\n\n"
+
+        << "  B SA1 1 \"Engine tests\" " << '\n'
+        << "` These limits apply to all phases" << '\n'
+        << "`  M ref stim, channel, max current, minPW, maxPW, freq, waveform, output name" << '\n'
+        << "   M CH1 1 1 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F1") <<"Hz"<<" ASYM \"Channel 1\" "<< '\n'
+        << "   M CH2 1 2 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F2") <<"Hz"<<" ASYM \"Channel 2\" "<< '\n'
+        << "   M CH3 1 3 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F3") <<"Hz"<<" ASYM \"Channel 3\" "<< '\n'
+        << "   M CH4 1 4 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F4") <<"Hz"<<" ASYM \"Channel 4\" "<< '\n'
+        << "   M CH5 1 5 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F5") <<"Hz"<<" ASYM \"Channel 5\" "<< "\n\n"
+
+        << "  P P0 \"Current Test phase\" 0ms NONE 2000ms STOP STOP STOP "<< '\n'
+        << "`                Delay  RR    rate    PW     "<< '\n'
+        << "   O CH1 0mA  0ms    0ms   4500ns 180us RATE "<< '\n'
+        << "   O CH2 0mA  0ms    0ms   4500ns 180us RATE "<< '\n'
+        << "   O CH3 0mA  0ms    0ms   4500ns 180us RATE "<< '\n'
+        << "   O CH4 0mA  0ms    0ms   4500ns 180us RATE "<< '\n'
+        << "   O CH5 0mA  0ms    0ms   4500ns 180us RATE "<<  "\n\n"
+
+        <<"@--------" << '\n' ;
+
+        originalFile.close();
+        qDebug() << "Writing finished";
+
+
+ }
+}
+
 void ManageConfigFile::keyGripTest(QString patientLabel)
 {
     QDomDocument document;

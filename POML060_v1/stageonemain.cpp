@@ -93,10 +93,45 @@ void StageOneMain::on_pushButton_programs_clicked()
 {
 
    // hide();
+
+    QDomDocument document;
+
+
+    QString xmlName = pLabel;
+
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+
+
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+    }
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QDomNode FrequencyVal_SettNode = root.elementsByTagName("Frequency").at(0).firstChild();
+    QDomElement FrequencyVal_SettNodeVal = FrequencyVal_SettNode.toElement();
+
+    if(!FrequencyVal_SettNode.isNull())
+    {
+
+        ManageConfigFile newFile;
+        newFile.currentTest(pLabel);
+
+    }
+
+
     this->close();
     stageprogram = new stageProgram(pLabel, nullptr);
     stageprogram->setAttribute(Qt::WA_DeleteOnClose);
     stageprogram -> show();
+
+
+
 
 
 }

@@ -12,6 +12,7 @@ class ManageConfigFile
 public:
     ManageConfigFile();
     QString pLabel;
+    void currentTest(QString patientLabel);
     void keyGripTest(QString patientLabel);
     void keyGripFinal(QString patientLabel);
     void palmerGraspTest(QString patientLabel);

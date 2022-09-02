@@ -110,6 +110,7 @@ private:
     float m_currentDiv = 1000.0;
     int zeroCurrent = 0;
     int smallCurrent = 7000; // 7mA -> minimum set to stim engine
+    int m_freqDiv = 10; // to get actual frequency of stimulation
 
 
     uint8_t m_channelOne = 0;
@@ -149,6 +150,8 @@ private:
 
     QString StyleSheetOn;
     QString StyleSheetOff;
+
+    QString config_file_name;
 
     Stopwatch* watch;
 };

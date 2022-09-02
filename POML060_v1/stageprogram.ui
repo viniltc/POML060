@@ -1247,8 +1247,8 @@ QComboBox:disabled {
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>400</y>
-          <width>91</width>
+          <y>370</y>
+          <width>631</width>
           <height>16</height>
          </rect>
         </property>

@@ -103,6 +103,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QDomElement Sensor_SettNodeVal = Sensor_SettNode.toElement();
     QDomNode Frequency_SettNode = root.elementsByTagName("FrequencyIndex").at(0).firstChild();
     QDomElement Frequency_SettNodeVal = Frequency_SettNode.toElement();
+    QDomNode FrequencyVal_SettNode = root.elementsByTagName("Frequency").at(0).firstChild();
+    QDomElement FrequencyVal_SettNodeVal = FrequencyVal_SettNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -130,6 +132,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         currentThreeSetVal = ui->widget_currentThree->value/m_currentDiv;
         currentFourSetVal = ui->widget_currentFour->value/m_currentDiv;
         currentFiveSetVal = ui->widget_currentFive->value/m_currentDiv;
+
+
     }
     else
     {
@@ -197,6 +201,12 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         threeFreqStim = ui->comboBox_frequency_3->itemData(threeFreqIndex).toUInt();
         fourFreqStim = ui->comboBox_frequency_4->itemData(fourFreqIndex).toUInt();
         fiveFreqStim = ui->comboBox_frequency_5->itemData(fiveFreqIndex).toUInt();
+
+        //tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
+
+
+
+
 
 
     }
@@ -279,22 +289,73 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
     }
 
-    QFile f(":/resources/config_setup.txt");
-    if(!f.open(QFile::ReadOnly))
-         {
-             QMessageBox::information(0, "config file error", f.errorString());
-         }
+//    QFile f(":/resources/config_setup.txt");
+//    if(!f.open(QFile::ReadOnly))
+//    {
+//        QMessageBox::information(0, "config file error", f.errorString());
+//    }
+//    else
+//    {
+//        QByteArray config = f.readAll();
+//        tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+//        // statusBar()->showMessage("Config file sent", 3000);
+
+//    }
+
+
+
+
+
+
+    if(!FrequencyVal_SettNode.isNull())
+    {
+
+
+        QString configtestfile = "config_current_test_"+pLabel;
+        //QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
+        QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configtestfile+".txt";
+
+       // ui->label->setText("frequency node present");
+        QFile f(txtWritePath);
+        if(!f.open(QFile::ReadOnly))
+        {
+            QMessageBox::information(0, "config file error", f.errorString());
+        }
+        else
+        {
+            QByteArray config = f.readAll();
+            tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+
+        }
+    }
+
     else
-         {
-             QByteArray config = f.readAll();
-             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
+    {
 
-            // statusBar()->showMessage("Config file sent", 3000);
+      //  ui->label->setText("No frequency node!");
+        QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
+        QFile f(txtWritePath);
+        if(!f.open(QFile::ReadOnly))
+        {
+            QMessageBox::information(0, "config file error", f.errorString());
+        }
+        else
+        {
+            QByteArray config = f.readAll();
+            tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
 
-         }
+        }
+
+
+    }
+
+
+
 
     // reset all user intensity to 50%
      tetra_grip_api::do_stimulator_command( STIM_COMMAND_RESET_USER_INTENSITIES);
+
 }
 
 stageProgram::~stageProgram()
@@ -306,13 +367,11 @@ stageProgram::~stageProgram()
 void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
 {
 
-
-
-
+    tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
-    tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
 
+    ui->label->setText(QString::number(oneFreqStim));
 
 }
 
@@ -346,9 +405,10 @@ void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
 {
 
    // currentFiveSetVal = current_uA;
+    tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
     tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelFive,0,180);
-    tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
+
 }
 
 void stageProgram::setZeroCurrOnChannelOne()
@@ -462,6 +522,10 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
               //ui->label_curr_one->setText(QString("MAX"));
               ui->label_curr_one->setStyleSheet("QLabel {  color : red; }");
             }
+            else if (value/m_currentmA < 120)
+            {
+                ui->label_curr_one->setStyleSheet("QLabel {  color : black; }");
+            }
 
             currentOneSetVal = value/m_currentmA;
             break;
@@ -474,6 +538,10 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
              // ui->label_curr_two->setText(QString("MAX"));
               ui->label_curr_two->setStyleSheet("QLabel {  color : red; }");
             }
+            else if (value/m_currentmA < 120)
+            {
+                ui->label_curr_two->setStyleSheet("QLabel {  color : black; }");
+            }
             currentTwoSetVal = value/m_currentmA;
             break;
         case 2: //channel 3
@@ -484,6 +552,10 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             {
             //  ui->label_curr_three->setText(QString("MAX"));
               ui->label_curr_three->setStyleSheet("QLabel {  color : red; }");
+            }
+            else if (value/m_currentmA < 120)
+            {
+                ui->label_curr_three->setStyleSheet("QLabel {  color : black; }");
             }
 
             currentThreeSetVal = value/m_currentmA;
@@ -498,6 +570,11 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
               ui->label_curr_four->setStyleSheet("QLabel {  color : red; }");
             }
 
+            else if (value/m_currentmA < 120)
+            {
+                ui->label_curr_four->setStyleSheet("QLabel {  color : black; }");
+            }
+
             currentFourSetVal = value/m_currentmA;
             break;
         case 4: // channle 5
@@ -508,6 +585,11 @@ void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, 
             {
              // ui->label_curr_five->setText(QString("MAX"));
               ui->label_curr_five->setStyleSheet("QLabel {  color : red; }");
+            }
+
+            else if (value/m_currentmA < 120)
+            {
+                ui->label_curr_five->setStyleSheet("QLabel {  color : black; }");
             }
             currentFiveSetVal = value/m_currentmA;        
             break;
@@ -592,7 +674,7 @@ void stageProgram::onTimeout()
             ui->minutesText->setText(QStringLiteral("%1").arg(m));
         }
 
-        if (s==5)
+        if (s==10)
         {
             p.setColor(QPalette::Text, Qt::red);
             ui->secondsText->setPalette(p);
@@ -727,6 +809,7 @@ void stageProgram::on_pushButton_stimSave_clicked()
   saveToXMLFile();
   saveClicked = true;
 
+
 }
 
 void stageProgram::saveToXMLFile()
@@ -761,6 +844,11 @@ void stageProgram::saveToXMLFile()
     QDomElement newFrequencyTag = document.createElement(QString("FrequencyIndex"));
     QDomNode FrequencyNode = root.elementsByTagName("FrequencyIndex").at(0).firstChild();
     QDomElement FrequencyNodeVal = FrequencyNode.toElement();
+
+    QDomElement newFrequencyValTag = document.createElement(QString("Frequency"));
+    QDomNode FrequencyValNode = root.elementsByTagName("Frequency").at(0).firstChild();
+    QDomElement FrequencyValNodeVal = FrequencyValNode.toElement();
+
 
 
     if (CurrentNodeVal.isNull())
@@ -856,6 +944,58 @@ void stageProgram::saveToXMLFile()
           f4.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_4->currentIndex()));
           QDomNode f5 = SettingsNode.namedItem("F5");
           f5.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_5->currentIndex()));
+
+    }
+
+    if (FrequencyValNodeVal.isNull())
+    {
+        QDomElement f1Tag = document.createElement(QString("F1"));
+        QDomText f1Val = document.createTextNode(QString::number(ui->comboBox_frequency_1->itemData(ui->comboBox_frequency_1->currentIndex()).toInt()/m_freqDiv));
+        f1Tag.appendChild(f1Val);
+        newFrequencyValTag.appendChild(f1Tag);
+
+        QDomElement f2Tag = document.createElement(QString("F2"));
+        QDomText f2Val = document.createTextNode(QString::number(ui->comboBox_frequency_2->itemData(ui->comboBox_frequency_2->currentIndex()).toInt()/m_freqDiv));
+        f1Tag.appendChild(f1Val);
+        f2Tag.appendChild(f2Val);
+        newFrequencyValTag.appendChild(f2Tag);
+
+        QDomElement f3Tag = document.createElement(QString("F3"));
+        QDomText f3Val = document.createTextNode(QString::number(ui->comboBox_frequency_3->itemData(ui->comboBox_frequency_3->currentIndex()).toInt()/m_freqDiv));
+        f1Tag.appendChild(f1Val);
+        f3Tag.appendChild(f3Val);
+        newFrequencyValTag.appendChild(f3Tag);
+
+        QDomElement f4Tag = document.createElement(QString("F4"));
+        QDomText f4Val = document.createTextNode(QString::number(ui->comboBox_frequency_4->itemData(ui->comboBox_frequency_4->currentIndex()).toInt()/m_freqDiv));
+        f1Tag.appendChild(f1Val);
+        f4Tag.appendChild(f4Val);
+        newFrequencyValTag.appendChild(f4Tag);
+
+        QDomElement f5Tag = document.createElement(QString("F5"));
+        QDomText f5Val = document.createTextNode(QString::number(ui->comboBox_frequency_5->itemData(ui->comboBox_frequency_5->currentIndex()).toInt()/m_freqDiv));
+        f1Tag.appendChild(f1Val);
+        f5Tag.appendChild(f5Val);
+        newFrequencyValTag.appendChild(f5Tag);
+
+        root.appendChild(newFrequencyValTag);
+    }
+
+    else
+    {
+          QDomElement root = document.documentElement();
+          QDomNode SettingsNode = root.namedItem("Frequency");
+
+          QDomNode f1 = SettingsNode.namedItem("F1");
+          f1.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_1->itemData(ui->comboBox_frequency_1->currentIndex()).toInt()/m_freqDiv));
+          QDomNode f2 = SettingsNode.namedItem("F2");
+          f2.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_2->itemData(ui->comboBox_frequency_2->currentIndex()).toInt()/m_freqDiv));
+          QDomNode f3 = SettingsNode.namedItem("F3");
+          f3.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_3->itemData(ui->comboBox_frequency_3->currentIndex()).toInt()/m_freqDiv));
+          QDomNode f4 = SettingsNode.namedItem("F4");
+          f4.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_4->itemData(ui->comboBox_frequency_4->currentIndex()).toInt()/m_freqDiv));
+          QDomNode f5 = SettingsNode.namedItem("F5");
+          f5.firstChild().setNodeValue(QString::number(ui->comboBox_frequency_5->itemData(ui->comboBox_frequency_5->currentIndex()).toInt()/m_freqDiv));
 
     }
 
