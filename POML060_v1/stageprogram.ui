@@ -1243,19 +1243,6 @@ QComboBox:disabled {
 }</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>370</y>
-          <width>631</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
        <widget class="QLabel" name="label_pLabel_3">
         <property name="geometry">
          <rect>
@@ -1364,7 +1351,6 @@ QComboBox:disabled {
        <zorder>comboBox_frequency_3</zorder>
        <zorder>comboBox_frequency_4</zorder>
        <zorder>comboBox_frequency_5</zorder>
-       <zorder>label</zorder>
        <zorder>label_pLabel_3</zorder>
        <zorder>label_pLabel_4</zorder>
        <zorder>label_pLabel_5</zorder>
