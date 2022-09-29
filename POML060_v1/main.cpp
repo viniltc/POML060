@@ -70,4 +70,4 @@ int main(int argc, char *argv[])
 
 //$ --> Old Stim (Orange),  £ ---> Paul's stim (black)
 
-
+// COM 6 --> is debug port with settings baud 1M, hardware flow control RTS/CTS...rown/col (40/90) newline mode
