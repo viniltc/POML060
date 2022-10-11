@@ -470,7 +470,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
 
     if (FDS_dragging && FDS_checked)
     {
-       if(event->y() > 150 && event->y() < 280){
+       if(event->y() > 150 && event->y() < 308){
          changeP1value(event->y());
        }
         if(FDS_checked){
@@ -486,7 +486,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
     }
     else if(Ulna_dragging && Ulna_checked)
     {
-      if(event->y() > 150 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 308){
         changeP1value(event->y());
        }
 
@@ -516,7 +516,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
 //    }
     else if(EDC_Seg1_dragging && EDC_Seg1_checked)
     {
-      if(event->y() > 150 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 308){
         changeP1value(event->y());
       //  changeP2value(event->y());
        }
@@ -532,7 +532,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
     {
-      if(event->y() > 150 && event->y() < 299){
+      if(event->y() > 150 && event->y() < 308){
         changeP1value(event->y());
        // changeP2value(event->y());
        }
@@ -549,7 +549,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
 
     else if(EDC_Seg2_dragging && EDC_Seg2_checked)
     {
-      if(event->y() > 150 && event->y() < 299){
+      if(event->y() > 150 && event->y() < 308){
         changeP1value(event->y());
        }
 
@@ -566,7 +566,7 @@ void ProgramPalmerGrasp::mouseMoveEvent(QMouseEvent *event)
 
     else if(APB_dragging && APB_checked)
     {
-      if(event->y() > 150 && event->y() < 280){
+      if(event->y() > 150 && event->y() < 308){
         changeP1value(event->y());
        }
 
