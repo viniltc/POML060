@@ -40,7 +40,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         for(auto val : freqValues)
         {
             cb->addItem(QString::number(val) + "Hz", QVariant(val*10));
-            cb->setCurrentIndex(6); // default 40 Hz
+            cb->setCurrentIndex(2); // default 30 Hz
         }
     }
 
@@ -221,11 +221,11 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         fourFreqIndex = ui->comboBox_frequency_4->currentIndex();
         fiveFreqIndex = ui->comboBox_frequency_5->currentIndex();
 
-        ui->comboBox_frequency_1->setCurrentIndex(6);
-        ui->comboBox_frequency_2->setCurrentIndex(6);
-        ui->comboBox_frequency_3->setCurrentIndex(6);
-        ui->comboBox_frequency_4->setCurrentIndex(6);
-        ui->comboBox_frequency_5->setCurrentIndex(6);
+        ui->comboBox_frequency_1->setCurrentIndex(2);
+        ui->comboBox_frequency_2->setCurrentIndex(2);
+        ui->comboBox_frequency_3->setCurrentIndex(2);
+        ui->comboBox_frequency_4->setCurrentIndex(2);
+        ui->comboBox_frequency_5->setCurrentIndex(2);
 
 
     }

@@ -44,7 +44,7 @@ QTabBar::tab:selected {
 }</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -1260,7 +1260,7 @@ QComboBox:disabled {
          </font>
         </property>
         <property name="text">
-         <string>HH</string>
+         <string>MM</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_pLabel_4">
@@ -1280,7 +1280,7 @@ QComboBox:disabled {
          </font>
         </property>
         <property name="text">
-         <string>MM</string>
+         <string>SS</string>
         </property>
        </widget>
        <widget class="QLabel" name="label_pLabel_5">
@@ -1300,7 +1300,7 @@ QComboBox:disabled {
          </font>
         </property>
         <property name="text">
-         <string>SS</string>
+         <string>mS</string>
         </property>
        </widget>
        <widget class="QGroupBox" name="groupBox_4">

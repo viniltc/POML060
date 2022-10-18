@@ -44,29 +44,19 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
    ui->radioButton_six->setEnabled(false); // EDC seg 2
 
 
-   ui->comboBox_1->addItem("200ms", QVariant(0.2));
-   ui->comboBox_1->addItem("500ms", QVariant(0.5));
-   ui->comboBox_1->addItem("1000ms", QVariant(1));
-   ui->comboBox_1->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_1->addItem("2000ms", QVariant(2));
 
-   ui->comboBox_2->addItem("200ms", QVariant(0.2));
-   ui->comboBox_2->addItem("500ms", QVariant(0.5));
-   ui->comboBox_2->addItem("1000ms", QVariant(1));
-   ui->comboBox_2->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_2->addItem("2000ms", QVariant(2));
 
-   ui->comboBox_3->addItem("200ms", QVariant(0.2));
-   ui->comboBox_3->addItem("500ms", QVariant(0.5));
-   ui->comboBox_3->addItem("1000ms", QVariant(1));
-   ui->comboBox_3->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_3->addItem("2000ms", QVariant(2));
+   QComboBox* rampComboBoxes[] { ui->comboBox_1, ui->comboBox_2, ui->comboBox_3, ui->comboBox_4 };
+   const double rampValues[] {0.2 , 0.5 , 1 , 1.5 , 2};
+   for(auto* cb : rampComboBoxes)
+   {
+       for(auto val : rampValues)
+       {
+           cb->addItem(QString::number(val*1000) + "ms", QVariant(val));
+           cb->setCurrentIndex(2); // default 1s
+       }
+   }
 
-   ui->comboBox_4->addItem("200ms", QVariant(0.2));
-   ui->comboBox_4->addItem("500ms", QVariant(0.5));
-   ui->comboBox_4->addItem("1000ms", QVariant(1));
-   ui->comboBox_4->addItem("1500ms", QVariant(1.5));
-   ui->comboBox_4->addItem("2000ms", QVariant(2));
 
    m_currentBtn = 0;
 
