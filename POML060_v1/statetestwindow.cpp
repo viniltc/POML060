@@ -96,6 +96,17 @@ void StateTestWindow::phaseEventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, u
 void StateTestWindow::closeEvent(QCloseEvent *event)
 {
     tetra_grip_api::stimulation_pause(true);
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "TetraGrip", "You are about to close the Tetragrip application, have you saved all the settings?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        event->accept();
+    }
+
+    else if(reply == QMessageBox::No) {
+        event->ignore();
+    }
 }
 
 void StateTestWindow::on_pushButton_back_clicked()

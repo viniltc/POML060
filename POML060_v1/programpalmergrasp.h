@@ -4,6 +4,7 @@
 #include<QDialog>
 #include <QPainter>
 #include <QMouseEvent>
+#include <QCloseEvent>
 #include <QDebug>
 #include <QButtonGroup>
 #include <QPushButton>

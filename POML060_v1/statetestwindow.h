@@ -2,6 +2,7 @@
 #define STATETESTWINDOW_H
 
 #include <QWidget>
+#include <QCloseEvent>
 #include "tetra_grip_api.h"
 
 namespace Ui {

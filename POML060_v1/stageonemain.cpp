@@ -169,10 +169,22 @@ void StageOneMain::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t index, uint8_t r
 
 }
 
-void StageOneMain::closeEvent(QCloseEvent *event)
+void StageOneMain::closeEvent(QCloseEvent *event1)
 {
 
-       tetra_grip_api::stimulation_pause(true);
+    tetra_grip_api::stimulation_pause(true);
+
+
+//    QMessageBox::StandardButton reply;
+//    reply = QMessageBox::question(this, "TetraGrip", "Are you sure want to close the Tetragrip App?",
+//                                  QMessageBox::Yes|QMessageBox::No);
+//    if (reply == QMessageBox::Yes) {
+//        event1->accept();
+//    }
+
+//    else if(reply == QMessageBox::No) {
+//        event1->ignore();
+//    }
 
 }
 

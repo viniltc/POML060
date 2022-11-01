@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QButtonGroup>
 #include <QPushButton>
+#include <QCloseEvent>
 #include "tetra_grip_api.h"
 #include <QtXml/QDomDocument>
 #include "stopwatch.h"

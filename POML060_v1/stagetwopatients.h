@@ -2,6 +2,7 @@
 #define STAGETWOPATIENTS_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "tetra_grip_api.h"
 #include "stagetwonew.h"
 
@@ -39,6 +40,7 @@ private slots:
 
 private:
     Ui::StageTwoPatients *ui;
+    void closeEvent (QCloseEvent *event);
 
 
 };

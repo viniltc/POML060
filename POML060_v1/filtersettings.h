@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtMath> // for PI
+#include <QCloseEvent>
 #include "shouldercontrol.h"
 #include "manageconfigfile.h"
 //#include "stageonemain.h"

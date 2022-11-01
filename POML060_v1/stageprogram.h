@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "tetra_grip_api.h"
 #include <QDebug>
+#include <QCloseEvent>
 #include "programkeygripv2.h"
 #include "programpalmergrasp.h"
 #include "programopenhand.h"

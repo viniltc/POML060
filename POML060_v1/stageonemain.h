@@ -2,6 +2,7 @@
 #define STAGEONEMAIN_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "stagetwopatients.h"
 #include "stageprogram.h"
 #include <QtSerialPort/QSerialPort>
@@ -56,6 +57,6 @@ public slots:
 private:
     Ui::StageOneMain *ui;
     QLabel *statusBat, *statusConfig;
-    void closeEvent (QCloseEvent *event);
+    void closeEvent (QCloseEvent *event1);
 };
 #endif // STAGEONEMAIN_H

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 //#include "mainwindow.h"
+#include <QCloseEvent>
 
 
 
@@ -34,6 +35,7 @@ private slots:
 
 private:
     Ui::StageTwoNew *ui;
+    void closeEvent (QCloseEvent *event);
 
 
 };

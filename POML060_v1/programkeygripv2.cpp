@@ -495,6 +495,8 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       PW_EDC1 = adjust_PW_range(CurPoint1->y());
       PW_phase1_EDC = PW_EDC1;
       Y_coordinates_EDC1 = CurPoint1->y();
+
+     ui->label_9->setText(QString::number(CurPoint1->y()) + "and" + QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)
@@ -979,16 +981,14 @@ void ProgramKeyGripV2::on_btn_nextPhase_clicked()
 
 int ProgramKeyGripV2::adjust_PW_range(int value)
 {
-    //int result = ((280-value)*3)+1 ; // 0-180us
-    //int result = (1224-(4.2*value)) ; // 50-300us
-    int result = (588-(1.9*value)) ; // 50-300us
 
+    int result = (588-(1.9*value)) ; // 4-300us
 
 
     if (result == 0)
-         return -1;
+        return -1;
     else
-         return result;
+        return result;
 }
 
 void ProgramKeyGripV2::on_comboBox_1_currentIndexChanged(int index)
@@ -1045,6 +1045,17 @@ void ProgramKeyGripV2::getRampStepSize()
 void ProgramKeyGripV2::closeEvent(QCloseEvent *event)
 {
     tetra_grip_api::stimulation_pause(true);
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you saved all the settings?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        event->accept();
+    }
+
+    else if(reply == QMessageBox::No) {
+        event->ignore();
+    }
 }
 
 QString ProgramKeyGripV2::findXMLNodeValue(const QDomElement &root, const QString &parentname, const QString &childname)

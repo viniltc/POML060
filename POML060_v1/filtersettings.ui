@@ -154,19 +154,6 @@ QPushButton:disabled {
     </item>
    </layout>
   </widget>
-  <widget class="QRadioButton" name="radioButton_lp">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>230</y>
-     <width>91</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Low pass only</string>
-   </property>
-  </widget>
   <widget class="QWidget" name="layoutWidget_4">
    <property name="geometry">
     <rect>
@@ -221,19 +208,6 @@ QPushButton:disabled {
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QRadioButton" name="radioButton_hp">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>240</y>
-     <width>91</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>High pass only</string>
-   </property>
   </widget>
   <widget class="QWidget" name="layoutWidget_3">
    <property name="geometry">
@@ -334,19 +308,6 @@ QPushButton:disabled {
     </item>
    </layout>
   </widget>
-  <widget class="QRadioButton" name="radioButton_bp">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>210</y>
-     <width>91</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Band pass</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
@@ -363,6 +324,45 @@ QPushButton:disabled {
    </property>
    <property name="text">
     <string>Filter Settings Window</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_hp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>200</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_lp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_bp">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>240</y>
+     <width>82</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
    </property>
   </widget>
  </widget>
