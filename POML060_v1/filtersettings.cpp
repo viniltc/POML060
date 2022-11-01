@@ -41,6 +41,7 @@ FilterSettings::FilterSettings(QString patientLabel, QWidget *parent) :
     ui->radioButton_hp->setVisible(false);
     ui->radioButton_lp->setVisible(false);
     ui->radioButton_bp->setVisible(false);
+    ui->pushButton_tune->setVisible(false);
 }
 
 FilterSettings::~FilterSettings()
@@ -68,11 +69,28 @@ void FilterSettings::eventHandler(STIM_GUI_TOPIC_T topic, uint8_t reg, uint32_t 
 void FilterSettings::on_pushButton_save_clicked()
 {
 
-   // loadNewConfigFile();
-    //ShoulderControl *back;
+
+    FS = ui->lineEdit_fs->text().toDouble(); //Fs
+    FC_lpf = ui->lineEdit_fclp->text().toDouble();   //Fc
+    Q_lpf = ui->lineEdit_qlp->text().toDouble(); //Q
+    dB_lpf = ui->lineEdit_dblp->text().toDouble(); // Db
+    FC_hpf = ui->lineEdit_fchp->text().toDouble();   //Fc
+    Q_hpf = ui->lineEdit_qhp->text().toDouble(); //Q
+    dB_hpf = ui->lineEdit_dbhp->text().toDouble(); // Db
+
+    biquadratic_filter_coefficient(Q_hpf, dB_hpf, FS, FC_hpf, 1, coeff_hpf); // hpf
+    biquadratic_filter_coefficient(Q_lpf, dB_lpf, FS, FC_lpf, 0, coeff_lpf); // lpf
+
+
+    saveToXMLFile();
+
+    ManageConfigFile configFile;
+    configFile.filterTest(pLabel);
+
+   // ui->pushButton_save->setEnabled(true);
+
     this->close();
-   // back = new ShoulderControl(pLabel);
-    // back -> show();
+
 }
 
 void FilterSettings::biquadratic_filter_coefficient(double Q, double dB, double FS, double FC, int type, float *coeff)
@@ -184,24 +202,7 @@ void FilterSettings::biquadratic_filter_coefficient(double Q, double dB, double 
 
 void FilterSettings::on_pushButton_tune_clicked()
 {
-    FS = ui->lineEdit_fs->text().toDouble(); //Fs
-    FC_lpf = ui->lineEdit_fclp->text().toDouble();   //Fc
-    Q_lpf = ui->lineEdit_qlp->text().toDouble(); //Q
-    dB_lpf = ui->lineEdit_dblp->text().toDouble(); // Db
-    FC_hpf = ui->lineEdit_fchp->text().toDouble();   //Fc
-    Q_hpf = ui->lineEdit_qhp->text().toDouble(); //Q
-    dB_hpf = ui->lineEdit_dbhp->text().toDouble(); // Db
 
-    biquadratic_filter_coefficient(Q_hpf, dB_hpf, FS, FC_hpf, 1, coeff_hpf); // hpf
-    biquadratic_filter_coefficient(Q_lpf, dB_lpf, FS, FC_lpf, 0, coeff_lpf); // lpf
-
-
-    saveToXMLFile();
-
-    ManageConfigFile configFile;
-    configFile.filterTest(pLabel);
-
-   // ui->pushButton_save->setEnabled(true);
 }
 
 void FilterSettings::saveToXMLFile()

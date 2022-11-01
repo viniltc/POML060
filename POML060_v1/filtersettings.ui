@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButton_save">
    <property name="geometry">
     <rect>
-     <x>400</x>
+     <x>450</x>
      <y>220</y>
      <width>71</width>
      <height>31</height>
@@ -70,7 +70,7 @@ QPushButton:disabled {
   <widget class="QPushButton" name="pushButton_tune">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>350</x>
      <y>220</y>
      <width>75</width>
      <height>31</height>

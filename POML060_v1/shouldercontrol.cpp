@@ -29,6 +29,7 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui->spinBox_twotwitch->setValue(2000);
 
     ui->textBrowser->setVisible(false);
+    ui->pushButton_2->setVisible(false);
 
 
     ui->label_pid->setText(patientLabel);
@@ -451,54 +452,7 @@ void ShoulderControl::biquadratic_filter_coefficient(double Q, double dB, double
 
 void ShoulderControl::on_pushButton_2_clicked()
 {
-//    QString configfilename = "config_filterSettiings_"+pLabel;
-//    QString xmlName = pLabel;
 
-//    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
-//   // QString txtWritePath = ":/resources/"+configfilename+".txt";
-//    QFile file(xmlReadPath);
-//    if(!file.open(QIODevice::ReadOnly  | QIODevice::Text))
-//    {
-
-//        QMessageBox::information(this, "Unable to open XML file to read", file.errorString());
-//        return;
-//    }
-
-//     QDomDocument document;
-//     document.setContent(&file);
-//     QDomElement root = document.documentElement();
-
-
-//    file.close();
-//    QDomNode FiltNode = root.elementsByTagName("Filter_Coeffs").at(0).firstChild();
-//    QDomElement FiltNodeVal = FiltNode.toElement();
-
-//    if (FiltNodeVal.isNull())
-//    {
-//        QMessageBox::information(this, "TetraGrip", "Goto Settings and tune filter");
-//        return;
-//    }
-
-//    else
-//    {
-
-//    QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configfilename+".txt";
-
-//    QFile f(txtWritePath);
-//    if(!f.open(QFile::ReadOnly))
-//         {
-//             QMessageBox::information(0, "config file error", f.errorString());
-//         }
-//    else
-//         {
-//             QByteArray config = f.readAll();
-//             tetra_grip_api::send_long_register(STIM_LONG_REG_STIM_CONFIG_FILE, (size_t)config.length(), (uint8_t*)config.data());
-
-
-//         }
-//    }
-
-//    tetra_grip_api::stimulation_start(true);
 }
 
 void ShoulderControl::saveToXMLFile()
@@ -597,7 +551,6 @@ void ShoulderControl::saveToXMLFile()
 
 void ShoulderControl::on_pushButton_4_clicked()
 {
-
     QString configfilename = "config_filterSettiings_"+pLabel;
     QString xmlName = pLabel;
 
@@ -646,16 +599,6 @@ void ShoulderControl::on_pushButton_4_clicked()
     }
 
     tetra_grip_api::stimulation_start(true);
-
-
-
-
-
-
-
-
-
-
 
     startBtnStatus = true;
 }
@@ -759,4 +702,18 @@ void ShoulderControl::on_pushButton_3_clicked()
     file.close();
 
     qDebug()<< "Finished";
+}
+
+void ShoulderControl::closeEvent(QCloseEvent *event)
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you correctly saved the sensor settings?",
+                                  QMessageBox::Yes|QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        event->accept();
+        //return;
+    }
+    else if(reply == QMessageBox::No) {
+        event->ignore();
+    }
 }
