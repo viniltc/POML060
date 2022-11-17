@@ -1046,15 +1046,17 @@ void ProgramKeyGripV2::closeEvent(QCloseEvent *event)
 {
     tetra_grip_api::stimulation_pause(true);
 
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you saved all the settings?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        event->accept();
-    }
+    if(event->spontaneous()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you saved all the settings?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            event->accept();
+        }
 
-    else if(reply == QMessageBox::No) {
-        event->ignore();
+        else if(reply == QMessageBox::No) {
+            event->ignore();
+        }
     }
 }
 

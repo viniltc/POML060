@@ -252,15 +252,17 @@ void StageTwoPatients::on_pushButton_Home_clicked()
 
 void StageTwoPatients::closeEvent(QCloseEvent *event)
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you correctly setup a patient?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        event->accept();
-        //return;
-    }
-    else if(reply == QMessageBox::No) {
-        event->ignore();
+    if(event->spontaneous()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you correctly setup a patient?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            event->accept();
+            //return;
+        }
+        else if(reply == QMessageBox::No) {
+            event->ignore();
+        }
     }
 
 }

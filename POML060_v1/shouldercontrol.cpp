@@ -706,14 +706,17 @@ void ShoulderControl::on_pushButton_3_clicked()
 
 void ShoulderControl::closeEvent(QCloseEvent *event)
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you correctly saved the sensor settings?",
-                                  QMessageBox::Yes|QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        event->accept();
-        //return;
-    }
-    else if(reply == QMessageBox::No) {
-        event->ignore();
+    if(event->spontaneous()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "TetraGrip", "You are about to close TetraGrip application, have you saved the sensor settings?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+
+            event->accept();
+
+        }
+        else if(reply == QMessageBox::No) {
+            event->ignore();
+        }
     }
 }
