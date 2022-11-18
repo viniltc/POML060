@@ -45,8 +45,8 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
     {
         qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
         QMessageBox::StandardButton reply;
-      //  reply = QMessageBox::critical(nullptr, QObject::tr("Open serial port error"), serial->errorString());
-        reply = QMessageBox::critical(nullptr, QObject::tr("Open serial port error"), serial->errorString()+"\n\n"+"Please make sure the stimulator is properly connected to the PC and restrat the application");
+      //  reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not connected"), serial->errorString());
+        reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not connected!")," Stimulator is not connected to the PC\n\nPlease make sure the stimulator is properly connected to one of the USB ports of the PC and restrat the application");
         if(reply == QMessageBox::Ok)
         {
              //QApplication::exit();
@@ -97,7 +97,19 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
                              "Are you sure that you have write permission and no other Program is using this port?",QMessageBox::Ok	,QMessageBox::NoButton);
         break;
     case QSerialPort::OpenError:
-        QMessageBox::warning(0,"Serial port","Serial Port Open error!!",QMessageBox::Ok	,QMessageBox::NoButton);
+       // QMessageBox::warning(0,"Serial port","Can't open the stimulator, please make sure the stimulator is properly connected to the PC and restart the Tetragrip application",QMessageBox::Ok	,QMessageBox::NoButton);
+
+        QMessageBox::StandardButton reply1;
+
+        reply1 = QMessageBox::critical(0,"Serial port","Can't open the stimulator, please make sure the stimulator is properly connected to the PC and restart the Tetragrip application",QMessageBox::Ok);
+        if (reply1 == QMessageBox::Ok) {
+
+          // QCoreApplication::exit();
+           exit(EXIT_FAILURE);
+
+        }
+
+
         break;
     case QSerialPort::ParityError:
         break;
@@ -117,7 +129,17 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
         disconnect();
         break;
     case QSerialPort::ResourceError:
-        QMessageBox::warning(0,"Serial port","Serial Port ResourceError!!",QMessageBox::Ok	,QMessageBox::NoButton);
+        QMessageBox::StandardButton reply;
+
+        reply = QMessageBox::critical(0,"Stimulator disconnected!","Looks like the Stimulator is disconnetced from the PC.\n\nPlease make sure the stimulator is connected to one of the USB ports of the PC and restrat the Tetragrip application",QMessageBox::Ok);
+                                      if (reply == QMessageBox::Ok) {
+
+
+          // QCoreApplication::exit();
+           exit(EXIT_FAILURE);
+
+        }
+
         qDebug()<<"Serial Port ResourceError!!";
         emit api.deviceError(true);
         //disconnect();
