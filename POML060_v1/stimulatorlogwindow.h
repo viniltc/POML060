@@ -23,6 +23,7 @@ private slots:
 
 private:
     Ui::StimulatorLogWindow *ui;
+    void closeEvent (QCloseEvent *event);
 };
 
 #endif // STIMULATORLOGWINDOW_H

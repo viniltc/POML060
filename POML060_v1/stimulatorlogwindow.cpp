@@ -34,6 +34,7 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     QString pcycles = "";
+    QString unpaused_events = "";
 
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)");
     int nb_line = 0;
@@ -61,6 +62,16 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
             }
         }
 
+        if(nb_line == 5 )
+        {
+            QStringList slist = line.split(rx);
+            if(slist.size() >3) {
+                unpaused_events = slist[3];
+            } else {
+                qDebug() << "Problem with string" << slist << line;
+            }
+        }
+
         if(nb_line == 6 )
         {
             QStringList slist = line.split(rx);
@@ -79,6 +90,28 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
                                          new QTableWidgetItem(slist[3]));
             } else {
                 qDebug() << "Tablewidget (powercycles),Problem with string" << slist << line;
+            }
+        }
+
+
+        if(nb_line == 7 )
+        {
+            QStringList slist = line.split(rx);
+            // slist[4]= QString::number(slist[4].toInt()/(1000));
+
+            if(slist.size() >3) {
+                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
+                                         0,
+                                         new QTableWidgetItem("Unpaused Events"));
+                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
+                                         1,
+                                         new QTableWidgetItem( unpaused_events));
+                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
+                                         2,
+                                         new QTableWidgetItem(slist[3]));
+            } else {
+                qDebug() << "Tablewidget (unpausedevents),Problem with string" << slist << line;
             }
         }
 
@@ -182,4 +215,22 @@ void StimulatorLogWindow::on_pushButton_3_clicked()
       else if(reply == QMessageBox::No) {
           return;
       }
+}
+
+void StimulatorLogWindow::closeEvent(QCloseEvent *event)
+{
+    if(event->spontaneous()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+
+            event->accept();
+
+        }
+        else if(reply == QMessageBox::No) {
+            event->ignore();
+        }
+    }
+
 }
