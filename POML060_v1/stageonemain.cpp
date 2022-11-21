@@ -38,7 +38,10 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
     ui->label_pid->setAlignment(Qt::AlignCenter);
     ui->label_pid->setStyleSheet("color: blue;");
 
-    ui->pushButton_patients->setToolTip("To set up patient");
+    ui->pushButton_patients->setToolTip("To setup patient");
+    ui->pushButton_programs->setToolTip("To setup stimulation current, frequency and grip profiles ");
+    ui->pushButton_logs->setToolTip("To setup shoulder control sensor");
+    ui->pushButton_help->setToolTip("To view stimulator log");
 
     pLabel = patientLabel;
 
@@ -179,14 +182,14 @@ void StageOneMain::closeEvent(QCloseEvent *event1)
 
     if(event1->spontaneous()){
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::information(this, "TetraGrip", "You are about to close TetraGrip application, have you saved the previous settings?" "\n"  "Click Ignore to continue with the application or click Close  to close the application",
-                                      QMessageBox::Close|QMessageBox::Ignore);
-        if (reply == QMessageBox::Close) {
+        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?\n\nClick Yes to quit or No to remain in this window",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
 
             event1->accept();
 
         }
-        else if(reply == QMessageBox::Ignore) {
+        else if(reply == QMessageBox::No) {
             event1->ignore();
         }
     }

@@ -221,7 +221,7 @@ void StimulatorLogWindow::closeEvent(QCloseEvent *event)
 {
     if(event->spontaneous()){
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?",
+        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?\n\nClick Yes to quit or No to remain in this window",
                                       QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::Yes) {
 

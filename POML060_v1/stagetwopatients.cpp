@@ -254,11 +254,12 @@ void StageTwoPatients::closeEvent(QCloseEvent *event)
 {
     if(event->spontaneous()){
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you correctly setup a patient?",
+        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?\n\nAny unsaved patient profile will be deleted\n\nClick Yes to quit or No to remain in this window",
                                       QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::Yes) {
+
             event->accept();
-            //return;
+
         }
         else if(reply == QMessageBox::No) {
             event->ignore();

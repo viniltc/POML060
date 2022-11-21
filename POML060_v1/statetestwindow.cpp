@@ -98,15 +98,18 @@ void StateTestWindow::closeEvent(QCloseEvent *event)
     tetra_grip_api::stimulation_pause(true);
 
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "TetraGrip", "You are about to close the Tetragrip application, have you saved all the settings?",
+    reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?\n\nClick Yes to quit or No to remain in this window",
                                   QMessageBox::Yes|QMessageBox::No);
     if (reply == QMessageBox::Yes) {
-        event->accept();
-    }
 
+        event->accept();
+
+    }
     else if(reply == QMessageBox::No) {
         event->ignore();
     }
+
+
 }
 
 void StateTestWindow::on_pushButton_back_clicked()

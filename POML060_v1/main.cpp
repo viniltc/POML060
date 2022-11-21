@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
 
     QObject::connect(api.serial, SIGNAL(readyRead()), &api, SLOT(readData()));
     QObject::connect(api.serial, SIGNAL(error(QSerialPort::SerialPortError)),&api, SLOT(ErrorHandler(QSerialPort::SerialPortError))); // error handling
-//    QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
+   // QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
 
     // splash screen
     QPixmap pixmap(":/resources/tetragrip_logo2.png");
     QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
-    //splash.showMessage("Loaded modules");
+    //splash.showMessage("Stimulator Detected..");
     QTimer::singleShot(5000, &splash, &QWidget::close); // keep displayed for 5 seconds
 //    api.tryToAutoconnect = false;
 

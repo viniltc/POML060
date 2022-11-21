@@ -200,6 +200,23 @@ void FilterSettings::biquadratic_filter_coefficient(double Q, double dB, double 
         //0:b2, 1:b1, 2:b0, 3:a1, 4:a2
 }
 
+void FilterSettings::closeEvent(QCloseEvent *event)
+{
+    if(event->spontaneous()){
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::information(this, "TetraGrip", "Are you sure want to quit Tetragrip App?\n\nUnsaved filter setting values will be deleted\n\nClick Yes to quit or No to remain in this window",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+
+            event->accept();
+
+        }
+        else if(reply == QMessageBox::No) {
+            event->ignore();
+        }
+    }
+}
+
 void FilterSettings::on_pushButton_tune_clicked()
 {
 

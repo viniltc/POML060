@@ -1048,13 +1048,19 @@ void ProgramKeyGripV2::closeEvent(QCloseEvent *event)
 
     if(event->spontaneous()){
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "TetraGrip", "You are about to leave this window, have you saved all the settings?",
-                                      QMessageBox::Yes|QMessageBox::No);
+        reply = QMessageBox::question(this, "TetraGrip", "You are about to close Tetragrip Application, have you saved Key Grip settings?\n\n Click Yes to save and close or Cancel to remian in this window",
+                                      QMessageBox::Yes|QMessageBox::Cancel);
+//        if (reply == QMessageBox::Close) {
+//            event->accept();
+//            //return;
+//        }
         if (reply == QMessageBox::Yes) {
+
+            saveToXMLFile();
+            //saveClicked = true;
             event->accept();
         }
-
-        else if(reply == QMessageBox::No) {
+        else if(reply == QMessageBox::Cancel) {
             event->ignore();
         }
     }

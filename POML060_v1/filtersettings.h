@@ -51,6 +51,7 @@ private:
     double dB_hpf = 0; // peak gain
     double FC_hpf = 0; // cutoff frequency
     int filter_type = 0; // 0:Low Pass, 1:High Pass, 2:Band Pass Peak gain Q..(check function def)
+    void closeEvent (QCloseEvent *event);
 };
 
 #endif // FILTERSETTINGS_H

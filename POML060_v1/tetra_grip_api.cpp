@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <QApplication>
+#include <QProcess>
+#include <QSplashScreen>
 
 
 #define _CRT_SECURE_NO_DEPRECATE
@@ -40,13 +42,15 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
     if(serial->open(QIODevice::ReadWrite))
     {
         qDebug()<<"Opend port OK";
+
+
     }
     else
     {
         qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
         QMessageBox::StandardButton reply;
-      //  reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not connected"), serial->errorString());
-        reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not connected!")," Stimulator is not connected to the PC\n\nPlease make sure the stimulator is properly connected to one of the USB ports of the PC and restrat the application");
+      //  reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"), serial->errorString());
+        reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"),"Stimulator is not connected to the PC\n\nPlease make sure the stimulator is properly connected to one of the USB ports of the PC and restrat the application\n\nPress OK to close this window");
         if(reply == QMessageBox::Ok)
         {
              //QApplication::exit();
@@ -131,14 +135,18 @@ void tetra_grip_api::ErrorHandler(QSerialPort::SerialPortError error)
     case QSerialPort::ResourceError:
         QMessageBox::StandardButton reply;
 
-        reply = QMessageBox::critical(0,"Stimulator disconnected!","Looks like the Stimulator is disconnetced from the PC.\n\nPlease make sure the stimulator is connected to one of the USB ports of the PC and restrat the Tetragrip application",QMessageBox::Ok);
-                                      if (reply == QMessageBox::Ok) {
+        reply = QMessageBox::critical(0,"Stimulator disconnected!","Stimulator has stopped responding or has been disconnetced.\n\nPlease make sure the stimulator is connected to one of the USB ports of the PC and restrat the Tetragrip application\n\nIf you have already saved the patient profile, you can continue the setup by selecting the patient by going to the \"Patients\" window after restarting the application\n\nPress OK to close this window",QMessageBox::Ok);
+        if (reply == QMessageBox::Ok) {
 
 
-          // QCoreApplication::exit();
-           exit(EXIT_FAILURE);
+            // QCoreApplication::exit();
+            exit(EXIT_FAILURE);
 
         }
+//        else if (reply == QMessageBox::No){
+//           // qDebug() << "application path: " << QCoreApplication::instance()->applicationDirPath();
+//            QProcess::startDetached(QCoreApplication::instance()->applicationDirPath() + "/POML060_v1.exe");
+//        }
 
         qDebug()<<"Serial Port ResourceError!!";
         emit api.deviceError(true);
