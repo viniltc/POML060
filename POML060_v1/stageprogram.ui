@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Programs</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_4">
@@ -1316,6 +1316,19 @@ QComboBox:disabled {
          <string>Stimulation Timer</string>
         </property>
        </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>400</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
        <zorder>groupBox_4</zorder>
        <zorder>groupBox_3</zorder>
        <zorder>pushButton_stimStart</zorder>
@@ -1354,6 +1367,7 @@ QComboBox:disabled {
        <zorder>label_pLabel_3</zorder>
        <zorder>label_pLabel_4</zorder>
        <zorder>label_pLabel_5</zorder>
+       <zorder>label</zorder>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">

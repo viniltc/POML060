@@ -992,6 +992,8 @@ QString ProgramPalmerGrasp::findXMLNodeValue(const QDomElement &root, const QStr
 void ProgramPalmerGrasp::on_pushButton_clicked()
 {
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramPalmerGrasp::keyGripPhaseEventHandler);
+    ManageConfigFile currentConfigFile;
+    currentConfigFile.currentTest(pLabel);
     this->close();
     stageProgram *backprogram;
     backprogram = new stageProgram(pLabel,nullptr);

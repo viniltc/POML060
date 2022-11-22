@@ -309,11 +309,11 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         //QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
         QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configtestfile+".txt";
 
-       // ui->label->setText("frequency node present");
+        ui->label->setText("frequency node present");
         QFile f(txtWritePath);
         if(!f.open(QFile::ReadOnly))
         {
-            QMessageBox::information(0, "config file error", f.errorString());
+            QMessageBox::information(0, "Config file error, freqpresent", f.errorString());
         }
         else
         {
@@ -326,12 +326,12 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     else
     {
 
-      //  ui->label->setText("No frequency node!");
+        ui->label->setText("No frequency node!");
         QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
         QFile f(txtWritePath);
         if(!f.open(QFile::ReadOnly))
         {
-            QMessageBox::information(0, "config file error", f.errorString());
+            QMessageBox::information(0, "Config file error, no freqnode", f.errorString());
         }
         else
         {
@@ -738,7 +738,7 @@ void stageProgram::on_pushButton_programKeyGrip_clicked()
 
     if(CurrentNode.isNull())
     {
-        QMessageBox::information(this, "Current not saved", "Please goto previous tab and set the current levels in all the channels and press save button");
+        QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
         return;
     }
 
@@ -787,7 +787,7 @@ void stageProgram::on_pushButton_programPalmerGrasp_clicked()
 
     if(CurrentNode.isNull())
     {
-        QMessageBox::information(this, "Current not saved", "Please goto previous tab and set the current levels in all the channels and press save button");
+        QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
         return;
     }
 

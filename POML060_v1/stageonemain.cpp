@@ -42,6 +42,8 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
     ui->pushButton_programs->setToolTip("To setup stimulation current, frequency and grip profiles ");
     ui->pushButton_logs->setToolTip("To setup shoulder control sensor");
     ui->pushButton_help->setToolTip("To view stimulator log");
+    ui->pushButton_exit->setToolTip("To exit from the Tetragrip Application");
+    ui->qLed->setToolTip("Stimulator Battery and Connection Status LED");
 
     pLabel = patientLabel;
 

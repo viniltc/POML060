@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Tetragrip Test Window</string>
   </property>
   <widget class="QPushButton" name="pushButton_back">
    <property name="geometry">

@@ -49,15 +49,30 @@ void tetra_grip_api::openSerialPort()//Vendor Identifier: 403 , Product Identifi
     {
         qDebug()<<"Failed to open port. Error code: "<< serial->error() << serial->errorString();
         QMessageBox::StandardButton reply;
-      //  reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"), serial->errorString());
-        reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"),"Stimulator is not connected to the PC\n\nPlease make sure the stimulator is properly connected to one of the USB ports of the PC and restrat the application\n\nPress OK to close this window");
-        if(reply == QMessageBox::Ok)
+
+        if(serial->error() == QSerialPort::PermissionError)
         {
-             //QApplication::exit();
-             exit(EXIT_FAILURE);
+            reply = QMessageBox::critical(nullptr, QObject::tr("Multiple instances of Tetragrip App!"),"Can't proceed because multiple Tetragrip applications are opened\n\nPlease make sure the only one application is Open and stimulator is properly connected to one of the USB ports of the PC and restrat the application\n\nPress OK to close this window");
+            if(reply == QMessageBox::Ok)
+                if(reply == QMessageBox::Ok)
+                {
+                    //QApplication::exit();
+                    exit(EXIT_FAILURE);
+                }
+        }
+
+
+        else
+        {
+            //  reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"), serial->errorString());
+            reply = QMessageBox::critical(nullptr, QObject::tr("Stimulator not found!"),"Stimulator is not connected to the PC\n\nPlease make sure the stimulator is properly connected to one of the USB ports of the PC and restrat the application\n\nPress OK to close this window");
+            if(reply == QMessageBox::Ok)
+            {
+                //QApplication::exit();
+                exit(EXIT_FAILURE);
+            }
         }
     }
-
 
 }
 

@@ -19,6 +19,13 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     this->setStyleSheet("background-color: white;");
     this->setFixedSize(this->width(),this->height());
 
+    ui->pushButton_Open->setToolTip("Select a patient from the table and open for further setup ");
+    ui->pushButton_New->setToolTip("To create a new patient profile");
+    ui->pushButton_Modify->setToolTip("To modify patient details or to add notes");
+    ui->pushButton_Remove->setToolTip("To permanantly remove a patient from the system");
+    ui->pushButton_Home->setToolTip("To move back to home screen");
+    ui->qLed_p2->setToolTip("Stimulator Battery and Connection Status LED");
+
   connect(&api, &tetra_grip_api::tetraGripEvent,this, &StageTwoPatients::eventHandlerTwo);
 
  // Setup table
@@ -26,6 +33,8 @@ StageTwoPatients::StageTwoPatients(QWidget *parent) :
     ui->tableWidget->setHorizontalHeaderLabels(QStringList{"Patient ID","Name", "Surname", "LastSession", "Note"});
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+
 
 
     QString path = QCoreApplication::applicationDirPath()+"/data/";
@@ -199,7 +208,7 @@ void StageTwoPatients::on_pushButton_Remove_clicked()
 {
 
     QMessageBox::StandardButton reply;
-      reply = QMessageBox::question(this, "TetraGrip", "Are you sure want to delete this patient?",
+      reply = QMessageBox::critical(this, "TetraGrip", "Removing the patient profile will permanently delete all the patient details and custom Tetragrip settings.\n\nAre you sure want to delete this patient?\n\nClick Yes to remove or No to go back to the provious window",
                                     QMessageBox::Yes|QMessageBox::No);
       if (reply == QMessageBox::Yes) {
         QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);

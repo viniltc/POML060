@@ -566,6 +566,9 @@ void ProgramKeyGripV2::changeP2value(int value)
 void ProgramKeyGripV2::on_pushButton_back_keypro_clicked()
 {
     disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &ProgramKeyGripV2::keyGripPhaseEventHandler);
+
+    ManageConfigFile currentConfigFile;
+    currentConfigFile.currentTest(pLabel);
     this->close();
     stageProgram *backprogram;
     backprogram = new stageProgram(pLabel,nullptr);
