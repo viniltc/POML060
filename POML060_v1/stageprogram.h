@@ -99,6 +99,16 @@ private slots:
 
     void on_comboBox_frequency_5_currentIndexChanged(int index);
 
+    void on_comboBox_waveform_1_currentIndexChanged(int index);
+
+    void on_comboBox_waveform_2_currentIndexChanged(int index);
+
+    void on_comboBox_waveform_3_currentIndexChanged(int index);
+
+    void on_comboBox_waveform_4_currentIndexChanged(int index);
+
+    void on_comboBox_waveform_5_currentIndexChanged(int index);
+
 private:
     Ui::stageProgram *ui;
     float currentOneSetVal;
@@ -148,6 +158,18 @@ private:
      int threeFreqIndex = 0;
      int fourFreqIndex = 0;
      int fiveFreqIndex = 0;
+
+     uint8_t oneWaveStim = 0;
+     uint8_t twoWaveStim = 0;
+     uint8_t threeWaveStim = 0;
+     uint8_t fourWaveStim = 0;
+     uint8_t fiveWaveStim = 0;
+
+      int oneWaveIndex = 0;
+      int twoWaveIndex = 0;
+      int threeWaveIndex = 0;
+      int fourWaveIndex = 0;
+      int fiveWaveIndex = 0;
 
     QString StyleSheetOn;
     QString StyleSheetOff;

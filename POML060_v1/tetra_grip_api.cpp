@@ -388,6 +388,35 @@ void tetra_grip_api::stimulation_set_frequency(unsigned int channel_number, unsi
         qDebug("Failed to set frequency at channel %d", channel_number);
 }
 
+void tetra_grip_api::stimulation_set_waveform(unsigned int channel_number, unsigned int phase_number, uint8_t waveform)
+{
+    STIM_GUI_MESSAGE_S_BLOCK_T block[2]={{},{}}; // previously it was {0}
+
+    // This block sets the phase pointer
+    block[0].msg_type=WRITE_COMMAND;
+    block[0].topic=TOPIC_CHANNEL;
+    block[0].index=channel_number;
+    block[0].reg_address=48;
+    block[0].data_length=1;
+    uint8_t phase_no=phase_number;
+    block[0].data=&phase_no;
+    block[0].next=&block[1];
+
+    // This block writes to the target pulse witdh
+    block[1].msg_type=WRITE_COMMAND;
+    block[1].topic=TOPIC_CHANNEL;
+    block[1].index=channel_number;
+    block[1].reg_address=51;
+    block[1].data_length=1;
+    block[1].data=&waveform;
+    block[1].next=nullptr;
+
+    qDebug() <<"\n Setting target waveform for channel " << channel_number << " in phase " << phase_number << " to " << waveform << "(0 for Asym and 1 for Sym)\n";
+    if(!send_short_block(block))
+        qDebug("Failed to set waveform at channel %d", channel_number);
+
+}
+
 
 void tetra_grip_api::set_stimulation_target_pulse_width(unsigned int channel_number, unsigned int phase_number, unsigned int pulse_width_us)
 

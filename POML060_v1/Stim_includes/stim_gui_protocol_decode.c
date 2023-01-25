@@ -1424,6 +1424,7 @@ static void STIM_GUI_PROTOCOL_DECODE_ProcessChannelShortBlock(STIM_GUI_MESSAGE_S
                 break;
             case STIM_ENGINE_REG_WAVEFORM:
                 print_stim_engine_waveform((STIM_ENGINE_WAVEFORM_ENUM)*data);
+                tetra_grip_reporter(TOPIC_CHANNEL,b->index, STIM_ENGINE_REG_WAVEFORM, (STIM_ENGINE_WAVEFORM_ENUM)*data);
                 break;
             case STIM_ENGINE_REG_TARGET_PULSE_WIDTH:
                 DEBUG_Print("Target PW: %dus\n", get_uint16(data));

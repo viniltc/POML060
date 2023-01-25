@@ -45,6 +45,17 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     }
 
 
+
+    QComboBox* waveformComboBoxes[] { ui->comboBox_waveform_1, ui->comboBox_waveform_2, ui->comboBox_waveform_3, ui->comboBox_waveform_4, ui->comboBox_waveform_5 };
+    for(auto* cb : waveformComboBoxes)
+    {
+        cb->addItem("ASYM", STIM_ENGINE_WAVEFORM_ENUM::STIM_ENGINE_WAVEFORM_ASYM);
+        cb->addItem("SYM", STIM_ENGINE_WAVEFORM_ENUM::STIM_ENGINE_WAVEFORM_SYM);
+        cb->setCurrentIndex(0);
+    }
+
+
+
     ui->widget_currentOne->setEnabled(false);
     ui->widget_currentTwo->setEnabled(false);
     ui->widget_currentThree->setEnabled(false);
@@ -105,6 +116,10 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QDomElement Frequency_SettNodeVal = Frequency_SettNode.toElement();
     QDomNode FrequencyVal_SettNode = root.elementsByTagName("Frequency").at(0).firstChild();
     QDomElement FrequencyVal_SettNodeVal = FrequencyVal_SettNode.toElement();
+    QDomNode Waveform_SettNode = root.elementsByTagName("WaveformIndex").at(0).firstChild();
+    QDomElement Waveform_SettNodeVal = Waveform_SettNode.toElement();
+    QDomNode WaveformVal_SettNode = root.elementsByTagName("Waveform").at(0).firstChild();
+    QDomElement WaveformVal_SettNodeVal = WaveformVal_SettNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -222,6 +237,50 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         ui->comboBox_frequency_3->setCurrentIndex(2);
         ui->comboBox_frequency_4->setCurrentIndex(2);
         ui->comboBox_frequency_5->setCurrentIndex(2);
+
+
+    }
+
+    if(!Waveform_SettNodeVal.isNull())
+    {
+        oneWaveIndex = root.elementsByTagName("W1").at(0).firstChild().nodeValue().toInt();
+        twoWaveIndex = root.elementsByTagName("W2").at(0).firstChild().nodeValue().toInt();
+        threeWaveIndex = root.elementsByTagName("W3").at(0).firstChild().nodeValue().toInt();
+        fourWaveIndex = root.elementsByTagName("W4").at(0).firstChild().nodeValue().toInt();
+        fiveWaveIndex = root.elementsByTagName("W5").at(0).firstChild().nodeValue().toInt();
+
+        ui->comboBox_waveform_1->setCurrentIndex(oneWaveIndex);
+        ui->comboBox_waveform_2->setCurrentIndex(twoWaveIndex);
+        ui->comboBox_waveform_3->setCurrentIndex(threeWaveIndex);
+        ui->comboBox_waveform_4->setCurrentIndex(fourWaveIndex);
+        ui->comboBox_waveform_5->setCurrentIndex(fiveWaveIndex);
+
+        oneWaveStim = ui->comboBox_waveform_1->itemData(oneWaveIndex).toUInt();
+        twoWaveStim = ui->comboBox_waveform_2->itemData(twoWaveIndex).toUInt();
+        threeWaveStim = ui->comboBox_waveform_3->itemData(threeWaveIndex).toUInt();
+        fourWaveStim = ui->comboBox_waveform_4->itemData(fourWaveIndex).toUInt();
+        fiveWaveStim = ui->comboBox_waveform_5->itemData(fiveWaveIndex).toUInt();
+
+        //tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
+
+
+    }
+
+
+    else
+
+    {
+        oneWaveIndex = ui->comboBox_waveform_1->currentIndex();
+        twoWaveIndex = ui->comboBox_waveform_2->currentIndex();
+        threeWaveIndex = ui->comboBox_waveform_3->currentIndex();
+        fourWaveIndex = ui->comboBox_waveform_4->currentIndex();
+        fiveWaveIndex = ui->comboBox_waveform_5->currentIndex();
+
+        ui->comboBox_waveform_1->setCurrentIndex(0);
+        ui->comboBox_waveform_2->setCurrentIndex(0);
+        ui->comboBox_waveform_3->setCurrentIndex(0);
+        ui->comboBox_waveform_4->setCurrentIndex(0);
+        ui->comboBox_waveform_5->setCurrentIndex(0);
 
 
     }
@@ -363,8 +422,9 @@ void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
     tetra_grip_api::stimulation_set_frequency(m_channelOne, oneFreqStim);
     tetra_grip_api::stimulation_set_current( m_channelOne, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
+    tetra_grip_api::stimulation_set_waveform(m_channelOne, 0, oneWaveStim);
 
-   // ui->label->setText(QString::number(oneFreqStim));
+    ui->label->setText(QString::number(oneWaveStim));
 
 }
 
@@ -374,6 +434,9 @@ void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
     tetra_grip_api::stimulation_set_current( m_channelTwo, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelTwo,0,180);
     tetra_grip_api::stimulation_set_frequency(m_channelTwo, twoFreqStim);
+    tetra_grip_api::stimulation_set_waveform(m_channelTwo, 0, twoWaveStim);
+
+     ui->label_2->setText(QString::number(twoWaveStim));
 }
 
 
@@ -383,6 +446,7 @@ void stageProgram::setCurrOnChannelThree(unsigned int current_uA)
     tetra_grip_api::stimulation_set_current( m_channelThree, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelThree,0,180);
     tetra_grip_api::stimulation_set_frequency(m_channelThree, threeFreqStim);
+    tetra_grip_api::stimulation_set_waveform(m_channelThree, 0, threeWaveStim);
 }
 
 void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
@@ -392,6 +456,7 @@ void stageProgram::setCurrOnChannelFour(unsigned int current_uA)
     tetra_grip_api::stimulation_set_current( m_channelFour, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelFour,0,180);
     tetra_grip_api::stimulation_set_frequency(m_channelFour, fourFreqStim);
+    tetra_grip_api::stimulation_set_waveform(m_channelFour, 0, fourWaveStim);
 }
 
 void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
@@ -401,6 +466,7 @@ void stageProgram::setCurrOnChannelFive(unsigned int current_uA)
     tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
     tetra_grip_api::stimulation_set_current( m_channelFive, current_uA);
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelFive,0,180);
+    tetra_grip_api::stimulation_set_waveform(m_channelFive, 0, fiveWaveStim);
 
 }
 
@@ -445,6 +511,12 @@ void stageProgram::on_pushButton_stimStart_clicked()
     ui->comboBox_frequency_4->setEnabled(false);
     ui->comboBox_frequency_5->setEnabled(false);
 
+    ui->comboBox_waveform_1->setEnabled(false);
+    ui->comboBox_waveform_2->setEnabled(false);
+    ui->comboBox_waveform_3->setEnabled(false);
+    ui->comboBox_waveform_4->setEnabled(false);
+    ui->comboBox_waveform_5->setEnabled(false);
+
     ui->radioButton->setEnabled(false);
     ui->radioButton_2->setEnabled(false);
     ui->radioButton_3->setEnabled(false);
@@ -461,6 +533,12 @@ void stageProgram::on_pushButton_stimStop_clicked()
     ui->comboBox_frequency_3->setEnabled(true);
     ui->comboBox_frequency_4->setEnabled(true);
     ui->comboBox_frequency_5->setEnabled(true);
+
+    ui->comboBox_waveform_1->setEnabled(true);
+    ui->comboBox_waveform_2->setEnabled(true);
+    ui->comboBox_waveform_3->setEnabled(true);
+    ui->comboBox_waveform_4->setEnabled(true);
+    ui->comboBox_waveform_5->setEnabled(true);
 
     ui->radioButton->setEnabled(true);
     ui->radioButton_2->setEnabled(true);
@@ -863,6 +941,13 @@ void stageProgram::saveToXMLFile()
     QDomNode FrequencyValNode = root.elementsByTagName("Frequency").at(0).firstChild();
     QDomElement FrequencyValNodeVal = FrequencyValNode.toElement();
 
+    QDomElement newWaveformTag = document.createElement(QString("WaveformIndex"));
+    QDomNode WaveformNode = root.elementsByTagName("WaveformIndex").at(0).firstChild();
+    QDomElement WaveformNodeVal = WaveformNode.toElement();
+
+    QDomElement newWaveformValTag = document.createElement(QString("Waveform"));
+    QDomNode WaveformValNode = root.elementsByTagName("Waveform").at(0).firstChild();
+    QDomElement WaveformValNodeVal = WaveformValNode.toElement();
 
 
     if (CurrentNodeVal.isNull())
@@ -1014,6 +1099,108 @@ void stageProgram::saveToXMLFile()
     }
 
 
+    if (WaveformNodeVal.isNull())
+    {
+        QDomElement w1Tag = document.createElement(QString("W1"));
+        QDomText w1Val = document.createTextNode(QString::number(ui->comboBox_waveform_1->currentIndex()));
+        w1Tag.appendChild(w1Val);
+        newWaveformTag.appendChild(w1Tag);
+
+        QDomElement w2Tag = document.createElement(QString("W2"));
+        QDomText w2Val = document.createTextNode(QString::number(ui->comboBox_waveform_2->currentIndex()));
+        w2Tag.appendChild(w2Val);
+        newWaveformTag.appendChild(w2Tag);
+
+        QDomElement w3Tag = document.createElement(QString("W3"));
+        QDomText w3Val = document.createTextNode(QString::number(ui->comboBox_waveform_3->currentIndex()));
+        w3Tag.appendChild(w3Val);
+        newWaveformTag.appendChild(w3Tag);
+
+        QDomElement w4Tag = document.createElement(QString("W4"));
+        QDomText w4Val = document.createTextNode(QString::number(ui->comboBox_waveform_4->currentIndex()));
+        w4Tag.appendChild(w4Val);
+        newWaveformTag.appendChild(w4Tag);
+
+        QDomElement w5Tag = document.createElement(QString("W5"));
+        QDomText w5Val = document.createTextNode(QString::number(ui->comboBox_waveform_5->currentIndex()));
+        w5Tag.appendChild(w5Val);
+        newWaveformTag.appendChild(w5Tag);
+
+        root.appendChild(newWaveformTag);
+    }
+
+    else
+    {
+        QDomElement root = document.documentElement();
+        QDomNode SettingsNode = root.namedItem("WaveformIndex");
+
+        QDomNode w1 = SettingsNode.namedItem("W1");
+        w1.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_1->currentIndex()));
+        QDomNode w2 = SettingsNode.namedItem("W2");
+        w2.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_2->currentIndex()));
+        QDomNode w3 = SettingsNode.namedItem("W3");
+        w3.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_3->currentIndex()));
+        QDomNode w4 = SettingsNode.namedItem("W4");
+        w4.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_4->currentIndex()));
+        QDomNode w5 = SettingsNode.namedItem("W5");
+        w5.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_5->currentIndex()));
+
+    }
+
+    if (WaveformValNodeVal.isNull())
+    {
+        QDomElement w1Tag = document.createElement(QString("W1"));
+        QDomText w1Val = document.createTextNode(QString::number(ui->comboBox_waveform_1->itemData(ui->comboBox_waveform_1->currentIndex()).toInt()));
+        w1Tag.appendChild(w1Val);
+        newWaveformValTag.appendChild(w1Tag);
+
+        QDomElement w2Tag = document.createElement(QString("W2"));
+        QDomText w2Val = document.createTextNode(QString::number(ui->comboBox_waveform_2->itemData(ui->comboBox_waveform_2->currentIndex()).toInt()));
+
+        w2Tag.appendChild(w2Val);
+        newWaveformValTag.appendChild(w2Tag);
+
+        QDomElement w3Tag = document.createElement(QString("W3"));
+        QDomText w3Val = document.createTextNode(QString::number(ui->comboBox_waveform_3->itemData(ui->comboBox_waveform_3->currentIndex()).toInt()));
+
+        w3Tag.appendChild(w3Val);
+        newWaveformValTag.appendChild(w3Tag);
+
+        QDomElement w4Tag = document.createElement(QString("W4"));
+        QDomText w4Val = document.createTextNode(QString::number(ui->comboBox_waveform_4->itemData(ui->comboBox_waveform_4->currentIndex()).toInt()));
+
+        w4Tag.appendChild(w4Val);
+        newWaveformValTag.appendChild(w4Tag);
+
+        QDomElement w5Tag = document.createElement(QString("W5"));
+        QDomText w5Val = document.createTextNode(QString::number(ui->comboBox_waveform_5->itemData(ui->comboBox_waveform_5->currentIndex()).toInt()));
+
+        w5Tag.appendChild(w5Val);
+        newWaveformValTag.appendChild(w5Tag);
+
+        root.appendChild(newWaveformValTag);
+    }
+
+    else
+    {
+        QDomElement root = document.documentElement();
+        QDomNode SettingsNode = root.namedItem("Waveform");
+
+        QDomNode w1 = SettingsNode.namedItem("W1");
+        w1.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_1->itemData(ui->comboBox_waveform_1->currentIndex()).toInt()));
+        QDomNode w2 = SettingsNode.namedItem("W2");
+        w2.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_2->itemData(ui->comboBox_waveform_2->currentIndex()).toInt()));
+        QDomNode w3 = SettingsNode.namedItem("W3");
+        w3.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_3->itemData(ui->comboBox_waveform_3->currentIndex()).toInt()));
+        QDomNode w4 = SettingsNode.namedItem("W4");
+        w4.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_4->itemData(ui->comboBox_waveform_4->currentIndex()).toInt()));
+        QDomNode w5 = SettingsNode.namedItem("W5");
+        w5.firstChild().setNodeValue(QString::number(ui->comboBox_waveform_5->itemData(ui->comboBox_waveform_5->currentIndex()).toInt()));
+
+    }
+
+
+
 
     if(!file.open(QIODevice::WriteOnly  | QIODevice::Text))
     {
@@ -1157,4 +1344,39 @@ void stageProgram::on_comboBox_frequency_5_currentIndexChanged(int index)
     unsigned int value = ui->comboBox_frequency_5->itemData(index).toUInt();
     fiveFreqStim = value;
     tetra_grip_api::stimulation_set_frequency(m_channelFive, fiveFreqStim);
+}
+
+void stageProgram::on_comboBox_waveform_1_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_waveform_1->itemData(index).toUInt();
+    oneWaveStim = value;
+    tetra_grip_api::stimulation_set_waveform(m_channelOne,0, oneWaveStim);
+}
+
+void stageProgram::on_comboBox_waveform_2_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_waveform_2->itemData(index).toUInt();
+    twoWaveStim = value;
+    tetra_grip_api::stimulation_set_waveform(m_channelTwo,0, twoWaveStim);
+}
+
+void stageProgram::on_comboBox_waveform_3_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_waveform_3->itemData(index).toUInt();
+    threeWaveStim = value;
+    tetra_grip_api::stimulation_set_waveform(m_channelThree,0, threeWaveStim);
+}
+
+void stageProgram::on_comboBox_waveform_4_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_waveform_4->itemData(index).toUInt();
+    fourWaveStim = value;
+    tetra_grip_api::stimulation_set_waveform(m_channelFour,0, fourWaveStim);
+}
+
+void stageProgram::on_comboBox_waveform_5_currentIndexChanged(int index)
+{
+    unsigned int value = ui->comboBox_waveform_5->itemData(index).toUInt();
+    fiveWaveStim = value;
+    tetra_grip_api::stimulation_set_waveform(m_channelFive,0, fiveWaveStim);
 }
