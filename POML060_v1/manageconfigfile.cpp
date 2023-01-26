@@ -52,11 +52,11 @@ void ManageConfigFile::currentTest(QString patientLabel)
         << "  B SA1 1 \"Engine tests\" " << '\n'
         << "` These limits apply to all phases" << '\n'
         << "`  M ref stim, channel, max current, minPW, maxPW, freq, waveform, output name" << '\n'
-        << "   M CH1 1 1 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F1") <<"Hz"<<" ASYM \"Channel 1\" "<< '\n'
-        << "   M CH2 1 2 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F2") <<"Hz"<<" ASYM \"Channel 2\" "<< '\n'
-        << "   M CH3 1 3 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F3") <<"Hz"<<" ASYM \"Channel 3\" "<< '\n'
-        << "   M CH4 1 4 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F4") <<"Hz"<<" ASYM \"Channel 4\" "<< '\n'
-        << "   M CH5 1 5 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F5") <<"Hz"<<" ASYM \"Channel 5\" "<< "\n\n"
+        << "   M CH1 1 1 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F1") <<"Hz "<<findXMLNodeValue(root, "Waveform", "W1")<<" \"Channel 1\" "<< '\n'
+        << "   M CH2 1 2 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F2") <<"Hz "<<findXMLNodeValue(root, "Waveform", "W2")<<" \"Channel 2\" "<< '\n'
+        << "   M CH3 1 3 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F3") <<"Hz "<<findXMLNodeValue(root, "Waveform", "W3")<<" \"Channel 3\" "<< '\n'
+        << "   M CH4 1 4 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F4") <<"Hz "<<findXMLNodeValue(root, "Waveform", "W4")<<" \"Channel 4\" "<< '\n'
+        << "   M CH5 1 5 120mA 10us 450us "<< findXMLNodeValue(root, "Frequency", "F5") <<"Hz "<<findXMLNodeValue(root, "Waveform", "W5")<<" \"Channel 5\" "<< "\n\n"
 
         << "  P P0 \"Current Test phase\" 0ms NONE 2000ms STOP STOP STOP "<< '\n'
         << "`                Delay  RR    rate    PW     "<< '\n'
@@ -808,6 +808,22 @@ void ManageConfigFile::TetraGripFinal(QString patientLabel)
 
 QString ManageConfigFile::findXMLNodeValue(QDomElement const& root, QString const& parentname, QString const& childname)
 {
-    QDomElement element = root.firstChildElement(parentname);
-    return element.firstChildElement(childname).firstChild().nodeValue();
+    if(parentname == "Waveform")
+    {
+        QDomElement element = root.firstChildElement(parentname);
+        if(element.firstChildElement(childname).firstChild().nodeValue()=="0")
+        {
+            return "ASYM";
+        }
+        else
+        {
+            return "SYM";
+        }
+    }
+    else
+    {
+
+        QDomElement element = root.firstChildElement(parentname);
+        return element.firstChildElement(childname).firstChild().nodeValue();
+    }
 }

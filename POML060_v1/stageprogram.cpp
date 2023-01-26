@@ -368,7 +368,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         //QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
         QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+configtestfile+".txt";
 
-        ui->label->setText("frequency node present");
+        //ui->label->setText("frequency node present");
         QFile f(txtWritePath);
         if(!f.open(QFile::ReadOnly))
         {
@@ -385,7 +385,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     else
     {
 
-        ui->label->setText("No frequency node!");
+        //  ui->label->setText("No frequency node!");
         QString txtWritePath = QCoreApplication::applicationDirPath()+"/data/config_file/"+"config_setup.txt";
         QFile f(txtWritePath);
         if(!f.open(QFile::ReadOnly))
@@ -401,9 +401,6 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
 
     }
-
-
-
 
     // reset all user intensity to 50%
      tetra_grip_api::do_stimulator_command( STIM_COMMAND_RESET_USER_INTENSITIES);
@@ -424,7 +421,7 @@ void stageProgram::setCurrOnChannelOne(unsigned int current_uA)
     tetra_grip_api::set_stimulation_target_pulse_width(m_channelOne,0,180);
     tetra_grip_api::stimulation_set_waveform(m_channelOne, 0, oneWaveStim);
 
-    ui->label->setText(QString::number(oneWaveStim));
+
 
 }
 
@@ -436,7 +433,7 @@ void stageProgram::setCurrOnChannelTwo(unsigned int current_uA)
     tetra_grip_api::stimulation_set_frequency(m_channelTwo, twoFreqStim);
     tetra_grip_api::stimulation_set_waveform(m_channelTwo, 0, twoWaveStim);
 
-     ui->label_2->setText(QString::number(twoWaveStim));
+
 }
 
 

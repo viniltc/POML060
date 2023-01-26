@@ -1316,19 +1316,6 @@ QComboBox:disabled {
          <string>Stimulation Timer</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>450</y>
-          <width>121</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
        <widget class="QComboBox" name="comboBox_waveform_1">
         <property name="geometry">
          <rect>
@@ -1584,19 +1571,6 @@ QComboBox:disabled {
 }</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>420</y>
-          <width>121</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
        <zorder>groupBox_4</zorder>
        <zorder>groupBox_3</zorder>
        <zorder>pushButton_stimStart</zorder>
@@ -1635,13 +1609,11 @@ QComboBox:disabled {
        <zorder>label_pLabel_3</zorder>
        <zorder>label_pLabel_4</zorder>
        <zorder>label_pLabel_5</zorder>
-       <zorder>label</zorder>
        <zorder>comboBox_waveform_1</zorder>
        <zorder>comboBox_waveform_2</zorder>
        <zorder>comboBox_waveform_3</zorder>
        <zorder>comboBox_waveform_4</zorder>
        <zorder>comboBox_waveform_5</zorder>
-       <zorder>label_2</zorder>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
