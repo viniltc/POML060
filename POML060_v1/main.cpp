@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
    // QObject::connect(api.autoConnectionTimer,SIGNAL(timeout()),&api,SLOT(autoconnect()));
 
     // splash screen
-    QPixmap pixmap(":/resources/tetragrip_logo2.png");
+    QPixmap pixmap(":/resources/tetragrip_logo2.png"); // :/icons/checked.png
     QSplashScreen splash(pixmap, Qt::WindowStaysOnTopHint);
     splash.show();
     //splash.showMessage("Stimulator Detected..");

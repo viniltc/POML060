@@ -19,6 +19,7 @@ ShoulderControl::ShoulderControl(QString patientLabel,QWidget *parent) :
     ui(new Ui::ShoulderControl)
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     pLabel = patientLabel;
     //connect(&api, &tetra_grip_api::tetraGripEvent,this, &ShoulderControl::eventHandler);
     //connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &ShoulderControl::sensorEventHandler);
@@ -329,16 +330,22 @@ void ShoulderControl::noSoundBtn()
 
 void ShoulderControl::on_pushButton_back_clicked()
 {
-//    stageProgram *back;
+
+
+//    StageOneMain *back;
 //    this->close();
-//    back = new stageProgram(pLabel,this);
+//    back = new StageOneMain(pLabel,nullptr);
+//    back->setAttribute(Qt::WA_DeleteOnClose);
 //    back -> show();
 
-    StageOneMain *back;
+
+    ManageConfigFile currentConfigFile;
+    currentConfigFile.currentTest(pLabel);
     this->close();
-    back = new StageOneMain(pLabel,nullptr);
-    back->setAttribute(Qt::WA_DeleteOnClose);
-    back -> show();
+    stageProgram *backprogram;
+    backprogram = new stageProgram(pLabel,nullptr);
+    backprogram->setAttribute(Qt::WA_DeleteOnClose);
+    backprogram -> show();
 }
 
 void ShoulderControl::biquadratic_filter_coefficient(double Q, double dB, double FS, double FC, int type, float *coeff)

@@ -28,9 +28,11 @@ SOURCES += \
     Stim_includes/stim_gui_protocol_tx.c \
     currentbuttonone.cpp \
     filtersettings.cpp \
+    imudialog.cpp \
     incdecbutton.cpp \
     main.cpp \
     manageconfigfile.cpp \
+    manangeconfigextended.cpp \
     programkeygripv2.cpp \
     programopenhand.cpp \
     programpalmergrasp.cpp \
@@ -44,6 +46,13 @@ SOURCES += \
     statetestwindow.cpp \
     stimulatorlogwindow.cpp \
     stopwatch.cpp \
+    stroketariningimusettings.cpp \
+    stroketrainingwindow.cpp \
+    stroketrainingwindowfive.cpp \
+    stroketrainingwindowfour.cpp \
+    stroketrainingwindowsix.cpp \
+    stroketrainingwindowthree.cpp \
+    stroketrainingwindowtwo.cpp \
     tetra_grip_api.cpp \
     tetra_grip_reporter.cpp \
     tetra_grip_writer.cpp
@@ -64,8 +73,10 @@ HEADERS += \
     Stim_includes/uart.h \
     currentbuttonone.h \
     filtersettings.h \
+    imudialog.h \
     incdecbutton.h \
     manageconfigfile.h \
+    manangeconfigextended.h \
     programkeygripv2.h \
     programopenhand.h \
     programpalmergrasp.h \
@@ -79,6 +90,13 @@ HEADERS += \
     statetestwindow.h \
     stimulatorlogwindow.h \
     stopwatch.h \
+    stroketariningimusettings.h \
+    stroketrainingwindow.h \
+    stroketrainingwindowfive.h \
+    stroketrainingwindowfour.h \
+    stroketrainingwindowsix.h \
+    stroketrainingwindowthree.h \
+    stroketrainingwindowtwo.h \
     tetra_grip_api.h \
     tetra_grip_reporter.h \
     tetra_grip_writer.h
@@ -86,6 +104,7 @@ HEADERS += \
 FORMS += \
     currentbuttonone.ui \
     filtersettings.ui \
+    imudialog.ui \
     incdecbutton.ui \
     programkeygripv2.ui \
     programopenhand.ui \
@@ -97,7 +116,14 @@ FORMS += \
     stagetwonew.ui \
     stagetwopatients.ui \
     statetestwindow.ui \
-    stimulatorlogwindow.ui
+    stimulatorlogwindow.ui \
+    stroketariningimusettings.ui \
+    stroketrainingwindow.ui \
+    stroketrainingwindowfive.ui \
+    stroketrainingwindowfour.ui \
+    stroketrainingwindowsix.ui \
+    stroketrainingwindowthree.ui \
+    stroketrainingwindowtwo.ui
 
 INCLUDEPATH += ./leds
 include($$PWD/leds/qled.pri)
@@ -110,4 +136,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resources.qrc
 
-DISTFILES +=
+DISTFILES += \
+    resources/envStrokeProg6.jpg

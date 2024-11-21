@@ -31,5 +31,11 @@
         <file>resources/GraspStateDiagram_v2.png</file>
         <file>resources/GraspStateDiagram_nobox_v23.png</file>
         <file>resources/GraspStateDiagram_nobox_v24.png</file>
+        <file>resources/envStrokeProg43.jpg</file>
+        <file>resources/envStrokeProg12.jpg</file>
+        <file>resources/envStrokeProg21.jpg</file>
+        <file>resources/envStrokeProg31.jpg</file>
+        <file>resources/envStrokeProg53.jpg</file>
+        <file>resources/envStrokeProg6.jpg</file>
     </qresource>
 </RCC>

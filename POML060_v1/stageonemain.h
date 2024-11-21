@@ -13,9 +13,12 @@
 
 
 
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class StageOneMain; }
 QT_END_NAMESPACE
+
 
 class StageOneMain : public QMainWindow
 {
@@ -28,6 +31,8 @@ public:
      stageProgram *stageprogram;
      ShoulderControl *window;
      StimulatorLogWindow *logwindow;
+  //   ClinicalProtocolForm *clinwindow;
+     //ProtocolWindow *clinwindow;
      QString pLabel;
 
 
@@ -46,7 +51,7 @@ private slots:
     void on_pushButton_help_clicked();
     void connectionError(bool);
 
-    void on_pushButton_logs_clicked();
+   // void on_pushButton_logs_clicked();
 
 public slots:
 

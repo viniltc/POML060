@@ -402,7 +402,7 @@ void tetra_grip_api::stimulation_set_waveform(unsigned int channel_number, unsig
     block[0].data=&phase_no;
     block[0].next=&block[1];
 
-    // This block writes to the target pulse witdh
+    // This block writes to the waveform shape
     block[1].msg_type=WRITE_COMMAND;
     block[1].topic=TOPIC_CHANNEL;
     block[1].index=channel_number;
@@ -411,7 +411,7 @@ void tetra_grip_api::stimulation_set_waveform(unsigned int channel_number, unsig
     block[1].data=&waveform;
     block[1].next=nullptr;
 
-    qDebug() <<"\n Setting target waveform for channel " << channel_number << " in phase " << phase_number << " to " << waveform << "(0 for Asym and 1 for Sym)\n";
+    qDebug() <<"\n Setting waveform type for channel " << channel_number << " in phase " << phase_number << " to " << waveform << "(0 for Asym and 1 for Sym)\n";
     if(!send_short_block(block))
         qDebug("Failed to set waveform at channel %d", channel_number);
 

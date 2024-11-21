@@ -15,6 +15,7 @@ ProgramKeyGripV2::ProgramKeyGripV2(QString patientLabel, QWidget *parent)
 
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     ui->label_pLabel->setText(patientLabel);
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
@@ -496,7 +497,7 @@ void ProgramKeyGripV2::mouseMoveEvent(QMouseEvent *event)
       PW_phase1_EDC = PW_EDC1;
       Y_coordinates_EDC1 = CurPoint1->y();
 
-     ui->label_9->setText(QString::number(CurPoint1->y()) + "and" + QString::number(adjust_PW_range(CurPoint1->y())));
+    // ui->label_9->setText(QString::number(CurPoint1->y()) + "and" + QString::number(adjust_PW_range(CurPoint1->y())));
       }
     }
     else if(EDC_Seg3_dragging && EDC_Seg3_checked)

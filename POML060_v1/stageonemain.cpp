@@ -10,6 +10,7 @@
 
 
 
+
 StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(parent)
 //  StageOneMain::StageOneMain( tetra_grip_api *api, QWidget *parent) : QMainWindow(parent)
     , ui(new Ui::StageOneMain)
@@ -29,7 +30,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
     // initial appearnece of main window
     if(patientLabel.isEmpty()){
         ui->pushButton_programs->setEnabled(false);
-        ui->pushButton_logs->setEnabled(false); // shoulder control
+        //ui->pushButton_logs->setEnabled(false); // shoulder control
         ui->pushButton_help->setEnabled(false); // stimultor logs
 
     }
@@ -40,7 +41,7 @@ StageOneMain::StageOneMain(QString patientLabel, QWidget *parent) : QMainWindow(
 
     ui->pushButton_patients->setToolTip("To setup patient");
     ui->pushButton_programs->setToolTip("To setup stimulation current, frequency and grip profiles ");
-    ui->pushButton_logs->setToolTip("To setup shoulder control sensor");
+ //   ui->pushButton_logs->setToolTip("To setup shoulder control sensor");
     ui->pushButton_help->setToolTip("To view stimulator log");
     ui->pushButton_exit->setToolTip("To exit from the Tetragrip Application");
     ui->qLed->setToolTip("Stimulator Battery and Connection Status LED");
@@ -136,6 +137,11 @@ void StageOneMain::on_pushButton_programs_clicked()
     stageprogram = new stageProgram(pLabel, nullptr);
     stageprogram->setAttribute(Qt::WA_DeleteOnClose);
     stageprogram -> show();
+
+//    ClinicalProtocolForm *clinwindow;
+//    clinwindow = new  ClinicalProtocolForm(pLabel, nullptr);
+//    clinwindow -> setAttribute(Qt::WA_DeleteOnClose);
+//    clinwindow -> show();
 
 
 
@@ -614,12 +620,12 @@ void StageOneMain::on_pushButton_help_clicked()
 
 }
 
-void StageOneMain::on_pushButton_logs_clicked()
-{
-    disconnect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
-    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
-    this->close();
-    window = new ShoulderControl(pLabel, nullptr);
-    window->setAttribute(Qt::WA_DeleteOnClose);
-    window -> show();
-}
+//void StageOneMain::on_pushButton_logs_clicked()
+//{
+//    disconnect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
+//    disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
+//    this->close();
+//    window = new ShoulderControl(pLabel, nullptr);
+//    window->setAttribute(Qt::WA_DeleteOnClose);
+//    window -> show();
+//}

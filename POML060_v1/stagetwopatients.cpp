@@ -6,6 +6,10 @@
 #include <QDirIterator>
 #include <QXmlStreamReader>
 #include <QMessageBox>
+#include <QDir>
+#include <QFileInfoList>
+#include <QRegularExpression>
+
 #include "tetra_grip_api.h"
 #include "tetra_grip_reader.h"
 
@@ -207,20 +211,105 @@ void StageTwoPatients::on_pushButton_Modify_clicked()
 void StageTwoPatients::on_pushButton_Remove_clicked()
 {
 
-    QMessageBox::StandardButton reply;
-      reply = QMessageBox::critical(this, "TetraGrip", "Removing the patient profile will permanently delete all the patient details and custom Tetragrip settings.\n\nAre you sure want to delete this patient?\n\nClick Yes to remove or No to go back to the provious window",
-                                    QMessageBox::Yes|QMessageBox::No);
-      if (reply == QMessageBox::Yes) {
-        QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
-        QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+selection[0].data().toString()+".xml";
-        QFile xmlfile(xmlReadPath);
-        xmlfile.remove();
-        ui->tableWidget->removeRow(selection[0].row());
-      }
+//    QMessageBox::StandardButton reply;
+//      reply = QMessageBox::critical(this, "TetraGrip", "Removing the patient profile will permanently delete all the patient details and custom Tetragrip settings.\n\nAre you sure want to delete this patient?\n\nClick Yes to remove or No to go back to the provious window",
+//                                    QMessageBox::Yes|QMessageBox::No);
+//      if (reply == QMessageBox::Yes) {
+//        QModelIndexList selection=ui->tableWidget->selectionModel()->selectedRows(0);
+//        QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+selection[0].data().toString()+".xml";
+//        QFile xmlfile(xmlReadPath);
+//        xmlfile.remove();
+//        ui->tableWidget->removeRow(selection[0].row());
+//      }
 
-      else if(reply == QMessageBox::No) {
-          return;
-      }
+//      else if(reply == QMessageBox::No) {
+//          return;
+//      }
+
+    // Confirmation dialog
+      QMessageBox::StandardButton reply;
+      reply = QMessageBox::critical(this, "TetraGrip",
+                                    "Removing the patient profile will permanently delete all the patient details, custom Tetragrip settings, and associated configuration files.\n\n"
+                                    "Are you sure you want to delete this patient?\n\n"
+                                    "Click Yes to remove or No to go back to the previous window.",
+                                    QMessageBox::Yes | QMessageBox::No);
+
+      if (reply == QMessageBox::Yes) {
+          // Retrieve selected rows
+          QModelIndexList selection = ui->tableWidget->selectionModel()->selectedRows(0);
+
+          if (selection.isEmpty()) {
+              QMessageBox::warning(this, "TetraGrip", "No patient selected. Please select a patient profile to remove.");
+              return;
+          }
+
+         // int totalConfigFilesDeleted = 0; // Counter for all config files deleted
+          QStringList allDeletedConfigFiles;
+
+          // Iterate through selected rows
+          for (const QModelIndex &index : selection) {
+              QString patientName = index.data().toString();
+              QString xmlFilePath = QCoreApplication::applicationDirPath() + "/data/" + patientName + ".xml";
+              QFile xmlFile(xmlFilePath);
+
+              // Delete the XML file
+              if (xmlFile.exists()) {
+                  if (!xmlFile.remove()) {
+                      QMessageBox::warning(this, "TetraGrip", "Failed to delete patient XML file: " + xmlFilePath);
+                      continue; // Skip to the next selected row
+                  }
+              } else {
+                  QMessageBox::warning(this, "TetraGrip", "Patient XML file not found: " + xmlFilePath);
+              }
+
+              // Remove associated configuration files
+              QString configDirectory = QCoreApplication::applicationDirPath() + "/data/config_file";
+              QDir dir(configDirectory);
+
+              QString configPattern = "*_" + patientName + ".txt";
+              QFileInfoList configFiles = dir.entryInfoList(QStringList() << configPattern, QDir::Files);
+              QStringList deletedConfigFilesForPatient; // List for current patient's config files
+                          for (const QFileInfo &fileInfo : configFiles) {
+                              QFile configFile(fileInfo.absoluteFilePath());
+                              if (configFile.exists()) {
+                                  if (configFile.remove()) {
+                                      deletedConfigFilesForPatient.append(fileInfo.fileName());
+                                  } else {
+                                      QMessageBox::warning(this, "TetraGrip", "Failed to delete configuration file: " + fileInfo.absoluteFilePath());
+                                  }
+                              }
+                          }
+
+                          // Append to global list and notify user for this patient
+                          allDeletedConfigFiles.append(deletedConfigFilesForPatient);
+
+                          if (!deletedConfigFilesForPatient.isEmpty()) {
+                              QMessageBox::information(this, "TetraGrip",
+                                                        QString("Deleted the following configuration file(s) associated with the patient: %1\n\n%2")
+                                                            .arg(patientName)
+                                                            .arg(deletedConfigFilesForPatient.join("\n")));
+                          } else {
+                              QMessageBox::information(this, "TetraGrip",
+                                                        QString("No configuration files found for the patient: %1").arg(patientName));
+                          }
+
+                          // Remove the row from the table
+                          ui->tableWidget->removeRow(index.row());
+                      }
+
+                      // Final summary for all deletions
+                      if (!allDeletedConfigFiles.isEmpty()) {
+                          QMessageBox::information(this, "TetraGrip",
+                                                    QString("Patient profiles removed successfully.\n\nDeleted configuration files:\n%1")
+                                                        .arg(allDeletedConfigFiles.join("\n")));
+                      } else {
+                          QMessageBox::information(this, "TetraGrip", "Patient profiles removed successfully. No configuration files were found or deleted.");
+                      }
+                  }
+                  // User clicked No
+                  else if (reply == QMessageBox::No) {
+                      return;
+                  }
 
 }
 

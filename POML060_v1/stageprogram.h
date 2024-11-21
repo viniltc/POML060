@@ -13,6 +13,13 @@
 #include "stopwatch.h"
 #include "shouldercontrol.h"
 #include "statetestwindow.h"
+#include "stroketrainingwindow.h"
+#include "stroketrainingwindowtwo.h"
+#include "stroketrainingwindowthree.h"
+#include "stroketrainingwindowfour.h"
+#include "stroketrainingwindowfive.h"
+#include "stroketrainingwindowsix.h"
+
 
 
 namespace Ui {
@@ -34,8 +41,19 @@ public:
      ProgramSwitchGrasp *switchgrasp;
      ShoulderControl *window;
      StateTestWindow *statewindow;
+     StrokeTrainingWindow *strokewindow;
+     StrokeTrainingWindowTwo *strokewindowtwo;
+     StrokeTrainingWindowThree *strokewindowthree;
+     StrokeTrainingWindowFour *strokewindowfour;
+     StrokeTrainingWindowFive *strokewindowfive;
+     StrokeTrainingWindowSix *strokewindowsix;
      //StageOneMain *backToMain;
      QString pLabel;
+      void onAdvancedSettingsToggledCh1(bool checked);
+      void onAdvancedSettingsToggledCh2(bool checked);
+      void onAdvancedSettingsToggledCh3(bool checked);
+      void onAdvancedSettingsToggledCh4(bool checked);
+      void onAdvancedSettingsToggledCh5(bool checked);
  //
 
 public slots:
@@ -56,7 +74,7 @@ public slots:
     void startStopTimer();
     void resetTimer();
 
-    void closeEvent (QCloseEvent *event);
+   // void closeEvent (QCloseEvent *event);
 
 signals:
 
@@ -108,6 +126,24 @@ private slots:
     void on_comboBox_waveform_4_currentIndexChanged(int index);
 
     void on_comboBox_waveform_5_currentIndexChanged(int index);
+
+    void on_pushButton_stimSave_2_clicked();
+
+    void on_pushButton_programStroke2_clicked();
+
+    void on_pushButton_programStroke1_clicked();
+
+    void on_pushButton_programStroke_3_clicked();
+
+    void on_pushButton_programStroke4_clicked();
+
+    void on_pushButton_programStroke5_clicked();
+
+    void on_pushButton_IMUcontrol_clicked();
+
+    void on_pushButton_programStroke6_clicked();
+
+    //void on_pushButton_currOnOne_clicked();
 
 private:
     Ui::stageProgram *ui;
@@ -171,12 +207,27 @@ private:
       int fourWaveIndex = 0;
       int fiveWaveIndex = 0;
 
+      int oneMusIndex = 0;
+      int twoMusIndex = 0;
+      int threeMusIndex = 0;
+      int fourMusIndex = 0;
+      int fiveMusIndex = 0;
+
     QString StyleSheetOn;
     QString StyleSheetOff;
 
     QString config_file_name;
 
     Stopwatch* watch;
+    QSize originalSize;
+    QMap<QWidget*, QRect> originalGeometries;
+    QPixmap originalPixmap;
+    QMap<QWidget*, int> originalFontSizes;
+    void scaleWidgets(QWidget *parent, double scaleFactorWidth, double scaleFactorHeight);
+
+protected:
+     void closeEvent (QCloseEvent *event) override;
+     void resizeEvent(QResizeEvent* event) override;
 };
 
 #endif // STAGEPROGRAM_H

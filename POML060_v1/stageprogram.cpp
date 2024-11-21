@@ -17,11 +17,34 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     watch(new Stopwatch())
 {
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
     ui->pushButton_currOnOne->setCheckable(true);
     ui->pushButton_currOnTwo->setCheckable(true);
     ui->pushButton_currOnThree->setCheckable(true);
     ui->pushButton_currOnFour->setCheckable(true);
     ui->pushButton_currOnFive->setCheckable(true);
+    ui->pushButton_stimSave->setEnabled(false);
+
+    ui->pushButton_programStroke2->setToolTip(
+        "<img src=':/resources/envStrokeProg12.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+    ui->pushButton_programStroke1->setToolTip(
+        "<img src=':/resources/envStrokeProg21.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+    ui->pushButton_programStroke_3->setToolTip(
+        "<img src=':/resources/envStrokeProg31.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+    ui->pushButton_programStroke4->setToolTip(
+        "<img src=':/resources/envStrokeProg43.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+    ui->pushButton_programStroke5->setToolTip(
+        "<img src=':/resources/envStrokeProg53.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+    ui->pushButton_programStroke6->setToolTip(
+        "<img src=':/resources/envStrokeProg6.jpg' style='max-width: 100px; max-height: 100px;'>"
+    );
+
+originalSize = this->size();
 
     ui->tabWidget->setCurrentWidget(ui->tab);
 
@@ -54,7 +77,67 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
         cb->setCurrentIndex(0);
     }
 
+    ui->comboBox_frequency_1->hide();
+    ui->comboBox_frequency_2->hide();
+    ui->comboBox_frequency_3->hide();
+    ui->comboBox_frequency_4->hide();
+    ui->comboBox_frequency_5->hide();
+    ui->comboBox_waveform_1->hide();
+    ui->comboBox_waveform_2->hide();
+    ui->comboBox_waveform_3->hide();
+    ui->comboBox_waveform_4->hide();
+    ui->comboBox_waveform_5->hide();
+    originalSize = ui->groupBox_ch1->size();
+    ui->groupBox_ch1->setFixedHeight(30);
+    ui->groupBox_ch2->setFixedHeight(30);
+    ui->groupBox_ch3->setFixedHeight(30);
+    ui->groupBox_ch4->setFixedHeight(30);
+    ui->groupBox_ch5->setFixedHeight(30);
 
+
+    // Function to create and populate a combo box model
+    auto createComboBoxModel = [](QComboBox* comboBox) {
+        QStandardItemModel *model = new QStandardItemModel(comboBox);
+        auto createItemWithTooltip = [&](const QString &text, const QString &tooltip) {
+            QStandardItem *item = new QStandardItem(text);
+            item->setData(tooltip, Qt::ToolTipRole);
+            model->appendRow(item);
+        };
+
+        // Create and append items
+        createItemWithTooltip("PIN", "Posterior Interosseous Nerve - Supplies finger, thumb and wrist extensors.");
+        createItemWithTooltip("UN", "Ulna nerve - Supplies lumbricals and AdP - straightens fingers, flexes the MCP joints and abducts.");
+        createItemWithTooltip("ECRB/L", "Extensor Carpi Radialis Brevis / Longus - Extends and abducts the wrist.");
+        createItemWithTooltip("EDC", "Extensor Digitorum Communis - Finger extensors.");
+        createItemWithTooltip("EPL", "Extensor Pollicis Longus - Thumb extensor. Straightens distal joint.");
+        createItemWithTooltip("AbPL", "Abductor Pollicis Longus - Long thumb abductor, lies next to EPL.");
+        createItemWithTooltip("AbPB", "Abductor Pollicis Brevis - Thumb abductor part of thenar eminence.");
+         createItemWithTooltip("AdP", "Adductor Pollicis - Brings thumb in usually stimulated via UN.");
+         createItemWithTooltip("FPL", "Flexor Pollicis Longus - Flexes thumb bringing end over.");
+         createItemWithTooltip("FDS", "Flexor Digitorum Superficialis - Finger flexor – bends two most proximal joints.");
+         createItemWithTooltip("Tr", "Triceps - Elbow extensor.");
+         createItemWithTooltip("Bi", "Biceps - Elbow flexor.");
+         createItemWithTooltip("AD", "Anterior Deltoid - Shoulder Flexor.");
+         createItemWithTooltip("MD", "Middle Deltoid - Shoulder abductor.");
+         createItemWithTooltip("PD", "Posterior Deltoid - Shoulder extensor.");
+         createItemWithTooltip("Sp", "Supraspinatus - Elevates the humorous bone into the rotator cuff.");
+         createItemWithTooltip("Traps", "Trapezius - Stabilises the shoulder girdle.");
+         createItemWithTooltip("Rh", "Rhomboids	- Stabilises scapula.");
+
+
+
+        // Set the model to the combo box
+        comboBox->setModel(model);
+    };
+
+    // Create and set models for combo boxes
+    createComboBoxModel(ui->comboBox_m1);
+    createComboBoxModel(ui->comboBox_m2);
+    createComboBoxModel(ui->comboBox_m3);
+    createComboBoxModel(ui->comboBox_m4);
+    createComboBoxModel(ui->comboBox_m5);
+
+   // ui->label->setText(ui->comboBox_m1->itemData(ui->comboBox_m1->currentIndex(), Qt::ToolTipRole).toString());
 
     ui->widget_currentOne->setEnabled(false);
     ui->widget_currentTwo->setEnabled(false);
@@ -120,6 +203,8 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
     QDomElement Waveform_SettNodeVal = Waveform_SettNode.toElement();
     QDomNode WaveformVal_SettNode = root.elementsByTagName("Waveform").at(0).firstChild();
     QDomElement WaveformVal_SettNodeVal = WaveformVal_SettNode.toElement();
+    QDomNode MuscleVal_SettNode = root.elementsByTagName("MuscleName").at(0).firstChild();
+    QDomElement MuscleVal_SettNodeVal = MuscleVal_SettNode.toElement();
 
     if (!CurrentNodeVal.isNull())
     {
@@ -285,25 +370,121 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 
     }
 
+    if(!MuscleVal_SettNodeVal.isNull())
+    {
+        oneMusIndex = root.elementsByTagName("MN1").at(0).firstChild().nodeValue().toInt();
+        twoMusIndex = root.elementsByTagName("MN2").at(0).firstChild().nodeValue().toInt();
+        threeMusIndex = root.elementsByTagName("MN3").at(0).firstChild().nodeValue().toInt();
+        fourMusIndex = root.elementsByTagName("MN4").at(0).firstChild().nodeValue().toInt();
+        fiveMusIndex = root.elementsByTagName("MN5").at(0).firstChild().nodeValue().toInt();
 
-    //connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
-    //connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this](){ ui->widget_currentOne->setEnabled(!ui->widget_currentOne->isEnabled()); });
-    connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnOne, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelOne);
-    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelTwo);
-    connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnThree, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelThree);
-    connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnFour, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFour);
-    connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
-    connect(ui->pushButton_currOnFive, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFive);
+        ui->comboBox_m1->setCurrentIndex(oneMusIndex);
+        ui->comboBox_m2->setCurrentIndex(twoMusIndex);
+        ui->comboBox_m3->setCurrentIndex(threeMusIndex);
+        ui->comboBox_m4->setCurrentIndex(fourMusIndex);
+        ui->comboBox_m5->setCurrentIndex(fiveMusIndex);
+
+    }
+
+
+    else
+
+    {
+        oneMusIndex = ui->comboBox_m1->currentIndex();
+        twoMusIndex = ui->comboBox_m2->currentIndex();
+        threeMusIndex = ui->comboBox_m3->currentIndex();
+        fourMusIndex = ui->comboBox_m4->currentIndex();
+        fiveMusIndex = ui->comboBox_m5->currentIndex();
+
+        ui->comboBox_m1->setCurrentIndex(0);
+        ui->comboBox_m2->setCurrentIndex(0);
+        ui->comboBox_m3->setCurrentIndex(0);
+        ui->comboBox_m4->setCurrentIndex(0);
+        ui->comboBox_m5->setCurrentIndex(0);
+
+
+    }
+
+
+//    connect(ui->pushButton_currOnOne, &QPushButton::clicked, ui->widget_currentOne, &CurrentButtonOne::setEnabled);
+//    connect(ui->pushButton_currOnOne, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelOne);
+    // For Channel 1
+    connect(ui->pushButton_currOnOne, &QPushButton::clicked, [this]() {
+        if (ui->pushButton_currOnOne->isChecked()) {
+            ui->widget_currentOne->setEnabled(true);
+            emit ui->widget_currentOne->getValue(ui->widget_currentOne->value);
+        } else {
+            setZeroCurrOnChannelOne();
+            ui->widget_currentOne->setEnabled(false);
+        }
+    });
+
+    // For Channel 2
+    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, [this]() {
+        if (ui->pushButton_currOnTwo->isChecked()) {
+            ui->widget_currentTwo->setEnabled(true);
+            emit ui->widget_currentTwo->getValue(ui->widget_currentTwo->value);
+        } else {
+            setZeroCurrOnChannelTwo();
+            ui->widget_currentTwo->setEnabled(false);
+        }
+    });
+
+    // For Channel 3
+    connect(ui->pushButton_currOnThree, &QPushButton::clicked, [this]() {
+        if (ui->pushButton_currOnThree->isChecked()) {
+            ui->widget_currentThree->setEnabled(true);
+            emit ui->widget_currentThree->getValue(ui->widget_currentThree->value);
+        } else {
+            setZeroCurrOnChannelThree();
+            ui->widget_currentThree->setEnabled(false);
+        }
+    });
+
+    // For Channel 4
+    connect(ui->pushButton_currOnFour, &QPushButton::clicked, [this]() {
+        if (ui->pushButton_currOnFour->isChecked()) {
+            ui->widget_currentFour->setEnabled(true);
+            emit ui->widget_currentFour->getValue(ui->widget_currentFour->value);
+        } else {
+            setZeroCurrOnChannelFour();
+            ui->widget_currentFour->setEnabled(false);
+        }
+    });
+
+    // For Channel 5
+    connect(ui->pushButton_currOnFive, &QPushButton::clicked, [this]() {
+        if (ui->pushButton_currOnFive->isChecked()) {
+            ui->widget_currentFive->setEnabled(true);
+            emit ui->widget_currentFive->getValue(ui->widget_currentFive->value);
+        } else {
+            setZeroCurrOnChannelFive();
+            ui->widget_currentFive->setEnabled(false);
+        }
+    });
+
+
+//    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, ui->widget_currentTwo, &CurrentButtonOne::setEnabled);
+//    connect(ui->pushButton_currOnTwo, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelTwo);
+//    connect(ui->pushButton_currOnThree, &QPushButton::clicked, ui->widget_currentThree, &CurrentButtonOne::setEnabled);
+//    connect(ui->pushButton_currOnThree, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelThree);
+//    connect(ui->pushButton_currOnFour, &QPushButton::clicked, ui->widget_currentFour, &CurrentButtonOne::setEnabled);
+//    connect(ui->pushButton_currOnFour, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFour);
+//    connect(ui->pushButton_currOnFive, &QPushButton::clicked, ui->widget_currentFive, &CurrentButtonOne::setEnabled);
+//    connect(ui->pushButton_currOnFive, &QPushButton::clicked, this, &stageProgram::setZeroCurrOnChannelFive);
 
     connect(ui->widget_currentOne, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelOne);
     connect(ui->widget_currentTwo, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelTwo);
     connect(ui->widget_currentThree, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelThree);
     connect(ui->widget_currentFour, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFour);
     connect(ui->widget_currentFive, &CurrentButtonOne::getValue, this, &stageProgram::setCurrOnChannelFive);
+
+
+    connect(ui->groupBox_ch1, &QGroupBox::toggled, this, &stageProgram::onAdvancedSettingsToggledCh1);
+    connect(ui->groupBox_ch2, &QGroupBox::toggled, this, &stageProgram::onAdvancedSettingsToggledCh2);
+    connect(ui->groupBox_ch3, &QGroupBox::toggled, this, &stageProgram::onAdvancedSettingsToggledCh3);
+    connect(ui->groupBox_ch4, &QGroupBox::toggled, this, &stageProgram::onAdvancedSettingsToggledCh4);
+    connect(ui->groupBox_ch5, &QGroupBox::toggled, this, &stageProgram::onAdvancedSettingsToggledCh5);
 
     //connect(ui->widget_currentOne, &CurrentButtonOne::myButtonPressed, this, &stageProgram::setZeroCurrOnChannelOne);
 
@@ -410,6 +591,86 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 stageProgram::~stageProgram()
 {
     delete ui;
+}
+
+void stageProgram::onAdvancedSettingsToggledCh1(bool checked)
+{
+    if (checked) {
+        ui->comboBox_frequency_1->show();
+        ui->comboBox_waveform_1->show();
+        ui->groupBox_ch1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum); // Allow the group box to expand
+                ui->groupBox_ch1->setFixedHeight(originalSize.height()); // Restore the original height
+
+    } else {
+        ui->comboBox_frequency_1->hide();
+        ui->comboBox_waveform_1->hide();
+        ui->groupBox_ch1->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+               ui->groupBox_ch1->setFixedHeight(30); // Set a fixed height when collapsed
+    }
+}
+
+void stageProgram::onAdvancedSettingsToggledCh2(bool checked)
+{
+    if (checked) {
+        ui->comboBox_frequency_2->show();
+        ui->comboBox_waveform_2->show();
+        ui->groupBox_ch2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum); // Allow the group box to expand
+                ui->groupBox_ch2->setFixedHeight(originalSize.height()); // Restore the original height
+
+    } else {
+        ui->comboBox_frequency_2->hide();
+        ui->comboBox_waveform_2->hide();
+        ui->groupBox_ch2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+               ui->groupBox_ch2->setFixedHeight(30); // Set a fixed height when collapsed
+    }
+}
+
+void stageProgram::onAdvancedSettingsToggledCh3(bool checked)
+{
+    if (checked) {
+        ui->comboBox_frequency_3->show();
+        ui->comboBox_waveform_3->show();
+        ui->groupBox_ch3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum); // Allow the group box to expand
+                ui->groupBox_ch3->setFixedHeight(originalSize.height()); // Restore the original height
+
+    } else {
+        ui->comboBox_frequency_3->hide();
+        ui->comboBox_waveform_3->hide();
+        ui->groupBox_ch3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+               ui->groupBox_ch3->setFixedHeight(30); // Set a fixed height when collapsed
+    }
+}
+
+void stageProgram::onAdvancedSettingsToggledCh4(bool checked)
+{
+    if (checked) {
+        ui->comboBox_frequency_4->show();
+        ui->comboBox_waveform_4->show();
+        ui->groupBox_ch4->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum); // Allow the group box to expand
+                ui->groupBox_ch4->setFixedHeight(originalSize.height()); // Restore the original height
+
+    } else {
+        ui->comboBox_frequency_4->hide();
+        ui->comboBox_waveform_4->hide();
+        ui->groupBox_ch4->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+               ui->groupBox_ch4->setFixedHeight(30); // Set a fixed height when collapsed
+    }
+}
+
+void stageProgram::onAdvancedSettingsToggledCh5(bool checked)
+{
+    if (checked) {
+        ui->comboBox_frequency_5->show();
+        ui->comboBox_waveform_5->show();
+        ui->groupBox_ch5->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum); // Allow the group box to expand
+                ui->groupBox_ch5->setFixedHeight(originalSize.height()); // Restore the original height
+
+    } else {
+        ui->comboBox_frequency_5->hide();
+        ui->comboBox_waveform_5->hide();
+        ui->groupBox_ch5->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+               ui->groupBox_ch5->setFixedHeight(30); // Set a fixed height when collapsed
+    }
 }
 
 
@@ -567,6 +828,23 @@ void stageProgram::closeEvent(QCloseEvent *event)
         }
     }
 
+}
+
+void stageProgram::resizeEvent(QResizeEvent *event)
+{
+    // Get the new size of the main window
+    // Get the new size of the main window
+     QSize newSize = event->size();
+
+     // Scale factor based on the new size compared to the original size
+     double scaleFactorWidth = static_cast<double>(newSize.width()) / originalSize.width();
+     double scaleFactorHeight = static_cast<double>(newSize.height()) / originalSize.height();
+
+     // Adjust the size and position of each widget based on the scale factor
+     scaleWidgets(this, scaleFactorWidth, scaleFactorHeight);
+
+     // Ensure to call the base class implementation
+     QMainWindow::resizeEvent(event);
 }
 
 void stageProgram::stimStatusEventHandler(STIM_GUI_TOPIC_T topic,uint8_t index, uint8_t reg, uint32_t value)
@@ -946,6 +1224,10 @@ void stageProgram::saveToXMLFile()
     QDomNode WaveformValNode = root.elementsByTagName("Waveform").at(0).firstChild();
     QDomElement WaveformValNodeVal = WaveformValNode.toElement();
 
+    QDomElement newMuscleValTag = document.createElement(QString("MuscleName"));
+    QDomNode MuscleValNode = root.elementsByTagName("MuscleName").at(0).firstChild();
+    QDomElement MuscleValNodeVal = MuscleValNode.toElement();
+
 
     if (CurrentNodeVal.isNull())
     {
@@ -1196,6 +1478,55 @@ void stageProgram::saveToXMLFile()
 
     }
 
+    if (MuscleValNodeVal.isNull())
+    {
+        QDomElement w1Tag = document.createElement(QString("MN1"));
+        QDomText w1Val = document.createTextNode(QString::number(ui->comboBox_m1->currentIndex()));
+        w1Tag.appendChild(w1Val);
+        newMuscleValTag.appendChild(w1Tag);
+
+        QDomElement w2Tag = document.createElement(QString("MN2"));
+        QDomText w2Val = document.createTextNode(QString::number(ui->comboBox_m2->currentIndex()));
+        w2Tag.appendChild(w2Val);
+        newMuscleValTag.appendChild(w2Tag);
+
+        QDomElement w3Tag = document.createElement(QString("MN3"));
+        QDomText w3Val = document.createTextNode(QString::number(ui->comboBox_m3->currentIndex()));
+        w3Tag.appendChild(w3Val);
+        newMuscleValTag.appendChild(w3Tag);
+
+        QDomElement w4Tag = document.createElement(QString("MN4"));
+        QDomText w4Val = document.createTextNode(QString::number(ui->comboBox_m4->currentIndex()));
+        w4Tag.appendChild(w4Val);
+        newMuscleValTag.appendChild(w4Tag);
+
+        QDomElement w5Tag = document.createElement(QString("MN5"));
+        QDomText w5Val = document.createTextNode(QString::number(ui->comboBox_m5->currentIndex()));
+        w5Tag.appendChild(w5Val);
+        newMuscleValTag.appendChild(w5Tag);
+
+        root.appendChild(newMuscleValTag);
+    }
+
+    else
+    {
+        QDomElement root = document.documentElement();
+        QDomNode SettingsNode = root.namedItem("MuscleName");
+
+        QDomNode w1 = SettingsNode.namedItem("MN1");
+        w1.firstChild().setNodeValue(QString::number(ui->comboBox_m1->currentIndex()));
+        QDomNode w2 = SettingsNode.namedItem("MN2");
+        w2.firstChild().setNodeValue(QString::number(ui->comboBox_m2->currentIndex()));
+        QDomNode w3 = SettingsNode.namedItem("MN3");
+        w3.firstChild().setNodeValue(QString::number(ui->comboBox_m3->currentIndex()));
+        QDomNode w4 = SettingsNode.namedItem("MN4");
+        w4.firstChild().setNodeValue(QString::number(ui->comboBox_m4->currentIndex()));
+        QDomNode w5 = SettingsNode.namedItem("MN5");
+        w5.firstChild().setNodeValue(QString::number(ui->comboBox_m5->currentIndex()));
+
+    }
+
+
 
 
 
@@ -1220,26 +1551,108 @@ void stageProgram::saveToXMLFile()
 
 void stageProgram::on_tabWidget_currentChanged(int index)
 {
- if (index == 1)
- {
-    // tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 20);
-   //  connect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
- }
- else
- {
-     tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
-   //  disconnect(&api, &tetra_grip_api::tetraGripSensorEvent,this, &stageProgram::sensorEventHandler);
- }
+    if (index == 1)
+        {
 
-// if (index == 2)
-// {
-//     if(saveClicked == false)
-//     {
+            saveToXMLFile();
+            QDomDocument document;
+            QString xmlName = pLabel;
+            QString xmlReadPath = QCoreApplication::applicationDirPath() + "/data/" + xmlName + ".xml";
+            QFile xmlfile(xmlReadPath);
 
-//       QMessageBox::warning(this,"TetraGrip","Save Current Settings",QMessageBox::Ok	,QMessageBox::NoButton);
+            if (!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+            {
+                qDebug() << "Error opening XML file: " << xmlfile.errorString();
+                return; // Return if the file cannot be opened
+            }
 
-//     }
-// }
+            document.setContent(&xmlfile);
+            QDomElement root = document.documentElement();
+            xmlfile.close();
+
+            QDomNodeList currentNodes = root.elementsByTagName("Current");
+            QDomNodeList sp1Nodes = root.elementsByTagName("PW_Stroke1");
+            QDomNodeList sp2Nodes = root.elementsByTagName("PW_Stroke2");
+            QDomNodeList sp3Nodes = root.elementsByTagName("PW_Stroke3");
+            QDomNodeList sp4Nodes = root.elementsByTagName("PW_Stroke4");
+            QDomNodeList sp5Nodes = root.elementsByTagName("PW_Stroke5");
+            QDomNodeList sp6Nodes = root.elementsByTagName("PW_Stroke6");
+
+            ManageConfigFile configFile;
+
+//            if (sp1Nodes.at(0).firstChild().isNull())
+//                configFile.sProg1Test(pLabel);
+//            else
+//                configFile.sProg1Final(pLabel);
+
+//            if (sp2Nodes.at(0).firstChild().isNull())
+//                configFile.sProg2Test(pLabel);
+//            else
+//                configFile.sProg2Final(pLabel);
+
+//            if (sp3Nodes.at(0).firstChild().isNull())
+//                configFile.sProg3Test(pLabel);
+//            else
+//                configFile.sProg3Final(pLabel);
+
+//            if (sp4Nodes.at(0).firstChild().isNull())
+//                configFile.sProg4Test(pLabel);
+//            else
+//                configFile.sProg4Final(pLabel);
+
+//            if (sp5Nodes.at(0).firstChild().isNull())
+//                configFile.sProg5Test(pLabel);
+//            else
+//                configFile.sProg5Final(pLabel);
+
+            // Always create test configurations for all nodes
+            configFile.sProg1Test(pLabel);
+            configFile.sProg2Test(pLabel);
+            configFile.sProg3Test(pLabel);
+            configFile.sProg4Test(pLabel);
+            configFile.sProg5Test(pLabel);
+            configFile.sProg6Test(pLabel);
+
+            // Create final configurations only if the nodes are present
+            if (!sp1Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg1Final(pLabel);
+
+            }
+
+            if (!sp2Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg2Final(pLabel);
+            }
+
+            if (!sp3Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg3Final(pLabel);
+                //ui->label_2->setText("Sp3 presnet");
+            }
+
+            if (!sp4Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg4Final(pLabel);
+            }
+
+            if (!sp5Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg5Final(pLabel);
+            }
+
+            if (!sp6Nodes.at(0).firstChild().isNull()) {
+                configFile.sProg6Final(pLabel);
+            }
+        }
+        else
+        {
+            tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+            // disconnect(&api, &tetra_grip_api::tetraGripSensorEvent, this, &stageProgram::sensorEventHandler);
+        }
+
+        // if (index == 2)
+        // {
+        //     if (!saveClicked)
+        //     {
+        //         QMessageBox::warning(this, "TetraGrip", "Save Current Settings", QMessageBox::Ok, QMessageBox::NoButton);
+        //     }
+        // }
 
 }
 
@@ -1377,3 +1790,712 @@ void stageProgram::on_comboBox_waveform_5_currentIndexChanged(int index)
     fiveWaveStim = value;
     tetra_grip_api::stimulation_set_waveform(m_channelFive,0, fiveWaveStim);
 }
+
+void stageProgram::on_pushButton_stimSave_2_clicked()
+{
+//       this->close();
+//        protocolwindow = new ProtocolWindow (pLabel, nullptr);
+//        protocolwindow -> setAttribute(Qt::WA_DeleteOnClose);
+//        protocolwindow -> show();
+}
+
+void stageProgram::on_pushButton_programStroke2_clicked()
+{
+
+//    QDomDocument document;
+//    QString xmlName = pLabel;
+//    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+//    QFile xmlfile(xmlReadPath);
+
+//    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+//    {
+//        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+
+//    }
+
+//    document.setContent(&xmlfile);
+//    QDomElement root = document.documentElement();
+//    xmlfile.close();
+
+
+//    QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+//    QDomElement CurrentNodeVal = CurrentNode.toElement();
+//    QDomNode SP1PWNode = root.elementsByTagName("PW_Stroke1").at(0).firstChild();
+//    QDomElement SP1PWNodeVal = SP1PWNode.toElement();
+//    if(SP1PWNode.isNull())
+//    {
+
+
+//        this->close();
+//        strokewindow = new StrokeTrainingWindow(pLabel, 0,0);
+//        strokewindow->show();
+
+//    }
+//    else
+//    {
+//        this->close();
+//        strokewindow = new StrokeTrainingWindow(pLabel, 0,1);
+//        strokewindow->show();
+//    }
+
+//    if(CurrentNode.isNull())
+//    {
+//        QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+//        return;
+//    }
+
+//    tetra_grip_api::set_sensor_data_rate(SENSOR_ADDRESS_BROADCAST, 0);
+
+    QDomDocument document;
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+        return;
+    }
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QMap<QString, QString> defaultValues;
+
+    // Add tooltip texts of combo boxes to defaultValues
+    int index_m1 = ui->comboBox_m1->currentIndex();
+    QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+    int index_m2 = ui->comboBox_m2->currentIndex();
+    QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+    int index_m3 = ui->comboBox_m3->currentIndex();
+    QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+    int index_m4 = ui->comboBox_m4->currentIndex();
+    QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+    int index_m5 = ui->comboBox_m5->currentIndex();
+    QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+    // Extracting Current values
+        QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+        for(int i = 0; i < currentNodeList.count(); i++) {
+            QDomElement element = currentNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Current_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting pulsewidth values
+        QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke1").at(0).childNodes();
+        for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+            QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["PW_Stroke1_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Ramp values
+        QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke1").at(0).childNodes();
+        for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+            QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Ramp_Stroke1_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Delay values
+        QDomNodeList delayStrokeProg2IndexNodeList = root.elementsByTagName("Delay_Stroke1").at(0).childNodes();
+        for(int i = 0; i < delayStrokeProg2IndexNodeList.count(); i++) {
+            QDomElement element = delayStrokeProg2IndexNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Delay_Stroke1_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Duration values
+        QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke1").at(0).childNodes();
+        for(int i = 0; i < TDur2NodeList.count(); i++) {
+            QDomElement element = TDur2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["TDur_Stroke1_" + element.tagName()] = element.text();
+            }
+        }
+
+
+        QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+        QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+        if(CurrentNode.isNull())
+        {
+            QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+            return;
+        }
+        QDomNode SP5PWNode = root.elementsByTagName("PW_Stroke1").at(0).firstChild();
+        QDomElement SP5PWNodeVal = SP5PWNode.toElement();
+
+        int configStatus = SP5PWNode.isNull() ? 0 : 1;
+
+
+        this->close();
+        strokewindow = new StrokeTrainingWindow(pLabel,defaultValues, 0,configStatus);
+        strokewindow->show();
+
+}
+
+
+void stageProgram::on_pushButton_programStroke1_clicked()
+{
+
+
+        QDomDocument document;
+        QString xmlName = pLabel;
+        QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+        QFile xmlfile(xmlReadPath);
+
+        if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+            return;
+        }
+
+        document.setContent(&xmlfile);
+        QDomElement root = document.documentElement();
+        xmlfile.close();
+
+        QMap<QString, QString> defaultValues;
+        // Add tooltip texts of combo boxes to defaultValues
+        int index_m1 = ui->comboBox_m1->currentIndex();
+        QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+        defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+        int index_m2 = ui->comboBox_m2->currentIndex();
+        QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+        defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+        int index_m3 = ui->comboBox_m3->currentIndex();
+        QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+        defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+        int index_m4 = ui->comboBox_m4->currentIndex();
+        QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+        defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+        int index_m5 = ui->comboBox_m5->currentIndex();
+        QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+        defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+        // Extracting Current values
+            QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+            for(int i = 0; i < currentNodeList.count(); i++) {
+                QDomElement element = currentNodeList.at(i).toElement();
+                if (!element.isNull()) {
+                    defaultValues["Current_" + element.tagName()] = element.text();
+                }
+            }
+
+            // Extracting pulsewidth values
+            QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke2").at(0).childNodes();
+            for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+                QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+                if (!element.isNull()) {
+                    defaultValues["PW_Stroke2_" + element.tagName()] = element.text();
+                }
+            }
+
+            // Extracting Ramp values
+            QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke2").at(0).childNodes();
+            for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+                QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+                if (!element.isNull()) {
+                    defaultValues["Ramp_Stroke2_" + element.tagName()] = element.text();
+                }
+            }
+
+            // Extracting Delay values
+            QDomNodeList delayStrokeProg2IndexNodeList = root.elementsByTagName("Delay_Stroke2").at(0).childNodes();
+            for(int i = 0; i < delayStrokeProg2IndexNodeList.count(); i++) {
+                QDomElement element = delayStrokeProg2IndexNodeList.at(i).toElement();
+                if (!element.isNull()) {
+                    defaultValues["Delay_Stroke2_" + element.tagName()] = element.text();
+                }
+            }
+
+            // Extracting Duration values
+            QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke2").at(0).childNodes();
+            for(int i = 0; i < TDur2NodeList.count(); i++) {
+                QDomElement element = TDur2NodeList.at(i).toElement();
+                if (!element.isNull()) {
+                    defaultValues["TDur_Stroke2_" + element.tagName()] = element.text();
+                }
+            }
+
+            QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+            QDomElement CurrentNodeVal = CurrentNode.toElement();
+            QDomNode SP1PWNode = root.elementsByTagName("PW_Stroke2").at(0).firstChild();
+            QDomElement SP1PWNodeVal = SP1PWNode.toElement();
+
+            int configStatus = SP1PWNode.isNull() ? 0 : 1;
+
+            if(CurrentNode.isNull())
+            {
+                QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+                return;
+            }
+
+
+
+            this->close();
+            strokewindowtwo = new StrokeTrainingWindowTwo(pLabel,defaultValues, 0,configStatus);
+            strokewindowtwo->show();
+
+
+}
+
+
+void stageProgram::on_pushButton_programStroke_3_clicked()
+{
+
+    QDomDocument document;
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+        return;
+    }
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QMap<QString, QString> defaultValues;
+    // Add tooltip texts of combo boxes to defaultValues
+    int index_m1 = ui->comboBox_m1->currentIndex();
+    QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+    int index_m2 = ui->comboBox_m2->currentIndex();
+    QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+    int index_m3 = ui->comboBox_m3->currentIndex();
+    QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+    int index_m4 = ui->comboBox_m4->currentIndex();
+    QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+    int index_m5 = ui->comboBox_m5->currentIndex();
+    QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+    // Extracting Current values
+        QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+        for(int i = 0; i < currentNodeList.count(); i++) {
+            QDomElement element = currentNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Current_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting pulsewidth values
+        QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke3").at(0).childNodes();
+        for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+            QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["PW_Stroke3_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Ramp values
+        QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke3").at(0).childNodes();
+        for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+            QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Ramp_Stroke2_" + element.tagName()] = element.text();
+            }
+        }
+
+
+        // Extracting Duration values
+        QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke3").at(0).childNodes();
+        for(int i = 0; i < TDur2NodeList.count(); i++) {
+            QDomElement element = TDur2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["TDur_Stroke3_" + element.tagName()] = element.text();
+            }
+        }
+
+        QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+        QDomElement CurrentNodeVal = CurrentNode.toElement();
+        QDomNode SP1PWNode = root.elementsByTagName("PW_Stroke3").at(0).firstChild();
+        QDomElement SP1PWNodeVal = SP1PWNode.toElement();
+
+        int configStatus = SP1PWNode.isNull() ? 0 : 1;
+
+        if(CurrentNode.isNull())
+        {
+            QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+            return;
+        }
+
+
+    this->close();
+    strokewindowthree = new StrokeTrainingWindowThree(pLabel,defaultValues, 0,configStatus);
+    strokewindowthree->show();
+}
+
+
+void stageProgram::on_pushButton_programStroke4_clicked()
+{
+    QDomDocument document;
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+        return;
+    }
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QMap<QString, QString> defaultValues;
+    // Add tooltip texts of combo boxes to defaultValues
+    int index_m1 = ui->comboBox_m1->currentIndex();
+    QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+    int index_m2 = ui->comboBox_m2->currentIndex();
+    QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+    int index_m3 = ui->comboBox_m3->currentIndex();
+    QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+    int index_m4 = ui->comboBox_m4->currentIndex();
+    QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+    int index_m5 = ui->comboBox_m5->currentIndex();
+    QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+    // Extracting Current values
+        QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+        for(int i = 0; i < currentNodeList.count(); i++) {
+            QDomElement element = currentNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Current_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting pulsewidth values
+        QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke4").at(0).childNodes();
+        for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+            QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["PW_Stroke4_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Ramp values
+        QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke4").at(0).childNodes();
+        for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+            QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Ramp_Stroke4_" + element.tagName()] = element.text();
+            }
+        }
+
+
+        // Extracting Duration values
+        QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke4").at(0).childNodes();
+        for(int i = 0; i < TDur2NodeList.count(); i++) {
+            QDomElement element = TDur2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["TDur_Stroke4_" + element.tagName()] = element.text();
+            }
+        }
+
+        QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+        QDomElement CurrentNodeVal = CurrentNode.toElement();
+        QDomNode SP1PWNode = root.elementsByTagName("PW_Stroke4").at(0).firstChild();
+        QDomElement SP1PWNodeVal = SP1PWNode.toElement();
+
+        if(CurrentNode.isNull())
+        {
+            QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+            return;
+        }
+
+
+        QDomNode SP4PWNode = root.elementsByTagName("PW_Stroke4").at(0).firstChild();
+        QDomElement SP4PWNodeVal = SP4PWNode.toElement();
+
+        int configStatus = SP4PWNode.isNull() ? 0 : 1;
+
+
+        this->close();
+        strokewindowfour = new StrokeTrainingWindowFour(pLabel,defaultValues, 0,configStatus);
+        strokewindowfour->show();
+
+
+}
+
+
+void stageProgram::on_pushButton_programStroke5_clicked()
+{
+
+    QDomDocument document;
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+        return;
+    }
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QMap<QString, QString> defaultValues;
+    // Add tooltip texts of combo boxes to defaultValues
+    int index_m1 = ui->comboBox_m1->currentIndex();
+    QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+    int index_m2 = ui->comboBox_m2->currentIndex();
+    QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+    int index_m3 = ui->comboBox_m3->currentIndex();
+    QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+    int index_m4 = ui->comboBox_m4->currentIndex();
+    QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+    int index_m5 = ui->comboBox_m5->currentIndex();
+    QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+    // Extracting Current values
+        QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+        for(int i = 0; i < currentNodeList.count(); i++) {
+            QDomElement element = currentNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Current_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting pulsewidth values
+        QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke5").at(0).childNodes();
+        for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+            QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["PW_Stroke5_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Ramp values
+        QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke5").at(0).childNodes();
+        for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+            QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Ramp_Stroke5_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Delay values
+        QDomNodeList delayStrokeProg2IndexNodeList = root.elementsByTagName("Delay_Stroke5").at(0).childNodes();
+        for(int i = 0; i < delayStrokeProg2IndexNodeList.count(); i++) {
+            QDomElement element = delayStrokeProg2IndexNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Delay_Stroke5_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Duration values
+        QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke5").at(0).childNodes();
+        for(int i = 0; i < TDur2NodeList.count(); i++) {
+            QDomElement element = TDur2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["TDur_Stroke5_" + element.tagName()] = element.text();
+            }
+        }
+
+
+        QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+        QDomElement CurrentNodeVal = CurrentNode.toElement();
+
+        if(CurrentNode.isNull())
+        {
+            QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+            return;
+        }
+        QDomNode SP5PWNode = root.elementsByTagName("PW_Stroke5").at(0).firstChild();
+        QDomElement SP5PWNodeVal = SP5PWNode.toElement();
+
+        int configStatus = SP5PWNode.isNull() ? 0 : 1;
+
+
+        this->close();
+        strokewindowfive = new StrokeTrainingWindowFive(pLabel,defaultValues, 0,configStatus);
+        strokewindowfive->show();
+}
+
+void stageProgram::scaleWidgets(QWidget *parent, double scaleFactorWidth, double scaleFactorHeight)
+{/*
+    foreach (QWidget *widget, parent->findChildren<QWidget*>())
+       {
+           // Scale the size of the widget
+           QSize originalSize = widget->size();
+           int newWidth = originalSize.width() * scaleFactorWidth;
+           int newHeight = originalSize.height() * scaleFactorHeight;
+           widget->resize(newWidth, newHeight);
+
+           // Scale the position of the widget
+           QPoint originalPos = widget->pos();
+           int newX = originalPos.x() * scaleFactorWidth;
+           int newY = originalPos.y() * scaleFactorHeight;
+           widget->move(newX, newY);
+
+           // Recursively scale child widgets
+           scaleWidgets(widget, scaleFactorWidth, scaleFactorHeight);
+       }*/
+}
+
+
+void stageProgram::on_pushButton_IMUcontrol_clicked()
+{
+    //disconnect(&api, &tetra_grip_api::deviceError, this, &StageOneMain::connectionError);
+   // disconnect(&api, &tetra_grip_api::tetraGripEvent,this, &StageOneMain::eventHandler);
+    this->close();
+    window = new ShoulderControl(pLabel, nullptr);
+    window->setAttribute(Qt::WA_DeleteOnClose);
+    window -> show();
+}
+
+
+void stageProgram::on_pushButton_programStroke6_clicked()
+{
+    QDomDocument document;
+    QString xmlName = pLabel;
+    QString xmlReadPath = QCoreApplication::applicationDirPath()+"/data/"+xmlName+".xml";
+    QFile xmlfile(xmlReadPath);
+
+    if(!xmlfile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug () << "Error opening XML file: "<<xmlfile.errorString();
+        return;
+    }
+
+    document.setContent(&xmlfile);
+    QDomElement root = document.documentElement();
+    xmlfile.close();
+
+    QMap<QString, QString> defaultValues;
+    // Add tooltip texts of combo boxes to defaultValues
+    int index_m1 = ui->comboBox_m1->currentIndex();
+    QString tooltipText_m1 = ui->comboBox_m1->itemData(index_m1, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m1"] = tooltipText_m1;
+
+    int index_m2 = ui->comboBox_m2->currentIndex();
+    QString tooltipText_m2 = ui->comboBox_m2->itemData(index_m2, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m2"] = tooltipText_m2;
+
+    int index_m3 = ui->comboBox_m3->currentIndex();
+    QString tooltipText_m3 = ui->comboBox_m3->itemData(index_m3, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m3"] = tooltipText_m3;
+
+    int index_m4 = ui->comboBox_m4->currentIndex();
+    QString tooltipText_m4 = ui->comboBox_m4->itemData(index_m4, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m4"] = tooltipText_m4;
+
+    int index_m5 = ui->comboBox_m5->currentIndex();
+    QString tooltipText_m5 = ui->comboBox_m5->itemData(index_m5, Qt::ToolTipRole).toString();
+    defaultValues["Tooltip_comboBox_m5"] = tooltipText_m5;
+
+    // Extracting Current values
+        QDomNodeList currentNodeList = root.elementsByTagName("Current").at(0).childNodes();
+        for(int i = 0; i < currentNodeList.count(); i++) {
+            QDomElement element = currentNodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Current_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting pulsewidth values
+        QDomNodeList pulsewidthStrokeProg2NodeList = root.elementsByTagName("PW_Stroke6").at(0).childNodes();
+        for(int i = 0; i < pulsewidthStrokeProg2NodeList.count(); i++) {
+            QDomElement element = pulsewidthStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["PW_Stroke6_" + element.tagName()] = element.text();
+            }
+        }
+
+        // Extracting Ramp values
+        QDomNodeList rampStrokeProg2NodeList = root.elementsByTagName("Ramp_Stroke6").at(0).childNodes();
+        for(int i = 0; i < rampStrokeProg2NodeList.count(); i++) {
+            QDomElement element = rampStrokeProg2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["Ramp_Stroke6_" + element.tagName()] = element.text();
+            }
+        }
+
+
+        // Extracting Duration values
+        QDomNodeList TDur2NodeList = root.elementsByTagName("TDur_Stroke6").at(0).childNodes();
+        for(int i = 0; i < TDur2NodeList.count(); i++) {
+            QDomElement element = TDur2NodeList.at(i).toElement();
+            if (!element.isNull()) {
+                defaultValues["TDur_Stroke6_" + element.tagName()] = element.text();
+            }
+        }
+
+        QDomNode CurrentNode = root.elementsByTagName("Current").at(0).firstChild();
+        QDomElement CurrentNodeVal = CurrentNode.toElement();
+        QDomNode SP1PWNode = root.elementsByTagName("PW_Stroke6").at(0).firstChild();
+        QDomElement SP1PWNodeVal = SP1PWNode.toElement();
+
+        if(CurrentNode.isNull())
+        {
+            QMessageBox::information(this, "Current and Frequency Settings not saved", "You can't configure Grip phases without setting proper current and frequency values on each channels.\n\nPlease goto previous tab and set the current and frequency levels in all the channels and press save button");
+            return;
+        }
+
+
+        QDomNode SP4PWNode = root.elementsByTagName("PW_Stroke6").at(0).firstChild();
+        QDomElement SP4PWNodeVal = SP4PWNode.toElement();
+
+        int configStatus = SP4PWNode.isNull() ? 0 : 1;
+
+
+        this->close();
+        strokewindowsix = new StrokeTrainingWindowSix(pLabel,defaultValues, 0,configStatus);
+        strokewindowsix->show();
+}
+
+
+
+
