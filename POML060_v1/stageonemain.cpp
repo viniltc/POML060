@@ -215,7 +215,7 @@ void StageOneMain::connectionError(bool val)
 
 void StageOneMain::on_pushButton_help_clicked()
 {
-    emit textToChange("text updated");
+    /*emit textToChange("text updated");
     emit setPushButton(true);
    // emit deviceError(true);
 
@@ -235,22 +235,6 @@ void StageOneMain::on_pushButton_help_clicked()
 
 
     QTextStream instream(& originalFile);
-
-
-
-
-
-
-
-//    while(!instream.atEnd())
-//    {
-
-//        QString line = instream.readLine();
-//        qDebug()<<line;
-//        outstream<<line<<'\n';
-
-//    }
-
 
     QRegExp rx("(\\ |\\,|\\.|\\:|\\t)");
     QRegExp regExp_int (QLatin1Literal("[^0-9]+")); // reg ex to extract integer from a string
@@ -345,7 +329,7 @@ void StageOneMain::on_pushButton_help_clicked()
             {
                 QStringList slist = line.split(rx);
                 if(slist.size() >4) {
-                    slist[0]= "Rest\t\t";
+                    slist[0]= "Neutral\t\t";
                     slist[2]= QString::number(slist[2].toInt()/(1000));
                     slist[3]= QString::number(slist[3].toInt()/(1000));
                     slist[4]= QString::number(slist[4].toInt()/(1000));
@@ -362,7 +346,7 @@ void StageOneMain::on_pushButton_help_clicked()
             {
                 QStringList slist = line.split(rx);
                 if(slist.size() >4) {
-                    slist[0]= "Hand open (Key grip)\t";
+                    slist[0]= "Hand open (Keygrip) or Phase 1(stroke program)\t";
                     slist[2]= QString::number(slist[2].toInt()/(1000));
                     slist[3]= QString::number(slist[3].toInt()/(1000));
                     slist[4]= QString::number(slist[4].toInt()/(1000));
@@ -378,7 +362,7 @@ void StageOneMain::on_pushButton_help_clicked()
             {
                 QStringList slist = line.split(rx);
                 if(slist.size() >4) {
-                    slist[0]= "Finger Flexion (Key grip)\t";
+                    slist[0]= "Finger Flexion (Keygrip) or Phase 2(stroke program)\t";
                     slist[2]= QString::number(slist[2].toInt()/(1000));
                     slist[3]= QString::number(slist[3].toInt()/(1000));
                     slist[4]= QString::number(slist[4].toInt()/(1000));
@@ -395,7 +379,7 @@ void StageOneMain::on_pushButton_help_clicked()
             {
                 QStringList slist = line.split(rx);
                 if(slist.size() >4) {
-                    slist[0]= "Grip Phase (Key grip)\t";
+                    slist[0]= "Grip Phase (Keygrip) or Phase 3(stroke program)\t";
                     slist[2]= QString::number(slist[2].toInt()/(1000));
                     slist[3]= QString::number(slist[3].toInt()/(1000));
                     slist[4]= QString::number(slist[4].toInt()/(1000));
@@ -416,7 +400,7 @@ void StageOneMain::on_pushButton_help_clicked()
 
                 QStringList slist = line.split(rx);
                 if(slist.size() >4) {
-                    slist[0]= "Release Object (Key grip)\t";
+                    slist[0]= "Release Object (Keygrip) or Phase 4(stroke program)\t";
                     slist[2]= QString::number(slist[2].toInt()/(1000));
                     slist[3]= QString::number(slist[3].toInt()/(1000));
                     slist[4]= QString::number(slist[4].toInt()/(1000));
@@ -611,7 +595,63 @@ void StageOneMain::on_pushButton_help_clicked()
         originalFile.close();
         newFile.close();
         //originalFile.remove();
-    }
+    }*/
+
+
+    // Define file names
+       QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss");
+       QString namestring = "log_file_" + pLabel + "_" + timestamp; // Add timestamp to file name
+       QString originalFilename = "logfilename.txt";
+
+       // Construct the path for the new file
+       QString saveDir = QCoreApplication::applicationDirPath() + "/data/log file";
+       QDir dir(saveDir);
+
+       // Ensure the directory exists, create if it doesn't
+       if (!dir.exists()) {
+           if (!dir.mkpath(saveDir)) {
+               qDebug() << "Failed to create directory:" << saveDir;
+               return;
+           }
+       }
+
+       QString newFilename = saveDir + "/" + namestring + ".txt";
+
+       QFile originalFile(originalFilename);
+       QFile newFile(newFilename);
+
+       // Open the original log file
+       if (!originalFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+           qDebug() << "Error opening original log file: " << originalFile.errorString();
+           return; // Exit if the file can't be opened
+       }
+
+       // Open the new file for writing
+       if (!newFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+           qDebug() << "Error creating new log file: " << newFile.errorString();
+           originalFile.close(); // Ensure the original file is closed
+           return; // Exit if the file can't be created
+       }
+
+       QTextStream instream(&originalFile);
+       QTextStream outstream(&newFile);
+
+       // Add date and time information to the new file
+       outstream << "Date and Time of last log access: "
+                 << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") << "\n\n";
+
+       // Copy content from the original file to the new file
+       while (!instream.atEnd()) {
+           QString line = instream.readLine();
+           outstream << line << "\n";
+       }
+
+       // Close the files
+       originalFile.close();
+       newFile.close();
+
+       qDebug() << "New log file created successfully: " << newFilename;
+
 
       this->close();
       logwindow = new StimulatorLogWindow(pLabel, nullptr);

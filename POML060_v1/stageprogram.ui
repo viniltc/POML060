@@ -668,8 +668,8 @@ QPushButton:checked {
        <widget class="QLabel" name="label_pLabel">
         <property name="geometry">
          <rect>
-          <x>260</x>
-          <y>12</y>
+          <x>330</x>
+          <y>10</y>
           <width>101</width>
           <height>21</height>
          </rect>
@@ -2265,7 +2265,7 @@ QPushButton:disabled {
          </property>
          <property name="text">
           <string>Program 5
-Excercise for
+Exercise for
 Shoulder Subluxation</string>
          </property>
         </widget>

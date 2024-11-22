@@ -15,6 +15,7 @@ ProgramPalmerGrasp::ProgramPalmerGrasp(QString patientLabel,QWidget *parent)
     ui->setupUi(this);
     ui->label_pLabel->setText(patientLabel);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    this->setFixedSize(this->width(), this->height());
     ui->label_pLabel->setAlignment(Qt::AlignCenter);
     ui->label_pLabel->setStyleSheet("color: blue;");
     ui->btn0->setVisible(false); // to make phase0 button invisible

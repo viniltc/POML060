@@ -18,6 +18,7 @@ stageProgram::stageProgram(QString patientLabel, QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
+    this->setFixedSize(this->width(), this->height());
     ui->pushButton_currOnOne->setCheckable(true);
     ui->pushButton_currOnTwo->setCheckable(true);
     ui->pushButton_currOnThree->setCheckable(true);

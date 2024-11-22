@@ -235,7 +235,10 @@ void StimulatorLogWindow::closeEvent(QCloseEvent *event)
 
 }
 
+
+
 void StimulatorLogWindow::on_pushButton_2_clicked()
 {
 
 }
+
