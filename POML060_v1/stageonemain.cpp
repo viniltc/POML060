@@ -215,442 +215,61 @@ void StageOneMain::connectionError(bool val)
 
 void StageOneMain::on_pushButton_help_clicked()
 {
-    /*emit textToChange("text updated");
-    emit setPushButton(true);
-   // emit deviceError(true);
 
 
-    QString namestring = "log_file_"+pLabel;
-    QString filename = "logfilename.txt";
-    QString newfilename = "log_file_"+pLabel+".txt";
-   // QString newfilename = QCoreApplication::applicationDirPath()+"/data/log_file/"+namestring+".txt";
-
-    QFile originalFile(filename), newFile(newfilename);
-
-    if(!originalFile.open(QIODevice::ReadOnly|QIODevice::Text))
-    {
-        qDebug() << "Error opening original log file: "<<originalFile.errorString();
-    }
-
-
-
-    QTextStream instream(& originalFile);
-
-    QRegExp rx("(\\ |\\,|\\.|\\:|\\t)");
-    QRegExp regExp_int (QLatin1Literal("[^0-9]+")); // reg ex to extract integer from a string
-
-
-
-    if(newFile.open(QIODevice::WriteOnly|QIODevice::Text))
-    {
-
-        QTextStream outstream(& newFile);
-
-        outstream<<"Date and Time of last log access: "<<QDateTime::currentDateTime().toString()<<"\n\n"; // to add date and time
-
-        int linecount_1 = 0;
-
-        while(linecount_1<6){
-
-            QString line = instream.readLine();
-
-            if(linecount_1== 0)
-            {
-                outstream <<line<< '\n';
-            }
-            if(linecount_1== 1)
-            {
-                outstream <<line<< '\n';
-            }
-            if(linecount_1== 2)
-            {
-
-                outstream <<line<< '\n';
-            }
-            if(linecount_1== 3)
-            {
-                outstream <<line<< '\n';
-            }
-            if(linecount_1== 4)
-            {
-                QStringList slist = line.split(regExp_int);
-                qDebug()<<"Integer part of line 4"<<slist;
-                int totTime = slist[1].toInt();
-
-                if(totTime > 60 && totTime  < 3600)
-                {
-                    slist[1] =  QString::number(slist[1].toInt()/(60));
-                    QString newline = "Power-on time: " + slist[1] +"min";
-                    qDebug() << "newline: " << newline;
-                    outstream <<newline<< '\n';
-                }
-                else if(totTime  > 3600)
-                {
-                    slist[1] =  QString::number(slist[1].toInt()/(60*60));
-                    QString newline = "Power-on time: " + slist[1]+"hrs";
-                    qDebug() << "newline: " << newline;
-                    outstream <<newline<< '\n';
-                }
-                else
-                {
-                    QString newline = "Power-on time: " + slist[1] +"s";
-                    qDebug() << "newline: " << newline;
-                    outstream <<newline<< '\n';
-                }
-
-
-
-            }
-            if(linecount_1== 5)
-            {
-                outstream <<line<< '\n';
-            }
-
-
-            ++linecount_1;
-        }
-
-        int nb_line = 6;
-        while(!instream.atEnd())
-        {
-
-            QString line = instream.readLine();
-
-
-            if(nb_line == 6 )
-            {
-
-                QString newline = "Phase\t\t\tCount\tMin time (s)\tMax time (s)\tTotal time (s)";
-                outstream <<newline<< '\n';
-            }
-
-
-            if(nb_line == 7 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Neutral\t\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-            }
-
-
-            if(nb_line == 8 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Hand open (Keygrip) or Phase 1(stroke program)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-            }
-
-            if(nb_line == 9 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Finger Flexion (Keygrip) or Phase 2(stroke program)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //    ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-            }
-
-            if(nb_line == 10 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Grip Phase (Keygrip) or Phase 3(stroke program)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-
-
-            }
-
-            if(nb_line == 11 )
-            {
-
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Release Object (Keygrip) or Phase 4(stroke program)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-
-            }
-
-            if(nb_line == 12 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Hand open (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 13 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Finger Flexion (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 14 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Grip Phase (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-
-
-            }
-            if(nb_line == 15 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Release Object (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 16 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Intensity (Key Grip)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 17 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Intensity (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 18 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Up (Key Grip)\t\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //   ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 19 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Down (Key Grip)\t\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //  ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 20 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Up (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //  ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-            if(nb_line == 21 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Down (Palmar Grasp)\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    //  ui->textBrowser->append(newline);
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-            }
-
-            if(nb_line == 22 )
-            {
-                QStringList slist = line.split(rx);
-                if(slist.size() >4) {
-                    slist[0]= "Exercise phase\t\t";
-                    slist[2]= QString::number(slist[2].toInt()/(1000));
-                    slist[3]= QString::number(slist[3].toInt()/(1000));
-                    slist[4]= QString::number(slist[4].toInt()/(1000));
-                    QString newline = slist.join("\t");
-                    outstream <<newline<< '\n';
-                } else {
-                    qDebug() << "Problem with string" << slist << line;
-                }
-                // ui->textBrowser->append(newline);
-
-
-            }
-
-
-            ++nb_line;
-        }
-
-
-
-
-        originalFile.close();
-        newFile.close();
-        //originalFile.remove();
-    }*/
-
-
-    // Define file names
-       QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss");
-       QString namestring = "log_file_" + pLabel + "_" + timestamp; // Add timestamp to file name
-       QString originalFilename = "logfilename.txt";
-
-       // Construct the path for the new file
-       QString saveDir = QCoreApplication::applicationDirPath() + "/data/log file";
-       QDir dir(saveDir);
-
-       // Ensure the directory exists, create if it doesn't
-       if (!dir.exists()) {
-           if (!dir.mkpath(saveDir)) {
-               qDebug() << "Failed to create directory:" << saveDir;
-               return;
-           }
-       }
-
-       QString newFilename = saveDir + "/" + namestring + ".txt";
-
-       QFile originalFile(originalFilename);
-       QFile newFile(newFilename);
-
-       // Open the original log file
-       if (!originalFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-           qDebug() << "Error opening original log file: " << originalFile.errorString();
-           return; // Exit if the file can't be opened
-       }
-
-       // Open the new file for writing
-       if (!newFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-           qDebug() << "Error creating new log file: " << newFile.errorString();
-           originalFile.close(); // Ensure the original file is closed
-           return; // Exit if the file can't be created
-       }
-
-       QTextStream instream(&originalFile);
-       QTextStream outstream(&newFile);
-
-       // Add date and time information to the new file
-       outstream << "Date and Time of last log access: "
-                 << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") << "\n\n";
-
-       // Copy content from the original file to the new file
-       while (!instream.atEnd()) {
-           QString line = instream.readLine();
-           outstream << line << "\n";
-       }
-
-       // Close the files
-       originalFile.close();
-       newFile.close();
-
-       qDebug() << "New log file created successfully: " << newFilename;
+//    // Define file names
+//       QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss");
+//       QString namestring = "log_file_" + pLabel + "_" + timestamp; // Add timestamp to file name
+//       QString originalFilename = "logfilename.txt";
+
+//       // Construct the path for the new file
+//       QString saveDir = QCoreApplication::applicationDirPath() + "/data/log file";
+//       QDir dir(saveDir);
+
+//       // Ensure the directory exists, create if it doesn't
+//       if (!dir.exists()) {
+//           if (!dir.mkpath(saveDir)) {
+//               qDebug() << "Failed to create directory:" << saveDir;
+//               return;
+//           }
+//       }
+
+//       QString newFilename = saveDir + "/" + namestring + ".txt";
+
+//       QFile originalFile(originalFilename);
+//       QFile newFile(newFilename);
+
+//       // Open the original log file
+//       if (!originalFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+//           qDebug() << "Error opening original log file: " << originalFile.errorString();
+//           return; // Exit if the file can't be opened
+//       }
+
+//       // Open the new file for writing
+//       if (!newFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//           qDebug() << "Error creating new log file: " << newFile.errorString();
+//           originalFile.close(); // Ensure the original file is closed
+//           return; // Exit if the file can't be created
+//       }
+
+//       QTextStream instream(&originalFile);
+//       QTextStream outstream(&newFile);
+
+//       // Add date and time information to the new file
+//       outstream << "Date and Time of last log access: "
+//                 << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") << "\n\n";
+
+//       // Copy content from the original file to the new file
+//       while (!instream.atEnd()) {
+//           QString line = instream.readLine();
+//           outstream << line << "\n";
+//       }
+
+//       // Close the files
+//       originalFile.close();
+//       newFile.close();
+
+//       qDebug() << "New log file created successfully: " << newFilename;
 
 
       this->close();

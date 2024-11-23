@@ -25,10 +25,17 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
+    void on_pushButton_2_clicked();
+
 private:
     Ui::StimulatorLogWindow *ui;
     void closeEvent (QCloseEvent *event);
     QString getLastWordInFilePath(const QString& filePath);
+    QString formatTime(int seconds);
+    QString formatTimeFromMilliseconds(int milliseconds);
+    QString configFileName;
 };
 
 #endif // STIMULATORLOGWINDOW_H
