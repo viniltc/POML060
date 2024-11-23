@@ -11,180 +11,10 @@ StimulatorLogWindow::StimulatorLogWindow(QString patientLabel, QWidget *parent) 
 {
     ui->setupUi(this);
     pLabel = patientLabel;
-
-    QString name = "log_file_"+pLabel+".txt";
-   // QString newfilename = QCoreApplication::applicationDirPath()+"/data/log_file/"+namestring+".txt";
-
-    QFile file(name);
-
-    file.open(QIODevice::ReadOnly|QIODevice::Text);
-
-    QTextStream instream(& file);
-
-//    while (!instream.atEnd()){
-//            QString line = instream.readLine();
-//            qDebug()<<line;
-//            ui->textBrowser->append(line); // append or setText (use readAll when setText is used)
-//        }
+    ui->label_5->setText("Click open the log file button and select a log file to summarise");
 
 
 
-    ui->tableWidget->setColumnCount(3);
-    ui->tableWidget->setHorizontalHeaderLabels(QStringList{"","Count", "Total time"});
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    QString pcycles = "";
-    QString unpaused_events = "";
-
-    QRegExp rx("(\\ |\\,|\\.|\\:|\\t)");
-    int nb_line = 0;
-    while(!instream.atEnd())
-    {
-
-        QString line = instream.readLine();
-
-
-
-        if (nb_line >= 4)
-        {
-            ui->textBrowser->append(line);
-        }
-
-
-
-        if(nb_line == 4 )
-        {
-            QStringList slist = line.split(rx);
-            if(slist.size() >3) {
-                pcycles = slist[3];
-            } else {
-                qDebug() << "Problem with string" << slist << line;
-            }
-        }
-
-        if(nb_line == 5 )
-        {
-            QStringList slist = line.split(rx);
-            if(slist.size() >3) {
-                unpaused_events = slist[3];
-            } else {
-                qDebug() << "Problem with string" << slist << line;
-            }
-        }
-
-        if(nb_line == 6 )
-        {
-            QStringList slist = line.split(rx);
-            // slist[4]= QString::number(slist[4].toInt()/(1000));
-
-            if(slist.size() >3) {
-                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         0,
-                                         new QTableWidgetItem("Power cycles"));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         1,
-                                         new QTableWidgetItem( pcycles));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         2,
-                                         new QTableWidgetItem(slist[3]));
-            } else {
-                qDebug() << "Tablewidget (powercycles),Problem with string" << slist << line;
-            }
-        }
-
-
-        if(nb_line == 7 )
-        {
-            QStringList slist = line.split(rx);
-            // slist[4]= QString::number(slist[4].toInt()/(1000));
-
-            if(slist.size() >3) {
-                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         0,
-                                         new QTableWidgetItem("Unpaused Events"));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         1,
-                                         new QTableWidgetItem( unpaused_events));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         2,
-                                         new QTableWidgetItem(slist[3]));
-            } else {
-                qDebug() << "Tablewidget (unpausedevents),Problem with string" << slist << line;
-            }
-        }
-
-        if(nb_line == 12 )
-        {
-            QStringList slist = line.split(rx);
-            if(slist.size() >8) {
-
-                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         0,
-                                         new QTableWidgetItem("Key Grip"));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         1,
-                                         new QTableWidgetItem( slist[5]));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         2,
-                                         new QTableWidgetItem(slist[8]+ "s"));
-            } else {
-                qDebug() << "Tablewidget (keygrip), Problem with string" << slist << line;
-            }
-
-        }
-
-        if(nb_line == 16 )
-        {
-            QStringList slist = line.split(rx);
-            if(slist.size() >8) {
-
-                ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         0,
-                                         new QTableWidgetItem("Palmar Grasp "));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         1,
-                                         new QTableWidgetItem( slist[5]));
-                ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                         2,
-                                         new QTableWidgetItem(slist[8]+ "s"));
-            } else {
-                qDebug() << "Tablewidget (Palmar),Problem with string" << slist << line;
-            }
-
-        }
-
-        if(nb_line == 24 )
-        {
-            QStringList slist = line.split(rx);
-                 if(slist.size() >7) {
-
-            ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-            ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                     0,
-                                     new QTableWidgetItem("Exercise"));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                     1,
-                                     new QTableWidgetItem( slist[4] ));
-            ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1,
-                                     2,
-                                     new QTableWidgetItem(slist[7]+ "s"));
-        } else {
-            qDebug() << "Tablewidget (exercise), Problem with string" << slist << line;
-        }
-
-        }
-
-
-        ++nb_line;
-    }
-
-
-
-     file.close();
 }
 
 StimulatorLogWindow::~StimulatorLogWindow()
@@ -235,10 +65,142 @@ void StimulatorLogWindow::closeEvent(QCloseEvent *event)
 
 }
 
-
-
-void StimulatorLogWindow::on_pushButton_2_clicked()
+QString StimulatorLogWindow::getLastWordInFilePath(const QString &filePath)
 {
 
+        QString cleanedPath = filePath.trimmed().remove(QRegExp("[\\\\/]$"));
+
+
+        int lastSeparatorIndex = cleanedPath.lastIndexOf(QRegExp("[\\\\/]"));
+
+
+        QString lastWord = cleanedPath.mid(lastSeparatorIndex + 1);
+
+        return lastWord;
 }
 
+
+
+
+
+
+void StimulatorLogWindow::on_pushButton_4_clicked()
+{
+    // Open a file dialog to select the log file
+    QString configFileName = QFileDialog::getOpenFileName(
+                this,
+                "Open the usage log file",
+                QCoreApplication::applicationDirPath() + "/data/log file/"
+                );
+
+    if (configFileName.isEmpty()) {
+        return;
+    }
+
+    QString lastWord = getLastWordInFilePath(configFileName);
+
+    // Extract patient name from the file name
+    QString fileName = QFileInfo(configFileName).fileName();
+    QString patientName;
+    QRegExp rx("log_file_([^_]+)_\\d+"); // Extracts the part between "log_file_" and the numeric suffix
+    if (rx.indexIn(fileName) != -1) {
+        patientName = rx.cap(1); // Extracted patient name
+    } else {
+        patientName = "Unknown"; // Fallback if the file name doesn't match the expected pattern
+    }
+
+
+    //  ui->label_3->setText("Patient Name: " + patientName);
+    QFile f(configFileName);
+
+    // Open the file
+    if (!f.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::information(0, "File Error", f.errorString());
+        return;
+    }
+
+    // Extract the first line from the log file
+    QTextStream in(&f);
+    QString firstLine;
+    if (!in.atEnd()) {
+        firstLine = in.readLine(); // Read the first line
+    }
+
+
+
+
+    QMessageBox::StandardButton reply = QMessageBox::question(
+                this,
+                "Tetragrip Usage Log",
+                "Are you sure you want to load " + lastWord + "?",
+                QMessageBox::Yes | QMessageBox::No
+                );
+
+    if (reply == QMessageBox::No) {
+        f.close();
+        return;
+    }
+
+    ui->label_3->setText("Patient ID: " + patientName);
+    ui->label_4->setText(firstLine);
+
+    // Parse the file content
+
+    QStringList logLines;
+    while (!in.atEnd()) {
+        logLines.append(in.readLine());
+    }
+    f.close();
+
+    // Extract data for the table
+    QList<QStringList> tableData;
+    QString powerOnTime, unpausedTime; // Variables to store extracted values
+
+    for (const QString &line : logLines) {
+           if (line.contains("Power cycles:")) {
+               QStringList row = {"Power cycles", line.split(":")[1].trimmed(), ""};
+               tableData.append(row);
+           } else if (line.contains("Unpause events:")) {
+               QStringList row = {"Unpaused events", line.split(":")[1].trimmed(), ""};
+               tableData.append(row);
+           } else if (line.contains("Power-on time:")) {
+               powerOnTime = line.split(":")[1].trimmed();
+           } else if (line.contains("Unpaused time:")) {
+               unpausedTime = line.split(":")[1].trimmed();
+           } else if (line.contains("Phase")) {
+               QRegExp rxPhase("Phase\\s*(\\d+)\\s*(\\d+)\\s*.*\\s*(\\d+)"); // Match phase details
+               if (rxPhase.indexIn(line) != -1) {
+                   QString phaseNumber = rxPhase.cap(1);
+                   QString count = rxPhase.cap(2);
+                   QString totalTime = rxPhase.cap(3) + " ms";
+
+                   // Add only phases with non-zero count
+                   if (count.toInt() > 0) {
+                       QStringList row = {QString("Phase %1").arg(phaseNumber), count, totalTime};
+                       tableData.append(row);
+                   }
+               }
+           }
+       }
+
+       // Update Power-on time and Unpaused time in the table
+       for (QStringList &row : tableData) {
+           if (row[0] == "Power cycles") {
+               row[2] = powerOnTime; // Assign Power-on time
+           } else if (row[0] == "Unpaused events") {
+               row[2] = unpausedTime; // Assign Unpaused time
+           }
+       }
+
+       // Populate the QTableWidget
+       QTableWidget *tableWidget = ui->tableWidget; // Assuming tableWidget is defined in your UI
+       tableWidget->setRowCount(tableData.size());
+       tableWidget->setColumnCount(3);
+       tableWidget->setHorizontalHeaderLabels({"Name", "Count", "Total time"});
+
+       for (int i = 0; i < tableData.size(); ++i) {
+           for (int j = 0; j < 3; ++j) {
+               tableWidget->setItem(i, j, new QTableWidgetItem(tableData[i][j]));
+           }
+       }
+}
