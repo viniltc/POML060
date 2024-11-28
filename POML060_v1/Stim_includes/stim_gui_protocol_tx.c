@@ -11,7 +11,7 @@ extern "C" {
 #include "crc32.h"
 #include "debug.h"
 #include "uart.h"
-#include "hardware.h"
+//#include "hardware.h"
 #include "clock.h"
 #include "tetra_grip_writer.h"
 

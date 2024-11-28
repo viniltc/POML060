@@ -2,7 +2,7 @@
 #include "stim_gui_protocol_tx.h"
 #include "stim_gui_protocol_rx.h"
 #include "uart.h"
-#include "hardware.h"
+//#include "hardware.h"
 #include "stim_regs.h"
 
 uint8_t STIM_GUI_PROTOCOL_ThisStimulatorID=1;

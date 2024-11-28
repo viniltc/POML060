@@ -8,7 +8,7 @@ extern "C" {
 #include "debug.h"
 #include "uart.h"
 #include "clock.h"
-#include "hardware.h"
+//#include "hardware.h"
 #include <string.h>
 
 DEBUG_OPTIONS_T debugOptions = {false, false, true, false, false, 0};

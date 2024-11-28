@@ -1298,6 +1298,7 @@ void StrokeTrainingWindow::on_pushButton_download1_clicked()
           else if(reply == QMessageBox::No) {
               return;
           }
+
     }
 
 }

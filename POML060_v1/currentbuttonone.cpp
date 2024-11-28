@@ -2,7 +2,7 @@
 #include "ui_currentbuttonone.h"
 #include <QTimer>
 #include "tetra_grip_api.h"
-#include "tetra_grip_reader.h"
+//#include "tetra_grip_reader.h"
 
 CurrentButtonOne::CurrentButtonOne(QWidget *parent) :
     QWidget(parent),
